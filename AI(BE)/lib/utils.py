@@ -92,3 +92,6 @@ def draw_contours(img, contour):
     output = img.copy()
     cv2.drawContours(output, [contour], -1, (0, 255, 255), 10)
     plt_imshow("Draw Outline", output, figsize=(16, 10))
+
+def getCenterPosition(moments):
+    return (int(moments["m10"] / moments["m00"]), int(moments["m01"] / moments["m00"]))
