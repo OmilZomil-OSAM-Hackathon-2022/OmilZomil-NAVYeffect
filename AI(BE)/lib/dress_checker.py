@@ -1,12 +1,12 @@
 import cv2
 import numpy as np
 from .utils import *
-from defines import *
+from .defines import *
 
 def checkMiliteryUniform(img):
     pass
 
-def checkFullDressUniform(img):
+def checkFullDressUniform(org_img):
     img = org_img.copy()
     h, w = img.shape[:2]
     # img = cv2.resize(img, (500,500))
@@ -16,7 +16,7 @@ def checkFullDressUniform(img):
     black_mask = cv2.inRange(hsv, lower, upper)
     masked_img = cv2.bitwise_and(img, img, mask=black_mask)
 
-    contours, hierarchy = cv2.findContours(masked_img, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(black_mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
     hierarchy = hierarchy[0]
     hierarchy = [np.insert(hier, 0, idx) for idx, hier in enumerate(hierarchy)]
     contours, hierarchy = [list(t) for t in zip(*sorted(zip(contours, hierarchy), key=lambda x : cv2.contourArea(x[0]), reverse=True))]
@@ -53,7 +53,7 @@ def checkFullDressUniform(img):
     cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
     plt_imshow(['black filter', 'masked img (bitwise and)', 'img'], [black_mask, masked_img, img])
 
-def checkNavyServiceUniform(org):
+def checkNavyServiceUniform(org_img):
     img = org_img.copy()
     # img = cv2.resize(img, (500,500))
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -62,7 +62,7 @@ def checkNavyServiceUniform(org):
     blue_mask = cv2.inRange(hsv, lower, upper)
     masked_img = cv2.bitwise_and(img, img, mask=blue_mask)
 
-    contours, hierarchy = cv2.findContours(masked_img, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(blue_mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
     hierarchy = hierarchy[0]
     hierarchy = [np.insert(hier, 0, idx) for idx, hier in enumerate(hierarchy)]
     contours, hierarchy = [list(t) for t in zip(*sorted(zip(contours, hierarchy), key=lambda x : cv2.contourArea(x[0]), reverse=True))]
