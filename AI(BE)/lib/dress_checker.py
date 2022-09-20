@@ -65,7 +65,7 @@ def checkNavyServiceUniform(org_img):
     hierarchy = [np.insert(hier, 0, idx) for idx, hier in enumerate(hierarchy)]
     contours, hierarchy = [list(t) for t in zip(*sorted(zip(contours, hierarchy), key=lambda x : cv2.contourArea(x[0]), reverse=True))]
 
-
+    contour_dic = {}
     for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
         cur_node, next_node, prev_node, first_child, parent  = lev
         if i == 0:
@@ -78,7 +78,7 @@ def checkNavyServiceUniform(org_img):
         
         if parent == shirt_node and 4 <= len(approx) <= 5:
             area = cv2.contourArea(contour)
-            if area > 100:
+            if area > 1000:
                 M = cv2.moments(contour)
                 center_p = getCenterPosition(M)
 
@@ -89,9 +89,13 @@ def checkNavyServiceUniform(org_img):
                 
                 cv2.drawContours(img, [contour], 0, Color.RED, 2)
                 cv2.drawContours(img, [contour], 0, Color.GREEN, -1)
-                cv2.line(img, (center_x, center_y), (center_x, center_y), Color.PURPLE, 50)
+                cv2.line(img, center_p, center_p, Color.PURPLE, 50)
 
     h, w = img.shape[:2]
     half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
     cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
+
+    
+    cv2.imwrite('./res/res05.jpg', masked_img)
+    cv2.imwrite('./res/res06.jpg', img)
     plt_imshow(['blue filter', 'masked img (bitwise and)', 'img'], [blue_mask, masked_img, img])
