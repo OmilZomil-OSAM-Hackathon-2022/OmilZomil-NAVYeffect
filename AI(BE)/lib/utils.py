@@ -88,6 +88,29 @@ def draw_contours(img, contour):
     cv2.drawContours(output, [contour], -1, (0, 255, 255), 10)
     plt_imshow("Draw Outline", output, figsize=(16, 10))
 
-def getCenterPosition(contour):
+def drawLine(org_img, position, color, thick):
+    cv2.line(org_img, position, position, color, thick)
+
+def getContourCenterPosition(contour):
     moments = cv2.moments(contour)
     return (int(moments["m10"] / moments["m00"]), int(moments["m01"] / moments["m00"]))
+
+def sortContoursByArea(contours, hierarchy=[]):
+    if len(hierarchy):
+        hierarchy = hierarchy[0]
+        hierarchy = [np.insert(hier, 0, idx) for idx, hier in enumerate(hierarchy)]
+        sorted_contours, sorted_hierarchy = [list(t) for t in zip(*sorted(zip(contours, hierarchy), key=lambda x : cv2.contourArea(x[0]), reverse=True))]
+        return sorted_contours, sorted_hierarchy
+    else:
+        sorted_contours = sorted(contours, key=cv2.contourArea, reverse=True)
+        return sorted_contours
+
+def getVertexCnt(contour):
+    peri = cv2.arcLength(contour, True)
+    approx = cv2.approxPolyDP(contour, 0.02 * peri, True)
+    return len(approx)
+
+def getRectCenterPosition(rect):
+    (p1, p2, p3, p4) = rect
+    center_x, center_y = (p1[0]+p2[0]) / 2, (p1[1]+p3[1]) / 2
+    return center_x, center_y

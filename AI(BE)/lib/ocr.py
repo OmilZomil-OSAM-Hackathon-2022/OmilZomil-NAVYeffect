@@ -34,8 +34,8 @@ def draw_rectangle(image, p1, p3, color, border, padding):
 def OCR(org_img):
     img = org_img.copy()
     headers = {'Authorization': 'KakaoAK {}'.format(KEY)}
-    jpeg_image = cv2.imencode(".jpg", image)[1].tobytes()
-    data = jpeg_image.tobytes()
+    jpeg_img = cv2.imencode(".jpg", img)[1]
+    data = jpeg_img.tobytes()
     ocr_json = requests.post(API_URL, headers=headers, files={"image": data})
     
     res = ''
@@ -45,7 +45,7 @@ def OCR(org_img):
         padding = 10 # 10
         p1,p2,p3,p4 = output['boxes']  # LU RU RD LD
         boxes.append((p1, p2, p3, p4))
-        # cx, cy = (p1[0]+p2[0]) / 2, (p1[1]+p3[1]) / 2
+        # 
             
         if not output['recognition_words'] == '':
             res += " ".join(output['recognition_words']) + " "
