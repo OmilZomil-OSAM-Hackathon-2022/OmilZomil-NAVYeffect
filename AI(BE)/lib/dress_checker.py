@@ -88,8 +88,7 @@ def checkNavyServiceUniform(org_img):
         approx = cv2.approxPolyDP(contour, 0.02 * peri, True)
         
         if parent == shirt_node and 4 <= len(approx) <= 5 and cv2.contourArea(contour) > 100: # 이름표 또는 계급장
-            M = cv2.moments(contour)
-            center_p = getCenterPosition(M)
+            center_p = getCenterPosition(contour)
 
             # simple way
             if center_p[0] < (w//2):
