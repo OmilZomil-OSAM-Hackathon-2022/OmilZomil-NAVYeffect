@@ -1,7 +1,14 @@
+from sys import path as syspath
+from os.path import abspath, join, dirname
 import numpy as np
 import cv2
 import requests
-from lib.utils import *
+
+syspath.append(abspath(join(dirname(__file__), '../../lib/')))
+# from lib.utils import *
+from lib.defines import *
+
+
 
 API_URL = 'https://dapi.kakao.com/v2/vision/text/ocr'
 KEY = '5b60f7aeb82db9bf02f3eea5a94a69c0'
@@ -39,8 +46,8 @@ def ocr(image):
         p1,p2,p3,p4 = output['boxes']  # LU RU RD LD
         
         try:
-            draw_rectangle(c_image, p1, p3, GREEN, 2, padding)
-            draw_rectangle(boxes, p1, p3, WHITE, -1, padding)
+            draw_rectangle(c_image, p1, p3, Color.GREEN, 2, padding)
+            draw_rectangle(boxes, p1, p3, Color.WHITE, -1, padding)
         except Exception as e:
                 print("out of image !! ", e)
             

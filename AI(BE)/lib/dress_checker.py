@@ -21,7 +21,6 @@ def checkFullDressUniform(org_img):
     hierarchy = [np.insert(hier, 0, idx) for idx, hier in enumerate(hierarchy)]
     contours, hierarchy = [list(t) for t in zip(*sorted(zip(contours, hierarchy), key=lambda x : cv2.contourArea(x[0]), reverse=True))]
 
-
     for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
         cur_node, next_node, prev_node, first_child, parent = lev
         if i == 0:
@@ -43,7 +42,6 @@ def checkFullDressUniform(org_img):
                 # simple way
                 # if center_x < (W//2):
                 #     cv2.
-                # elif center
                 
                 cv2.drawContours(img, [contour], 0, Color.RED, 2)
                 cv2.drawContours(img, [contour], 0, Color.GREEN, -1)
@@ -58,7 +56,7 @@ def checkNavyServiceUniform(org_img):
     # img = cv2.resize(img, (500,500))
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-    lower, upper = (50, 10, 30), Color.WHITE, # 샘당 filter
+    lower, upper = (50, 10, 30), Color.WHITE # 샘당 filter
     blue_mask = cv2.inRange(hsv, lower, upper)
     masked_img = cv2.bitwise_and(img, img, mask=blue_mask)
 
@@ -73,7 +71,6 @@ def checkNavyServiceUniform(org_img):
         if i == 0:
             cv2.drawContours(img, [contour], 0, Color.RED, -1)
             shirt_node = cur_node
-            print(lev)
             continue
         
         peri = cv2.arcLength(contour, True)
@@ -82,10 +79,8 @@ def checkNavyServiceUniform(org_img):
         if parent == shirt_node and 4 <= len(approx) <= 5:
             area = cv2.contourArea(contour)
             if area > 100:
-                print('lev : ', lev)
                 M = cv2.moments(contour)
-                center_x = int(M["m10"] / M["m00"])
-                center_y = int(M["m01"] / M["m00"])
+                center_p = getCenterPosition(M)
 
                 # simple way
                 # if center_x < (W//2):

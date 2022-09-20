@@ -1,4 +1,4 @@
-
+import cv2
 
 class Color:
     BLUE = (255, 0, 0)
@@ -6,3 +6,6 @@ class Color:
     RED = (0, 0, 255)
     PURPLE = (173, 119, 137)
     WHITE = (255, 255, 255)
+
+class Mask:
+    pass
