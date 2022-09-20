@@ -2,18 +2,7 @@ import cv2
 import numpy as np
 from .utils import *
 from .defines import *
-
-def sortContoursByArea(contour, hierarchy):
-    if hierarchy:
-        hierarchy = hierarchy[0]
-        hierarchy = [np.insert(hier, 0, idx) for idx, hier in enumerate(hierarchy)]
-        contours, hierarchy = [list(t) for t in zip(*sorted(zip(contours, hierarchy), key=lambda x : cv2.contourArea(x[0]), reverse=True))]
-        return contour, hierarchy
-    else:
-        contours = sorted(contours, key=cv2.contourArea, reverse=True)
-        return contour
-
-
+from .ocr import OCR
 
 def checkMiliteryUniform(img):
     pass
@@ -36,7 +25,6 @@ def checkFullDressUniform(org_img):
         if i == 0:
             cv2.drawContours(img, [contour], 0, Color.RED, -1)
             shirt_node = cur_node
-            print(lev)
             continue
         
         peri = cv2.arcLength(contour, True)
@@ -45,7 +33,6 @@ def checkFullDressUniform(org_img):
         if parent == shirt_node and 4 <= len(approx) <= 5:
             area = cv2.contourArea(contour)
             if area > 100:
-                print('lev : ', lev)
                 M = cv2.moments(contour)
                 center_p = getCenterPosition(M)
 
@@ -55,7 +42,7 @@ def checkFullDressUniform(org_img):
                 
                 cv2.drawContours(img, [contour], 0, Color.RED, 2)
                 cv2.drawContours(img, [contour], 0, Color.GREEN, -1)
-                cv2.line(img, center_p, center_p, Color.PURPLE, 50)
+                drawLine(img, center_p, center_p, Color.PURPLE, 50)
 
     half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
     cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
@@ -72,27 +59,34 @@ def checkNavyServiceUniform(org_img):
     masked_img = cv2.bitwise_and(img, img, mask=blue_mask)
 
     contours, hierarchy = cv2.findContours(blue_mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
-    contours, hierarchy = sortContoursByArea(contours)
+    contours, hierarchy = sortContoursByArea(contours, hierarchy)
 
 
     ocr_str, ocr_boxes = OCR(img)
     contour_dic = {}
+    is_name_tag = False
     for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
         cur_node, next_node, prev_node, first_child, parent = lev
         if i == 0:  # 셈브레이
             cv2.drawContours(img, [contour], 0, Color.RED, -1)
             shirt_node = cur_node
             continue
-        
-        peri = cv2.arcLength(contour, True)
-        approx = cv2.approxPolyDP(contour, 0.02 * peri, True)
-        
-        if parent == shirt_node and 4 <= len(approx) <= 5 and cv2.contourArea(contour) > 100: # 이름표 또는 계급장
-            center_p = getCenterPosition(contour)
 
+        if parent == shirt_node and 4 <= getVertexCnt(contour) <= 5 and cv2.contourArea(contour) > 100: # 이름표 또는 계급장
+            center_p = getContourCenterPosition(contour)
+            print(contour.shape)
+            x_max, y_max = np.max(contour, axis=0)[0]
+            x_min, y_min = np.min(contour, axis=0)[0]
+            
             # simple way
-            if center_p[0] < (w//2):
-                contour_dic['name_tag'] = contour
+            if center_p[0] < (w//2) and is_name_tag == False:
+                for ocr_box in ocr_boxes:
+                    ocr_center_x, ocr_center_y = getRectCenterPosition(ocr_box)
+                    if x_min < ocr_center_x < x_max and y_min < ocr_center_y < y_max:
+                        is_name_tag = True
+                        contour_dic['name_tag'] = contour
+                        break
+
             else:
                 contour_dic['class_tag'] = contour
             
@@ -100,7 +94,6 @@ def checkNavyServiceUniform(org_img):
             cv2.drawContours(img, [contour], 0, Color.GREEN, -1)
             cv2.line(img, center_p, center_p, Color.PURPLE, 50)
 
-    
     half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
     cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
 
