@@ -55,6 +55,7 @@ def checkNavyServiceUniform(org_img):
     img = org_img.copy()
     # img = cv2.resize(img, (500,500))
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    h, w = img.shape[:2]
 
     lower, upper = (50, 10, 30), Color.WHITE # 샘당 filter
     blue_mask = cv2.inRange(hsv, lower, upper)
@@ -83,15 +84,16 @@ def checkNavyServiceUniform(org_img):
                 center_p = getCenterPosition(M)
 
                 # simple way
-                # if center_x < (W//2):
-                #     cv2.
-                # elif center
+                if center_p[0] < (w//2):
+                    contour_dic['name_tag'] = contour
+                else:
+                    contour_dic['class_tag'] = contour
                 
                 cv2.drawContours(img, [contour], 0, Color.RED, 2)
                 cv2.drawContours(img, [contour], 0, Color.GREEN, -1)
                 cv2.line(img, center_p, center_p, Color.PURPLE, 50)
 
-    h, w = img.shape[:2]
+    
     half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
     cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
 
@@ -99,3 +101,4 @@ def checkNavyServiceUniform(org_img):
     cv2.imwrite('./res/res05.jpg', masked_img)
     cv2.imwrite('./res/res06.jpg', img)
     plt_imshow(['blue filter', 'masked img (bitwise and)', 'img'], [blue_mask, masked_img, img])
+    return contour_dic
