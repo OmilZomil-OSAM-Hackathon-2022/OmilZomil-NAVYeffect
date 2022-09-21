@@ -3,8 +3,14 @@ import cv2
 import numpy as np
 import imutils
 from .utils import *
+import re
 
 MIN2SEC = 60
+
+def clean_text(text):
+    cleaned_text = re.sub('[a-zA-z]','',text)
+    cleaned_text = re.sub('[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"\♥\♡\ㅋ\ㅠ\ㅜ\ㄱ\ㅎ\ㄲ\ㅡ]','',cleaned_text)
+    return cleaned_text
 
 def prepare_image_PIL(im):
     im = im[:,:,::-1] - np.zeros_like(im) # rgb to bgr
@@ -121,3 +127,4 @@ def isPointInBox(center_xy, box_min_max_xy):
     min_x, min_y = box_min_xy
     max_x, max_y = box_max_xy
     return min_x < center_x < max_x and min_y < center_y < max_y
+
