@@ -88,7 +88,7 @@ def draw_contours(img, contour):
     cv2.drawContours(output, [contour], -1, (0, 255, 255), 10)
     plt_imshow("Draw Outline", output, figsize=(16, 10))
 
-def drawLine(org_img, position, color, thick):
+def drawPoint(org_img, position, color, thick):
     cv2.line(org_img, position, position, color, thick)
 
 def getContourCenterPosition(contour):
@@ -114,3 +114,10 @@ def getRectCenterPosition(rect):
     (p1, p2, p3, p4) = rect
     center_x, center_y = (p1[0]+p2[0]) / 2, (p1[1]+p3[1]) / 2
     return center_x, center_y
+
+def isPointInBox(center_xy, box_min_max_xy):
+    center_x, center_y = center_xy
+    box_min_xy, box_max_xy = box_min_max_xy
+    min_x, min_y = box_min_xy
+    max_x, max_y = box_max_xy
+    return min_x < ocr_center_x < max_x and min_y < ocr_center_y < max_y

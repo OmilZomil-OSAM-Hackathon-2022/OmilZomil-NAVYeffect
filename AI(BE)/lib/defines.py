@@ -7,5 +7,5 @@ class Color:
     PURPLE = (173, 119, 137)
     WHITE = (255, 255, 255)
 
-class Mask:
+class FullDressUniformMask:
     pass
