@@ -5,9 +5,8 @@ from .defines import *
 from .ocr import OCR
 
 
-def isNavyServiceUniformClassTag(org_img):
+def getNavyServiceUniformClasses(org_img):
     img = org_img.copy()
-    print('shape2 :', img.shape)
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     lower, upper = (0, 114, 212), (190, 255, 255) # 샘당 계급장 filter 
     yellow_mask = cv2.inRange(hsv_img, lower, upper)
@@ -17,18 +16,28 @@ def isNavyServiceUniformClassTag(org_img):
     masked_img = cv2.bitwise_and(img, img, mask=morphed_mask)
 
     contours, _ = cv2.findContours(morphed_mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-    for contour in contours:
-        cv2.drawContours(img, [contour], 0, Color.RED, -1)
 
-    plt_imshow(['yellow filter', 'morphed mask', 'masked img', 'img'], [yellow_mask, morphed_mask, masked_img, img])
-    return True
+    classes = 0
+    for contour in contours:
+        area = cv2.contourArea(contour)
+        print('area :', area)
+        if 10 < area:
+            classes += 1
+            cv2.drawContours(img, [contour], 0, Color.RED, -1)
+
+    print('classes :', classes)
+    plt_imshow(['yellow filter', 'morphed mask', 'masked img', f'img L({classes})'], [yellow_mask, morphed_mask, masked_img, img])
+    
+    if 1 <= classes <= 4:
+        return classes
+    else:
+        return None
 
 def checkMiliteryUniform(img):
     pass
 
 def checkFullDressUniform(org_img):
     img = org_img.copy()
-    print('fdc size', img.shape)
     h, w = img.shape[:2]
     # img = cv2.resize(img, (500,500))
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -84,7 +93,8 @@ def checkNavyServiceUniform(org_img):
 
     ocr_str, ocr_boxes = OCR(img)
     contour_dic = {}
-    is_name_tag, is_level_tag = False, False
+    component_dic = {}
+    name_tag_content, level_tag_content = None, None
     for i, (contour, lev) in enumerate(zip(sorted_contours, sorted_hierarchy)):
         cur_node, next_node, prev_node, first_child, parent = lev
         if i == 0:  # 셈브레이
@@ -97,24 +107,28 @@ def checkNavyServiceUniform(org_img):
             max_xy, min_xy = np.max(contour, axis=0)[0],np.min(contour, axis=0)[0] 
             
             # simple way
-            if center_p[0] < (w//2) and is_name_tag == False:
+            if center_p[0] < (w//2) and not component_dic.get('name_tag'):
                 for ocr_box in ocr_boxes:
                     ocr_center_xy = getRectCenterPosition(ocr_box)
                     if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
-                        is_name_tag = True
                         contour_dic['name_tag'] = contour
+                        component_dic['name_tag'] = ocr_str
+                        cv2.drawContours(img, [contour], 0, Color.RED, 2)
+                        cv2.drawContours(img, [contour], 0, Color.GREEN, -1)
+                        drawPoint(img, center_p, Color.PURPLE, 50)
                         break
 
-            elif center_p[0] > (w//2) and is_level_tag == False:
+            elif center_p[0] > (w//2) and not component_dic.get('class_tag'):
                 x, y, w, h = cv2.boundingRect(contour)
-                print('xywh', x,y,w,h)
                 roi = org_img[y:y+h, x:x+w]
-                if isNavyServiceUniformClassTag(roi):
+                classes = getNavyServiceUniformClasses(roi)
+                if classes:
                     contour_dic['class_tag'] = contour
-            
-            cv2.drawContours(img, [contour], 0, Color.RED, 2)
-            cv2.drawContours(img, [contour], 0, Color.GREEN, -1)
-            drawPoint(img, center_p, Color.PURPLE, 50)
+                    component_dic['class_tag'] = classes
+                    cv2.drawContours(img, [contour], 0, Color.RED, 2)
+                    cv2.drawContours(img, [contour], 0, Color.GREEN, -1)
+                    drawPoint(img, center_p, Color.PURPLE, 50)
+                    break
 
     half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
     cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
@@ -123,4 +137,4 @@ def checkNavyServiceUniform(org_img):
     cv2.imwrite('./res/res05.jpg', masked_img)
     cv2.imwrite('./res/res06.jpg', img)
     plt_imshow(['blue filter', 'masked img (bitwise and)', 'img'], [blue_mask, masked_img, img])
-    return contour_dic
+    return component_dic, contour_dic
