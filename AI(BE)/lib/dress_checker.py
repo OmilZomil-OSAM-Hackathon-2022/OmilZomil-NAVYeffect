@@ -4,6 +4,8 @@ from .utils import *
 from .defines import *
 from .ocr import OCR
 
+
+
 def checkMiliteryUniform(img):
     pass
 
@@ -59,13 +61,13 @@ def checkNavyServiceUniform(org_img):
     masked_img = cv2.bitwise_and(img, img, mask=blue_mask)
 
     contours, hierarchy = cv2.findContours(blue_mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
-    contours, hierarchy = sortContoursByArea(contours, hierarchy)
+    sorted_contours, sorted_hierarchy = sortContoursByArea(contours, hierarchy)
 
 
     ocr_str, ocr_boxes = OCR(img)
     contour_dic = {}
-    is_name_tag = False
-    for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
+    is_name_tag, is_level_tag = False, False
+    for i, (contour, lev) in enumerate(zip(sorted_contours, sorted_hierarchy)):
         cur_node, next_node, prev_node, first_child, parent = lev
         if i == 0:  # 셈브레이
             cv2.drawContours(img, [contour], 0, Color.RED, -1)
@@ -75,24 +77,26 @@ def checkNavyServiceUniform(org_img):
         if parent == shirt_node and 4 <= getVertexCnt(contour) <= 5 and cv2.contourArea(contour) > 100: # 이름표 또는 계급장
             center_p = getContourCenterPosition(contour)
             print(contour.shape)
-            x_max, y_max = np.max(contour, axis=0)[0]
-            x_min, y_min = np.min(contour, axis=0)[0]
+            max_xy, min_xy = np.max(contour, axis=0)[0],np.min(contour, axis=0)[0] 
             
             # simple way
             if center_p[0] < (w//2) and is_name_tag == False:
                 for ocr_box in ocr_boxes:
-                    ocr_center_x, ocr_center_y = getRectCenterPosition(ocr_box)
-                    if x_min < ocr_center_x < x_max and y_min < ocr_center_y < y_max:
+                    ocr_center_xy = getRectCenterPosition(ocr_box)
+                    if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
                         is_name_tag = True
                         contour_dic['name_tag'] = contour
                         break
 
-            else:
-                contour_dic['class_tag'] = contour
+            elif center_p[0] > (w//2) and is_level_tag == False:
+                x, y, w, h = cv2.boundingRect(contour)
+                roi = img[y:y+h, x:x+w]
+                if isClassTag(roi):
+                    contour_dic['class_tag'] = contour
             
             cv2.drawContours(img, [contour], 0, Color.RED, 2)
             cv2.drawContours(img, [contour], 0, Color.GREEN, -1)
-            cv2.line(img, center_p, center_p, Color.PURPLE, 50)
+            drawPoint(img, center_p, Color.PURPLE, 50)
 
     half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
     cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
