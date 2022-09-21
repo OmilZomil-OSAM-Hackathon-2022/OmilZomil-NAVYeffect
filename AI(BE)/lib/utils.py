@@ -120,4 +120,4 @@ def isPointInBox(center_xy, box_min_max_xy):
     box_min_xy, box_max_xy = box_min_max_xy
     min_x, min_y = box_min_xy
     max_x, max_y = box_max_xy
-    return min_x < ocr_center_x < max_x and min_y < ocr_center_y < max_y
+    return min_x < center_x < max_x and min_y < center_y < max_y

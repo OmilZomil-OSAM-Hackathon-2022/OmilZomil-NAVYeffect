@@ -5,12 +5,30 @@ from .defines import *
 from .ocr import OCR
 
 
+def isNavyServiceUniformClassTag(org_img):
+    img = org_img.copy()
+    print('shape2 :', img.shape)
+    hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    lower, upper = (0, 114, 212), (190, 255, 255) # 샘당 계급장 filter 
+    yellow_mask = cv2.inRange(hsv_img, lower, upper)
+    
+    morphed_mask = cv2.morphologyEx(yellow_mask, cv2.MORPH_CLOSE, (10,2))
+
+    masked_img = cv2.bitwise_and(img, img, mask=morphed_mask)
+
+    contours, _ = cv2.findContours(morphed_mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    for contour in contours:
+        cv2.drawContours(img, [contour], 0, Color.RED, -1)
+
+    plt_imshow(['yellow filter', 'morphed mask', 'masked img', 'img'], [yellow_mask, morphed_mask, masked_img, img])
+    return True
 
 def checkMiliteryUniform(img):
     pass
 
 def checkFullDressUniform(org_img):
     img = org_img.copy()
+    print('fdc size', img.shape)
     h, w = img.shape[:2]
     # img = cv2.resize(img, (500,500))
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -74,9 +92,8 @@ def checkNavyServiceUniform(org_img):
             shirt_node = cur_node
             continue
 
-        if parent == shirt_node and 4 <= getVertexCnt(contour) <= 5 and cv2.contourArea(contour) > 100: # 이름표 또는 계급장
+        if parent == shirt_node and 4 <= getVertexCnt(contour) <= 5 and cv2.contourArea(contour) > 300: # 이름표 또는 계급장
             center_p = getContourCenterPosition(contour)
-            print(contour.shape)
             max_xy, min_xy = np.max(contour, axis=0)[0],np.min(contour, axis=0)[0] 
             
             # simple way
@@ -90,8 +107,9 @@ def checkNavyServiceUniform(org_img):
 
             elif center_p[0] > (w//2) and is_level_tag == False:
                 x, y, w, h = cv2.boundingRect(contour)
-                roi = img[y:y+h, x:x+w]
-                if isClassTag(roi):
+                print('xywh', x,y,w,h)
+                roi = org_img[y:y+h, x:x+w]
+                if isNavyServiceUniformClassTag(roi):
                     contour_dic['class_tag'] = contour
             
             cv2.drawContours(img, [contour], 0, Color.RED, 2)
