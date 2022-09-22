@@ -2,8 +2,14 @@ from .utils import *
 from .defines import *
 from .ocr import OCR, draw_rectangle
 
+
+# 샘브레이 검사
 class NavyServiceUniformChecker():
     def __init__(self):
+        # hyperparameter
+        self.classes_filter = {'lower': (0, 114, 212), 'upper': (190, 255, 255)}
+        self.uniform_filter = {'lower': (50, 10, 30), 'upper': (255, 255, 255)}
+
         self.debug_mode = False
 
     def getName(self, org_img):
@@ -23,7 +29,7 @@ class NavyServiceUniformChecker():
     def getClasses(self, org_img):
         img = org_img.copy()
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        lower, upper = (0, 114, 212), (190, 255, 255) # 샘당 계급장 filter 
+        lower, upper = self.classes_filter['lower'], self.classes_filter['upper'] # 샘당 계급장 filter 
         yellow_mask = cv2.inRange(hsv_img, lower, upper)
         
         morphed_mask = cv2.morphologyEx(yellow_mask, cv2.MORPH_CLOSE, (10,2))
@@ -52,7 +58,7 @@ class NavyServiceUniformChecker():
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         h, w = img.shape[:2]
 
-        lower, upper = (50, 10, 30), Color.WHITE # 샘당 filter 
+        lower, upper = self.uniform_filter['lower'], self.uniform_filter['upper'] # 샘당 filter 
         blue_mask = cv2.inRange(hsv_img, lower, upper)
         masked_img = cv2.bitwise_and(img, img, mask=blue_mask)
 
