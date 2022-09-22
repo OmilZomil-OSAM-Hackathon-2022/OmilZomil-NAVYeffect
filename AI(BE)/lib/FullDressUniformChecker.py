@@ -2,9 +2,11 @@ from .utils import *
 from .defines import *
 from .ocr import OCR, draw_rectangle
 
+# (동)정복 검사
 class FullDressUniformChecker():
     def __init__(self):
-        self.uniform_filter = {'upper': (12,0,0), 'lower': (197,255,116)}
+        # hyperparameter
+        self.uniform_filter = {'lower': (12,0,0), 'upper': (197,255,116)}
 
     def getName(self, org_img):
         img = org_img.copy()
@@ -26,7 +28,7 @@ class FullDressUniformChecker():
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         h, w = img.shape[:2]
 
-        lower, upper = (12, 0, 0), (197, 255, 116) # 정복 filter 
+        lower, upper = self.uniform_filter['lower'], self.uniform_filter['upper'] # 정복 filter 
         black_mask = cv2.inRange(hsv_img, lower, upper)
         masked_img = cv2.bitwise_and(img, img, mask=black_mask)
 
