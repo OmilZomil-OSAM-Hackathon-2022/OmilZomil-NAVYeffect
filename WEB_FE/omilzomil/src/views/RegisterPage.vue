@@ -20,7 +20,7 @@
           <h1>OMIL-ZOMIL</h1>
         </div>
         <div class="right-wrap">
-          <form>
+          <form @submit.prevent="submitForm">
             <div class="input-label">
               <h3>이름</h3>
               <div v-show="name.check == 2" class="input-warning">
@@ -121,16 +121,10 @@
 
             <div class="input-label">
               <h3>비밀번호</h3>
-              <div
-                v-show="password.check != 2 && passwordConfirm.check != 2"
-                class="input-comment"
-              >
+              <div v-show="password.check != 2" class="input-comment">
                 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.
               </div>
-              <div
-                v-show="password.check == 2 || passwordConfirm.check == 2"
-                class="input-warning"
-              >
+              <div v-show="password.check == 2" class="input-warning">
                 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.
               </div>
             </div>
@@ -143,7 +137,17 @@
                 success: password.check == 1,
                 error: password.check == 2,
               }"
+              @change="checkPassword"
             />
+            <div class="input-label">
+              <h3>비밀번호 확인</h3>
+              <!-- <div v-show="passwordConfirm.check != 2" class="input-comment">
+                8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.
+              </div> -->
+              <div v-show="passwordConfirm.check == 2" class="input-warning">
+                비밀번호가 일치하지 않습니다.
+              </div>
+            </div>
             <input
               v-model="passwordConfirm.data"
               type="password"
@@ -153,9 +157,11 @@
                 error: passwordConfirm.check == 2,
               }"
               style="background-image: none"
+              @change="checkPasswordCofirm"
             />
-            <button @submit.prevent="submitForm">확인</button>
+            <button type="submit">확인</button>
           </form>
+          <h1 id="console">{{ text }}</h1>
         </div>
       </div>
     </div>
@@ -163,15 +169,19 @@
 </template>
 
 <script>
+// import axios from "axios";
+
 class inputData {
   constructor() {
     this.data = "";
     this.check = 0;
   }
 }
+
 export default {
   data() {
     return {
+      text: "",
       name: new inputData(),
       dogTag: new inputData(),
       division: new inputData(),
@@ -183,7 +193,43 @@ export default {
     };
   },
   methods: {
-    submitForm() {},
+    submitForm() {
+      if (
+        this.name.check == 1 &&
+        this.dogTag.check == 1 &&
+        this.uid.check == 1 &&
+        this.division.data != "" &&
+        this.armyUnit.data != "" &&
+        this.uClass.data != "" &&
+        this.password.check == 1 &&
+        this.passwordConfirm.check == 1
+      ) {
+        this.$axios
+          .post("/user/create/", {
+            name: this.name.data,
+            uid: this.uid.data,
+            password: this.password.data,
+            dog_num: this.dogTag.data,
+            army: this.division.data,
+            unit: this.armyUnit.data,
+            rank: this.uClass.data,
+          })
+          .then((response) => {
+            console.log(response);
+            this.text = response;
+          })
+          .catch((error) => {
+            console.log(error);
+            this.text = error;
+          });
+        // .finally(function () {
+        //   this.text = "adsffdsaadsf";
+        // });
+        this.text += "um";
+      } else {
+        this.text = "fail";
+      }
+    },
     checkName(event) {
       if (event.target.value != "") {
         this.name.check = 1;
@@ -205,7 +251,34 @@ export default {
         this.uid.check = 2;
       }
     },
-    // checkPassword(event) {},
+    checkPassword(event) {
+      let tmp = event.target.value;
+      if (
+        tmp &&
+        /\d/.test(tmp) &&
+        tmp.length <= 16 &&
+        tmp.length >= 6 &&
+        /[^A-Za-z0-9]/.test(tmp) &&
+        /[A-Za-z]/.test(tmp)
+      ) {
+        this.password.check = 1;
+        if (event.target.value == this.passwordConfirm.data) {
+          this.passwordConfirm.check = 1;
+        }
+      } else {
+        this.password.check = 2;
+      }
+    },
+    checkPasswordCofirm(event) {
+      if (
+        event.target.value == this.password.data &&
+        this.password.check == 1
+      ) {
+        this.passwordConfirm.check = 1;
+      } else {
+        this.passwordConfirm.check = 2;
+      }
+    },
   },
 };
 </script>
