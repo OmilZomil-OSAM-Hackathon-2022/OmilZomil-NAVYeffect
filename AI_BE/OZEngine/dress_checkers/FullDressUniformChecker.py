@@ -1,6 +1,8 @@
-from .utils import *
-from .defines import *
-from .ocr import OCR, draw_rectangle
+import sys
+print(sys.path)
+from lib.utils import *
+from lib.defines import *
+from lib.ocr import OCR, draw_rectangle
 
 # (동)정복 검사
 class FullDressUniformChecker():

@@ -1,6 +1,6 @@
-from .utils import *
-from .defines import *
-from .ocr import OCR, draw_rectangle
+from lib.utils import *
+from lib.defines import *
+from lib.ocr import OCR, draw_rectangle
 
 
 # 샘브레이 검사
