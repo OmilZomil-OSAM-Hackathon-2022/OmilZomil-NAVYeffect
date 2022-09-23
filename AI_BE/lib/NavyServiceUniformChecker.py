@@ -65,9 +65,12 @@ class NavyServiceUniformChecker():
         contours, hierarchy = cv2.findContours(blue_mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
         sorted_contours, sorted_hierarchy = sortContoursByArea(contours, hierarchy)
 
+        # 이름표 OCR
         ocr_str, ocr_boxes = OCR(img)
         contour_dic = {}
         component_dic = {}
+
+        # 이름표, 계급장 체크
         name_tag_content, level_tag_content = None, None
         for i, (contour, lev) in enumerate(zip(sorted_contours, sorted_hierarchy)):
             cur_node, next_node, prev_node, first_child, parent = lev
@@ -76,6 +79,7 @@ class NavyServiceUniformChecker():
                 shirt_node = cur_node
                 continue
 
+            # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
             if parent == shirt_node and 4 <= getVertexCnt(contour) <= 5 and cv2.contourArea(contour) > 300: # 이름표 또는 계급장
                 center_p = getContourCenterPosition(contour)
                 max_xy, min_xy = np.max(contour, axis=0)[0],np.min(contour, axis=0)[0] 
