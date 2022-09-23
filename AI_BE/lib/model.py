@@ -1,4 +1,5 @@
 from .classificate import classificate
+from .check_person import check_person
 
 class OmilZomil:
     def __init__(self):
@@ -10,8 +11,8 @@ class OmilZomil:
     
     def detect(self, img):
         self.org = img
-        # check_person(org) 사람인식
-        # hair_segmentation(org) 머리카락인식
+        check_person(self.org) # 사람인식
+        # hair_ segmentation(org) 머리카락인식
         kind = classificate(self.org) # 복장종류인식 (전투복, 동정복, 샘당)
         # if kind == '1':
         #   
