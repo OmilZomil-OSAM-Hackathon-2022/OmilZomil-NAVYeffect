@@ -23,115 +23,138 @@
           <form>
             <div class="input-label">
               <h3>이름</h3>
-              <div v-show="checkName == 2" class="input-warning">
+              <div v-show="name.check == 2" class="input-warning">
                 이름을 입력해주세요.
               </div>
             </div>
             <input
+              v-model="name.data"
               placeholder="성명"
-              v-bind:class="{ success: checkName == 1, error: checkName == 2 }"
+              v-bind:class="{
+                success: name.check == 1,
+                error: name.check == 2,
+              }"
+              @change="checkName"
             />
 
             <div class="input-label">
               <h3>군번</h3>
-              <div v-show="checkDogTag == 2" class="input-warning">
+              <div v-show="dogTag.check == 2" class="input-warning">
                 군번을 입력해주세요.
               </div>
             </div>
             <input
+              v-model="dogTag.data"
               placeholder="군번"
               v-bind:class="{
-                success: checkDogTag == 1,
-                error: checkDogTag == 2,
+                success: dogTag.check == 1,
+                error: dogTag.check == 2,
               }"
+              @change="checkDogTag"
             />
 
             <div class="input-label">
               <h3>소속</h3>
-              <div v-show="checkDivision == 2" class="input-warning">
-                소속을 입력해주세요.
+              <div v-show="division.check == 2" class="input-warning">
+                소속을 선택하세요.
               </div>
             </div>
-            <input
-              placeholder="소속"
-              v-bind:class="{
-                success: checkDivision == 1,
-                error: checkDivision == 2,
-              }"
-            />
+            <select v-model="division.data">
+              <option value="" disabled selected>소속을 선택하세요.</option>
+              <option value="육군">육군</option>
+              <option value="해군">해군</option>
+              <option value="공군">공군</option>
+              <option value="해병대">해병대</option>
+              <option value="국방부직속">국방부직속</option>
+            </select>
 
             <div class="input-label">
               <h3>부대</h3>
-              <div v-show="checkArmyUnit == 2" class="input-warning">
-                부대를 입력해주세요.
+              <div v-show="armyUnit.check == 2" class="input-warning">
+                부대를 선택하세요.
               </div>
             </div>
-            <input
-              placeholder="부대"
-              v-bind:class="{
-                success: checkArmyUnit == 1,
-                error: checkArmyUnit == 2,
-              }"
-            />
+
+            <select v-model="armyUnit.data">
+              <option value="" disabled selected>부대을 선택하세요.</option>
+
+              <option value="계룡대 근무지원단">계룡대 근무지원단</option>
+              <option value="1함대">1함대</option>
+              <option value="2함대">2함대</option>
+              <option value="3함대">3함대</option>
+              <option value="작전사">작전사</option>
+            </select>
 
             <div class="input-label">
               <h3>계급</h3>
-              <div v-show="checkClass" class="input-warning">
-                계급을 입력해주세요.
+              <div v-show="uClass.check" class="input-warning">
+                계급을 선택하세요.
               </div>
             </div>
-            <input
-              placeholder="계급"
-              v-bind:class="{
-                success: checkClass == 1,
-                error: checkClass == 2,
-              }"
-            />
+            <select v-model="uClass.data">
+              <option value="" disabled selected>계급을 선택하세요.</option>
+
+              <option value="이병">이병</option>
+              <option value="일병">일병</option>
+              <option value="상병">상병</option>
+              <option value="병장">병장</option>
+            </select>
 
             <div class="input-label">
               <h3>아이디</h3>
-              <div class="input-comment" v-show="checkID != 2">
+              <div class="input-comment" v-show="uid.check != 2">
                 아이디를 6자 이상 입력해주세요.
               </div>
-              <div class="input-warning" v-show="checkID == 2">
+              <div class="input-warning" v-show="uid.check == 2">
                 아이디를 6자 이상 입력해주세요.
               </div>
             </div>
-            <input placeholder="아이디" />
+            <input
+              v-model="uid.data"
+              v-bind:class="{
+                success: uid.check == 1,
+                error: uid.check == 2,
+              }"
+              placeholder="아이디"
+              @change="checkID"
+            />
 
             <div class="input-label">
               <h3>비밀번호</h3>
               <div
-                v-show="checkPassword != 2 && checkPasswordConfirm != 2"
+                v-show="password.check != 2 && passwordConfirm.check != 2"
                 class="input-comment"
               >
                 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.
               </div>
               <div
-                v-show="checkPassword == 2 || checkPassword == 2"
+                v-show="password.check == 2 || passwordConfirm.check == 2"
                 class="input-warning"
               >
                 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.
               </div>
             </div>
             <input
+              v-model="password.data"
               type="password"
               placeholder="비밀번호"
-              style="margin-bottom: 12px"
+              style="margin-bottom: 12px; background-image: none"
               v-bind:class="{
-                success: checkPassword == 1,
-                error: checkPassword == 2,
+                success: password.check == 1,
+                error: password.check == 2,
               }"
             />
             <input
+              v-model="passwordConfirm.data"
               type="password"
               placeholder="비밀번호 확인"
               v-bind:class="{
-                success: checkPasswordConfirm == 1,
-                error: checkPasswordConfirm == 2,
+                success: passwordConfirm.check == 1,
+                error: passwordConfirm.check == 2,
               }"
+              style="background-image: none"
             />
-            <button type="sumit">확인</button>
+            <button @submit.prevent="submitForm">확인</button>
           </form>
         </div>
       </div>
@@ -140,18 +163,49 @@
 </template>
 
 <script>
+class inputData {
+  constructor() {
+    this.data = "";
+    this.check = 0;
+  }
+}
 export default {
   data() {
     return {
-      checkName: 0,
-      checkDogTag: 0,
-      checkDivision: 0,
-      checkArmyUnit: 0,
-      checkClass: 0,
-      checkID: 0,
-      checkPassword: 0,
-      checkPasswordConfirm: 0,
+      name: new inputData(),
+      dogTag: new inputData(),
+      division: new inputData(),
+      armyUnit: new inputData(),
+      uClass: new inputData(),
+      uid: new inputData(),
+      password: new inputData(),
+      passwordConfirm: new inputData(),
     };
+  },
+  methods: {
+    submitForm() {},
+    checkName(event) {
+      if (event.target.value != "") {
+        this.name.check = 1;
+      } else {
+        this.name.check = 2;
+      }
+    },
+    checkDogTag(event) {
+      if (event.target.value != "") {
+        this.dogTag.check = 1;
+      } else {
+        this.dogTag.check = 2;
+      }
+    },
+    checkID(event) {
+      if (event.target.value.length >= 6) {
+        this.uid.check = 1;
+      } else {
+        this.uid.check = 2;
+      }
+    },
+    // checkPassword(event) {},
   },
 };
 </script>
@@ -277,6 +331,34 @@ export default {
   font-size: 20px;
   background: url("@/assets/icons/check.svg") no-repeat scroll 10px center;
   background-position: right 12px center;
+}
+
+.right select {
+  box-sizing: border-box;
+
+  padding: 16px 12px;
+  width: 100%;
+  height: 56px;
+
+  background: #ffffff;
+  /* Dark8 */
+  border: 2px solid #d9d8e8;
+  border-radius: 8px;
+  margin-bottom: 40px;
+  font-size: 20px;
+  color: black;
+}
+.right select option {
+  /* background: lightcoral; */
+  /* color: #fff; */
+  width: 100%;
+  padding: 16px 12px;
+  /* font-size: 16px; */
+}
+
+.right select option:hover {
+  background-color: #9155eb;
+  color: white;
 }
 .right input::-webkit-input-placeholder {
   color: #abacc0;
