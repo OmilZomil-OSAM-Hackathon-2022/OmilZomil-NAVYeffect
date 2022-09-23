@@ -132,7 +132,7 @@
               v-model="password.data"
               type="password"
               placeholder="비밀번호"
-              style="margin-bottom: 12px; background-image: none"
+              style="margin-bottom: 20px; background-image: none"
               v-bind:class="{
                 success: password.check == 1,
                 error: password.check == 2,
