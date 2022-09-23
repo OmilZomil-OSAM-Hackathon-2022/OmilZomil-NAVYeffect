@@ -1,5 +1,7 @@
-from .classificate import classificate
-from .check_person import check_person
+from .dress_checkers import FullDressUniformChecker, NavyServiceUniformChecker
+from .dress_classifier import classificate
+from .edge_detectors import HED, Morph, RCF
+from .person_detectors import haarcascade
 
 class OmilZomil:
     def __init__(self):

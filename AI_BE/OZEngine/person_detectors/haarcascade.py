@@ -1,5 +1,5 @@
 
-from .utils import *
+from lib.utils import *
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
