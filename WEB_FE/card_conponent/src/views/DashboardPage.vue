@@ -13,15 +13,15 @@
 </template>
 
 <script>
-import Card11 from '@/components/Card1_1.vue'
-import Card12 from '@/components/Card1_2.vue'
-import Card13 from '@/components/Card1_3.vue'
-import Card14 from '@/components/Card1_4.vue'
-import Card21 from '@/components/Card2_1.vue'
-import Card22 from '@/components/Card2_2.vue'
-import Card31 from '@/components/Card3_1.vue'
-import Card32 from '@/components/Card3_2.vue'
-import Card41 from '@/components/Card4_1.vue'
+import Card11 from '@/components/DashboardCard/Card1_1.vue'
+import Card12 from '@/components/DashboardCard/Card1_2.vue'
+import Card13 from '@/components/DashboardCard/Card1_3.vue'
+import Card14 from '@/components/DashboardCard/Card1_4.vue'
+import Card21 from '@/components/DashboardCard/Card2_1.vue'
+import Card22 from '@/components/DashboardCard/Card2_2.vue'
+import Card31 from '@/components/DashboardCard/Card3_1.vue'
+import Card32 from '@/components/DashboardCard/Card3_2.vue'
+import Card41 from '@/components/DashboardCard/Card4_1.vue'
 
 export default {
   name: 'DashBoard',
