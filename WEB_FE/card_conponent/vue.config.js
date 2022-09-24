@@ -1,4 +1,6 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
-  transpileDependencies: true
+  publicPath: '/absproxy/8082',
+  transpileDependencies: true,
+  lintOnSave:false
 })
