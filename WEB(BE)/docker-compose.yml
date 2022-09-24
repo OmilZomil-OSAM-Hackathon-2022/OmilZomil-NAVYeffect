@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       # - ./:/home/backend
-      - dae-volume:/home/backend
+      - dae-volume:/home/backend/
     ports:
       - "7717:8000"
     environment:
