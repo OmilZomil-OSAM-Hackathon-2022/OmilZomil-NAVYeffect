@@ -5,6 +5,6 @@
     height: 562px;
     background: #FFFFFF;
     border-radius: 20px;">
-        <img src="@/assets/card22.svg" />
+        <img src="@/assets/DashboardImage/card22.svg" />
     </div>
 </template>

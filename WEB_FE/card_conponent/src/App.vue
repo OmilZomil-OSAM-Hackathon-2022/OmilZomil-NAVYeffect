@@ -1,30 +1,25 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/dashboard">Dashboard</router-link>
+    <router-link to="/"><img src="@/assets/NavBarImage/home.svg" /></router-link> 
+    <router-link to="/dashboard"><img src="@/assets/NavBarImage/dashboard.svg" /></router-link> 
+    <router-link to="/tracking"><img src="@/assets/NavBarImage/tracking.svg" /></router-link> 
+    <router-link to="/ranking"><img src="@/assets/NavBarImage/ranking.svg" /></router-link>
   </nav>
-  <router-view/>
+  <router-view />
 </template>
 
+<script>
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+  nav {
+    position: absolute;
+    height: 48px;
+    left: 0%;
+    right: 0%;
+    top: 64px;
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
+    background: #FFFFFF;
+    box-shadow: 0px 4px 25px rgba(145, 85, 235, 0.03);
+  }
 </style>

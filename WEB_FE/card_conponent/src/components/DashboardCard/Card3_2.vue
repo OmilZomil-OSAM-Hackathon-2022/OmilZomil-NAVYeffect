@@ -1,10 +1,10 @@
 <template>
     <div style="
     position: absolute;
-    width: 180px;
-    height: 196px;
+    width: 792px;
+    height: 417px;
     background: #FFFFFF;
     border-radius: 20px;">
-        <img src="@/assets/card12.svg" />
-    </div>    
+        <img src="@/assets/DashboardImage/card32.svg" />
+    </div>
 </template>
