@@ -1,0 +1,1 @@
+docker exec -it webbe_app_1 bash
