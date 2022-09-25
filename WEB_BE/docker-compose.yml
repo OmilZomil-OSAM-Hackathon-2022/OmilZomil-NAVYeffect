@@ -12,7 +12,7 @@ services:
       - "7717:8000"
     environment:
       TZ: Asia/Seoul
-      DB_NAME: 'oracle'
+      DB_NAME: 'docker'
 
 volumes:
   dae-volume:
