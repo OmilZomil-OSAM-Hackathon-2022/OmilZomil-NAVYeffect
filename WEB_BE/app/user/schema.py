@@ -2,7 +2,7 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 
-from core.schema_core import AllOptional
+from core.base_schema import AllOptional
 
 # Shared properties
 class UserBase(BaseModel):
