@@ -7,8 +7,9 @@ DB_INFO = DB_LIST[DB_NAME]
 
 
 CORS_ORIGINS = [
-    "http://localhost",
-    "http://localhost:8080",
+    "*",
+    # "http://localhost",
+    # "http://localhost:8080",
 ]
 
 
