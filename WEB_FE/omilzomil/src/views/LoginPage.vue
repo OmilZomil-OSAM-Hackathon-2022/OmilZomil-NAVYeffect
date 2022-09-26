@@ -19,9 +19,11 @@
         <h1>OMIL-ZOMIL</h1>
       </div>
       <div class="right-wrap">
-        <form>
+        <form @submit.prevent="buttonClick">
           <input class="user" placeholder="아이디" />
-          <input class="password" type="password" placeholder="비밀번호" />
+          <input class="password" type="password" placeholder="비밀번호" :style="{ 'margin-bottom': (loginFail? '0px':'60px')}"/>
+          <div v-show="loginFail" class="input-warning">아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.<br/>
+입력하신 내용을 다시 확인해주세요.</div>
           <button type="sumit">로그인</button>
         </form>
         <div style="display: flex; gap: 20px">
@@ -35,7 +37,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data(){
+    return{
+      loginFail:false,
+    }
+  },
+  methods:{
+    buttonClick(){
+      this.loginFail = true;
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -165,7 +178,7 @@ export default {};
     center;
 }
 .right .password {
-  margin-bottom: 40px;
+  /* margin-bottom: 40px; */
   background: url("@/assets/icons/lock-outline.svg") no-repeat scroll 10px
     center;
 }
@@ -189,6 +202,15 @@ export default {};
   font-size: 20px;
   font-weight: bold;
 }
+.right .input-warning {
+  font-size: 12px;
+  color: #ff5467;
+  text-align: left;
+  height:60px;
+  display:flex;
+  align-items: center;
+}
+
 @media (max-width: 1200px) {
   .left {
     display: none;
