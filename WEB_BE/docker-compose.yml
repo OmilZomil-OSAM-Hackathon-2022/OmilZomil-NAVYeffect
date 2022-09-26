@@ -19,7 +19,7 @@ services:
 #     external:
 #       name: dae_volume
 
-# networks:
-#   default:
-#     name: omil_network
-#     external: true
+networks:
+  default:
+    name: omil_network
+    external: true
