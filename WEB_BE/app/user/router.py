@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, Body, HTTPException
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.requests import Request
 from sqlalchemy.orm import Session
@@ -25,7 +25,7 @@ async def 테스트(req: Request):
 
 
 @router.post("/create/", response_model=UserDisplay)
-async def 회원가입(user: UserCreate = Depends(), db: Session = Depends(get_db)):
+async def 회원가입(user: UserCreate = Body(), db: Session = Depends(get_db)):
     """
     user 생성
     회원가입때 사용하는 
