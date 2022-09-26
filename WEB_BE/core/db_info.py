@@ -9,7 +9,7 @@ DB_LIST = {
     },
     'oracle' : {
         'ip': '131.186.17.227',
-        'port' : 5432,
+        'port' : 7718,
         'user' : 'user',
         'pw': '1234',
         'name': 'dress',
