@@ -7,7 +7,8 @@ from lib.ocr import OCR, draw_rectangle
 class NavyServiceUniformChecker():
     def __init__(self):
         # hyperparameter
-        self.classes_filter = {'lower': (0, 150, 100), 'upper': (255, 255, 255)}
+        self.classes_filter = {
+            'lower': (0, 150, 100), 'upper': (255, 255, 255)}
         self.uniform_filter = {'lower': (50, 45, 0), 'upper': (255, 255, 255)}
 
         self.debug_mode = False
@@ -36,7 +37,8 @@ class NavyServiceUniformChecker():
 
         morphed_mask = cv2.morphologyEx(yellow_mask, cv2.MORPH_CLOSE, (10, 1))
         masked_img = cv2.bitwise_and(img, img, mask=morphed_mask)
-        contours, _ = cv2.findContours(morphed_mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        contours, _ = cv2.findContours(
+            morphed_mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
         classes_n = 0
         for contour in contours:
@@ -101,6 +103,7 @@ class NavyServiceUniformChecker():
                             x, y, w, h = cv2.boundingRect(contour)
                             roi = org_img[y:y+h, x:x+w]
                             # name = self.getName(roi)
+                            name = ocr_str
                             contour_dic['name_tag'] = contour
                             component_dic['name_tag'] = name
                             cv2.drawContours(img, [contour], 0, Color.RED, 2)
