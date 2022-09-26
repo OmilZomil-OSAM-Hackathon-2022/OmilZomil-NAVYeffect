@@ -33,7 +33,7 @@ class NavyServiceUniformChecker():
         lower, upper = self.classes_filter['lower'], self.classes_filter['upper'] # 샘당 계급장 filter 
         yellow_mask = cv2.inRange(hsv_img, lower, upper)
         
-        morphed_mask = cv2.morphologyEx(yellow_mask, cv2.MORPH_CLOSE, (10,2))
+        morphed_mask = cv2.morphologyEx(yellow_mask, cv2.MORPH_CLOSE, (10,1))
         masked_img = cv2.bitwise_and(img, img, mask=morphed_mask)
         contours, _ = cv2.findContours(morphed_mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
