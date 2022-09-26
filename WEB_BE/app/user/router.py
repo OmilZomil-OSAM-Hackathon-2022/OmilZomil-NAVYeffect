@@ -19,10 +19,7 @@ router = APIRouter(
 
 @router.get("/test")
 async def 테스트(req: Request):
-    return JSONResponse({
-        'green': 'rain'
-    })
-
+    return FileResponse("static/user/index.html")
 
 @router.post("/create/", response_model=UserDisplay)
 async def 회원가입(user: UserCreate = Body(), db: Session = Depends(get_db)):
