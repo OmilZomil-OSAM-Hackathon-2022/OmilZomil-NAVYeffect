@@ -1,5 +1,4 @@
 import sys
-print(sys.path)
 from lib.utils import *
 from lib.defines import *
 from lib.ocr import OCR, draw_rectangle
@@ -64,7 +63,8 @@ class FullDressUniformChecker():
                         if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
                             x, y, w, h = cv2.boundingRect(contour)
                             roi = org_img[y:y+h, x:x+w]
-                            name = self.getName(roi)
+                            # name = self.getName(roi)
+                            name = ocr_str
                             contour_dic['name_tag'] = contour
                             component_dic['name_tag'] = name
                             cv2.drawContours(img, [contour], 0, Color.RED, 2)

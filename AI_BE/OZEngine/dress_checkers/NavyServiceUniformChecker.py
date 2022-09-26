@@ -8,8 +8,8 @@ class NavyServiceUniformChecker():
     def __init__(self):
         # hyperparameter
         self.classes_filter = {
-            'lower': (0, 150, 100), 'upper': (255, 255, 255)}
-        self.uniform_filter = {'lower': (50, 45, 0), 'upper': (255, 255, 255)}
+            'lower': (0, 150, 90), 'upper': (255, 255, 255)}
+        self.uniform_filter = {'lower': (30, 20, 0), 'upper': (255, 255, 255)}
 
         self.debug_mode = False
 
@@ -35,8 +35,9 @@ class NavyServiceUniformChecker():
         lower, upper = self.classes_filter['lower'], self.classes_filter['upper']
         yellow_mask = cv2.inRange(hsv_img, lower, upper)
 
-        morphed_mask = cv2.morphologyEx(yellow_mask, cv2.MORPH_CLOSE, (10, 1))
-        masked_img = cv2.bitwise_and(img, img, mask=morphed_mask)
+        morphed_mask = yellow_mask
+        # morphed_mask = cv2.morphologyEx(yellow_mask, cv2.MORPH_CLOSE, (10, 1))
+        masked_img = cv2.bitwise_and(img, img, mask=yellow_mask)
         contours, _ = cv2.findContours(
             morphed_mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -91,7 +92,7 @@ class NavyServiceUniformChecker():
             # 이름표 또는 계급장
             if parent == shirt_node and 3 <= getVertexCnt(contour) <= 10 and cv2.contourArea(contour) > 300:
                 center_p = getContourCenterPosition(contour)
-                drawPoint(img, center_p, Color.PURPLE, 50)
+                drawPoint(img, center_p, Color.PURPLE, 30)
                 max_xy, min_xy = np.max(contour, axis=0)[
                     0], np.min(contour, axis=0)[0]
 
@@ -102,6 +103,7 @@ class NavyServiceUniformChecker():
                         if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
                             x, y, w, h = cv2.boundingRect(contour)
                             roi = org_img[y:y+h, x:x+w]
+                            plt_imshow('name tag', roi)
                             # name = self.getName(roi)
                             name = ocr_str
                             contour_dic['name_tag'] = contour
@@ -109,7 +111,7 @@ class NavyServiceUniformChecker():
                             cv2.drawContours(img, [contour], 0, Color.RED, 2)
                             cv2.drawContours(
                                 img, [contour], 0, Color.GREEN, -1)
-                            drawPoint(img, center_p, Color.PURPLE, 50)
+                            drawPoint(img, center_p, Color.PURPLE, 30)
                             break
 
                 # 계급장 체크
@@ -122,7 +124,7 @@ class NavyServiceUniformChecker():
                         component_dic['class_tag'] = classes
                         cv2.drawContours(img, [contour], 0, Color.RED, 2)
                         cv2.drawContours(img, [contour], 0, Color.GREEN, -1)
-                        drawPoint(img, center_p, Color.PURPLE, 50)
+                        drawPoint(img, center_p, Color.PURPLE, 30)
                         break
 
         half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
