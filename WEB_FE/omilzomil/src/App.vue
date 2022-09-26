@@ -1,13 +1,15 @@
 <template>
-  <router-view></router-view>
+  <AppBar/>
+  <!-- <router-view></router-view> -->
   <!-- <login-page /> -->
 </template>
 
 <script>
+import AppBar from './components/AppBar.vue';
 // import LoginPage from "./views/LoginPage.vue";
 export default {
   name: "App",
-  components: {},
+  components: { AppBar },
 };
 </script>
 
