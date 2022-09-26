@@ -1,1 +1,1 @@
-docker exec -it webbe_app_1 bash
+docker exec -it web_be_app_1 bash
