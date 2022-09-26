@@ -7,7 +7,7 @@ from lib.ocr import OCR, draw_rectangle
 class NavyServiceUniformChecker():
     def __init__(self):
         # hyperparameter
-        self.classes_filter = {'lower': (0, 114, 212), 'upper': (190, 255, 255)}
+        self.classes_filter = {'lower': (0, 114, 165), 'upper': (190, 255, 255)}
         self.uniform_filter = {'lower': (50, 10, 30), 'upper': (255, 255, 255)}
 
         self.debug_mode = False
@@ -17,9 +17,10 @@ class NavyServiceUniformChecker():
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         ocr_str, boxes = OCR(img)
         name = clean_text(ocr_str)
-        console.log('name :', name)
+        print('name :', name)
         if len(boxes):
-            draw_rectangle(img, boxes[0], boxes[2], Color.RED, 1, 1)
+            for box in boxes:
+                draw_rectangle(img, box[0], box[2], Color.RED, 1, 1)
             plt_imshow([f'name tag {name}'], [img])
             return name
         else:
@@ -42,8 +43,6 @@ class NavyServiceUniformChecker():
             if 10 < area:
                 classes_n += 1
                 cv2.drawContours(img, [contour], 0, Color.RED, -1)
-
-        
         
         if 1 <= classes_n <= 4:
             plt_imshow(['yellow filter', 'morphed mask', 'masked img', f'img {Classes.dic[classes_n]}'], [yellow_mask, morphed_mask, masked_img, img])
@@ -67,6 +66,7 @@ class NavyServiceUniformChecker():
 
         # 이름표 OCR
         ocr_str, ocr_boxes = OCR(img)
+        print(ocr_str)
         contour_dic = {}
         component_dic = {}
 
@@ -80,10 +80,11 @@ class NavyServiceUniformChecker():
                 continue
 
             # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
-            if parent == shirt_node and 4 <= getVertexCnt(contour) <= 5 and cv2.contourArea(contour) > 300: # 이름표 또는 계급장
+            if parent == shirt_node and 3 <= getVertexCnt(contour) <= 10 and cv2.contourArea(contour) > 300: # 이름표 또는 계급장
                 center_p = getContourCenterPosition(contour)
-                max_xy, min_xy = np.max(contour, axis=0)[0],np.min(contour, axis=0)[0] 
-                
+                drawPoint(img, center_p, Color.PURPLE, 50)
+                max_xy, min_xy = np.max(contour, axis=0)[0],np.min(contour, axis=0)[0]
+
                 # 이름표 체크
                 if center_p[0] < (w//2) and not component_dic.get('name_tag'):
                     for ocr_box in ocr_boxes:
