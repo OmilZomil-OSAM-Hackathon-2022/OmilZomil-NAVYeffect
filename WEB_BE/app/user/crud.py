@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.user.model import User
 from app.user.schema import UserCreate
+
 from app.token.jwt import get_password_hash
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
