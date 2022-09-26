@@ -6,7 +6,19 @@
                 <img width="30" src="@/assets/logo.svg"/>
                 <h1>OMIL-ZOMIL</h1>
             </div>
-            <div></div>
+            <div class="options">
+                <div>
+                    <input type="checkbox" id="toggle" hidden> 
+
+                    <label for="toggle" class="toggleSwitch">
+                        <span class="toggleButton"></span>
+                    </label>
+                </div>
+
+                <button />
+                <button />
+                <input type="text"/>
+            </div>
         </div>
         <div></div>
     </div>
@@ -55,4 +67,49 @@ export default {
 .top .logo img{
     margin-right:5px;
 }
+.top .options{
+    display:flex;
+}
+
+.toggleSwitch {
+  width: 6rem;
+  /* margin: 2rem; */
+  height: 3rem;
+  display: block;
+  position: relative;
+  border-radius: 2rem;
+  background-color: #fff;
+  /* box-shadow: 0 0 1rem 3px rgba(0 0 0 / 15%); */
+  border: 1px solid #D9D8E8;
+  cursor: pointer;
+}
+
+.toggleSwitch .toggleButton {
+  width: 1.5rem;
+  height: 1.5rem;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: rgba(145, 85, 235, 0.2);
+  border:#9155EB solid 5px;
+}
+
+/* 체크박스가 체크되면 변경 이벤트 */
+#toggle:checked ~ .toggleSwitch {
+  background: #32313F;
+}
+
+#toggle:checked ~ .toggleSwitch .toggleButton {
+  left: calc(100% - 2.8rem);
+  background: #78798D;
+
+  border: #fff solid 5px;
+}
+
+.toggleSwitch, .toggleButton {
+  transition: all 0.2s ease-in;
+}
+
 </style>
