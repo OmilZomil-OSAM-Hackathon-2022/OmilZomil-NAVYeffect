@@ -22,5 +22,4 @@ app.config.globalProperties.$axios = axios;
 //           },
 //         }
 //       })
-
 app.use(router).mount('#app')
