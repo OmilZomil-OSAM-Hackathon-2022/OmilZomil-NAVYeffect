@@ -107,7 +107,7 @@ class FullDressUniformChecker():
         img2 = org_img.copy()
         lower, upper = self.classes_filter['lower'], self.classes_filter['upper']
         red_mask = cv2.inRange(hsv_img, lower, upper)
-        classes_masked_img = cv2.bitwise_and(img2, img2, mask=yellow_mask)
+        classes_masked_img = cv2.bitwise_and(img2, img2, mask=red_mask)
 
         contours, hierarchy = cv2.findContours(
             black_mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
