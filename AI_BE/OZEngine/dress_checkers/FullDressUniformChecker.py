@@ -127,9 +127,9 @@ class FullDressUniformChecker():
         cv2.drawContours(img2, contours, 0, Color.RED, 2)
 
         for contour in contours:
-            if cv2.contourArea(contour) > 300:
+            if cv2.contourArea(contour) > 100:
                 center_p = getContourCenterPosition(contour)
-                if center_p[0] < (w//2) and not component_dic.get('anchor'):
+                if not component_dic.get('anchor'):
                     contour_dic['anchor'] = contour
                     component_dic['anchor'] = True
 
@@ -152,13 +152,16 @@ class FullDressUniformChecker():
         plt_imshow(['yellow masked', 'red_masked'], [
                    anchor_masked_img, classes_masked_img])
 
-        x, y, w, h = cv2.boundingRect(contour_dic['anchor'])
-        print(x,y,w,h)
-        anchor_roi = org_img[y:y+h, x:x+w]
+        anchor_roi, classes_roi = None, None
+        print('anchor :', 'anchor' in contour_dic)
+        print('classes : ', 'classes_tag' in contour_dic)
+        if 'anchor' in contour_dic:
+            x, y, w, h = cv2.boundingRect(contour_dic['anchor'])
+            anchor_roi = org_img[y:y+h, x:x+w]
 
-        x, y, w, h = cv2.boundingRect(contour_dic['classes_tag'])
-        print(x,y,w,h)
-        classes_roi = org_img[y:y+h, x:x+w]
+        if 'classes_tag' in contour_dic:
+            x, y, w, h = cv2.boundingRect(contour_dic['classes_tag'])
+            classes_roi = org_img[y:y+h, x:x+w]
 
         plt_imshow(['anchor', 'classes'], [anchor_roi, classes_roi])
         plt_imshow(['img2'], [img2])
