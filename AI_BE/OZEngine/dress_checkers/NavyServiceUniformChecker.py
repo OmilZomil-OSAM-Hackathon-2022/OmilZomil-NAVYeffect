@@ -7,9 +7,10 @@ from lib.ocr import OCR, draw_rectangle
 class NavyServiceUniformChecker():
     def __init__(self):
         # hyperparameter
+        
+        self.uniform_filter = {'lower': (30, 20, 0), 'upper': (255, 255, 255)}
         self.classes_filter = {
             'lower': (0, 150, 90), 'upper': (255, 255, 255)}
-        self.uniform_filter = {'lower': (30, 20, 0), 'upper': (255, 255, 255)}
 
         self.debug_mode = False
 
