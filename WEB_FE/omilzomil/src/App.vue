@@ -1,4 +1,5 @@
 <template>
+  <!-- :style="{background:(this.$store.state.name ? 'black':'white')}" -->
   <AppBar/>
   <router-view></router-view>
   <!-- <login-page /> -->
