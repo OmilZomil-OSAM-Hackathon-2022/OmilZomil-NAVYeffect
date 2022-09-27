@@ -32,7 +32,7 @@ RUN pip install python-multipart
 RUN pip install sqlalchemy
 RUN pip install psycopg2
 RUN pip install pytest
-RUN pip install request
+RUN pip install requests
 
 # dockerfile 기준으로 설치
 # COPY ./requirements.txt /home/backend 
