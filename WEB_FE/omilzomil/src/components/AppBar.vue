@@ -2,16 +2,16 @@
   <div class="app-bar">
     <div class="wrap">
         <div class="top">
-            <div class="logo">
+            <router-link to="/" style="text-decoration:none;" class="logo">
                 <img width="30" src="@/assets/logo.svg"/>
                 <h1>OMIL-ZOMIL</h1>
-            </div>
+            </router-link>
             <div class="options">
                 <div>
                     <input type="checkbox" id="toggle" hidden> 
-
                     <label for="toggle" class="toggleSwitch">
                         <span class="toggleButton"></span>
+                        <img class="toogleIcon"/>
                     </label>
                 </div>
 
@@ -22,15 +22,28 @@
                   <img width="16" src="@/assets/icons/mdi_magnify.svg"/>
                 </button>
                 <input type="text" class="search" placeholder="검색"/>
-                <a class="profile" href="/">
+                <router-link class="profile" to="/">
                   <img width="32" src="@/assets/icons/mdi_account-circle.svg"/>
                   <div class="user-name">
                     {{userName}}님
                   </div>
-                </a>
+                </router-link>
             </div>
         </div>
-        <div></div>
+        <div class="nav-menu">
+          <router-link class="nav-item" to="/">
+            <img src="@/assets/icons/mdi_home.svg"/>홈
+          </router-link>
+          <router-link class="nav-item" to="/">
+            <img src="@/assets/icons/mdi_view-dashboard.svg"/>대쉬보드
+          </router-link>
+          <router-link class="nav-item" to="/">
+            <img src="@/assets/icons/account-group.svg"/>부대인원조회
+          </router-link>
+          <router-link class="nav-item" to="/">
+            <img src="@/assets/icons/trophy-variant.svg"/>랭킹
+          </router-link>
+        </div>
     </div>
   </div>
 </template>
@@ -103,9 +116,8 @@ export default {
   /* box-shadow: 0 0 1rem 3px rgba(0 0 0 / 15%); */
   border: 1px solid #D9D8E8;
   cursor: pointer;
-  background: url("@/assets/icons/weather-sunny.svg") no-repeat scroll 20px
-    center;
-  background-position: right 4px center;
+  /* background: url("@/assets/icons/weather-sunny.svg") no-repeat scroll 20px center; */
+  /* background-position: right 4px center; */
 }
 
 .toggleSwitch .toggleButton {
@@ -120,11 +132,22 @@ export default {
   border:#9155EB solid 2px;
 }
 
+.toggleSwitch .toogleIcon{
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  content: url("@/assets/icons/weather-sunny.svg")
+}
+
 #toggle:checked ~ .toggleSwitch {
-  background: url("@/assets/icons/weather-night.svg") no-repeat scroll 20px center;
-  background-position: left 4px center;
+  /* background: url("@/assets/icons/weather-night.svg") no-repeat scroll 20px center; */
+  /* background-position: right 4px center; */
   background: #32313F;
 }
+
 
 #toggle:checked ~ .toggleSwitch .toggleButton {
   left: calc(100% - 28px);
@@ -132,6 +155,12 @@ export default {
 
   border: #fff solid 2px;
 }
+
+#toggle:checked ~ .toggleSwitch .toogleIcon{
+  left: 4px;
+  content: url("@/assets/icons/weather-night.svg")
+}
+
 
 .toggleSwitch, .toggleButton {
   transition: all 0.2s ease-in;
@@ -222,5 +251,35 @@ button{
   /* Dark5 */
 
   color: #9C9DB2;
+}
+
+.nav-menu{
+  height:48px;
+  display:flex;
+  gap:36px;
+  align-items:center;
+}
+
+.nav-menu .nav-item{
+  /* box-sizing:border-box; */
+  padding:12px;
+  text-decoration:none;
+  gap:8px;
+  /* Subtitle 1 */
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.15px;
+
+  /* Dark6 */
+
+  color: #ABACC0;
 }
 </style>
