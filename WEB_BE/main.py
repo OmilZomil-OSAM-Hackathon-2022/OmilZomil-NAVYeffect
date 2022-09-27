@@ -6,7 +6,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.user import router as user_router
 from core.settings import CORS_ORIGINS
 
+
 app = FastAPI()
+
+@app.get("/")
+async def read_main():
+    return {"msg": "Hello World"}
 
 app.add_middleware(
     CORSMiddleware,
