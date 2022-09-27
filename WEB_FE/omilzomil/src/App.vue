@@ -6,6 +6,8 @@
 
 <script>
 import AppBar from './components/AppBar.vue';
+// import { useStore } from "vuex"
+
 // import LoginPage from "./views/LoginPage.vue";
 export default {
   name: "App",

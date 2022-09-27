@@ -2,16 +2,16 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    counter: 10
+    darkMode:false,
   },
   getters: {
-    time2(state) {
-      return state.counter * 2;
+    getDarkMode(){
+        return darkMode;
     }
   },
   mutations: {
-    setCounter(state, value) {
-      state.counter = value;
+    setDarkMode(){
+        state.darkMode = !state.darkMode;
     }
   }
 });
