@@ -13,7 +13,6 @@ class FullDressUniformChecker():
         self.anchor_filter = {'lower': (20, 100, 100), 'upper': (30, 255, 255)}
         self.classes_filter = {
             'lower': (140, 120, 50), 'upper': (190, 255, 255)}
-        
 
     def getClasses(self, org_img):
         img = org_img.copy()
@@ -107,44 +106,60 @@ class FullDressUniformChecker():
                             contour_dic['name_tag'] = contour
                             component_dic['name_tag'] = name
                             drawPoint(img, center_p, Color.PURPLE, 50)
- 
+
         half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
         cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
-
 
         cv2.imwrite('./res/res05.jpg', masked_img)
         cv2.imwrite('./res/res06.jpg', img)
         plt_imshow(['black_mask', 'masked img (bitwise and)', 'img'], [
                    black_mask, masked_img, img])
 
-
         # 네카치프 / 네카치프링 체크
         img2 = org_img.copy()
+
         lower, upper = self.anchor_filter['lower'], self.anchor_filter['upper']
         yellow_mask = cv2.inRange(hsv_img, lower, upper)
-        anchor_masked_img = cv2.bitwise_and(img2, img2, mask=yellow_mask)
+        anchor_masked_img = cv2.bitwise_and(org_img, org_img, mask=yellow_mask)
 
         contours, _ = cv2.findContours(
-            black_mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-        cv2.drawContours(img, [contour], 0, Color.RED, 2)
+            yellow_mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        cv2.drawContours(img2, contours, 0, Color.RED, 2)
 
-        for contour in contorus:
+        for contour in contours:
             if cv2.contourArea(contour) > 300:
                 center_p = getContourCenterPosition(contour)
-                if center_p[0] < (w//2) and not component_dic.get('classes_tag'):
+                if center_p[0] < (w//2) and not component_dic.get('anchor'):
                     contour_dic['anchor'] = contour
                     component_dic['anchor'] = True
 
-
         # 계급장 체크
-        img2 = org_img.copy()
         lower, upper = self.classes_filter['lower'], self.classes_filter['upper']
         red_mask = cv2.inRange(hsv_img, lower, upper)
-        classes_masked_img = cv2.bitwise_and(img2, img2, mask=red_mask)
+        classes_masked_img = cv2.bitwise_and(org_img, org_img, mask=red_mask)
 
         contours, _ = cv2.findContours(
-            black_mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-        plt_imshow(['yellow masked', 'red_masked'], [anchor_masked_img, classes_masked_img])
+            red_mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        cv2.drawContours(img2, contours, 0, Color.BLUE, 2)
 
-        
+        for contour in contours:
+            if cv2.contourArea(contour) > 300:
+                center_p = getContourCenterPosition(contour)
+                if center_p[0] < (w//2) and not component_dic.get('classes_tag'):
+                    contour_dic['classes_tag'] = contour
+                    component_dic['classes_tag'] = True
+
+        plt_imshow(['yellow masked', 'red_masked'], [
+                   anchor_masked_img, classes_masked_img])
+
+        x, y, w, h = cv2.boundingRect(contour_dic['anchor'])
+        print(x,y,w,h)
+        anchor_roi = org_img[y:y+h, x:x+w]
+
+        x, y, w, h = cv2.boundingRect(contour_dic['classes_tag'])
+        print(x,y,w,h)
+        classes_roi = org_img[y:y+h, x:x+w]
+
+        plt_imshow(['anchor', 'classes'], [anchor_roi, classes_roi])
+        plt_imshow(['img2'], [img2])
         return component_dic, contour_dic
