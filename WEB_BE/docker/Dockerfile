@@ -31,7 +31,7 @@ RUN pip install "passlib[bcrypt]"
 RUN pip install python-multipart
 RUN pip install sqlalchemy
 RUN pip install psycopg2
-
+RUN pip install pytest
 
 # dockerfile 기준으로 설치
 # COPY ./requirements.txt /home/backend 
