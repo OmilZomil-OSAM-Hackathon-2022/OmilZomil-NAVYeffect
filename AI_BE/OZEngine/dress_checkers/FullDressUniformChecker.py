@@ -89,4 +89,30 @@ class FullDressUniformChecker():
         cv2.imwrite('./res/res06.jpg', img)
         plt_imshow(['black_mask', 'masked img (bitwise and)', 'img'], [
                    black_mask, masked_img, img])
+
+
+        # 네카치프 / 네카치프링 체크
+        img2 = org_img.copy()
+        lower, upper = self.anchor_filter['lower'], self.anchor_filter['upper']
+        yellow_mask = cv2.inRange(hsv_img, lower, upper)
+        anchor_masked_img = cv2.bitwise_and(img2, img2, mask=yellow_mask)
+
+        contours, hierarchy = cv2.findContours(
+            black_mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        plt_imshow(['yellow_mask', 'masked img (bitwise and)', 'img'], [
+                   yellow_mask, masked_img, img2])
+
+
+        # 계급장 체크
+        img2 = org_img.copy()
+        lower, upper = self.classes_filter['lower'], self.classes_filter['upper']
+        red_mask = cv2.inRange(hsv_img, lower, upper)
+        classes_masked_img = cv2.bitwise_and(img2, img2, mask=yellow_mask)
+
+        contours, hierarchy = cv2.findContours(
+            black_mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        plt_imshow(['red_mask', 'masked img (bitwise and)', 'img'], [
+                   yellow_mask, classes_masked_img, img2])
+
+        
         return component_dic, contour_dic
