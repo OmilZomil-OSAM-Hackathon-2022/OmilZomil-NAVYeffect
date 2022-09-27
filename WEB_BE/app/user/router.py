@@ -22,7 +22,7 @@ async def 테스트(req: Request):
     return FileResponse("static/user/index.html")
 
 @router.post("/create/", response_model=UserDisplay)
-async def 회원가입(user: UserCreate = Depends(UserCreate), db: Session = Depends(get_db)):
+async def 회원가입(user: UserCreate = Body(), db: Session = Depends(get_db)):
     """
     user 생성
     회원가입때 사용하는 
