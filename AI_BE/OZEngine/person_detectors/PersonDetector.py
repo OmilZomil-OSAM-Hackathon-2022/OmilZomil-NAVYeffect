@@ -10,15 +10,15 @@ class PersonDetector():
         self.classes = []
         with open("OZEngine/person_detectors/coco.names", "r") as f:
             self.classes = [line.strip() for line in f.readlines()]
-        self.layer_names = net.getLayerNames()
+        self.layer_names = self.net.getLayerNames()
         print(self.layer_names, len(self.layer_names))
         a = [i for i in self.net.getUnconnectedOutLayers()]
         print(a)
         self.output_layers = [self.layer_names[i-1]
                               for i in self.net.getUnconnectedOutLayers()]
-        self.colors = np.random.uniform(0, 255, size=(len(classes), 3))
+        self.colors = np.random.uniform(0, 255, size=(len(self.classes), 3))
 
-    def detect(org_img):
+    def detect(self, org_img):
         img = org_img
         height, width, channels = img.shape
         blob = cv2.dnn.blobFromImage(
@@ -53,7 +53,7 @@ class PersonDetector():
         for i in range(len(boxes)):
             if i in indexes:
                 x, y, w, h = boxes[i]
-                label = str(classes[class_ids[i]])
+                label = str(self.classes[class_ids[i]])
                 color = self.colors[i]
                 cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
                 cv2.putText(img, label, (x, y + 30), font, 3, color, 3)
