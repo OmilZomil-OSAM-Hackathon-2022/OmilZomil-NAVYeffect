@@ -1,7 +1,7 @@
 <template>
   <div>test</div>
   <h1>{{ res }}</h1>
-  <button @click="getAPI"></button>
+  <button @click="getAPI">test</button>
 </template>
 
 <script>
@@ -14,7 +14,7 @@ export default {
   methods: {
     getAPI() {
       this.$axios
-        .get("/user/read")
+        .get("http://117.17.110.220:7717/user/read")
         .then((response) => {
           console.log(response);
           this.res = response;
