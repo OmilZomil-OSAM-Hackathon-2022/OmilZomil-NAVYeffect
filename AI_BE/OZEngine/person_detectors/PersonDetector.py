@@ -4,12 +4,15 @@ from lib.utils import *
 
 
 class PersonDetector():
-    def __init__(self):
+    def __init__(self, only_person=True):
         self.net = cv2.dnn.readNet(
             "OZEngine/person_detectors/yolov2-tiny.weights", "OZEngine/person_detectors/yolov2-tiny.cfg")
         self.classes = []
-        with open("OZEngine/person_detectors/coco.names", "r") as f:
-            self.classes = [line.strip() for line in f.readlines()]
+        if only_person:
+            self.classes = ['person']
+        else:
+            with open("OZEngine/person_detectors/coco.names", "r") as f:
+                self.classes = [line.strip() for line in f.readlines()]
         self.layer_names = self.net.getLayerNames()
         print(self.layer_names, len(self.layer_names))
         a = [i for i in self.net.getUnconnectedOutLayers()]
