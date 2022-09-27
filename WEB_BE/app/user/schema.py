@@ -17,6 +17,20 @@ class UserBase(BaseModel):
 
 # Properties to receive on item creation
 class UserCreate(UserBase):
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "name": "Foo",
+                "uid": "A very nice Item",
+                "password": "A very nice Item",
+                "dog_num": "A very nice Item",
+                "army": "A very nice Item",
+                "unit": "A very nice Item",
+                "rank": "A very nice Item",
+            
+            }
+        }
     pass
 
 
