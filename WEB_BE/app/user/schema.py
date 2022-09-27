@@ -22,13 +22,13 @@ class UserCreate(UserBase):
 
 # Properties to receive on item update
 class UserUpdate(UserBase, metaclass=AllOptional):
-    auth: int
+    permission: int
 
     pass
 
 class UserDisplay(UserBase):
     id: int
-    auth: int
+    permission: int
 
     class Config:
         orm_mode = True
