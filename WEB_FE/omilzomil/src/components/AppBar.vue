@@ -22,7 +22,7 @@
                   <img width="16" src="@/assets/icons/mdi_magnify.svg"/>
                 </button>
                 <input type="text" class="search" placeholder="검색"/>
-                <a class="profile">
+                <a class="profile" href="/">
                   <img width="32" src="@/assets/icons/mdi_account-circle.svg"/>
                   <div class="user-name">
                     {{userName}}님
@@ -103,7 +103,9 @@ export default {
   /* box-shadow: 0 0 1rem 3px rgba(0 0 0 / 15%); */
   border: 1px solid #D9D8E8;
   cursor: pointer;
-  /* background-image: url(); */
+  background: url("@/assets/icons/weather-sunny.svg") no-repeat scroll 20px
+    center;
+  background-position: right 4px center;
 }
 
 .toggleSwitch .toggleButton {
@@ -119,6 +121,8 @@ export default {
 }
 
 #toggle:checked ~ .toggleSwitch {
+  background: url("@/assets/icons/weather-night.svg") no-repeat scroll 20px center;
+  background-position: left 4px center;
   background: #32313F;
 }
 
@@ -149,6 +153,8 @@ button{
   display:flex;
   height:100%;
   align-items: center;
+  
+  text-decoration: none;
 }
 
 .profile .user-name{
