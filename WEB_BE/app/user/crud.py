@@ -22,7 +22,7 @@ def create_user(db: Session, user: UserCreate):
         rank=user.rank,
         army=user.army,
         unit=user.unit,
-        disable=False
+        permission=4
     )
     db.add(db_user)
     db.commit()
