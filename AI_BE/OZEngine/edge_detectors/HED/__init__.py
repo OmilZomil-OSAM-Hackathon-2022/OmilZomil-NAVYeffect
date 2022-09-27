@@ -3,8 +3,8 @@ import datetime
 import cv2
 import numpy as np
 
-MODEL_PATH = './detectors/hed/weights/hed_pretrained_bsds.caffemodel'
-PROTO_TXT_PATH = './detectors/hed/deploy.prototxt'
+MODEL_PATH = './OZEngine/edge_detectors/HED/weights/hed_pretrained_bsds.caffemodel'
+PROTO_TXT_PATH = './OZEngine/edge_detectors/HED/deploy.prototxt'
 
 class CropLayer(object):
     def __init__(self, params, blobs):
