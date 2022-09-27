@@ -23,7 +23,7 @@ class OmilZomil:
         self.person_detector.detect(self.org)  # 사람인식
         # hair_segmentation(org) 머리카락인식
         # kind = classificate(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
-        self.kind = '1'
+        self.kind = '2'
         if self.kind == '1':
             component_dic, contour_dic = self.navy_service_uniform_checker.checkUniform(
                 self.org)
