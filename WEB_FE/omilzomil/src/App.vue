@@ -1,6 +1,6 @@
 <template>
   <AppBar/>
-  <!-- <router-view></router-view> -->
+  <router-view></router-view>
   <!-- <login-page /> -->
 </template>
 
@@ -19,6 +19,7 @@ body,
 #app {
   margin: 0px;
   height: 100%;
+  background: #F4F5FA;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
