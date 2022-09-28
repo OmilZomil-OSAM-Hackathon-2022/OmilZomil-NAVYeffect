@@ -16,5 +16,19 @@
             <input type="submit" value="Submit" onclick="submitform()">
         </form>
     </body>
+    <script>
+
+fetch("/test/input", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    title: "Test",
+    body: "I am testing!",
+    userId: 1,
+  }),
+}).then((response) => console.log(response));
+    </script>
 </html>
 
