@@ -19,20 +19,34 @@ class OmilZomil:
 
         self.kind = None
 
+        self.detect_person = False
+
+        self.person_roi = None
+
     def detect(self, img):
         self.org = img
-        self.kind = self.person_detector.detect(self.org)  # 사람인식
+
+        if self.detect_person:
+            self.person_roi, boxed_img = self.person_detector.detect(
+                self.org)  # 사람인식
+        else:
+            self.person_roi = self.org
+
+        if self.person_roi is None:
+            raise Exception("인식가능한 사람이 없습니다!")
+
         # hair_segmentation(org) 머리카락인식
         # kind = classificate(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
 
         self.kind = UniformType.dic['FULL_DRESS']
+
         if self.kind == UniformType.dic['NAVY_SERVICE']:
             component_dic, contour_dic = self.navy_service_uniform_checker.checkUniform(
-                self.org)
+                self.person_roi)
 
         elif self.kind == UniformType.dic['FULL_DRESS']:
             component_dic, contour_dic = self.full_dress_uniform_checker.checkUniform(
-                self.org)
+                self.person_roi)
 
         print(component_dic)
 
