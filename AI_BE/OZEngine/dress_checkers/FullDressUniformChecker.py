@@ -74,7 +74,6 @@ class FullDressUniformChecker():
             contours, hierarchy)
 
         ocr_str, ocr_boxes = OCR(img)
-        print('ocr:', ocr_str, ocr_boxes)
 
         contour_dic = {}
         component_dic = {}
