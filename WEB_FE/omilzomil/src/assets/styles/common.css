@@ -4,7 +4,7 @@
 
 .card{
     width:100%;
-    background: #FFFFFF;
+    background: var(--color-card);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.05);
     border-radius: 20px;
     display:flex;
