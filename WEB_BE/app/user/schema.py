@@ -21,14 +21,13 @@ class UserCreate(UserBase):
     class Config:
         schema_extra = {
             "example": {
-                "name": "Foo",
-                "uid": "A very nice Item",
-                "password": "A very nice Item",
-                "dog_num": "A very nice Item",
-                "army": "A very nice Item",
-                "unit": "A very nice Item",
-                "rank": "A very nice Item",
-            
+                "name": "홍길동",
+                "uid": "11111",
+                "password": "1234",
+                "dog_num": "22-71001111",
+                "army": "해군",
+                "unit": "계룡대 근무지원단 본부대대",
+                "rank": "일병",
             }
         }
     pass
