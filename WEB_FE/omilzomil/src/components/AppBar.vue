@@ -8,7 +8,7 @@
             </router-link>
             <div class="options">
                 <div>
-                    <input type="checkbox" id="toggle" hidden> 
+                    <input type="checkbox" id="toggle" @change="setDarkMode" hidden> 
                     <label for="toggle" class="toggleSwitch">
                         <span class="toggleButton"></span>
                         <img class="toogleIcon"/>
@@ -55,6 +55,12 @@ export default {
       return {
         userName: "김민섭",
       }
+    },
+    methods:{
+      setDarkMode(){
+        // console.log("test");
+        return this.$store.commit('setDarkMode');
+      },
     }
 }
 // src="@/assets/styles/common.css"

@@ -1,5 +1,5 @@
 <template>
-  <div>test</div>
+  <div>DarkMod : {{getDarkMode}}</div>
   <h1>{{ res }}</h1>
   <button @click="getAPI">test</button>
 </template>
@@ -11,7 +11,13 @@ export default {
       res: "",
     };
   },
+  computed: {
+    getDarkMode () {
+      return this.$store.getters.getDarkMode;
+    }
+  },
   methods: {
+    
     getAPI() {
       this.$axios
         .get("http://117.17.110.220:7717/user/read")
@@ -24,6 +30,7 @@ export default {
           this.res = error;
         });
     },
+    
   },
 };
 </script>
