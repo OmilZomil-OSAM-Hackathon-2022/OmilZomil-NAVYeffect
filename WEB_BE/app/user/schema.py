@@ -6,7 +6,7 @@ from core.base_schema import AllOptional
 
 # Shared properties
 class UserBase(BaseModel):
-    name: str = Field(title="aaaaa", description='qqqqq', example="11111")
+    name: str = Field(title="성함", description='사용자 성함')
     uid: str
     password: str
     dog_num: str
