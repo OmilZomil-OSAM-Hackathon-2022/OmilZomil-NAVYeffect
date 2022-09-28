@@ -67,7 +67,7 @@ export default {
 </script>
 
 <style scoped >
-@import '@/assets/styles/common.css';
+/* @import '@/assets/styles/common.css'; */
 .app-bar{
     /* width:100%; */
     background: #FFFFFF;
