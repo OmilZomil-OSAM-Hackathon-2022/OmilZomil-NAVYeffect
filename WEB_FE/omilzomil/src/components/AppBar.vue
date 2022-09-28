@@ -1,6 +1,6 @@
 <template>
-  <!-- #312D4B -->
-  <div class="app-bar" :style="{background: (getDarkMode? '#312D4B':'#FFFFFF')}">
+  <!-- :style="{background: (getDarkMode? '#312D4B':'#FFFFFF')}" -->
+  <div class="app-bar">
     <div class="wrap">
         <div class="top">
             <router-link to="/" style="text-decoration:none;" class="logo">
@@ -76,7 +76,7 @@ export default {
 /* @import '@/assets/styles/common.css'; */
 .app-bar{
     /* width:100%; */
-    background: #FFFFFF;
+    background: var(--color-appbar);
     box-shadow: 0px 4px 25px rgba(145, 85, 235, 0.03);
     height:112px;
     display:flex;
@@ -163,9 +163,9 @@ export default {
 
 #toggle:checked ~ .toggleSwitch .toggleButton {
   left: calc(100% - 28px);
-  background: #78798D;
+  background: rgba(183, 134, 255, 0.2);
 
-  border: #fff solid 2px;
+  border: #B786FF solid 2px;
 }
 
 #toggle:checked ~ .toggleSwitch .toogleIcon{
@@ -238,10 +238,10 @@ button{
   width: 224px;
   height: 28px;
 
-  background: #FFFFFF;
+  background: var(--color-input);
   /* Dark8 */
 
-  border: 1px solid #D9D8E8;
+  border: 1px solid var(--color-input-border);
   border-radius: 4px;
 
   /* Inside auto layout */
@@ -255,10 +255,10 @@ button{
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
-  line-height: 14px;
+  /* line-height: 14px; */
   /* identical to box height */
 
-  letter-spacing: 0.4px;
+  /* letter-spacing: 0.4px; */
 
   /* Dark5 */
 

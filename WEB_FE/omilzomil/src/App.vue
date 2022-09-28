@@ -1,5 +1,5 @@
 <template>
-  <div :style="{background: (getDarkMode? '#32313F':'#F4F5FA')}">
+  <div :class="[getDarkMode ? 'dark-mode':'','main']">
     <AppBar/>
     <router-view></router-view>
   </div>
@@ -25,6 +25,23 @@ export default {
 <style>
 @import '@/assets/styles/common.css';
 /* background: #32313F; */
+/* :root{
+} */
+:root{
+  --color-background:#F4F5FA;
+  --color-appbar:#FFFFFF;
+  --color-card:#FFFFFF;
+  --color-input:#FFFFFF;
+  --color-input-border:#D9D8E8;
+}
+.dark-mode{
+  --color-background:#28243D;
+  --color-appbar:#312D4B;
+  --color-card:#312D4B;
+  --color-input:#585767;
+  --color-input-border:#78798D;
+  color:white;
+}
 html,
 body,
 #app {
@@ -37,5 +54,9 @@ body,
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+.main{
+
+  background:var(--color-background);
 }
 </style>
