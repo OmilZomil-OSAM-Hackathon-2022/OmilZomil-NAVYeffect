@@ -1,5 +1,4 @@
 <template>
-  <!-- :style="{background:(this.$store.state.name ? 'black':'white')}" -->
   <div :style="{background: (getDarkMode? '#32313F':'#F4F5FA')}">
     <AppBar/>
     <router-view></router-view>
