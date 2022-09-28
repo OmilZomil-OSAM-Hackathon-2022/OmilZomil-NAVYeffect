@@ -1,5 +1,6 @@
 <template>
-  <div class="app-bar">
+  <!-- #312D4B -->
+  <div class="app-bar" :style="{background: (getDarkMode? '#312D4B':'#FFFFFF')}">
     <div class="wrap">
         <div class="top">
             <router-link to="/" style="text-decoration:none;" class="logo">
@@ -61,7 +62,12 @@ export default {
         // console.log("test");
         return this.$store.commit('setDarkMode');
       },
-    }
+    },
+    computed: {
+      getDarkMode () {
+        return this.$store.getters.getDarkMode;
+      }
+    },
 }
 // src="@/assets/styles/common.css"
 </script>
