@@ -4,8 +4,14 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: () => import('../views/APITestPage.vue'),
+    component: () => import('../views/DashBoardPage.vue'),
     // redirect: '/login',
+  },
+  {
+    path: "/api",
+    name: "api",
+
+    component: () => import('../views/APITestPage.vue'),
   },
   {
     path: "/login",

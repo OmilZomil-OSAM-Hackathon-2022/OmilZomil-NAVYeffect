@@ -1,7 +1,9 @@
 <template>
   <!-- :style="{background:(this.$store.state.name ? 'black':'white')}" -->
-  <AppBar/>
-  <router-view></router-view>
+  <div :style="{background: (getDarkMode? '#32313F':'#F4F5FA')}">
+    <AppBar/>
+    <router-view></router-view>
+  </div>
   <!-- <login-page /> -->
 </template>
 
@@ -13,16 +15,22 @@ import AppBar from './components/AppBar.vue';
 export default {
   name: "App",
   components: { AppBar },
+  computed: {
+    getDarkMode () {
+      return this.$store.getters.getDarkMode;
+    }
+  },
 };
 </script>
 
 <style>
+@import '@/assets/styles/common.css';
+/* background: #32313F; */
 html,
 body,
 #app {
   margin: 0px;
   height: 100%;
-  background: #F4F5FA;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

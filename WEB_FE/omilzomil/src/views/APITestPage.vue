@@ -1,7 +1,9 @@
 <template>
-  <div>DarkMod : {{getDarkMode}}</div>
+  <div>
+    <div>DarkMod : {{getDarkMode}}</div>
   <h1>{{ res }}</h1>
   <button @click="getAPI">test</button>
+  </div>
 </template>
 
 <script>
