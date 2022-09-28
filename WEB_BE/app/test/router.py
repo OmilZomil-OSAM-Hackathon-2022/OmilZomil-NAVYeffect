@@ -16,5 +16,5 @@ router = APIRouter(
 async def 입력(req: Request = Body()):
     print(req)
     print(await req.body())
-    print(await req.json())
+    # print(await req.json())
     print(await req.form())
