@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Body, HTTPException
+from fastapi import APIRouter, Depends, Body, HTTPException, Response
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.requests import Request
 
@@ -15,4 +15,4 @@ router = APIRouter(
 @router.post("/input")
 async def 입력(req: Request):
     print(req)
-    return req.body()
+    return Response(req.body())
