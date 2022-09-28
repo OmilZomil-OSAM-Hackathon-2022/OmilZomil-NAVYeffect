@@ -59,6 +59,7 @@ class FullDressUniformChecker():
 
     def checkUniform(self, org_img):
         img = org_img.copy()
+        ocr_img = org_img.copy()
         # img = cv2.resize(img, (500,500))
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         h, w = img.shape[:2]
@@ -73,7 +74,7 @@ class FullDressUniformChecker():
         sorted_contours, sorted_hierarchy = sortContoursByArea(
             contours, hierarchy)
 
-        ocr_str, ocr_boxes = OCR(img)
+        ocr_list = OCR(img)
 
         contour_dic = {}
         component_dic = {}
@@ -97,22 +98,38 @@ class FullDressUniformChecker():
 
                 # 이름표 체크
                 if center_p[0] < (w//2) and not component_dic.get('name_tag'):
-                    for ocr_box in ocr_boxes:
-                        ocr_center_xy = getRectCenterPosition(ocr_box)
-                        if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
-                            # name = self.getName(roi)
-                            name = ocr_str
-                            contour_dic['name_tag'] = contour
-                            component_dic['name_tag'] = name
-                            drawPoint(img, center_p, Color.PURPLE, 50)
+                    name_chrs = []
+                    for ocr_res in ocr_list:
+                        ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
+                        p1, p2, p3, p4 = ocr_box
+                        (x1, y1), (x2, y2) = p1, p3
+                        if x2 < w//2:
+                            roi = org_img[y1:y2, x1:x2]
+                            
+                            # plt_imshow(['roi'], [roi])
+
+                            ocr_center_xy = getRectCenterPosition(ocr_box)
+                            if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
+                                # name = self.getName(roi)
+                                contour_dic['name_tag'] = contour
+                                name_chrs.append(ocr_str[0])
+                                print(ocr_str[0])
+                                drawPoint(img, center_p, Color.PURPLE, 50)
+                                cv2.rectangle(ocr_img, p1, p3, Color.GREEN, 3)
+                            else:
+                                cv2.rectangle(ocr_img, p1, p3, Color.RED, 3)
+
+                    component_dic['name_tag'] = ''.join(name_chrs)
 
         half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
         cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
 
-        cv2.imwrite('./res/res05.jpg', masked_img)
-        cv2.imwrite('./res/res06.jpg', img)
+        # cv2.imwrite('./res/res05.jpg', masked_img)
+        # cv2.imwrite('./res/res06.jpg', img)
         plt_imshow(['black_mask', 'masked img (bitwise and)', 'img'], [
                    black_mask, masked_img, img])
+
+        plt_imshow(['ocr img'], [ocr_img])
 
         # 네카치프 / 네카치프링 체크
         img2 = org_img.copy()
@@ -154,6 +171,7 @@ class FullDressUniformChecker():
         anchor_roi, classes_roi = None, None
         print('anchor :', 'anchor' in contour_dic)
         print('classes : ', 'classes_tag' in contour_dic)
+        
         if 'anchor' in contour_dic:
             x, y, w, h = cv2.boundingRect(contour_dic['anchor'])
             anchor_roi = org_img[y:y+h, x:x+w]
