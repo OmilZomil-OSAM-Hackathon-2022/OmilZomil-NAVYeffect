@@ -15,4 +15,4 @@ router = APIRouter(
 @router.post("/input")
 async def 입력(req: Request):
     print(req)
-    return req
+    return req.body()
