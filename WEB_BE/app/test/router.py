@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 
-@router.get("/input")
+@router.post("/input")
 async def 입력(req: Request):
     print(req)
     return JSONResponse(req)
