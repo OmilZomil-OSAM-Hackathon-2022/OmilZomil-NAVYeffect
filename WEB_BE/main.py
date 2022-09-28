@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
-from app.user import router as user_router
+
 from core.settings import CORS_ORIGINS
 
 
@@ -21,5 +21,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from app.user import router as user_router
+from app.test import router as test_router
+
+
 
 app.include_router(user_router.router)
+app.include_router(test_router.router)
