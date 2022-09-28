@@ -13,5 +13,5 @@ router = APIRouter(
 
 
 @router.post("/input")
-async def 입력(req: Request):
+async def 입력(req: Request = Body):
     print(await req.body())
