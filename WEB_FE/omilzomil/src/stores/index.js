@@ -5,12 +5,12 @@ export default createStore({
     darkMode:false,
   },
   getters: {
-    getDarkMode(){
-        return darkMode;
+    getDarkMode(state){
+        return state.darkMode;
     }
   },
   mutations: {
-    setDarkMode(){
+    setDarkMode(state){
         state.darkMode = !state.darkMode;
     }
   }
