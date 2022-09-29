@@ -14,7 +14,6 @@ class PersonDetector():
             with open("OZEngine/person_detectors/coco.names", "r") as f:
                 self.classes = [line.strip() for line in f.readlines()]
         self.layer_names = self.net.getLayerNames()
-        a = [i for i in self.net.getUnconnectedOutLayers()]
         self.output_layers = [self.layer_names[i-1]
                               for i in self.net.getUnconnectedOutLayers()]
         self.colors = np.random.uniform(0, 255, size=(len(self.classes), 3))
