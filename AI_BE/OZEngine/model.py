@@ -1,8 +1,11 @@
+import cv2
+
 from .dress_checkers import FullDressUniformChecker, NavyServiceUniformChecker
 from .dress_classifier import classificate
 from .edge_detectors import HED, Morph, RCF
 from .person_detectors import PersonDetector  # haarcascade
-from .lib.defines import UniformType
+from .lib.defines import UniformType, Color
+from .lib.utils import plt_imshow
 
 
 class OmilZomil:
@@ -23,11 +26,26 @@ class OmilZomil:
 
         self.person_roi = None
 
+    def contour2img(self, contour_dic):
+        img = self.org.copy()
+
+        cv2.drawContours(img, [contour_dic['shirt']], 0, Color.GREEN, -1)
+        for name, contour in contour_dic.items():
+            if name != 'shirt':
+                x, y, w, h = cv2.boundingRect(contour_dic['anchor'])
+                roi = self.org[y:y+h, x:x+w]
+                cv2.rectangle(img, (x, y), (x+w, y+h), Color.PURPLE, 5)
+                font = cv2.FONT_HERSHEY_SIMPLEX
+                print(name)
+                cv2.putText(img, name, (x, y), font, 3, Color.PURPLE, 2)
+
+        plt_imshow(['res'], [img])
+
     def detect(self, img):
         self.org = img
 
         if self.detect_person:
-            self.person_roi, boxed_img = self.person_detector.detect(
+            self.person_roi, boxed_img, debug_img = self.person_detector.detect(
                 self.org)  # 사람인식
         else:
             self.person_roi = self.org
@@ -49,5 +67,6 @@ class OmilZomil:
                 self.person_roi)
 
         print(component_dic)
+        self.contour2img(contour_dic)
 
         return None

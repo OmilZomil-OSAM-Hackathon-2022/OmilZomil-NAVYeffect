@@ -34,14 +34,14 @@ class FullDressUniformChecker():
                 classes_n += 1
                 cv2.drawContours(img, [contour], 0, Color.RED, -1)
 
-        if 1 <= classes_n <= 4:
-            plt_imshow(['yellow filter', 'morphed mask', 'masked img', f'img {Classes.dic[classes_n]}'], [
-                       yellow_mask, morphed_mask, masked_img, img])
-            return Classes.dic[classes_n]
-        else:
-            plt_imshow(['yellow filter', 'morphed mask', 'masked img', f'img None'], [
-                       yellow_mask, morphed_mask, masked_img, img])
-            return None
+        # if 1 <= classes_n <= 4:
+        #     plt_imshow(['yellow filter', 'morphed mask', 'masked img', f'img {Classes.dic[classes_n]}'], [
+        #                yellow_mask, morphed_mask, masked_img, img])
+        #     return Classes.dic[classes_n]
+        # else:
+        #     plt_imshow(['yellow filter', 'morphed mask', 'masked img', f'img None'], [
+        #                yellow_mask, morphed_mask, masked_img, img])
+        #     return None
 
     def getName(self, org_img):
         img = org_img.copy()
@@ -52,7 +52,6 @@ class FullDressUniformChecker():
         if len(boxes):
             draw_rectangle(img, boxes[0], boxes[2], Color.RED, 1, 1)
             plt_imshow([f'name tag {name}'], [img])
-            cv2.imwrite('./res/res_ocr.jpg', img)
             return name
         else:
             return None
@@ -78,6 +77,7 @@ class FullDressUniformChecker():
 
         contour_dic = {}
         component_dic = {}
+        debug_img = {}
 
         # 이름표, 계급장 체크
         name_tag_content, level_tag_content = None, None
@@ -105,13 +105,12 @@ class FullDressUniformChecker():
                         (x1, y1), (x2, y2) = p1, p3
                         if x2 < w//2:
                             roi = org_img[y1:y2, x1:x2]
-                            
-                            # plt_imshow(['roi'], [roi])
 
                             ocr_center_xy = getRectCenterPosition(ocr_box)
                             if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
                                 # name = self.getName(roi)
                                 contour_dic['name_tag'] = contour
+                                debug_img['name_tag'] = roi
                                 name_chrs.append(ocr_str[0])
                                 print(ocr_str[0])
                                 drawPoint(img, center_p, Color.PURPLE, 50)
@@ -124,23 +123,19 @@ class FullDressUniformChecker():
         half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
         cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
 
-        # cv2.imwrite('./res/res05.jpg', masked_img)
-        # cv2.imwrite('./res/res06.jpg', img)
-        plt_imshow(['black_mask', 'masked img (bitwise and)', 'img'], [
-                   black_mask, masked_img, img])
+        # plt_imshow(['black_mask', 'masked img (bitwise and)', 'img'], [
+        #            black_mask, masked_img, img])
 
-        plt_imshow(['ocr img'], [ocr_img])
+        debug_img['ocr_img'] = ocr_img
 
         # 네카치프 / 네카치프링 체크
-        img2 = org_img.copy()
-
         lower, upper = self.anchor_filter['lower'], self.anchor_filter['upper']
         yellow_mask = cv2.inRange(hsv_img, lower, upper)
         anchor_masked_img = cv2.bitwise_and(org_img, org_img, mask=yellow_mask)
+        debug_img['anchor_masked_img'] = anchor_masked_img
 
         contours, _ = cv2.findContours(
             yellow_mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-        cv2.drawContours(img2, contours, 0, Color.RED, 2)
 
         for contour in contours:
             if cv2.contourArea(contour) > 100:
@@ -156,7 +151,7 @@ class FullDressUniformChecker():
 
         contours, _ = cv2.findContours(
             red_mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-        cv2.drawContours(img2, contours, 0, Color.BLUE, 2)
+        # cv2.drawContours(img2, contours, 0, Color.BLUE, 2)
 
         for contour in contours:
             if cv2.contourArea(contour) > 300:
@@ -165,21 +160,6 @@ class FullDressUniformChecker():
                     contour_dic['classes_tag'] = contour
                     component_dic['classes_tag'] = True
 
-        plt_imshow(['yellow masked', 'red_masked'], [
-                   anchor_masked_img, classes_masked_img])
+        debug_img['classes_masked_img'] = classes_masked_img
 
-        anchor_roi, classes_roi = None, None
-        print('anchor :', 'anchor' in contour_dic)
-        print('classes : ', 'classes_tag' in contour_dic)
-        
-        if 'anchor' in contour_dic:
-            x, y, w, h = cv2.boundingRect(contour_dic['anchor'])
-            anchor_roi = org_img[y:y+h, x:x+w]
-
-        if 'classes_tag' in contour_dic:
-            x, y, w, h = cv2.boundingRect(contour_dic['classes_tag'])
-            classes_roi = org_img[y:y+h, x:x+w]
-
-        plt_imshow(['anchor', 'classes'], [anchor_roi, classes_roi])
-        plt_imshow(['img2'], [img2])
-        return component_dic, contour_dic
+        return component_dic, contour_dic, debug_img
