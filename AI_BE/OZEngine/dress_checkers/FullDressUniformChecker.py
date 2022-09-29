@@ -80,7 +80,6 @@ class FullDressUniformChecker():
         debug_img = {}
 
         # 이름표, 계급장 체크
-        name_tag_content, level_tag_content = None, None
         for i, (contour, lev) in enumerate(zip(sorted_contours, sorted_hierarchy)):
             cur_node, next_node, prev_node, first_child, parent = lev
             if i == 0:  # 정복
@@ -90,14 +89,14 @@ class FullDressUniformChecker():
                 continue
 
             # 정복 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표)
-            # 이름표 또는 계급장
-            if parent == shirt_node and 4 <= getVertexCnt(contour) <= 5 and cv2.contourArea(contour) > 300:
+            # 이름표 체크
+            if not component_dic.get('name_tag') and parent == shirt_node and 4 <= getVertexCnt(contour) <= 5 and cv2.contourArea(contour) > 300:
                 center_p = getContourCenterPosition(contour)
                 max_xy, min_xy = np.max(contour, axis=0)[
                     0], np.min(contour, axis=0)[0]
 
                 # 이름표 체크
-                if center_p[0] < (w//2) and not component_dic.get('name_tag'):
+                if center_p[0] < (w//2):
                     name_chrs = []
                     for ocr_res in ocr_list:
                         ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
@@ -109,15 +108,12 @@ class FullDressUniformChecker():
                             ocr_center_xy = getRectCenterPosition(ocr_box)
                             if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
                                 # name = self.getName(roi)
-                                contour_dic['name_tag'] = contour
-                                debug_img['name_tag'] = roi
                                 name_chrs.append(ocr_str[0])
-                                print(ocr_str[0])
-                                drawPoint(img, center_p, Color.PURPLE, 50)
                                 cv2.rectangle(ocr_img, p1, p3, Color.GREEN, 3)
                             else:
                                 cv2.rectangle(ocr_img, p1, p3, Color.RED, 3)
 
+                    contour_dic['name_tag'] = contour
                     component_dic['name_tag'] = ''.join(name_chrs)
 
         half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
