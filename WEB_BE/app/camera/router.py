@@ -24,7 +24,7 @@ async def 생성(camera: CameraCreate = Body(), db: Session = Depends(get_db)):
     db_camera = crud.get_camera_by_uid(db, uid=camera.uid)
     if db_camera:
         raise HTTPException(status_code=400, detail="해당 uid가 이미 존재합니다.")
-    return crud.create_camera(db, camera=db_camera)
+    return crud.create_camera(db, camera=camera)
 
 
 @router.get("/read", response_model=List[CameraDisplay])
