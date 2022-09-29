@@ -6,7 +6,7 @@ from app.camera.schema import CameraCreate
 def get_camera(db: Session, skip: int = 0, limit: int = 100):
     return db.query(Camera).offset(skip).limit(limit).all()
 
-def get_camera_by_uid(db: Session, name: int):
+def get_camera_by_uid(db: Session, uid: str):
     return db.query(Camera).filter(Camera.uid == uid).first()
 
 def create_camera(db: Session, camera: CameraCreate):
