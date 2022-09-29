@@ -12,7 +12,7 @@ from app.camera import crud
 
 router = APIRouter(
     prefix="/camera",
-    tags=["유저 관리"],
+    tags=[" 카메라 관리"],
     responses={404: {"description": "Not found"}},
 )
 
