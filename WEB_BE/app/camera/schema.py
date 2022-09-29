@@ -18,7 +18,8 @@ class CameraCreate(CameraBase):
         schema_extra = {
             "example": {
                 "name": "1정문 카메라",
-                "uid": "계룡대",
+                "uid": "1",
+                "pos": "계룡대",
             }
         }
     
