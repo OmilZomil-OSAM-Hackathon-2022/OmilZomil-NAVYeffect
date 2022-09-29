@@ -24,9 +24,10 @@ app.add_middleware(
 from app.user import router as user_router
 from app.test import router as test_router
 from app.token import router as token_router
-
+from app.camera import router as camera_router
 
 
 app.include_router(user_router.router)
 app.include_router(token_router.router)
 app.include_router(test_router.router)
+app.include_router(camera_router.router)
