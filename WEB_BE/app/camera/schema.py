@@ -7,6 +7,7 @@ from core.base_schema import AllOptional
 # Shared properties
 class CameraBase(BaseModel):
     name: str = Field(title="카메라 이름", description='카메라 식별 이름')
+    uid: str = Field(title="아이디 ", description='카메라 식별 코드')
     pos: str = Field(title="위치", description='해당 카메라가 존재하는 위치')
     
 
