@@ -10,7 +10,7 @@ from .lib.utils import plt_imshow
 
 class OmilZomil:
     def __init__(self):
-        # self.HED_engine = HED()
+        self.HED_engine = HED()
         print('init!')
 
         self.full_dress_uniform_checker = FullDressUniformChecker()
