@@ -1,28 +1,22 @@
 from sqlalchemy.orm import Session
 
-from app.camera.model import User
-from app.camera.schema import UserCreate
+from app.camera.model import Camera
+from app.camera.schema import CameraCreate
 
 def get_camera(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(User).offset(skip).limit(limit).all()
+    return db.query(Camera).offset(skip).limit(limit).all()
 
 def get_camera_by_name(db: Session, name: int):
-    return db.query(User).filter(User.uid == uid).first()
+    return db.query(Camera).filter(Camera.uid == uid).first()
 
-def create_user(db: Session, user: UserCreate):
-    hashed_password = get_password_haash(user.password)
-    db_user = User(
-        name=user.name, 
-        uid=user.uid, 
-        password=hashed_password, 
-        dog_num=user.dog_num,
-        rank=user.rank,
-        army=user.army,
-        unit=user.unit,
-        permission=4
+def create_camera(db: Session, camera: CameraCreate):
+    hashed_password = get_password_haash(camera.password)
+    db_camera = Camera(
+        name=camera.name, 
+        uid=camera.uid, 
+        pos=camera.pos, 
     )
-    db.add(db_user)
+    db.add(db_camera)
     db.commit()
-    db.refresh(db_user)
-    return db_user
-7
+    db.refresh(db_camera)
+    return db_camera
