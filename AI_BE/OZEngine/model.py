@@ -32,8 +32,9 @@ class OmilZomil:
 
     def contour2img(self, contour_dic):
         img = self.org.copy()
+        roi_dic = {}
 
-        cv2.drawContours(img, [contour_dic['shirt']], 0, Color.GREEN, -1)
+        # cv2.drawContours(img, [contour_dic['shirt']], 0, Color.GREEN, -1)
         for name, contour in contour_dic.items():
             if name != 'shirt':
                 x, y, w, h = cv2.boundingRect(contour_dic[name])
@@ -42,8 +43,10 @@ class OmilZomil:
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 print(name, (x, y))
                 cv2.putText(img, name, (x, y), font, 3, Color.PURPLE, 5)
+                roi_dic[name] = roi
 
         plt_imshow(['res'], [img])
+        self.debug(roi_dic)
 
     def detect(self, img):
         self.org = img
