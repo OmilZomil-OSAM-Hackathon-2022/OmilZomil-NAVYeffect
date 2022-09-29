@@ -1,7 +1,8 @@
 import sys
-from lib.utils import *
+import numpy as np
+from lib.utils import sortContoursByArea, getVertexCnt, getContourCenterPosition, getRectCenterPosition, isPointInBox
 from lib.defines import *
-from lib.ocr import OCR, draw_rectangle
+from lib.ocr import OCR
 
 # (동)정복 검사
 
@@ -42,8 +43,8 @@ class FullDressUniformChecker():
         h, w = img.shape[:2]
         shirt_contour, res_contour, res_content = None, None, None
         ocr_list = OCR(img)
-        # 이름표, 계급장 체크
 
+        # 이름표
         shirt_node = None
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
             cur_node, next_node, prev_node, first_child, parent = lev
@@ -72,7 +73,6 @@ class FullDressUniformChecker():
 
                             ocr_center_xy = getRectCenterPosition(ocr_box)
                             if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
-                                # name = self.getName(roi)
                                 name_chrs.append(ocr_str[0])
                                 cv2.rectangle(img, p1, p3, Color.GREEN, 3)
                             else:
