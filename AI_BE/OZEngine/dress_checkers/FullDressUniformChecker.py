@@ -49,7 +49,6 @@ class FullDressUniformChecker():
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
             cur_node, next_node, prev_node, first_child, parent = lev
             if i == 0:  # 정복
-                cv2.drawContours(img, [contour], 0, Color.RED, -1)
                 shirt_contour = None
                 shirt_node = cur_node
                 continue

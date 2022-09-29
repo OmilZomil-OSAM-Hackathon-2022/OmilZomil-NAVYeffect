@@ -28,7 +28,7 @@ class PersonDetector():
 
         class_ids = []
         confidences = []
-        boxes = []
+        box = []
         for out in outs:
             for detection in out:
                 scores = detection[5:]
@@ -43,12 +43,17 @@ class PersonDetector():
                     # 좌표
                     x = int(center_x - w / 2)
                     y = int(center_y - h / 2)
-                    boxes.append([x, y, w, h])
+                    box = (x, y, w, h)
                     confidences.append(float(confidence))
                     class_ids.append(class_id)
 
         indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
         font = cv2.FONT_HERSHEY_PLAIN
+
+        print(class_ids)
+        print(confidences)
+        print(boxes)
+        print(indexes)
 
         roi = None
         for i in range(len(boxes)):
