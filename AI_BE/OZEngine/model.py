@@ -26,18 +26,22 @@ class OmilZomil:
 
         self.person_roi = None
 
+    def debug(self, debug_img):
+        names, imgs = list(debug_img.keys()), list(debug_img.values())
+        plt_imshow(names, imgs)
+
     def contour2img(self, contour_dic):
         img = self.org.copy()
 
         cv2.drawContours(img, [contour_dic['shirt']], 0, Color.GREEN, -1)
         for name, contour in contour_dic.items():
             if name != 'shirt':
-                x, y, w, h = cv2.boundingRect(contour_dic['anchor'])
+                x, y, w, h = cv2.boundingRect(contour_dic[name])
                 roi = self.org[y:y+h, x:x+w]
                 cv2.rectangle(img, (x, y), (x+w, y+h), Color.PURPLE, 5)
                 font = cv2.FONT_HERSHEY_SIMPLEX
-                print(name)
-                cv2.putText(img, name, (x, y), font, 3, Color.PURPLE, 2)
+                print(name, (x, y))
+                cv2.putText(img, name, (x, y), font, 3, Color.PURPLE, 5)
 
         plt_imshow(['res'], [img])
 
@@ -45,7 +49,7 @@ class OmilZomil:
         self.org = img
 
         if self.detect_person:
-            self.person_roi, boxed_img, debug_img = self.person_detector.detect(
+            self.person_roi, boxed_img = self.person_detector.detect(
                 self.org)  # 사람인식
         else:
             self.person_roi = self.org
@@ -63,10 +67,10 @@ class OmilZomil:
                 self.person_roi)
 
         elif self.kind == UniformType.dic['FULL_DRESS']:
-            component_dic, contour_dic = self.full_dress_uniform_checker.checkUniform(
+            component_dic, contour_dic, debug_img = self.full_dress_uniform_checker.checkUniform(
                 self.person_roi)
 
         print(component_dic)
         self.contour2img(contour_dic)
-
+        self.debug(debug_img)
         return None
