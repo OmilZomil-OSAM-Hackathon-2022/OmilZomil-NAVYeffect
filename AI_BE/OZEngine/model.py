@@ -18,10 +18,7 @@ class OmilZomil:
         self.person_detector = PersonDetector()
 
         self.kind = None
-
         self.detect_person = True
-
-
 
     def debug(self, debug_img):
         names, imgs = list(debug_img.keys()), list(debug_img.values())
