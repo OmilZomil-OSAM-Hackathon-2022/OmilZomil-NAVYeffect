@@ -10,7 +10,6 @@ def get_camera_by_uid(db: Session, uid: str):
     return db.query(Camera).filter(Camera.uid == uid).first()
 
 def create_camera(db: Session, camera: CameraCreate):
-    hashed_password = get_password_haash(camera.password)
     db_camera = Camera(
         name=camera.name, 
         uid=camera.uid, 
