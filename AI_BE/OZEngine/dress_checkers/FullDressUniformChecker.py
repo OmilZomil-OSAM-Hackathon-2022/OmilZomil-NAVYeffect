@@ -14,6 +14,8 @@ class FullDressUniformChecker():
         self.anchor_filter = {'lower': (20, 100, 100), 'upper': (30, 255, 255)}
         self.classes_filter = {
             'lower': (140, 120, 50), 'upper': (190, 255, 255)}
+        self.mahura_filter = {
+            'lower': (140, 120, 50), 'upper': (190, 255, 255)}
 
     def getMaskedContours(self, img=None, hsv_img=None, kind=None, sort=True):
         if kind == 'uniform':
@@ -98,6 +100,15 @@ class FullDressUniformChecker():
                     ret_contour, res_content = contour, True
         return ret_contour, res_content
 
+    def getMahura(self, contours, hierarchy):
+        res_contour, res_content = None, None
+        for contour in contours:
+            if cv2.contourArea(contour) > 300:
+                center_p = getContourCenterPosition(contour)
+                if not res_content:
+                    ret_contour, res_content = contour, True
+        return ret_contour, res_content
+
     def checkUniform(self, org_img):
         img = org_img
         ocr_img = org_img.copy()
@@ -129,5 +140,12 @@ class FullDressUniformChecker():
             img=img, hsv_img=hsv_img, kind=name, sort=False)
         contour_dic[name], component_dic[name] = self.getClasses(
             img, contours, None)
+
+        # 마후라 체크
+        # name = 'mahura'
+        # contours = self.getMaskedContours(
+        #     img=img, hsv_img=hsv_img, kind=name, sort=False)
+        # contour_dic[name], component_dic[name] = self.getMahura(
+        #     img, contours, None)
 
         return component_dic, contour_dic, debug_img
