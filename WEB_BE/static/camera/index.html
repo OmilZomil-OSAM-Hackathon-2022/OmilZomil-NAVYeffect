@@ -35,7 +35,7 @@
         setTimeout(processImage, 1);
   }
   processImage();
-  function stream(){
+  async function stream(){
 
     const devices = navigator.mediaDevices.enumerateDevices();
     console.log(devices)
