@@ -38,7 +38,7 @@
   async function stream(){
 
     const devices = await navigator.mediaDevices.enumerateDevices();
-    console.log(devices)
+    console.log(devices[0])
 
     const openMediaDevices = async (constraints) => {
         return await navigator.mediaDevices.getUserMedia(constraints);
