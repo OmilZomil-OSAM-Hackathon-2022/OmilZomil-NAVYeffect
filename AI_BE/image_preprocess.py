@@ -1,5 +1,5 @@
 import os
-path = './image/full_dress_uniform/person'
+path = './image/navy_service_uniform/person'
 
 
 for index, file_name in enumerate(os.listdir(path)):

@@ -51,10 +51,11 @@ class OmilZomil:
         # hair_segmentation(org) 머리카락인식
         # kind = classificate(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
 
-        self.kind = UniformType.dic['FULL_DRESS']
+        # self.kind = UniformType.dic['FULL_DRESS']
+        self.kind = UniformType.dic['NAVY_SERVICE']
 
         if self.kind == UniformType.dic['NAVY_SERVICE']:
-            component_dic, contour_dic = self.navy_service_uniform_checker.checkUniform(
+            component_dic, contour_dic, debug_img = self.navy_service_uniform_checker.checkUniform(
                 person_roi)
 
         elif self.kind == UniformType.dic['FULL_DRESS']:
