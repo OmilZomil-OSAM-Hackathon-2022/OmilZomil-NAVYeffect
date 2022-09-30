@@ -30,7 +30,7 @@ class OmilZomil:
 
         # cv2.drawContours(img, [contour_dic['shirt']], 0, Color.GREEN, -1)
         for name, contour in contour_dic.items():
-            if name != 'shirt':
+            if name != 'shirt' and contour is not None:
                 x, y, w, h = cv2.boundingRect(contour_dic[name])
                 roi = org_img[y:y+h, x:x+w]
                 cv2.rectangle(img, (x, y), (x+w, y+h), Color.PURPLE, 5)
