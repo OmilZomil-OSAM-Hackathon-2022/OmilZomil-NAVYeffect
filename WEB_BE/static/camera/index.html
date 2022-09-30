@@ -1,56 +1,13 @@
-<!--videosender.html-->
-<!DOCTYPE html>
 <html>
-<head>
-	<title>Hello</title>
-</head>
-<body>
-	<video id="videoInput" style="display:none"></video>
-    <canvas id="videoOutput" width="1000" height="300" style="border: 1px solid black;"></canvas>
-    <button onclick=stream()>Send</button>
-</body>
-<script>
-    console.log('hello world')
-  var w = 320, h = 240;
-	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-  var constraints = {audio: false, video: true};
-  var video = document.getElementById("videoInput");
-  video.width = w;
-  video.height = h;
-  function successCallback(stream){
-  	video.srcObject = stream;
-  	video.play();
-  }
-
-  function errorCallback(error){
-   	console.log(error);
-  }
-  navigator.getUserMedia(constraints, successCallback, errorCallback);
-    var canvas = document.getElementById("videoOutput");
-  canvas.width = w;
-  canvas.height = h;
-  var ctx = canvas.getContext("2d");
-  function processImage(){
-        ctx.drawImage(video, 0, 0, w, h);
-        setTimeout(processImage, 1);
-  }
-  processImage();
-  function stream(){
-    const openMediaDevices = async (constraints) => {
-        return await navigator.mediaDevices.getUserMedia(constraints);
-    }
-
-    try {
-        const stream = openMediaDevices({'video':true,'audio':true});
-        console.log('Got MediaStream:', stream);
-    } catch(error) {
-        console.error('Error accessing media devices.', error);
-    }
-
-    }
-</script>
-
-
-<script src="//cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
+  <body>
+    <video src="" id="myvideo"  autoplay></video>
+    <script type="text/javascript">
+      var video = document.getElementById('myvideo');
+      navigator.webkitGetUserMedia("video", success);
+   
+      function success(stream){
+        video.src = window.webkitURL.createObjectURL(stream);
+      }
+    </script>
+  </body>
 </html>
