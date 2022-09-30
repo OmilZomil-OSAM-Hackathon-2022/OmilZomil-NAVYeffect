@@ -28,6 +28,7 @@
         console.log(error);
     }
     async function stream(){
+        console.log(navigator.getUserMedia)
         navigator.getUserMedia(constraints, successCallback, errorCallback);      
     };
 
