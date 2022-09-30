@@ -35,23 +35,30 @@
         setTimeout(processImage, 1);
   }
   processImage();
-  async function stream(){
+    async function stream(){
+        async function getConnectedDevices(type) {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            return devices.filter(device => device.kind === type)
+        }
 
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    console.log(devices[0])
-    console.log(devices[1])
+        const videoCameras = getConnectedDevices('videoinput');
+        console.log('Cameras found:', videoCameras);
+        var errorCallback = function(e) {
+    console.log('Reeeejected!', e);
+    };
 
-    const openMediaDevices = async (constraints) => {
-        return await navigator.mediaDevices.getUserMedia(constraints);
-    }
+    // Not showing vendor prefixes.
+    navigator.getUserMedia({video: true, audio: true}, function(localMediaStream) {
+    var video = document.querySelector('video');
+    video.src = window.URL.createObjectURL(localMediaStream);
 
-    try {
-        const stream = openMediaDevices({'video':true,'audio':true});
-        console.log('Got MediaStream:', stream);
-    } catch(error) {
-        console.error('Error accessing media devices.', error);
-    }
-
+    // Note: onloadedmetadata doesn't fire in Chrome when using it with getUserMedia.
+    // See crbug.com/110938.
+    video.onloadedmetadata = function(e) {
+        // Ready to go. Do some stuff.
+    };
+    }, errorCallback);
+</script>
     }
 </script>
 
