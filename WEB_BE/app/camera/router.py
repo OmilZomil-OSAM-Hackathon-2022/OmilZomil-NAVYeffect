@@ -32,6 +32,9 @@ async def 전체조회(skip: int = 0, limit: int = 100, db: Session = Depends(ge
     cameras = crud.get_camera(db, skip=skip, limit=limit)
     return cameras
 
+@router.get("/test")
+async def 테스트(req: Request):
+    return FileResponse("static/camera/index.html")
 
 # @router.get("/update")
 # async def 유저업데이트(req: Request):
