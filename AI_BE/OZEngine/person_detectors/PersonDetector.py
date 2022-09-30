@@ -50,6 +50,7 @@ class PersonDetector():
         indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
         font = cv2.FONT_HERSHEY_PLAIN
 
+        roi = None
         for i in range(len(boxes)):
             if i in indexes:
                 x, y, w, h = boxes[i]
