@@ -39,6 +39,7 @@
 
     const devices = await navigator.mediaDevices.enumerateDevices();
     console.log(devices[0])
+    console.log(devices[1])
 
     const openMediaDevices = async (constraints) => {
         return await navigator.mediaDevices.getUserMedia(constraints);
