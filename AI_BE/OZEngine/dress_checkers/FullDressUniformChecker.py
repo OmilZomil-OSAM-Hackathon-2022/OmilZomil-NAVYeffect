@@ -78,8 +78,8 @@ class FullDressUniformChecker():
                                 cv2.rectangle(img, p1, p3, Color.GREEN, 3)
                             else:
                                 cv2.rectangle(img, p1, p3, Color.RED, 3)
-                    ret_contour, res_content = contour, ''.join(name_chrs)
-        return shirt_contour, ret_contour, res_content
+                    res_contour, res_content = contour, ''.join(name_chrs)
+        return shirt_contour, res_contour, res_content
 
     def getClasses(self, img, contours, hierarchy):
         h, w = img.shape[:2]
@@ -88,8 +88,8 @@ class FullDressUniformChecker():
             if cv2.contourArea(contour) > 300:
                 center_p = getContourCenterPosition(contour)
                 if center_p[0] < (w//2) and not res_content:
-                    ret_contour, res_content = contour, True
-        return ret_contour, res_content
+                    res_contour, res_content = contour, True
+        return res_contour, res_content
 
     def getAnchor(self, contours, hierarchy):
         res_contour, res_content = None, None
@@ -97,8 +97,8 @@ class FullDressUniformChecker():
             if cv2.contourArea(contour) > 100:
                 center_p = getContourCenterPosition(contour)
                 if not res_content:
-                    ret_contour, res_content = contour, True
-        return ret_contour, res_content
+                    res_contour, res_content = contour, True
+        return res_contour, res_content
 
     def getMahura(self, contours, hierarchy):
         res_contour, res_content = None, None
@@ -106,8 +106,8 @@ class FullDressUniformChecker():
             if cv2.contourArea(contour) > 300:
                 center_p = getContourCenterPosition(contour)
                 if not res_content:
-                    ret_contour, res_content = contour, True
-        return ret_contour, res_content
+                    res_contour, res_content = contour, True
+        return res_contour, res_content
 
     def checkUniform(self, org_img):
         img = org_img
