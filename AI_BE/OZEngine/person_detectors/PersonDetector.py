@@ -48,7 +48,7 @@ class PersonDetector():
                     class_ids.append(class_id)
 
         indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
-        font = cv2.FONT_HERSHEY_PLAIN
+        # font = cv2.FONT_HERSHEY_PLAIN
 
         roi = None
         for i in range(len(boxes)):
@@ -57,8 +57,12 @@ class PersonDetector():
                 label = str(self.classes[class_ids[i]])
                 color = self.colors[i]
                 cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
+                if x < 0:
+                    x = 0
+                if y < 0:
+                    y = 0
                 roi = org_img[y:y+h, x:x+w]
-                cv2.putText(img, label, (x, y + 30), font, 3, color, 3)
+                # cv2.putText(img, label, (x, y + 30), font, 3, color, 3)
 
         plt_imshow("Image", img)
         return roi, img
