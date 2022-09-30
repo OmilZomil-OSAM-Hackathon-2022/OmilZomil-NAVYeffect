@@ -1,4 +1,4 @@
-# osamhack2022-osamhack2022-WEB_CLOUD_OhmilJomil_Maslow-sTopHierarchy
+# osamhack2022-osamhack2022-WEB_CLOUD_OhmilJomil_NAVYeffect
 외적 군기 디텍팅 솔루션
 # :sunglasses: 오밀조밀 : 외적 군기 디텍팅 솔루션 :whale:
 
@@ -31,7 +31,7 @@
 
 그러나 입수보행, 두발 및 복장 불량 등 외적 군기 위반 요소는 매우 다양합니다.
 
-우리의 **"오밀조밀"은 이러한 사례들을 수집해 관리자, 일반 사병, 군사 경찰 할 것 없이 기지 내 장병들에게 편의와 인사이트를 제공하는 솔루션**이 될 것입니다.
+우리 **NAVY효과의 "오밀조밀"은 이러한 사례들을 수집해 관리자, 일반 사병, 군사 경찰 할 것 없이 기지 내 장병들에게 편의와 인사이트를 제공하는 솔루션**이 될 것입니다.
 
 ## :mag: 기능 설명 및 프로젝트 사용법
 ### :computer: UI/UI
@@ -62,14 +62,16 @@
 ## 설치 안내
 
 ## 팀 정보
-> Maslow's Top Hierarchy
+> NAVY효과
 
-조남훈 : 팀장, 기획자
-조준영 : AI 개발자, 웹디자인
-정의철 : 백엔드 개발자
-김대원 : 백엔드 개발자
-허태량 : 프론트 엔드 개발자
-김민섭 : 프론트 엔드 개발자
+| Name | Role | Contect |  
+|:---:|:---:||:---:|
+|조남훈| 팀장, 기획자 || lovin6109@gmail.com | 
+|조준영| AI 개발자, 웹디자이너 || joon0zo1022@gmail.com |
+|정의철| 백엔드 개발자 || com.dos.m0nk3y@gmail.com |
+|김대원| 백엔드 개발자 || kdwkd0078@gmail.com |   
+|허태량| 프론트 엔드 개발자 || cake0702@naver.com |   
+|김민섭| 프론트 엔드 개발자 || tjqtjq0516@gmail.com |
 
 ## 저작권 및 사용권 정보
  + MIT
