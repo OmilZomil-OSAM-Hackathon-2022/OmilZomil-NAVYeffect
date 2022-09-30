@@ -37,7 +37,7 @@
   processImage();
   async function stream(){
 
-    const devices = navigator.mediaDevices.enumerateDevices();
+    const devices = await navigator.mediaDevices.enumerateDevices();
     console.log(devices)
 
     const openMediaDevices = async (constraints) => {
