@@ -3,13 +3,12 @@
     <video src="" id="myvideo"  autoplay></video>
     <script type="text/javascript">
       var video = document.getElementById('myvideo');
-      navigator.webkitGetUserMedia("video", success);
-   
+      navigator.getUserMedia({video:true}, success);
+ 
       function success(stream){
-        video.src = window.webkitURL.createObjectURL(stream);
+        video.src = URL.createObjectURL(stream);
       }
     </script>
-
 <script src="//cdn.jsdelivr.net/npm/eruda"></script>
 <script>eruda.init();</script>
   </body>
