@@ -10,7 +10,7 @@
     <button onclick=stream()>Send</button>
 </body>
 <script>
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
 
     var constraints = {audio: false, video: true};
     var video = document.getElementById("videoInput");
