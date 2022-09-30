@@ -1,68 +1,77 @@
-<!--videosender.html-->
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Hello</title>
-</head>
-<body>
-	<video id="videoInput" style="display:none"></video>
-    <canvas id="videoOutput" width="1000" height="300" style="border: 1px solid black;"></canvas>
-    <button onclick=stream()>Send</button>
-</body>
-<script>
-    console.log('hello world')
-  var w = 320, h = 240;
-	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-  var constraints = {audio: false, video: true};
-  var video = document.getElementById("videoInput");
-  video.width = w;
-  video.height = h;
-  function successCallback(stream){
-  	video.srcObject = stream;
-  	video.play();
-  }
+    <head>
+        <meta charset="utf-8">
+        <title>Camera API</title>
+        <link rel="stylesheet" href="css/base.css" type="text/css" media="screen">
+    </head>
 
-  function errorCallback(error){
-   	console.log(error);
-  }
-  navigator.getUserMedia(constraints, successCallback, errorCallback);
-    var canvas = document.getElementById("videoOutput");
-  canvas.width = w;
-  canvas.height = h;
-  var ctx = canvas.getContext("2d");
-  function processImage(){
-        ctx.drawImage(video, 0, 0, w, h);
-        setTimeout(processImage, 1);
-  }
-  processImage();
-    async function stream(){
-        async function getConnectedDevices(type) {
-            const devices = await navigator.mediaDevices.enumerateDevices();
-            return devices.filter(device => device.kind === type)
-        }
+    <body>
 
-        const videoCameras = getConnectedDevices('videoinput');
-        console.log('Cameras found:', videoCameras);
-        var errorCallback = function(e) {
-    console.log('Reeeejected!', e);
-    };
+        <div class="container">
+            <h1>Camera API</h1>
 
-    // Not showing vendor prefixes.
-    navigator.getUserMedia({video: true, audio: true}, function(localMediaStream) {
-    var video = document.querySelector('video');
-    video.src = window.URL.createObjectURL(localMediaStream);
+            <section class="main-content">
+                <p>A demo of the Camera API, currently implemented in Firefox and Google Chrome on Android. Choose to take a picture with your device's camera and a preview will be shown through createObjectURL or a FileReader object (choosing local files supported too).</p>
+                
+                <p>
+                    <input type="file" id="take-picture" accept="image/*"> <!--촬영된 사진파일전송-->
+                </p>
 
-    // Note: onloadedmetadata doesn't fire in Chrome when using it with getUserMedia.
-    // See crbug.com/110938.
-    video.onloadedmetadata = function(e) {
-        // Ready to go. Do some stuff.
-    };
-    }, errorCallback);
-</script>
+                <h2>Preview:</h2>
+                <p>
+                    <img src="about:blank" alt="" id="show-picture"> <!--전송된 파일을 불러옴-->
+                </p>
+
+                <p id="error"></p>
+
+            </section>
+
+            <p class="footer">All the code is available in the <a href="https://github.com/robnyman/robnyman.github.com/tree/master/camera-api">Camera API repository on GitHub</a>.</p>
+        </div>
+
+
+        <script>
+
+(function () {
+    var takePicture = document.querySelector("#take-picture"),
+        showPicture = document.querySelector("#show-picture");
+
+    if (takePicture && showPicture) {
+        // Set events
+        takePicture.onchange = function (event) { // 촬영된 사진이 전송되면
+            var files = event.target.files,
+                file;
+            if (files && files.length > 0) {
+                file = files[0];
+                try {
+                    var imgURL = window.URL.createObjectURL(file); 
+                    showPicture.src = imgURL; // 이미지의 src 설정
+                    URL.revokeObjectURL(imgURL);
+                }
+                catch (e) {
+                    try {
+                        // Fallback if createObjectURL is not supported
+                        var fileReader = new FileReader();
+                        fileReader.onload = function (event) {
+                            showPicture.src = event.target.result;
+                        };
+                        fileReader.readAsDataURL(file);
+                    }
+                    catch (e) {
+                        //
+                        var error = document.querySelector("#error");
+                        if (error) {
+                            error.innerHTML = "Neither createObjectURL or FileReader are supported";
+                        }
+                    }
+                }
+            }
+        };
     }
-</script>
+})();
+        </script>
 
 
-<script src="//cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
+    </body>
 </html>
