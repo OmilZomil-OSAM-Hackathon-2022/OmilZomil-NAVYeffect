@@ -1,77 +1,39 @@
+<!--videosender.html-->
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Camera API</title>
-        <link rel="stylesheet" href="css/base.css" type="text/css" media="screen">
-    </head>
+<head>
+	<title>Hello</title>
+</head>
+<body>
+	<video id="videoInput" style="display:none"></video>
+    <canvas id="videoOutput" width="1000" height="300" style="border: 1px solid black;"></canvas>
+    <button onclick=stream()>Send</button>
+</body>
+<script>
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-    <body>
+    var constraints = {audio: false, video: true};
+    var video = document.getElementById("videoInput");
+    
+    video.width = 320;
+    video.height = 240;
 
-        <div class="container">
-            <h1>Camera API</h1>
-
-            <section class="main-content">
-                <p>A demo of the Camera API, currently implemented in Firefox and Google Chrome on Android. Choose to take a picture with your device's camera and a preview will be shown through createObjectURL or a FileReader object (choosing local files supported too).</p>
-                
-                <p>
-                    <input type="file" id="take-picture" accept="image/*"> <!--촬영된 사진파일전송-->
-                </p>
-
-                <h2>Preview:</h2>
-                <p>
-                    <img src="about:blank" alt="" id="show-picture"> <!--전송된 파일을 불러옴-->
-                </p>
-
-                <p id="error"></p>
-
-            </section>
-
-            <p class="footer">All the code is available in the <a href="https://github.com/robnyman/robnyman.github.com/tree/master/camera-api">Camera API repository on GitHub</a>.</p>
-        </div>
-
-
-        <script>
-
-(function () {
-    var takePicture = document.querySelector("#take-picture"),
-        showPicture = document.querySelector("#show-picture");
-
-    if (takePicture && showPicture) {
-        // Set events
-        takePicture.onchange = function (event) { // 촬영된 사진이 전송되면
-            var files = event.target.files,
-                file;
-            if (files && files.length > 0) {
-                file = files[0];
-                try {
-                    var imgURL = window.URL.createObjectURL(file); 
-                    showPicture.src = imgURL; // 이미지의 src 설정
-                    URL.revokeObjectURL(imgURL);
-                }
-                catch (e) {
-                    try {
-                        // Fallback if createObjectURL is not supported
-                        var fileReader = new FileReader();
-                        fileReader.onload = function (event) {
-                            showPicture.src = event.target.result;
-                        };
-                        fileReader.readAsDataURL(file);
-                    }
-                    catch (e) {
-                        //
-                        var error = document.querySelector("#error");
-                        if (error) {
-                            error.innerHTML = "Neither createObjectURL or FileReader are supported";
-                        }
-                    }
-                }
-            }
-        };
+    function successCallback(stream){
+        video.srcObject = stream;
+        video.play();
+        console.log('asdfasdf')
     }
-})();
-        </script>
+
+    function errorCallback(error){
+        console.log(error);
+    }
+    async function stream(){
+        navigator.getUserMedia(constraints, successCallback, errorCallback);      
+    };
+
+</script>
 
 
-    </body>
+<script src="//cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
 </html>
