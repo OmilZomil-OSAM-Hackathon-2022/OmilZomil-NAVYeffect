@@ -34,11 +34,12 @@ class FullDressUniformChecker():
 
         if morph == 'erode':
             kernel = np.ones((3, 3), np.uint8)
-            mask = cv2.erode(mask, kernel, iterations=2)
-            k = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
-            mask2 = cv2.morphologyEx(mask, cv2.MORPH_OPEN, k)
+            org_mask = mask.copy()
 
-            plt_imshow(['maskk', 'm2'], [mask, mask2])
+            k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 2))
+            mask = cv2.erode(org_mask, k, iterations=2)
+
+            plt_imshow(['org_mask', 'maskk', 'm2'], [org_mask, mask])
 
         masked_img = cv2.bitwise_and(img, img, mask=mask)
 
