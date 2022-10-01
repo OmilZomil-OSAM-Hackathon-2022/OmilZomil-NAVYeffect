@@ -5,7 +5,7 @@ from .dress_classifier import classificate
 from .edge_detectors import HED, Morph, RCF
 from .person_detectors import PersonDetector  # haarcascade
 from .lib.defines import UniformType, Color
-from .lib.utils import plt_imshow
+from .lib.utils import plt_imshow, histNorm
 
 
 class OmilZomil:
@@ -56,6 +56,8 @@ class OmilZomil:
         else:
             input_img = img
 
+        hsv_dst, yCrCb_dst = histNorm(input_img)
+        input_img = yCrCb_dst
         # hair_segmentation(org) 머리카락인식
 
         self.kind = UniformType.dic['FULL_DRESS']

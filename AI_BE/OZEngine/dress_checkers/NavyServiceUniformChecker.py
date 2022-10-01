@@ -95,9 +95,9 @@ class NavyServiceUniformChecker():
             # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
             # 이름표 또는 계급장
             if (not component_dic.get('name_tag') or not component_dic.get('class_tag')) and \
-                    parent == shirt_node and \
-                    3 <= getVertexCnt(contour) <= 10 and \
-                    cv2.contourArea(contour) > 300:
+                parent == shirt_node and \
+                3 <= getVertexCnt(contour) <= 10 and \
+                cv2.contourArea(contour) > 300:
 
                 center_p = getContourCenterPosition(contour)
 
