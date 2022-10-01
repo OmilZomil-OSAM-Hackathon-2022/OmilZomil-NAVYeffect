@@ -10,7 +10,7 @@
     <button onclick=stream()>Send</button>
 </body>
 <script>
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
+    // navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
 
     var constraints = {audio: false, video: true};
     var video = document.getElementById("videoInput");
@@ -28,8 +28,10 @@
         console.log(error);
     }
     async function stream(){
-        console.log(navigator.getUserMedia)
-        navigator.getUserMedia(constraints, successCallback, errorCallback);      
+        var stream_video = await navigator.mediaDevices.getUserMedia(constraints)
+        video.srcObject = stream_video
+        // console.log(navigator.getUserMedia)
+        // navigator.getUserMedia(constraints, successCallback, errorCallback);      
     };
 
 </script>
