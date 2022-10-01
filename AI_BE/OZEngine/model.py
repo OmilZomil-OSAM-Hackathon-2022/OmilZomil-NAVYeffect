@@ -51,7 +51,7 @@ class OmilZomil:
 
         if self.detect_person:
             input_img, boxed_img = self.person_detector.detect(img)  # 사람인식
-            if person_roi is None:
+            if input_img is None:
                 raise Exception("인식가능한 사람이 없습니다!")
         else:
             input_img = img
@@ -71,6 +71,6 @@ class OmilZomil:
             component_dic, contour_dic, masked_img = self.full_dress_uniform_checker.checkUniform(
                 input_img)
 
-        # boxed_img, roi_dic= self.contour2img(input_img, contour_dic)
+        boxed_img, roi_dic = self.contour2img(input_img, contour_dic)
 
         return component_dic, boxed_img, roi_dic, masked_img

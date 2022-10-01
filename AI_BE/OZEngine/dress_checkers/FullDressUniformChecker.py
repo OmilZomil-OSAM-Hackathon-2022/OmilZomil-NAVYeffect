@@ -87,23 +87,26 @@ class FullDressUniformChecker():
     def getClasses(self, masked_img, contours, hierarchy):
         h, w = masked_img.shape[:2]
         res_contour, res_content = None, None
-        for contour in contours:
+        for contour in contours:  # contours : 계급장이라 판별되는 contour
             if cv2.contourArea(contour) > 300:
                 center_p = getContourCenterPosition(contour)
                 if center_p[0] < (w//2) and not res_content:
-                    roi = masked_img[y1:y2, x1:x2]
+                    x, y, w, h = cv2.boundingRect(contour)
+                    roi = masked_img[y:y+h, x:x+w]
 
-                    small_contours, small_masked_img[name] = self.getMaskedContours(
-                        img=roi, kind=name, sort=False)
+                    small_contours, small_mask = self.getMaskedContours(
+                        img=roi, kind='classes', sort=False)
 
                     classes_n = 0
                     for small_contour in small_contours:
                         if 10 < cv2.contourArea(small_contour):
                             classes_n += 1
+                            cv2.drawContours(
+                                small_mask, [small_contour], 0, Color.BLUE, 1)
 
                     if 1 <= classes_n <= 4:
                         res_contour, res_content = contour, Classes.dic[classes_n]
-        return res_contour, res_content
+        return res_contour, res_content, small_mask
 
     def getAnchor(self, contours, hierarchy):
         res_contour, res_content = None, None
@@ -151,7 +154,7 @@ class FullDressUniformChecker():
         name = 'classes'
         contours, masked_img[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name, sort=False)
-        contour_dic[name], component_dic[name] = self.getClasses(
+        contour_dic[name], component_dic[name], masked_img['classes_roi'] = self.getClasses(
             img, contours, None)
 
         # 마후라 체크
