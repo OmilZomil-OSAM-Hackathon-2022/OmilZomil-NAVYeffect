@@ -30,6 +30,7 @@
     async function stream(){
         var stream_video = await navigator.mediaDevices.getUserMedia(constraints)
         video.srcObject = stream_video
+        video.play()
         // console.log(navigator.getUserMedia)
         // navigator.getUserMedia(constraints, successCallback, errorCallback);      
     };
