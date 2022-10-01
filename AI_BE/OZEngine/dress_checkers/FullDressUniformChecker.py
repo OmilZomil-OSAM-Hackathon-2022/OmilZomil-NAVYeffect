@@ -35,11 +35,11 @@ class FullDressUniformChecker():
                 mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
             sorted_contours, sorted_hierarchy = sortContoursByArea(
                 contours, hierarchy)
-            return sorted_contours, sorted_hierarchy
+            return sorted_contours, sorted_hierarchy, masked_img
         else:
             contours, _ = cv2.findContours(
                 mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-            return contours
+            return contours, masked_img
 
     def getName(self, img, contours, hierarchy):
         h, w = img.shape[:2]
@@ -77,7 +77,8 @@ class FullDressUniformChecker():
                                 name_chrs.append(ocr_str[0])
                                 cv2.rectangle(img, p1, p3, Color.GREEN, 3)
                             else:
-                                cv2.rectangle(img, p1, p3, Color.RED, 3)
+                                pass
+                                # cv2.rectangle(img, p1, p3, Color.RED, 3)
                     res_contour, res_content = contour, ''.join(name_chrs)
         return shirt_contour, res_contour, res_content
 
@@ -120,23 +121,24 @@ class FullDressUniformChecker():
         contour_dic = {}
         component_dic = {}
         debug_img = {}
+        masked_img = {}
 
         # 정복 filter
         name = 'uniform'
-        contours, sorted_hierarchy = self.getMaskedContours(
+        contours, sorted_hierarchy, masked_img[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name, sort=True)
         contour_dic['shirt'], contour_dic[name], component_dic[name] = self.getName(
             img, contours, sorted_hierarchy)
 
         # 네카치프 / 네카치프링 체크
         name = 'anchor'
-        contours = self.getMaskedContours(
+        contours, masked_img[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name, sort=False)
         contour_dic[name], component_dic[name] = self.getAnchor(contours, None)
 
         # 계급장 체크
         name = 'classes'
-        contours = self.getMaskedContours(
+        contours, masked_img[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name, sort=False)
         contour_dic[name], component_dic[name] = self.getClasses(
             img, contours, None)
@@ -148,4 +150,4 @@ class FullDressUniformChecker():
         # contour_dic[name], component_dic[name] = self.getMahura(
         #     img, contours, None)
 
-        return component_dic, contour_dic, debug_img
+        return component_dic, contour_dic, debug_img, masked_img

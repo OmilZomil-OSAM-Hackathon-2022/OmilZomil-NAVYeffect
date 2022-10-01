@@ -65,7 +65,7 @@ class OmilZomil:
                 person_roi)
 
         elif self.kind == UniformType.dic['FULL_DRESS']:
-            component_dic, contour_dic, debug_img = self.full_dress_uniform_checker.checkUniform(
+            component_dic, contour_dic, debug_img, masked_img = self.full_dress_uniform_checker.checkUniform(
                 person_roi)
 
         if self.detect_person:
@@ -73,4 +73,4 @@ class OmilZomil:
         else:
             boxed_img, roi_dic= self.contour2img(img, contour_dic)
 
-        return component_dic, boxed_img, roi_dic
+        return component_dic, boxed_img, roi_dic, masked_img
