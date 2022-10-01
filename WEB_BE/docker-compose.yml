@@ -9,7 +9,7 @@ services:
       - ./:/home/backend/WEB_CLOUD_OhmilZomil_NAVYeffect/WEB_BE
       # - dae-volume:/home/backend/
     ports:
-      - "7717:8000"
+      - "7717:8080"
     environment:
       TZ: Asia/Seoul
       DB_NAME: 'docker'
