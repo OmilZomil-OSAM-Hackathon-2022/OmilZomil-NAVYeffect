@@ -1,4 +1,4 @@
-# WEB_CLOUD_OmilJomil_NAVYeffect
+# WEB_CLOUD_OmilZomil_NAVYeffect
 외적 군기 디텍팅 솔루션
 # :sunglasses: 오밀조밀 : 외적 군기 디텍팅 솔루션 :whale:
 
@@ -8,7 +8,7 @@
 ## :pencil: INDEX
 <details open="open">
   <ol>
-    <li> ᐅ 프로젝트 소개</li>
+    <li> ᐅ 프로젝트 소개</li> 
     <li> ᐅ 기능 설명</li>
     <li> ᐅ 컴퓨터 구성 / 필수 조건 안내</li>
     <li> ᐅ 설치 안내</li>
