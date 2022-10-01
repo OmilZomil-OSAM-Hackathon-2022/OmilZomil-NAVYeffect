@@ -1,4 +1,4 @@
-# osamhack2022-osamhack2022-WEB_CLOUD_OhmilJomil_NAVYeffect
+# osamhack2022-osamhack2022-WEB_CLOUD_OmilJomil_NAVYeffect
 외적 군기 디텍팅 솔루션
 # :sunglasses: 오밀조밀 : 외적 군기 디텍팅 솔루션 :whale:
 
