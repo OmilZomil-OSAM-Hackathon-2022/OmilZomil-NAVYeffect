@@ -3,6 +3,7 @@ import numpy as np
 from lib.utils import sortContoursByArea, getVertexCnt, getContourCenterPosition, getRectCenterPosition, isPointInBox
 from lib.defines import *
 from lib.ocr import OCR
+from lib.utils import plt_imshow
 
 # (동)정복 검사
 
@@ -17,7 +18,7 @@ class FullDressUniformChecker():
         self.mahura_filter = {
             'lower': (140, 120, 50), 'upper': (190, 255, 255)}
 
-    def getMaskedContours(self, img=None, hsv_img=None, kind=None, sort=True):
+    def getMaskedContours(self, img=None, hsv_img=None, morph=None, kind=None, sort=True):
         if hsv_img is None:
             hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         if kind == 'uniform':
@@ -30,6 +31,15 @@ class FullDressUniformChecker():
             pass
 
         mask = cv2.inRange(hsv_img, lower, upper)
+
+        if morph == 'erode':
+            kernel = np.ones((3, 3), np.uint8)
+            mask = cv2.erode(mask, kernel, iterations=2)
+            k = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
+            mask2 = cv2.morphologyEx(mask, cv2.MORPH_OPEN, k)
+
+            plt_imshow(['maskk', 'm2'], [mask, mask2])
+
         masked_img = cv2.bitwise_and(img, img, mask=mask)
 
         if sort:
@@ -86,7 +96,7 @@ class FullDressUniformChecker():
 
     def getClasses(self, masked_img, contours, hierarchy):
         h, w = masked_img.shape[:2]
-        res_contour, res_content = None, None
+        res_contour, res_content, small_mask = None, None, None
         for contour in contours:  # contours : 계급장이라 판별되는 contour
             if cv2.contourArea(contour) > 300:
                 center_p = getContourCenterPosition(contour)
@@ -95,7 +105,7 @@ class FullDressUniformChecker():
                     roi = masked_img[y:y+h, x:x+w]
 
                     small_contours, small_mask = self.getMaskedContours(
-                        img=roi, kind='classes', sort=False)
+                        img=roi, morph='erode', kind='classes', sort=False)
 
                     classes_n = 0
                     for small_contour in small_contours:
