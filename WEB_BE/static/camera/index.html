@@ -11,26 +11,18 @@
 </body>
 <script>
     // navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
-
+    // 옵션 설정
     var constraints = {audio: false, video: true};
     var video = document.getElementById("videoInput");
-    
     video.width = 320;
     video.height = 240;
 
-    function successCallback(stream){
-        video.srcObject = stream;
-        video.play();
-        console.log('asdfasdf')
-    }
-
-    function errorCallback(error){
-        console.log(error);
-    }
     async function stream(){
+        // 비디오 장치 가져오기
         var stream_video = await navigator.mediaDevices.getUserMedia(constraints)
         console.log(stream_video);
         console.log(video)
+        // 영상 소스 선택 후 재생 
         video.srcObject = stream_video;
         video.play();
         
