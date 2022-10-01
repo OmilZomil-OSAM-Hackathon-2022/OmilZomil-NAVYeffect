@@ -112,7 +112,6 @@ class FullDressUniformChecker():
 
     def checkUniform(self, org_img):
         img = org_img
-        ocr_img = org_img.copy()
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
         # half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
@@ -120,7 +119,6 @@ class FullDressUniformChecker():
 
         contour_dic = {}
         component_dic = {}
-        debug_img = {}
         masked_img = {}
 
         # 정복 filter
@@ -150,4 +148,4 @@ class FullDressUniformChecker():
         # contour_dic[name], component_dic[name] = self.getMahura(
         #     img, contours, None)
 
-        return component_dic, contour_dic, debug_img, masked_img
+        return component_dic, contour_dic, masked_img
