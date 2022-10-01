@@ -48,8 +48,9 @@ class OmilZomil:
 
     def detect(self, img):
         input_img = None
+
         if self.detect_person:
-            input_img, boxed_img = self.person_detector.detect(input_img)  # 사람인식
+            input_img, boxed_img = self.person_detector.detect(img)  # 사람인식
             if person_roi is None:
                 raise Exception("인식가능한 사람이 없습니다!")
         else:

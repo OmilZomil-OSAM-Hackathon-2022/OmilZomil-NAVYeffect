@@ -18,6 +18,8 @@ class FullDressUniformChecker():
             'lower': (140, 120, 50), 'upper': (190, 255, 255)}
 
     def getMaskedContours(self, img=None, hsv_img=None, kind=None, sort=True):
+        if hsv_img is None:
+            hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         if kind == 'uniform':
             lower, upper = self.uniform_filter['lower'], self.uniform_filter['upper']
         elif kind == 'classes':
@@ -82,14 +84,25 @@ class FullDressUniformChecker():
                     res_contour, res_content = contour, ''.join(name_chrs)
         return shirt_contour, res_contour, res_content
 
-    def getClasses(self, img, contours, hierarchy):
-        h, w = img.shape[:2]
+    def getClasses(self, masked_img, contours, hierarchy):
+        h, w = masked_img.shape[:2]
         res_contour, res_content = None, None
         for contour in contours:
             if cv2.contourArea(contour) > 300:
                 center_p = getContourCenterPosition(contour)
                 if center_p[0] < (w//2) and not res_content:
-                    res_contour, res_content = contour, True
+                    roi = masked_img[y1:y2, x1:x2]
+
+                    small_contours, small_masked_img[name] = self.getMaskedContours(
+                        img=roi, kind=name, sort=False)
+
+                    classes_n = 0
+                    for small_contour in small_contours:
+                        if 10 < cv2.contourArea(small_contour):
+                            classes_n += 1
+
+                    if 1 <= classes_n <= 4:
+                        res_contour, res_content = contour, Classes.dic[classes_n]
         return res_contour, res_content
 
     def getAnchor(self, contours, hierarchy):
