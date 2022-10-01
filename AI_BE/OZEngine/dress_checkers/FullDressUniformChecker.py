@@ -51,7 +51,7 @@ class FullDressUniformChecker():
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
             cur_node, next_node, prev_node, first_child, parent = lev
             if i == 0:  # 정복
-                shirt_contour = None
+                shirt_contour = contour
                 shirt_node = cur_node
                 continue
 
@@ -121,10 +121,10 @@ class FullDressUniformChecker():
         component_dic = {}
         masked_img = {}
 
-        # 정복 filter
-        name = 'uniform'
+        # 이름표 체크
+        name = 'name'
         contours, sorted_hierarchy, masked_img[name] = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind=name, sort=True)
+            img=img, hsv_img=hsv_img, kind='uniform', sort=True)
         contour_dic['shirt'], contour_dic[name], component_dic[name] = self.getName(
             img, contours, sorted_hierarchy)
 
