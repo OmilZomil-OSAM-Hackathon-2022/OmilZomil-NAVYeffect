@@ -1,4 +1,8 @@
 
+<<<<<<< HEAD
+vscode server table
+test
+=======
 ## 구조 설명
 
 ### app
@@ -23,3 +27,4 @@
 
 
 
+>>>>>>> 29da491bcaf71e74dbead9a1f0f2beb04103cf1f
