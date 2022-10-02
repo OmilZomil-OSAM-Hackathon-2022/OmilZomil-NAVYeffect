@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: docker
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/home/backend/WEB_CLOUD_OhmilZomil_NAVYeffect/WEB_BE
+      # - dae-volume:/home/backend/
+    ports:
+      - "8080:8000" 
+    environment:
+      TZ: Asia/Seoul
+      DB_NAME: 'docker'
