@@ -2,9 +2,22 @@ import time
 import datetime
 import cv2
 import numpy as np
+import pathlib
+import os
 
-MODEL_PATH = './OZEngine/edge_detectors/HED/weights/hed_pretrained_bsds.caffemodel'
-PROTO_TXT_PATH = './OZEngine/edge_detectors/HED/deploy.prototxt'
+cur_file_path = pathlib.Path().absolute()
+print(cur_file_path)
+
+if __file__:
+    cur_dir = os.path.dirname(os.path.realpath(__file__))
+    print(cur_dir)
+    MODEL_PATH = os.path.join(
+        cur_dir, 'weights', 'hed_pretrained_bsds.caffemodel')
+    PROTO_TXT_PATH = os.path.join(cur_dir, 'deploy.prototxt')
+else:
+    MODEL_PATH = '../OZEngine/edge_detectors/HED/weights/hed_pretrained_bsds.caffemodel'
+    PROTO_TXT_PATH = '../OZEngine/edge_detectors/HED/deploy.prototxt'
+
 
 class CropLayer(object):
     def __init__(self, params, blobs):
@@ -28,7 +41,8 @@ class CropLayer(object):
         return [[batchSize, numChannels, height, width]]
 
     def forward(self, inputs):
-        return [inputs[0][:,:,self.ystart:self.yend,self.xstart:self.xend]]
+        return [inputs[0][:, :, self.ystart:self.yend, self.xstart:self.xend]]
+
 
 class HED():
     def __init__(self):
@@ -46,7 +60,8 @@ class HED():
         print('시작시간 : {}'.format(start_time))
         img = cv2.resize(img, (width, height))
         inp = cv2.dnn.blobFromImage(img, scalefactor=1.0, size=(width, height),
-                                    mean=(104.00698793, 116.66876762, 122.67891434),
+                                    mean=(104.00698793, 116.66876762,
+                                          122.67891434),
                                     swapRB=False, crop=False)
         self.net.setInput(inp)
         out = self.net.forward()
