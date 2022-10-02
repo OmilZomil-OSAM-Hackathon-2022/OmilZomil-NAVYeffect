@@ -6,8 +6,6 @@ services:
     image: mysql
     # restart: always
     env_file: .env.private
-    # volumes:
-    #   - ./data:/var/lib/postgresql/data
 
   backend:
     container_name: omil_backend
@@ -15,8 +13,6 @@ services:
       context: backend/deploy
       dockerfile: dev_Dockerfile
     env_file: .env.private
-    volumes:
-      - ./backend/:/home/backend
     depends_on:
       - db
     ports:
@@ -27,7 +23,5 @@ services:
       context: frontend/deploy
       dockerfile: dev_Dockerfile
     env_file: .env.private
-    volumes: 
-      - ./frontend/omilzomil:/home/frontend
     ports:
       - "8080:8080"
