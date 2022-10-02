@@ -6,6 +6,6 @@ class Camera(Base):
     __tablename__ = 'camera'
 
     id = Column(Integer, primary_key=True, index=True)
-    uid = Column(String, unique=True)
-    name = Column(String)   # 성명
-    pos = Column(String)
+    uid = Column(String(100), unique=True)
+    name = Column(String(50))   # 성명
+    pos = Column(String(50))
