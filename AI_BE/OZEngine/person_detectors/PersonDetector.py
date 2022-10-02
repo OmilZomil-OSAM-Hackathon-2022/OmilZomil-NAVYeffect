@@ -1,12 +1,21 @@
 import cv2
 import numpy as np
 from lib.utils import *
+import os
+
+if __file__:
+    cur_dir = os.path.dirname(os.path.realpath(__file__))
+    print(cur_dir)
+    WEIGHTS_PATH = os.path.join(cur_dir, 'yolov2-tiny.weights')
+    CFG_PATH = os.path.join(cur_dir, 'yolov2-tiny.cfg')
+else:
+    WEIGHTS_PATH = 'OZEngine/person_detectors/yolov2-tiny.weights'
+    CFG_PATH = 'OZEngine/person_detectors/yolov2-tiny.cfg'
 
 
 class PersonDetector():
     def __init__(self, only_person=True):
-        self.net = cv2.dnn.readNet(
-            "OZEngine/person_detectors/yolov2-tiny.weights", "OZEngine/person_detectors/yolov2-tiny.cfg")
+        self.net = cv2.dnn.readNet(MODEL_PATH, CFG_PATH)
         self.classes = []
         if only_person:
             self.classes = ['person']
