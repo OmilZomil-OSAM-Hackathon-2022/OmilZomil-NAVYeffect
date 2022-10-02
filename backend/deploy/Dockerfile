@@ -17,6 +17,7 @@ RUN pip install python-multipart
 RUN pip install sqlalchemy
 RUN pip install psycopg2
 RUN pip install pymysql
+RUN pip install mysqldb
 RUN pip install pytest
 RUN pip install requests
 
