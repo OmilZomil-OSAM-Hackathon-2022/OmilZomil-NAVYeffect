@@ -22,7 +22,7 @@ class FullDressUniformChecker():
         self.name_tag_pattern = re.compile('[가-힣]+')
 
     def name_tag_filter(self, string):
-        print('str', string)
+        print('ocr', string)
         filtered_list = self.name_tag_pattern.findall(string)
         res_string = ''.join(filtered_list)
         return res_string
