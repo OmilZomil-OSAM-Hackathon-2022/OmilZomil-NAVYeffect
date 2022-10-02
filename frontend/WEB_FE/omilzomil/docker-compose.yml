@@ -1,12 +1,16 @@
 version: "3.8"
 
 services:
+
   node:
     image: "node:14"
+
     working_dir: /home/app
-    volumes:
-      - ./omilzomil:/home/app
+
+    volumes: 
+      - ./:/home/app
+
     ports:
       - "8080:3000"
 
-    command: bash -c "npm install && npm start"
+    command: bash -c "npm install && npm run serve"
