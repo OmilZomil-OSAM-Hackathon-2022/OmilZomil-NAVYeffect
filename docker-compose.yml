@@ -16,7 +16,7 @@ services:
       dockerfile: Dockerfile
     env_file: .env.private
     volumes:
-      - ./backend/WEB:/home/backend
+      - ./backend/:/home/backend
     depends_on:
       - db
 
@@ -27,6 +27,6 @@ services:
       dockerfile: Dockerfile
     env_file: .env.private
     volumes: 
-      - ./:/home/app
+      - ./frontend/omilzomil:/home/app
     ports:
       - "8080:3000"
