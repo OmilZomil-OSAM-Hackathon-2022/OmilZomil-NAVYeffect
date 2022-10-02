@@ -35,13 +35,13 @@
           <router-link class="nav-item" to="/">
             <img src="@/assets/icons/mdi_home.svg"/>홈
           </router-link>
-          <router-link class="nav-item" to="/">
+          <router-link class="nav-item" to="/dashboard">
             <img src="@/assets/icons/mdi_view-dashboard.svg"/>대쉬보드
           </router-link>
-          <router-link class="nav-item" to="/">
+          <router-link class="nav-item" to="/ListUp">
             <img src="@/assets/icons/account-group.svg"/>부대인원조회
           </router-link>
-          <router-link class="nav-item" to="/">
+          <router-link class="nav-item" to="/ranking">
             <img src="@/assets/icons/trophy-variant.svg"/>랭킹
           </router-link>
         </div>
@@ -75,13 +75,14 @@ export default {
 <style scoped >
 /* @import '@/assets/styles/common.css'; */
 .app-bar{
-    /* width:100%; */
+    width:100%;
     background: var(--color-appbar);
     box-shadow: 0px 4px 25px rgba(145, 85, 235, 0.03);
     height:112px;
     display:flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 40px;
 }
 .top{
     height:64px;
@@ -104,6 +105,7 @@ export default {
 .top .logo{
     display:flex;
     align-items: center;
+    white-space: nowrap;
 }
 .top .logo img{
     margin-right:5px;

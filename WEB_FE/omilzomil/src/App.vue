@@ -56,7 +56,11 @@ body,
   color: #2c3e50;
 }
 .main{
-
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
   background:var(--color-background);
+  width:100%;
 }
 </style>
