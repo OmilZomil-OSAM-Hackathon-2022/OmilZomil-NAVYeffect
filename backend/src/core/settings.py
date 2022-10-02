@@ -1,5 +1,4 @@
 import os 
-from core.db_info import DB_LIST
 
 DB_NAME = "MYSQL"
 
