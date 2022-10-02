@@ -57,10 +57,10 @@ class OmilZomil:
             input_img = img
 
         hsv_dst, yCrCb_dst = histNorm(input_img)
-        input_img = yCrCb_dst
+        # input_img = yCrCb_dst
         # hair_segmentation(org) 머리카락인식
 
-        self.kind = UniformType.dic['FULL_DRESS']
+        self.kind = UniformType.dic['NAVY_SERVICE']
 
         if self.kind is None:
             self.kind = classificate(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
