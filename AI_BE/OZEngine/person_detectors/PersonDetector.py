@@ -15,7 +15,7 @@ else:
 
 class PersonDetector():
     def __init__(self, only_person=True):
-        self.net = cv2.dnn.readNet(MODEL_PATH, CFG_PATH)
+        self.net = cv2.dnn.readNet(WEIGHTS_PATH, CFG_PATH)
         self.classes = []
         if only_person:
             self.classes = ['person']
