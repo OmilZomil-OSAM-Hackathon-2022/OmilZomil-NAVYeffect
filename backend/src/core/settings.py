@@ -6,7 +6,7 @@ DB_INFO = {
         'port' : 3306,
         'user' : os.environ['MYSQL_USER'],
         'pw': os.environ['MYSQL_PASSWORD'],
-        'name': os.environ['MYSQL_DB'],
+        'name': os.environ['MYSQL_DATABASE'],
     }
 
 
