@@ -30,4 +30,4 @@ services:
     volumes: 
       - ./frontend/omilzomil:/home/app
     ports:
-      - "8080:3000"
+      - "8000:3000"
