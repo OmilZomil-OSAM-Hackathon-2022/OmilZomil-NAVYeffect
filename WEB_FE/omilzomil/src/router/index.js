@@ -23,7 +23,11 @@ const routes = [
     name: "Register",
     component: () => import('../views/RegisterPage.vue'),
   },
-  
+  {
+    path: "/listup",
+    name: "ListUp",
+    component: () => import('../views/ListUpPage.vue'),
+  },
 ];
 
 const router = createRouter({
