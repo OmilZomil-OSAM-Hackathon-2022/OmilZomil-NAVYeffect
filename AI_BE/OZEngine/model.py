@@ -12,11 +12,12 @@ class OmilZomil:
     def __init__(self):
         self.HED_engine = HED()
         self.morph_engine = Morph()
-        print('init!')
-
         self.full_dress_uniform_checker = FullDressUniformChecker()
         self.navy_service_uniform_checker = NavyServiceUniformChecker()
         self.person_detector = PersonDetector()
+        print('init!')
+
+        self.mode = 'debug'
 
         self.kind = None
         self.detect_person = True
@@ -30,7 +31,7 @@ class OmilZomil:
         names, imgs = list(debug_img.keys()), list(debug_img.values())
         plt_imshow(names, imgs)
 
-    def contour2img(self, org_img, box_position_dic):
+    def boxImage(self, org_img, box_position_dic):
         img = org_img.copy()
         roi_dic = {}
 
@@ -73,6 +74,8 @@ class OmilZomil:
             component_dic, box_position_dic, masked_img = self.full_dress_uniform_checker.checkUniform(
                 input_img)
 
-        boxed_img, roi_dic = self.contour2img(input_img, box_position_dic)
-
-        return component_dic, boxed_img, roi_dic, masked_img
+        if self.mode == 'debug':
+            boxed_img, roi_dic = self.boxImage(input_img, box_position_dic)
+            plt_imshow(['boxed'], [boxed_img])
+            self.debug(roi_dic)
+        return component_dic, box_position_dic
