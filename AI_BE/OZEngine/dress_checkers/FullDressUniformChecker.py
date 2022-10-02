@@ -80,7 +80,7 @@ class FullDressUniformChecker():
                     name_chrs = []
 
                     sorted_orc_list = sorted(
-                        orc_list, key=lambda ocr_res: ocr_res['boxes'][0][0])
+                        ocr_list, key=lambda ocr_res: ocr_res['boxes'][0][0])
                     for ocr_res in sorted_orc_list:
                         ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
                         p1, p2, p3, p4 = ocr_box
