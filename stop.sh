@@ -1,9 +1,5 @@
 #/bin/bash
 
-echo [+] Stopping backend docker container
-echo
+echo [+] Stopping docker container
 
-sudo docker-compose -f ./backend/docker-compose.yaml down
-echo
-
-echo [+] Done!
+sudo docker-compose down
