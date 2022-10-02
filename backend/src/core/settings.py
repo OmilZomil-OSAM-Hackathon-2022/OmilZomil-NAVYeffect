@@ -1,13 +1,12 @@
 import os 
 
-DB_NAME = "MYSQL"
 
 DB_INFO = {
-        'ip': f"{DB_NAME}_{os.environ['DB_NAME']}",
-        'port' : f"{DB_NAME}_{os.environ['DB_NAME']}",
-        'user' : f"{DB_NAME}_{os.environ['DB_NAME']}",
-        'pw': f"{DB_NAME}_{os.environ['DB_NAME']}",
-        'name': f"{DB_NAME}_{os.environ['DB_NAME']}",
+        'ip': os.environ['MYSQL_HOST'],
+        'port' : 33060,
+        'user' : os.environ['MYSQL_USER'],
+        'pw': os.environ['MYSQL_PASSWORD'],
+        'name': os.environ['MYSQL_DB'],
     },
 
 
