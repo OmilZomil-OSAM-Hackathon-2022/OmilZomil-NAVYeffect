@@ -4,7 +4,7 @@ services:
   db:
     container_name: omil_db
     image: mysql
-    restart: always
+    # restart: always
     env_file: .env.private
     # volumes:
     #   - ./data:/var/lib/postgresql/data
