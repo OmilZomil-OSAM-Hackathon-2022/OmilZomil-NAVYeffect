@@ -30,14 +30,14 @@ class OmilZomil:
         names, imgs = list(debug_img.keys()), list(debug_img.values())
         plt_imshow(names, imgs)
 
-    def contour2img(self, org_img, contour_dic):
+    def contour2img(self, org_img, box_position_dic):
         img = org_img.copy()
         roi_dic = {}
 
         # cv2.drawContours(img, [contour_dic['shirt']], 0, Color.GREEN, -1)
-        for name, contour in contour_dic.items():
-            if name != 'shirt' and contour is not None:
-                x, y, w, h = cv2.boundingRect(contour_dic[name])
+        for name, box_position in box_position_dic.items():
+            if name != 'shirt' and box_position is not None:
+                x, y, w, h = box_position
                 roi = org_img[y:y+h, x:x+w]
                 cv2.rectangle(img, (x, y), (x+w, y+h), Color.PURPLE, 5)
                 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -66,13 +66,13 @@ class OmilZomil:
             self.kind = classificate(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
 
         if self.kind == UniformType.dic['NAVY_SERVICE']:
-            component_dic, contour_dic, masked_img = self.navy_service_uniform_checker.checkUniform(
+            component_dic, box_position_dic, masked_img = self.navy_service_uniform_checker.checkUniform(
                 input_img)
 
         elif self.kind == UniformType.dic['FULL_DRESS']:
-            component_dic, contour_dic, masked_img = self.full_dress_uniform_checker.checkUniform(
+            component_dic, box_position_dic, masked_img = self.full_dress_uniform_checker.checkUniform(
                 input_img)
 
-        boxed_img, roi_dic = self.contour2img(input_img, contour_dic)
+        boxed_img, roi_dic = self.contour2img(input_img, box_position_dic)
 
         return component_dic, boxed_img, roi_dic, masked_img
