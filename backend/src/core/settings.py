@@ -7,7 +7,7 @@ DB_INFO = {
         'user' : os.environ['MYSQL_USER'],
         'pw': os.environ['MYSQL_PASSWORD'],
         'name': os.environ['MYSQL_DB'],
-    },
+    }
 
 
 CORS_ORIGINS = [
