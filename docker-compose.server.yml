@@ -6,32 +6,28 @@ services:
     image: mysql
     # restart: always
     env_file: .env.private
+    # volumes:
+    #   - ./data:/var/lib/postgresql/data
 
-  backend: 
+  backend:
     container_name: omil_backend
     build:
       context: backend/deploy
-      dockerfile: dev_Dockerfile
+      dockerfile: Dockerfile
     env_file: .env.private
     volumes:
-      - omil:/home
+      - ./backend/:/home/backend
     depends_on:
       - db
     ports:
-      - "7776:8000"
+      - "8081:8000"
   frontend:
     container_name: omil_frontend
     build:
       context: frontend/deploy
-      dockerfile: dev_Dockerfile
+      dockerfile: Dockerfile
     env_file: .env.private
-    volumes:
-      - omil:/home
+    volumes: 
+      - ./frontend/omilzomil:/home/frontend
     ports:
-      - "7777:8080"
-
-
-volumes:
-  omil: # 개발용 code server volume
-    external:
-      name: omil
+      - "8080:8080"
