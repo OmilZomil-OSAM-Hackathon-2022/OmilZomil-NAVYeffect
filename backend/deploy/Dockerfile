@@ -24,4 +24,4 @@ RUN pip install requests
 # RUN pip install -r requirements.txt
 
 # 개발용으로 entrypoint.sh 파일를 연결
-ENTRYPOINT ["sh", "/home/backend/entrypoint.sh"]
+CMD ["sh", "/home/backend/entrypoint.sh"]
