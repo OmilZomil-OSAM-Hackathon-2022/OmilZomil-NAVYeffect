@@ -4,7 +4,6 @@ from sqlalchemy.orm import sessionmaker
 
 from core.settings import DB_INFO
 
-print(DB_INFO)
 db_url = 'mysql+pymysql://{user}:{pw}@{ip}:{port}/{name}'.format(**DB_INFO)
 print(db_url)
 
