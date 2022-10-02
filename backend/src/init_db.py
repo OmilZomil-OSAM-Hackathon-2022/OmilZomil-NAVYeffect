@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from core.settings import DB_INFO
 
 print(DB_INFO)
-db_url = 'postgresql://{user}:{pw}@{ip}:{port}/{name}'.format(**DB_INFO)
+db_url = 'mysql+pymysql://{user}:{pw}@{ip}:{port}/{name}'.format(**DB_INFO)
 print(db_url)
 
 engine = create_engine(db_url, echo=True)
