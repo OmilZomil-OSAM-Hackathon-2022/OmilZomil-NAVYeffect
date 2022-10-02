@@ -78,7 +78,10 @@ class FullDressUniformChecker():
                 # 이름표 체크
                 if center_p[0] < (w//2):
                     name_chrs = []
-                    for ocr_res in ocr_list:
+
+                    sorted_orc_list = sorted(
+                        orc_list, key=lambda ocr_res: ocr_res['boxes'][0][0])
+                    for ocr_res in sorted_orc_list:
                         ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
                         p1, p2, p3, p4 = ocr_box
                         (x1, y1), (x2, y2) = p1, p3
@@ -91,7 +94,9 @@ class FullDressUniformChecker():
                                 cv2.rectangle(img, p1, p3, Color.GREEN, 3)
                             else:
                                 pass
-                                # cv2.rectangle(img, p1, p3, Color.RED, 3)
+                        else:
+                            break
+                            # cv2.rectangle(img, p1, p3, Color.RED, 3)
                     res_box_position, res_content = cv2.boundingRect(
                         contour), ''.join(name_chrs)
         return cv2.boundingRect(shirt_contour), res_box_position, res_content
