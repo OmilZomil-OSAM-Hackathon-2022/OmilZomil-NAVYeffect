@@ -29,11 +29,11 @@ class NavyServiceUniformChecker():
                 mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
             sorted_contours, sorted_hierarchy = sortContoursByArea(
                 contours, hierarchy)
-            return sorted_contours, sorted_hierarchy
+            return sorted_contours, sorted_hierarchy, mask
         else:
             contours, _ = cv2.findContours(
                 mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-            return contours
+            return contours, masked_img
 
     def getName(self, contour, ocr_list):
         max_xy, min_xy = np.max(contour, axis=0)[
@@ -52,7 +52,7 @@ class NavyServiceUniformChecker():
 
     def getClasses(self, img, hsv_img, contour):
         res_box_position = None
-        contours = self.getMaskedContours(
+        contours, masked_img = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='classes', sort=False)
 
         res_box_position = cv2.boundingRect(contour)
@@ -66,9 +66,12 @@ class NavyServiceUniformChecker():
                 classes_n += 1
 
         if 1 <= classes_n <= 4:
-            return res_box_position, Classes.dic[classes_n]
+            print(masked_img)
+            
+            plt_imshow(['masked_img'],  [masked_img])
+            return res_box_position, Classes.dic[classes_n], masked_img
         else:
-            return None, None
+            return None, None, None
 
     def checkUniform(self, org_img):
         img = org_img
@@ -76,7 +79,7 @@ class NavyServiceUniformChecker():
         h, w = img.shape[: 2]
 
         # 샘당 filter
-        contours, hierarchy = self.getMaskedContours(
+        contours, hierarchy, mask = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='uniform')
 
         # 이름표 OCR
@@ -104,13 +107,13 @@ class NavyServiceUniformChecker():
 
                 # 이름표 체크
                 name = 'name_tag'
-                if center_p[0] < (w//2) and not component_dic.get('name_tag'):
-                    box_position_dic['name_tag'], component_dic['name_tag'] = self.getName(
+                if center_p[0] < (w//2) and not component_dic.get(name):
+                    box_position_dic[name], component_dic[name] = self.getName(
                         contour, ocr_list)
 
                 # 계급장 체크
                 elif center_p[0] > (w//2) and not component_dic.get('class_tag'):
-                    box_position_dic['class_tag'], component_dic['class_tag'] = self.getClasses(
+                    box_position_dic[name], component_dic[name], masked_img[name] = self.getClasses(
                         img, hsv_img, contour)
 
         # half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
