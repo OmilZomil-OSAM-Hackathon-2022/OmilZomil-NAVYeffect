@@ -3,7 +3,7 @@
     <div class="card filter">
       <form class="form1">
         <select>
-          <option value="" disabled selected>부ㄹ량 요를 선택하세요.</option>
+          <option value="" disabled selected>불량 요를 선택하세요.</option>
         </select>
         <select>
 

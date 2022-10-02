@@ -4,6 +4,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
+    component: () => import('../views/DashBoardPage.vue'),
     // component: () => import('../views/DashBoardPage.vue'),
     // redirect: '/login',
   },
@@ -31,6 +32,7 @@ const routes = [
   {
     path: "/ranking",
     name: "Ranking",
+    component: () => import('../views/DashBoardPage.vue'),
     // component: () => import('../views/ListUpPage.vue'),
   },
   {
