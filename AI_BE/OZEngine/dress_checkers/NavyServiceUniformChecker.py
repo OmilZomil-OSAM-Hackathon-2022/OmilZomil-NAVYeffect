@@ -41,7 +41,6 @@ class NavyServiceUniformChecker():
 
         name_chrs = []
         for ocr_res in ocr_list:
-            print('ocr res:', ocr_res)
             ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
             ocr_center_xy = getRectCenterPosition(ocr_box)
             if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
@@ -49,13 +48,15 @@ class NavyServiceUniformChecker():
             else:
                 pass
 
-        return contour, ''.join(name_chrs)
+        return cv2.boundingRect(contour), ''.join(name_chrs)
 
     def getClasses(self, img, hsv_img, contour):
+        res_box_position = None
         contours = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='classes', sort=False)
 
-        x, y, w, h = cv2.boundingRect(contour)
+        res_box_position = cv2.boundingRect(contour)
+        x, y, w, h = res_box_position
         roi = img[y:y+h, x:x+w]
         hsv_roi = hsv_img[y:y+h, x: x+w]
 
@@ -65,7 +66,7 @@ class NavyServiceUniformChecker():
                 classes_n += 1
 
         if 1 <= classes_n <= 4:
-            return contour, Classes.dic[classes_n]
+            return res_box_position, Classes.dic[classes_n]
         else:
             return None, None
 
@@ -81,9 +82,9 @@ class NavyServiceUniformChecker():
         # 이름표 OCR
         ocr_list = OCR(img)
 
-        contour_dic = {}
+        box_position_dic = {}
         component_dic = {}
-        debug_img = {}
+        masked_img = {}
 
         # 이름표, 계급장 체크
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
@@ -95,23 +96,23 @@ class NavyServiceUniformChecker():
             # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
             # 이름표 또는 계급장
             if (not component_dic.get('name_tag') or not component_dic.get('class_tag')) and \
-                parent == shirt_node and \
-                3 <= getVertexCnt(contour) <= 10 and \
-                cv2.contourArea(contour) > 300:
+                    parent == shirt_node and \
+                    3 <= getVertexCnt(contour) <= 10 and \
+                    cv2.contourArea(contour) > 300:
 
                 center_p = getContourCenterPosition(contour)
 
                 # 이름표 체크
                 name = 'name_tag'
                 if center_p[0] < (w//2) and not component_dic.get('name_tag'):
-                    contour_dic['name_tag'], component_dic['name_tag'] = self.getName(
+                    box_position_dic['name_tag'], component_dic['name_tag'] = self.getName(
                         contour, ocr_list)
 
                 # 계급장 체크
                 elif center_p[0] > (w//2) and not component_dic.get('class_tag'):
-                    contour_dic['class_tag'], component_dic['class_tag'] = self.getClasses(
+                    box_position_dic['class_tag'], component_dic['class_tag'] = self.getClasses(
                         img, hsv_img, contour)
 
         # half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
         # cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
-        return component_dic, contour_dic, debug_img
+        return component_dic, box_position_dic, masked_img
