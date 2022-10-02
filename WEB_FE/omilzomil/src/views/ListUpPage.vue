@@ -2,9 +2,14 @@
   <div class="wrap">
     <div class="card filter">
       <form class="form1">
-        <select></select>
-        <select></select>
-        <input type="date"/>
+        <select>
+          <option value="" disabled selected>부ㄹ량 요를 선택하세요.</option>
+        </select>
+        <select>
+
+          <option value="" disabled selected>계급을 선택하세요.</option>
+        </select>
+        <input type="date" placeholder="기한을 선택하세요."/>
         <button>필터 적용</button>
       </form>
       <form class="form2">

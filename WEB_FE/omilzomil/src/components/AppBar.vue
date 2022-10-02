@@ -32,17 +32,25 @@
             </div>
         </div>
         <div class="nav-menu">
-          <router-link class="nav-item" to="/">
-            <img src="@/assets/icons/mdi_home.svg"/>홈
+          <router-link to="/">
+            <div class="nav-item">
+              <img src="@/assets/icons/mdi_home.svg"/>홈
+            </div>
           </router-link>
-          <router-link class="nav-item" to="/dashboard">
+          <router-link to="/dashboard">
+            <div class="nav-item">
             <img src="@/assets/icons/mdi_view-dashboard.svg"/>대쉬보드
+            </div>
           </router-link>
-          <router-link class="nav-item" to="/ListUp">
+          <router-link to="/ListUp">
+            <div class="nav-item">
             <img src="@/assets/icons/account-group.svg"/>부대인원조회
+            </div>
           </router-link>
-          <router-link class="nav-item" to="/ranking">
-            <img src="@/assets/icons/trophy-variant.svg"/>랭킹
+          <router-link to="/ranking">
+            <div class="nav-item">
+              <img src="@/assets/icons/trophy-variant.svg"/>랭킹
+            </div>
           </router-link>
         </div>
     </div>
@@ -295,5 +303,9 @@ button{
   /* Dark6 */
 
   color: #ABACC0;
+}
+.router-link-active .nav-item
+{
+  color:#9155EB;
 }
 </style>
