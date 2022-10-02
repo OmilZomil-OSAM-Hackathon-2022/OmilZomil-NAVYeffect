@@ -2,8 +2,10 @@ version: "3.9"
 
 services:
   db:
-    container_name: omil_backend
-    image: postgres:14.1
+    container_name: omil_db
+    image: mysql
+    restart: always
+    env_file: .env.private
     # volumes:
     #   - ./data:/var/lib/postgresql/data
 
@@ -12,6 +14,7 @@ services:
     build:
       context: docker
       dockerfile: Dockerfile
+    env_file: .env.private
     volumes:
       - ./backend/WEB:/home/backend
     depends_on:
@@ -22,6 +25,7 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
+    env_file: .env.private
     volumes: 
       - ./:/home/app
     ports:
