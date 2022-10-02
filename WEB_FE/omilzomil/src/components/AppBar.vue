@@ -1,5 +1,4 @@
 <template>
-
   <!-- :style="{backgroundsfd: (getDarkMode? '#312D4B':'#FFFFFF')}" -->
   <div class="app-bar">
     <div class="wrap">
@@ -35,22 +34,35 @@
         <div class="nav-menu">
           <router-link to="/">
             <div class="nav-item">
-              <img src="@/assets/icons/mdi_home.svg"/>홈
+              <IconBase :width="24" :height="24">
+                <HomeIcon/>
+              </IconBase>
+              홈
             </div>
           </router-link>
           <router-link to="/dashboard">
             <div class="nav-item">
-            <img src="@/assets/icons/mdi_view-dashboard.svg"/>대쉬보드
+              <IconBase :width="24" :height="24">
+                <DashboardIcon/>
+              </IconBase>
+              대쉬보드
             </div>
           </router-link>
           <router-link to="/ListUp">
             <div class="nav-item">
-            <img src="@/assets/icons/account-group.svg"/>부대인원조회
+              <IconBase :width="24" :height="24">
+                <GroupIcon/>
+              </IconBase>
+              부대인원조회
             </div>
           </router-link>
           <router-link to="/ranking">
             <div class="nav-item">
-              <img src="@/assets/icons/trophy-variant.svg"/>랭킹
+              <IconBase :width="24" :height="24">
+                <TrophyIcon/>
+              </IconBase>
+              랭킹
+              <!-- <img src="@/assets/icons/trophy-variant.svg"/>랭킹 -->
             </div>
           </router-link>
         </div>
@@ -59,8 +71,14 @@
 </template>
 
 <script>
+import IconBase from "./IconBase.vue";
+import DashboardIcon from "../assets/icons/dashboard-icon.vue";
+import TrophyIcon from "@/assets/icons/trophy-icon.vue";
+import HomeIcon from "../assets/icons/home-icon.vue";
+import GroupIcon from "../assets/icons/group-icon.vue";
 export default {
     name:"AppBar",
+    components:{ IconBase, DashboardIcon, TrophyIcon, HomeIcon, GroupIcon },
     data(){
       return {
         userName: "김민섭",
@@ -78,7 +96,6 @@ export default {
       }
     },
 }
-// src="@/assets/styles/common.css"
 </script>
 
 <style scoped >
@@ -284,26 +301,28 @@ button{
 }
 
 .nav-menu .nav-item{
-  /* box-sizing:border-box; */
   padding:12px;
-  text-decoration:none;
   gap:8px;
+  display: flex;
+  align-items: center;
   /* Subtitle 1 */
 
+  /* identical to box height */
+
+
+  /* Dark6 */
+
+}
+.nav-menu a{
+  text-decoration:none;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  /* identical to box height */
-
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.15px;
-
-  /* Dark6 */
-
   color: #ABACC0;
+  letter-spacing: 0.15px;
+  text-align: center;
 }
 .router-link-active .nav-item
 {
