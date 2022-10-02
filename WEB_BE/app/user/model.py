@@ -13,4 +13,4 @@ class User(Base):
     unit = Column(String)   # 소속
     dog_num = Column(String) # 군번
     rank = Column(String)    # 계급
-    disable = Column(Boolean)# 활성화 유무
+    permission = Column(Integer)# 권한

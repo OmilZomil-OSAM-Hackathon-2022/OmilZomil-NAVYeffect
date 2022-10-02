@@ -3,6 +3,7 @@ import numpy as np
 from lib.utils import sortContoursByArea, getVertexCnt, getContourCenterPosition, getRectCenterPosition, isPointInBox
 from lib.defines import *
 from lib.ocr import OCR
+from lib.utils import plt_imshow
 
 # (동)정복 검사
 
@@ -17,7 +18,9 @@ class FullDressUniformChecker():
         self.mahura_filter = {
             'lower': (140, 120, 50), 'upper': (190, 255, 255)}
 
-    def getMaskedContours(self, img=None, hsv_img=None, kind=None, sort=True):
+    def getMaskedContours(self, img=None, hsv_img=None, morph=None, kind=None, sort=True):
+        if hsv_img is None:
+            hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         if kind == 'uniform':
             lower, upper = self.uniform_filter['lower'], self.uniform_filter['upper']
         elif kind == 'classes':
@@ -28,6 +31,16 @@ class FullDressUniformChecker():
             pass
 
         mask = cv2.inRange(hsv_img, lower, upper)
+
+        if morph == 'erode':
+            kernel = np.ones((3, 3), np.uint8)
+            org_mask = mask.copy()
+
+            k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 2))
+            mask = cv2.erode(org_mask, k, iterations=2)
+
+            plt_imshow(['org_mask', 'maskk', 'm2'], [org_mask, mask])
+
         masked_img = cv2.bitwise_and(img, img, mask=mask)
 
         if sort:
@@ -35,15 +48,15 @@ class FullDressUniformChecker():
                 mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
             sorted_contours, sorted_hierarchy = sortContoursByArea(
                 contours, hierarchy)
-            return sorted_contours, sorted_hierarchy
+            return sorted_contours, sorted_hierarchy, masked_img
         else:
             contours, _ = cv2.findContours(
                 mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-            return contours
+            return contours, masked_img
 
     def getName(self, img, contours, hierarchy):
         h, w = img.shape[:2]
-        shirt_contour, res_contour, res_content = None, None, None
+        shirt_contour, res_box_position, res_content = None, None, None
         ocr_list = OCR(img)
 
         # 이름표
@@ -51,7 +64,7 @@ class FullDressUniformChecker():
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
             cur_node, next_node, prev_node, first_child, parent = lev
             if i == 0:  # 정복
-                shirt_contour = None
+                shirt_contour = contour
                 shirt_node = cur_node
                 continue
 
@@ -65,7 +78,10 @@ class FullDressUniformChecker():
                 # 이름표 체크
                 if center_p[0] < (w//2):
                     name_chrs = []
-                    for ocr_res in ocr_list:
+
+                    sorted_orc_list = sorted(
+                        orc_list, key=lambda ocr_res: ocr_res['boxes'][0][0])
+                    for ocr_res in sorted_orc_list:
                         ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
                         p1, p2, p3, p4 = ocr_box
                         (x1, y1), (x2, y2) = p1, p3
@@ -77,75 +93,98 @@ class FullDressUniformChecker():
                                 name_chrs.append(ocr_str[0])
                                 cv2.rectangle(img, p1, p3, Color.GREEN, 3)
                             else:
-                                cv2.rectangle(img, p1, p3, Color.RED, 3)
-                    ret_contour, res_content = contour, ''.join(name_chrs)
-        return shirt_contour, ret_contour, res_content
+                                pass
+                        else:
+                            break
+                            # cv2.rectangle(img, p1, p3, Color.RED, 3)
+                    res_box_position, res_content = cv2.boundingRect(
+                        contour), ''.join(name_chrs)
+        return cv2.boundingRect(shirt_contour), res_box_position, res_content
 
-    def getClasses(self, img, contours, hierarchy):
-        h, w = img.shape[:2]
-        res_contour, res_content = None, None
-        for contour in contours:
+    def getClasses(self, masked_img, contours, hierarchy):
+        h, w = masked_img.shape[:2]
+        res_box_position, res_content, small_mask = None, None, None
+
+        box_position = None
+        for contour in contours:  # contours : 계급장이라 판별되는 contour
             if cv2.contourArea(contour) > 300:
                 center_p = getContourCenterPosition(contour)
                 if center_p[0] < (w//2) and not res_content:
-                    ret_contour, res_content = contour, True
-        return ret_contour, res_content
+                    box_position = cv2.boundingRect(contour)
+                    x, y, w, h = box_position
+                    roi = masked_img[y:y+h, x:x+w]
+
+                    small_contours, small_mask = self.getMaskedContours(
+                        img=roi, morph='erode', kind='classes', sort=False)
+
+                    classes_n = 0
+                    for small_contour in small_contours:
+                        if 10 < cv2.contourArea(small_contour):
+                            classes_n += 1
+                            cv2.drawContours(
+                                small_mask, [small_contour], 0, Color.BLUE, 1)
+
+                    if 1 <= classes_n <= 4:
+                        res_box_position, res_content = box_position, Classes.dic[classes_n]
+        return res_box_position, res_content, small_mask
 
     def getAnchor(self, contours, hierarchy):
-        res_contour, res_content = None, None
+        res_box_position, res_content = None, None
         for contour in contours:
             if cv2.contourArea(contour) > 100:
                 center_p = getContourCenterPosition(contour)
                 if not res_content:
-                    ret_contour, res_content = contour, True
-        return ret_contour, res_content
+                    res_box_position, res_content = cv2.boundingRect(
+                        contour), True
+        return res_box_position, res_content
 
     def getMahura(self, contours, hierarchy):
-        res_contour, res_content = None, None
+        res_box_position, res_content = None, None
         for contour in contours:
             if cv2.contourArea(contour) > 300:
                 center_p = getContourCenterPosition(contour)
                 if not res_content:
-                    ret_contour, res_content = contour, True
-        return ret_contour, res_content
+                    res_box_position, res_content = cv2.boundingRect(
+                        contour), True
+        return res_box_position, res_content
 
     def checkUniform(self, org_img):
         img = org_img
-        ocr_img = org_img.copy()
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
         # half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
         # cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
 
-        contour_dic = {}
+        box_position_dic = {}
         component_dic = {}
-        debug_img = {}
+        masked_img = {}
 
-        # 정복 filter
-        name = 'uniform'
-        contours, sorted_hierarchy = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind=name, sort=True)
-        contour_dic['shirt'], contour_dic[name], component_dic[name] = self.getName(
+        # 이름표 체크
+        name = 'name'
+        contours, sorted_hierarchy, masked_img[name] = self.getMaskedContours(
+            img=img, hsv_img=hsv_img, kind='uniform', sort=True)
+        box_position_dic['shirt'], box_position_dic[name], component_dic[name] = self.getName(
             img, contours, sorted_hierarchy)
 
         # 네카치프 / 네카치프링 체크
         name = 'anchor'
-        contours = self.getMaskedContours(
+        contours, masked_img[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name, sort=False)
-        contour_dic[name], component_dic[name] = self.getAnchor(contours, None)
+        box_position_dic[name], component_dic[name] = self.getAnchor(
+            contours, None)
 
         # 계급장 체크
         name = 'classes'
-        contours = self.getMaskedContours(
+        contours, masked_img[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name, sort=False)
-        contour_dic[name], component_dic[name] = self.getClasses(
+        box_position_dic[name], component_dic[name], masked_img['classes_roi'] = self.getClasses(
             img, contours, None)
 
         # 마후라 체크
         # name = 'mahura'
         # contours = self.getMaskedContours(
         #     img=img, hsv_img=hsv_img, kind=name, sort=False)
-        # contour_dic[name], component_dic[name] = self.getMahura(
+        # box_position_dic[name], component_dic[name] = self.getMahura(
         #     img, contours, None)
 
-        return component_dic, contour_dic, debug_img
+        return component_dic, box_position_dic, masked_img
