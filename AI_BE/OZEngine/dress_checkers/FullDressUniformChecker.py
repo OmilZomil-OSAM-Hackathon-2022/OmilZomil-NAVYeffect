@@ -1,5 +1,6 @@
 import sys
 import numpy as np
+import re
 from lib.utils import sortContoursByArea, getVertexCnt, getContourCenterPosition, getRectCenterPosition, isPointInBox
 from lib.defines import *
 from lib.ocr import OCR
@@ -17,6 +18,14 @@ class FullDressUniformChecker():
             'lower': (140, 120, 50), 'upper': (190, 255, 255)}
         self.mahura_filter = {
             'lower': (140, 120, 50), 'upper': (190, 255, 255)}
+
+        self.name_tag_pattern = re.compile('[가-힣]+')
+
+    def name_tag_filter(self, string):
+        print('str', string)
+        filtered_list = self.name_tag_pattern.findall(string)
+        res_string = ''.join(filtered_list)
+        return res_string
 
     def getMaskedContours(self, img=None, hsv_img=None, morph=None, kind=None, sort=True):
         if hsv_img is None:
@@ -82,7 +91,8 @@ class FullDressUniformChecker():
                     sorted_orc_list = sorted(
                         ocr_list, key=lambda ocr_res: ocr_res['boxes'][0][0])
                     for ocr_res in sorted_orc_list:
-                        ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
+                        ocr_str, ocr_box = ocr_res['recognition_words'][0], ocr_res['boxes']
+                        ocr_str = self.name_tag_filter(ocr_str)
                         p1, p2, p3, p4 = ocr_box
                         (x1, y1), (x2, y2) = p1, p3
                         if x2 < w//2:
@@ -90,7 +100,7 @@ class FullDressUniformChecker():
 
                             ocr_center_xy = getRectCenterPosition(ocr_box)
                             if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
-                                name_chrs.append(ocr_str[0])
+                                name_chrs.append(ocr_str)
                                 cv2.rectangle(img, p1, p3, Color.GREEN, 3)
                             else:
                                 pass
