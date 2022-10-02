@@ -28,6 +28,6 @@ services:
       dockerfile: Dockerfile
     env_file: .env.private
     volumes: 
-      - ./frontend/omilzomil:/home/app
+      - ./frontend/omilzomil:/home/frontend
     ports:
       - "8000:3000"
