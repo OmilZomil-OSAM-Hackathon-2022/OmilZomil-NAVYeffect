@@ -2,10 +2,12 @@
 FROM python:3.9
 ENV PYTHONUNBUFFERED=1
 
+RUN apt-get install cron
+
 # 작업 폴더 설정
 WORKDIR /home
-RUN mkdir "backend"
-WORKDIR /home/backend/
+RUN git clone https://github.com/osamhack2022/WEB_CLOUD_OmilZomil_NAVYeffect
+WORKDIR /home/WEB_CLOUD_OmilZomil_NAVYeffect/
 
 # 파이썬 라이브러리 설치
 RUN pip install --upgrade pip
@@ -25,5 +27,6 @@ RUN pip install requests
 # COPY ./deploy/requirements.txt /home/backend 
 # RUN pip install -r requirements.txt
 
+RUN chmod 777 /home/WEB_CLOUD_OmilZomil_NAVYeffect/backend/deploy
 # 개발용으로 entrypoint.sh 파일를 연결
-CMD ["sh", "/home/backend/entrypoint.sh"]
+CMD ["sh", "/home/WEB_CLOUD_OmilZomil_NAVYeffect/backend/entrypoint.sh", "&&", ""]
