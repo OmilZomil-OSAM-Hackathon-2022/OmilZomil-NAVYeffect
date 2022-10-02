@@ -1,5 +1,6 @@
 <template>
-  <!-- :style="{background: (getDarkMode? '#312D4B':'#FFFFFF')}" -->
+
+  <!-- :style="{backgroundsfd: (getDarkMode? '#312D4B':'#FFFFFF')}" -->
   <div class="app-bar">
     <div class="wrap">
         <div class="top">
