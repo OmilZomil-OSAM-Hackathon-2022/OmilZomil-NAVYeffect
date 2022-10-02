@@ -1,17 +1,13 @@
-from OZEngine import OmilZomil
-from OZEngine.lib.utils import *
-from OZEngine.edge_detectors import Morph, HED
-import os
-import sys
-import traceback
-import cv2
-from operator import itemgetter
 import matplotlib.pyplot as plt
+from operator import itemgetter
+import cv2
+import traceback
+from OZEngine.edge_detectors import Morph, HED
+from OZEngine.lib.utils import *
+from OZEngine import OmilZomil
+from .libs.utils import setImportPath
 
-cur_path = os.getcwd()
-engine_path = os.path.join(cur_path, 'OZEngine')
-if engine_path not in sys.path:
-    sys.path.append(engine_path)
+setImportPath()
 
 
 try:
