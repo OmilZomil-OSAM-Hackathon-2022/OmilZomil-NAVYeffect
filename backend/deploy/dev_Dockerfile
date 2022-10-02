@@ -31,4 +31,4 @@ RUN pip install requests
 
 
 # 개발용으로 entrypoint.sh 파일를 연결
-CMD ["sh", "/home/WEB_CLOUD_OmilZomil_NAVYeffect/backend/entrypoint.sh", "&&", ""]
+CMD ["sh", "/home/WEB_CLOUD_OmilZomil_NAVYeffect/backend/entrypoint.sh"]
