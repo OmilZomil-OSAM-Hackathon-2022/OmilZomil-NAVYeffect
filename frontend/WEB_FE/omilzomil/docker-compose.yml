@@ -6,7 +6,7 @@ services:
     working_dir: /home/app
     volumes:
       - ./omilzomil:/home/app
-    port:
+    ports:
       - "8080:3000"
 
     command: bash -c "npm install && npm start"
