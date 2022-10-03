@@ -34,6 +34,7 @@ export default {
   --color-card: #ffffff;
   --color-input: #ffffff;
   --color-input-border: #d9d8e8;
+  --color-state-card:#F9F9FB;
 }
 .dark-mode {
   --color-background: #28243d;
@@ -41,6 +42,7 @@ export default {
   --color-card: #312d4b;
   --color-input: #312D4B;
   --color-input-border: #78798D;
+  --color-state-card:#2C2845;
   color: white;
 }
 html,
