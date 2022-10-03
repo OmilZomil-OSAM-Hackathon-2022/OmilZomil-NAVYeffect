@@ -38,8 +38,8 @@ export default {
   --color-background: #28243d;
   --color-appbar: #312d4b;
   --color-card: #312d4b;
-  --color-input: #585767;
-  --color-input-border: #78798d;
+  --color-input: #312D4B;
+  --color-input-border: #78798D;
   color: white;
 }
 html,
