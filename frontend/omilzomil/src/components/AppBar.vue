@@ -1,68 +1,135 @@
 <template>
-  <!-- :style="{background: (getDarkMode? '#312D4B':'#FFFFFF')}" -->
+  <!-- :style="{backgroundsfd: (getDarkMode? '#312D4B':'#FFFFFF')}" -->
   <div class="app-bar">
     <div class="wrap">
-        <div class="top">
-            <router-link to="/" style="text-decoration:none;" class="logo">
-                <img width="30" src="@/assets/logo.svg"/>
-                <h1>OMIL-ZOMIL</h1>
-            </router-link>
-            <div class="options">
-                <div>
-                    <input type="checkbox" id="toggle" @change="setDarkMode" hidden> 
-                    <label for="toggle" class="toggleSwitch">
-                        <span class="toggleButton"></span>
-                        <img class="toogleIcon"/>
-                    </label>
-                </div>
+      <div class="top">
+        <router-link
+          to="/"
+          style="text-decoration:none;"
+          class="logo"
+        >
+          <img
+            width="30"
+            src="@/assets/logo.svg"
+          >
+          <h1>OMIL-ZOMIL</h1>
+        </router-link>
+        <div class="options">
+          <div>
+            <input
+              id="toggle"
+              type="checkbox"
+              hidden
+              @change="setDarkMode"
+            > 
+            <label
+              for="toggle"
+              class="toggleSwitch"
+            >
+              <span class="toggleButton" />
+              <img class="toogleIcon">
+            </label>
+          </div>
 
-                <button>
-                  <img width="16" src="@/assets/icons/bell-outline.svg"/>
-                </button>
-                <button>
-                  <img width="16" src="@/assets/icons/mdi_magnify.svg"/>
-                </button>
-                <input type="text" class="search" placeholder="검색"/>
-                <router-link class="profile" to="/">
-                  <img width="32" src="@/assets/icons/mdi_account-circle.svg"/>
-                  <div class="user-name">
-                    {{userName}}님
-                  </div>
-                </router-link>
-            </div>
-        </div>
-        <div class="nav-menu">
-          <router-link to="/">
-            <div class="nav-item">
-              <img src="@/assets/icons/mdi_home.svg"/>홈
-            </div>
-          </router-link>
-          <router-link to="/dashboard">
-            <div class="nav-item">
-            <img src="@/assets/icons/mdi_view-dashboard.svg"/>대쉬보드
-            </div>
-          </router-link>
-          <router-link to="/ListUp">
-            <div class="nav-item">
-            <img src="@/assets/icons/account-group.svg"/>부대인원조회
-            </div>
-          </router-link>
-          <router-link to="/ranking">
-            <div class="nav-item">
-              <img src="@/assets/icons/trophy-variant.svg"/>랭킹
+          <button>
+            <img
+              width="16"
+              src="@/assets/icons/bell-outline.svg"
+            >
+          </button>
+          <button>
+            <img
+              width="16"
+              src="@/assets/icons/mdi_magnify.svg"
+            >
+          </button>
+          <input
+            type="text"
+            class="search"
+            placeholder="검색"
+          >
+          <router-link
+            class="profile"
+            to="/"
+          >
+            <img
+              width="32"
+              src="@/assets/icons/mdi_account-circle.svg"
+            >
+            <div class="user-name">
+              {{ userName }}님
             </div>
           </router-link>
         </div>
+      </div>
+      <div class="nav-menu">
+        <router-link to="/">
+          <div class="nav-item">
+            <IconBase
+              :width="24"
+              :height="24"
+            >
+              <HomeIcon />
+            </IconBase>
+            홈
+          </div>
+        </router-link>
+        <router-link to="/dashboard">
+          <div class="nav-item">
+            <IconBase
+              :width="24"
+              :height="24"
+            >
+              <DashboardIcon />
+            </IconBase>
+            대쉬보드
+          </div>
+        </router-link>
+        <router-link to="/ListUp">
+          <div class="nav-item">
+            <IconBase
+              :width="24"
+              :height="24"
+            >
+              <GroupIcon />
+            </IconBase>
+            부대인원조회
+          </div>
+        </router-link>
+        <router-link to="/ranking">
+          <div class="nav-item">
+            <IconBase
+              :width="24"
+              :height="24"
+            >
+              <TrophyIcon />
+            </IconBase>
+            랭킹
+            <!-- <img src="@/assets/icons/trophy-variant.svg"/>랭킹 -->
+          </div>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import IconBase from "./IconBase.vue";
+import DashboardIcon from "../assets/icons/dashboard-icon.vue";
+import TrophyIcon from "@/assets/icons/trophy-icon.vue";
+import HomeIcon from "../assets/icons/home-icon.vue";
+import GroupIcon from "../assets/icons/group-icon.vue";
 export default {
     name:"AppBar",
+    components:{ IconBase, DashboardIcon, TrophyIcon, HomeIcon, GroupIcon },
     data(){
       return {
         userName: "김민섭",
+      }
+    },
+    computed: {
+      getDarkMode () {
+        return this.$store.getters.getDarkMode;
       }
     },
     methods:{
@@ -71,13 +138,7 @@ export default {
         return this.$store.commit('setDarkMode');
       },
     },
-    computed: {
-      getDarkMode () {
-        return this.$store.getters.getDarkMode;
-      }
-    },
 }
-// src="@/assets/styles/common.css"
 </script>
 
 <style scoped >
@@ -130,7 +191,7 @@ export default {
 .toggleSwitch {
   width: 64px;
   /* margin: 2rem; */
-  height: 28px;
+  height: 26px;
   display: block;
   position: relative;
   border-radius: 40px;
@@ -143,8 +204,8 @@ export default {
 }
 
 .toggleSwitch .toggleButton {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   position: absolute;
   top: 50%;
   left: 4px;
@@ -172,7 +233,7 @@ export default {
 
 
 #toggle:checked ~ .toggleSwitch .toggleButton {
-  left: calc(100% - 28px);
+  left: calc(100% - 26px);
   background: rgba(183, 134, 255, 0.2);
 
   border: #B786FF solid 2px;
@@ -283,26 +344,28 @@ button{
 }
 
 .nav-menu .nav-item{
-  /* box-sizing:border-box; */
   padding:12px;
-  text-decoration:none;
   gap:8px;
+  display: flex;
+  align-items: center;
   /* Subtitle 1 */
 
+  /* identical to box height */
+
+
+  /* Dark6 */
+
+}
+.nav-menu a{
+  text-decoration:none;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  /* identical to box height */
-
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.15px;
-
-  /* Dark6 */
-
   color: #ABACC0;
+  letter-spacing: 0.15px;
+  text-align: center;
 }
 .router-link-active .nav-item
 {
