@@ -9,7 +9,7 @@ from .lib.utils import plt_imshow, histNorm
 
 
 class OmilZomil:
-    def __init__(self):
+    def __init__(self, resize=None, img_norm_type=None, uniform_type=None, mode='real', detect_person=True):
         self.HED_engine = HED()
         self.morph_engine = Morph()
         self.full_dress_uniform_checker = FullDressUniformChecker()
@@ -17,10 +17,12 @@ class OmilZomil:
         self.person_detector = PersonDetector()
         print('init!')
 
-        self.mode = 'debug'
+        self.resize = resize
+        self.img_norm_type = img_norm_type
+        self.uniform_type = UniformType.dic[uniform_type]
+        self.mode = mode
+        self.detect_person = detect_person
 
-        self.kind = None
-        self.detect_person = True
 
     def demo(self, img):
         morphed_edge, ret = self.morph_engine.detect_edge(img)
@@ -50,6 +52,9 @@ class OmilZomil:
     def detect(self, img):
         input_img = None
 
+        if self.resize is not None:
+            img = cv2.resize(img, resize)
+
         if self.detect_person:
             input_img, boxed_img = self.person_detector.detect(img)  # 사람인식
             if input_img is None:
@@ -57,20 +62,19 @@ class OmilZomil:
         else:
             input_img = img
 
-        hsv_dst, yCrCb_dst = histNorm(input_img)
-        # input_img = yCrCb_dst
+        if self.img_norm_type:
+            input_img = histNorm(input_img, type=self.img_norm_type)
+        
         # hair_segmentation(org) 머리카락인식
 
-        self.kind = UniformType.dic['NAVY_SERVICE']
+        if self.uniform_type is None:
+            self.uniform_type = classificate(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
 
-        if self.kind is None:
-            self.kind = classificate(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
-
-        if self.kind == UniformType.dic['NAVY_SERVICE']:
+        if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
             component_dic, box_position_dic, masked_img = self.navy_service_uniform_checker.checkUniform(
                 input_img)
 
-        elif self.kind == UniformType.dic['FULL_DRESS']:
+        elif self.uniform_type == UniformType.dic['FULL_DRESS']:
             component_dic, box_position_dic, masked_img = self.full_dress_uniform_checker.checkUniform(
                 input_img)
 

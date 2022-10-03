@@ -128,30 +128,22 @@ def isPointInBox(center_xy, box_min_max_xy):
     max_x, max_y = box_max_xy
     return min_x < center_x < max_x and min_y < center_y < max_y
 
-def histNorm(org_img):
-    path = "image/navy_service_uniform/6.jpg"
-    # 입력 받은 이미지를 불러옵니다.
+def histNorm(org_img, type):
+    if type == 'hsv':
+        hsv = cv2.cvtColor(org_img, cv2.COLOR_BGR2HSV)
+        h, s, v = cv2.split(hsv)
+        equalizedV = cv2.equalizeHist(v)
+        hsv2 = cv2.merge([h,s,equalizedV])
+        hsv_dst = cv2.cvtColor(hsv2, cv2.COLOR_HSV2BGR)
+        return hsv_dst
 
-    # hsv 컬러 형태로 변형합니다.
-    hsv = cv2.cvtColor(org_img, cv2.COLOR_BGR2HSV)
-    # h, s, v로 컬러 영상을 분리 합니다. 
-    h, s, v = cv2.split(hsv)
-    # v값을 히스토그램 평활화를 합니다.
-    equalizedV = cv2.equalizeHist(v)
-    # h,s,equalizedV를 합쳐서 새로운 hsv 이미지를 만듭니다.
-    hsv2 = cv2.merge([h,s,equalizedV])
-    # 마지막으로 hsv2를 다시 BGR 형태로 변경합니다.
-    hsv_dst = cv2.cvtColor(hsv2, cv2.COLOR_HSV2BGR)
-
-    # YCrCb 컬러 형태로 변환합니다.
-    yCrCb = cv2.cvtColor(org_img, cv2.COLOR_BGR2YCrCb)
-    # y, Cr, Cb로 컬러 영상을 분리 합니다.
-    y, Cr, Cb = cv2.split(yCrCb)
-    # y값을 히스토그램 평활화를 합니다.
-    equalizedY = cv2.equalizeHist(y)
-    # equalizedY, Cr, Cb를 합쳐서 새로운 yCrCb 이미지를 만듭니다.
-    yCrCb2 = cv2.merge([equalizedY, Cr, Cb])
-    # 마지막으로 yCrCb2를 다시 BGR 형태로 변경합니다.
-    yCrCb_dst = cv2.cvtColor(yCrCb2, cv2.COLOR_YCrCb2BGR)
-
-    return (hsv_dst, yCrCb_dst)
+    elif type == 'yCrCb':
+        yCrCb = cv2.cvtColor(org_img, cv2.COLOR_BGR2YCrCb)
+        y, Cr, Cb = cv2.split(yCrCb)
+        equalizedY = cv2.equalizeHist(y)
+        yCrCb2 = cv2.merge([equalizedY, Cr, Cb])
+        yCrCb_dst = cv2.cvtColor(yCrCb2, cv2.COLOR_YCrCb2BGR)
+        return yCrCb_dst
+        
+    else:
+        return None
