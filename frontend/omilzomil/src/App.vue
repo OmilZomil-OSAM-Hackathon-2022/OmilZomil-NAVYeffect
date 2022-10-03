@@ -59,7 +59,9 @@ body,
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  height: auto;
+  /* min-height: 100%; */
+
   background: var(--color-background);
   width: 100%;
 }
