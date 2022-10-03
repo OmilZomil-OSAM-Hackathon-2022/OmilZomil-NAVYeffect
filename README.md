@@ -8,21 +8,21 @@
 ## :pencil: INDEX
 <details open="open">
   <ol>
-    - [Sections](#sections)
-    <li> ᐅ 프로젝트 소개</li>
-    <li> ᐅ 기능 설명</li>
-    <li> ᐅ 컴퓨터 구성 / 필수 조건 안내</li>
-    <li> ᐅ 설치 안내</li>
-    <li> ᐅ 프로젝트 사용법</li>
-    <li> ᐅ 기술 스택</li>
-    <li> ᐅ 팀원 정보</li>
-    <li> ᐅ 저작권 및 사용권 정보</li>
-    <li> ᐅ 부록</li>
+    <li><a href="#intro"> ᐅ 프로젝트 소개 (Intro)</a></li>
+    <li><a href="#features"> ᐅ 기능 설명 (Features)</a></li>
+    <li><a href="pre-required" ᐅ 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</a></li>
+    <li><a href="technique" ᐅ 기술 스택 (Technique used)</a></li>
+    <li><a href="install" ᐅ 설치 안내 (How to download)</a></li>
+    <li><a href="usage" ᐅ 프로젝트 사용법 (How to use)</a></li>
+    <li><a href="team" ᐅ 팀원 정보 (Meet the team)</a></li>
+    <li><a href="copyright" ᐅ 저작권 및 사용권 정보 (Copyright and License)</a></li>
+    <li><a href="appendex" ᐅ 부록 (Appendex)</a></li>
   </ol>
 </details>
 
 # sections
 
+<h2 id="intro"> :grey_question: 프로젝트 소개 (Intro)</h2>
 ## :grey_question: 프로젝트 소개
 > + 카메라를 설치해, AI가 군 기지 출입시 두발 및 복장 불량 여부를 인식한다.
 >    + 대시보드에 부대별, 전군 실시간 데이터를 올려 통계직인 여러 인사이트를 게재한다.
@@ -38,6 +38,7 @@
 
 우리 **NAVY효과의 "오밀조밀"은 이러한 사례들을 수집해 관리자, 일반 사병, 군사 경찰 할 것 없이 기지 내 장병들에게 편의와 인사이트를 제공하는 솔루션**이 될 것입니다.
 
+<h2 id="features"> :mag: 기능 설명 및 프로젝트 사용법 (Features)</h2>
 ## :mag: 기능 설명 및 프로젝트 사용법
 ### :computer: UX/UI
 > 이미지를 기능 설명하며 보여주기
@@ -49,11 +50,14 @@
  + 전군 통계 대시보드입니다. 부대별 현황과 다르게 훨씬 넓은 범위에서의 추이를 보여줍니다.
  + 인공지능이 외적 군기 위반 여부를 판별하는 모습입니다.
 
+
+<h2 id="pre-required"> :dash: 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</h2>
 ## 컴퓨터 구성 / 필수 조건 안내
  + ECMAScript 6 지원 브라우저 사용
  + 권장: Google Chrome 버전 77 이상
  + Internet Explorer 미사용 추천 등
 
+<h2 id="technique"> :technologist: 기술 스택 (Technique used)</h>
 ## 기술 스택
 ### Back end
  + python 3.8
@@ -71,9 +75,11 @@
  + vue.js
  + node.js
 
+<h2 id="install"> :dash: 설치 안내 (How to download)</h2>
 ## 설치 안내
 **어느 것 다운받아서 어느 주소로 들어가야 사용 가능한지 설명. 추후 공지 예정**
 
+<h2 id="team"> :couplett
 ## 팀 정보
 > NAVY효과
 
