@@ -92,12 +92,12 @@
 |허태량| 프론트 엔드 개발자 | cake0702@naver.com |   
 |김민섭| 프론트 엔드 개발자 | tjqtjq0516@gmail.com |
 
-<h2 id="copyright"> :books: 팀원 정보 (Copyright & License)</h2>
+<h2 id="copyright"> :books: 저작권 및 사용권 정보 (Copyright & License)</h2>
 
  + MIT
 This project is licensed under the terms of the MIT license.
 
 
-<h2 id="appendex"> :books: 부록 (Appendex)</h2>
+<h2 id="appendex"> :card_index: 부록 (Appendex)</h2>
 
 > 개발 문서 
