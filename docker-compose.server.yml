@@ -24,7 +24,8 @@ services:
     volumes:
       - ./backend/:/home/backend
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   frontend:
     container_name: omil_frontend
