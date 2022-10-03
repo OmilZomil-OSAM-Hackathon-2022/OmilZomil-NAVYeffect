@@ -24,6 +24,7 @@ export default {
 
 <style>
 @import "@/assets/styles/common.css";
+@import url("http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700");
 /* background: #32313F; */
 /* :root{
 } */
@@ -49,7 +50,7 @@ body,
   height: 100%;
 }
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -60,7 +61,7 @@ body,
   flex-direction: column;
   align-items: center;
   height: auto;
-  /* min-height: 100%; */
+  min-height: 100%;
 
   background: var(--color-background);
   width: 100%;

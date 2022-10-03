@@ -38,7 +38,7 @@
       </form>
       <form class="form2">
         <button><img src="@/assets/icons/mdi_magnify.svg"></button>
-        <input>
+        <input placeholder="검색">
       </form>
     </div>
     <ListUp />
@@ -121,6 +121,11 @@ select{
   color: #ABACC0;
 }
 input{
+
+  background: var(--color-input);
+  /* Dark8 */
+
+  border: 1px solid var(--color-input-border);
   box-sizing: border-box;
   padding: 7px 12px;
   /* gap: 2px; */
@@ -128,11 +133,10 @@ input{
   width: 224px;
   height: 28px;
 
-  background: #FFFFFF;
-  /* Dark8 */
-
-  border: 1px solid #D9D8E8;
   border-radius: 4px;
+}
+input::placeholder{
+  color:#ABACC0;
 }
 button{
   /* box-sizing: border-box; */
