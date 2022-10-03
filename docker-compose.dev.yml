@@ -1,34 +1,39 @@
 version: "3.9"
 
-# 실서버에서 사용하는 환경
+# code server에서 사용하는 환경
 
 services:
   db:
     container_name: omil_db
     image: mysql
-    restart: always 
+    # restart: always
     env_file: .env.private
-    # volumes:
-    #   - ./data:/var/lib/postgresql/data
 
-  backend:
+  backend: 
     container_name: omil_backend
     build:
       context: backend/deploy
-      dockerfile: Dockerfile
+      dockerfile: dev_Dockerfile
     env_file: .env.private
     volumes:
-      - ./backend/:/home/backend
+      - omil:/home
     depends_on:
       - db
-
+    ports:
+      - "7776:8000"
   frontend:
     container_name: omil_frontend
     build:
       context: frontend/deploy
-      dockerfile: Dockerfile
+      dockerfile: dev_Dockerfile
     env_file: .env.private
-    volumes: 
-      - ./frontend/omilzomil:/home/frontend
+    volumes:
+      - omil:/home
     ports:
-      - ${FRONTEND_PORT}:"8080"
+      - "7777:8080"
+
+
+volumes:
+  omil: # 개발용 code server volume
+    external:
+      name: omil
