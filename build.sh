@@ -1,9 +1,11 @@
 DIR_PATH=`pwd`
 
 cat .env.private > .env.lock
-echo DIR_PATH=$DIR_PATH >> .env.lock
+echo BACKEND_DIR_PATH=$DIR_PATH/backend >> .env.lock
+echo FRONTEND_DIR_PATH=$DIR_PATH/frontend >> .env.lock
 
 echo [+] makeing DB 
+exit
 
 # 기존 컨테이너 지우기
 sudo docker-compose --env-file .env.lock down
