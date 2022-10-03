@@ -2,4 +2,4 @@
 
 echo [+] Stopping docker container
 
-sudo docker-compose -f docker-compose.server.yml down frontend backend
+sudo docker-compose -f docker-compose.server.yml stop frontend backend
