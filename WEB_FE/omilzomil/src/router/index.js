@@ -18,11 +18,17 @@ const routes = [
     path: "/login",
     name: "Login",
     component: () => import('../views/LoginPage.vue'),
+    meta:{
+      hideAppBar:true,
+    },
   },
   {
     path: "/register",
     name: "Register",
     component: () => import('../views/RegisterPage.vue'),
+    meta:{
+      hideAppBar:true,
+    },
   },
   {
     path: "/listup",

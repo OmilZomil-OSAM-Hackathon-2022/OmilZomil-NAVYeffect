@@ -29,7 +29,6 @@ export default {
     /* margin-top:40px; */
 }
 .row-1{
-    margin-top:40px;
     height:196px;
 }
 .row-2{

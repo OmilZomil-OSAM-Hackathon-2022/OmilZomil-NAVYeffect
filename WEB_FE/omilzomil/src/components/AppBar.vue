@@ -148,7 +148,7 @@ export default {
 .toggleSwitch {
   width: 64px;
   /* margin: 2rem; */
-  height: 28px;
+  height: 26px;
   display: block;
   position: relative;
   border-radius: 40px;
@@ -161,8 +161,8 @@ export default {
 }
 
 .toggleSwitch .toggleButton {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   position: absolute;
   top: 50%;
   left: 4px;
@@ -190,7 +190,7 @@ export default {
 
 
 #toggle:checked ~ .toggleSwitch .toggleButton {
-  left: calc(100% - 28px);
+  left: calc(100% - 26px);
   background: rgba(183, 134, 255, 0.2);
 
   border: #B786FF solid 2px;
