@@ -1,5 +1,5 @@
 # WEB_CLOUD_OmilJomil_NAVYeffect
-외적 군기 디텍팅 솔루션. 사진 넣을 것 gif.
+![Slide 16_9 - 37](https://user-images.githubusercontent.com/59905641/193630489-e5327446-01fe-4ae2-9787-cbe77f0aeea1.png)
 # :sunglasses: 오밀조밀 : 외적 군기 디텍팅 솔루션 :whale:
 
 ### 기지 정문에 카메라를 설치, 외적 군기 불량 여부를 판단해 부대 관리자 및 병들이 볼 수 있는 체계에 제공한다.
@@ -9,11 +9,10 @@
 <details open="open">
   <ol>
     <li><a href="#intro"> ᐅ 프로젝트 소개 (Intro)</a></li>
-    <li><a href="#features"> ᐅ 기능 설명 (Features)</a></li>
+    <li><a href="#features"> ᐅ 기능 설명 및 사용법 (Features)</a></li>
     <li><a href="#pre-required"> ᐅ 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</a></li>
     <li><a href="#technique"> ᐅ 기술 스택 (Technique used)</a></li>
     <li><a href="#install"> ᐅ 설치 안내 (How to download)</a></li>
-    <li><a href="#usage"> ᐅ 프로젝트 사용법 (How to use)</a></li>
     <li><a href="#team"> ᐅ 팀원 정보 (Meet the team)</a></li>
     <li><a href="#copyright"> ᐅ 저작권 및 사용권 정보 (Copyright and License)</a></li>
     <li><a href="#appendex"> ᐅ 부록 (Appendex)</a></li>
@@ -41,14 +40,24 @@
 <h2 id="features"> :mag: 기능 설명 및 프로젝트 사용법 (Features)</h2>
 
 ### :computer: UX/UI
-> 이미지를 기능 설명하며 보여주기
+> 완성 후 와이어프레임들 대체 필요
  + 로그인 및 회원가입 기능입니다. 각 부대 담당자들은 부여받은 계정으로 접근 가능합니다.
+ ![Slide 16_9 - 37](https://user-images.githubusercontent.com/59905641/193630489-e5327446-01fe-4ae2-9787-cbe77f0aeea1.png)
+ 
  + 부대별 대시보드입니다. 실시간으로 출입자 정보가 리스트업되며, 각 요소 별 불량 비율이나 월간 양호 빈도 등을 제공합니다.
+ ![Slide 16_9 - 36](https://user-images.githubusercontent.com/59905641/193630811-aafc8f62-a53d-43d0-8bdd-55182489bd55.png)
+
  + 부대 인원 조회 페이지입니다. 실시간 감지되는 리스트 중 한 컴포넌트 클릭 시 상세보기 창이 팝업됩니다.
+ ![부대 인원 조회 페이지-4 2](https://user-images.githubusercontent.com/59905641/193631247-77354eec-01c4-40cd-8a2f-5dd60f037057.png)
+ 
  + 랭킹페이지입니다. 위반 비율을 따져 1순위부터 전 부대를 확인할 수 있습니다.
+ ![랭킹](https://user-images.githubusercontent.com/59905641/193633520-e8b3bd72-e596-4350-9a69-cf3c19700a74.png)
 
  + 전군 통계 대시보드입니다. 부대별 현황과 다르게 훨씬 넓은 범위에서의 추이를 보여줍니다.
+ ![전군2](https://user-images.githubusercontent.com/59905641/193633758-4d7275df-f4eb-496c-a669-0d5487245661.png)
+ 
  + 인공지능이 외적 군기 위반 여부를 판별하는 모습입니다.
+ ![인공지능-1](https://user-images.githubusercontent.com/59905641/193634048-a2baab28-9483-4dde-b421-dc74c0c96a04.png)
 
 
 <h2 id="pre-required"> :dash: 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</h2>
@@ -100,4 +109,7 @@ This project is licensed under the terms of the MIT license.
 
 <h2 id="appendex"> :card_index: 부록 (Appendex)</h2>
 
-> 개발 문서 
+> 개발 문서
+
++리스트업 페이지 와이어프레임
+
