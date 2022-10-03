@@ -75,13 +75,14 @@
  + vue.js
  + node.js
 
-<h2 id="install"> :dash: 설치 안내 (How to download)</h2>
+<h2 id="install"> :arrow_down: 설치 안내 (How to download)</h2>
 ## 설치 안내
 **어느 것 다운받아서 어느 주소로 들어가야 사용 가능한지 설명. 추후 공지 예정**
 
-<h2 id="team"> :couplett
-## 팀 정보
-> NAVY효과
+<h2 id="team"> :kissing_heart: 팀원 정보 (Meet the team)</h2>
+## 팀원 정보
+
+> 팀 NAVY효과
 
 | Name | Role | Contect |   
 |:---:|:---:|:---:| 
