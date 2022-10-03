@@ -1,5 +1,8 @@
 echo [+] makeing DB 
 
+# 기존 컨테이너 지우기
+sudo docker-compose -f docker-compose.server.yml --env-file .env.private down
+
 # docker 빌드
 sudo docker-compose -f docker-compose.server.yml --env-file .env.private build
 
