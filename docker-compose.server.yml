@@ -10,6 +10,10 @@ services:
     env_file: .env.private
     # volumes:
     #   - ./data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD","test -f var/lib/mysql/db"]
+      timeout: 60s
+      retries: 10
 
   backend:
     container_name: omil_backend
