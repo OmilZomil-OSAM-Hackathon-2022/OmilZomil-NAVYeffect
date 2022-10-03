@@ -11,6 +11,11 @@
           >
             불량 요소를 선택하세요.
           </option>
+          <option>이름표</option>
+          <option>계급장</option>
+          <option>태극기</option>
+          <option>모자</option>
+          <option>두발</option>
         </select>
         <select>
           <option
@@ -20,6 +25,10 @@
           >
             계급을 선택하세요.
           </option>
+          <option>이병</option>
+          <option>일병</option>
+          <option>상병</option>
+          <option>병장</option>
         </select>
         <!-- <input
           type="date"
@@ -52,7 +61,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import ListUp from '@/components/ListUp.vue';
 import {ref} from 'vue';
 export default {
-    components: { Datepicker,ListUp },
+    components: { Datepicker, ListUp},
     // data(){
     //   return {
     //     date:null,
@@ -80,6 +89,9 @@ export default {
 </script>
 
 <style scoped>
+.wrap{
+  margin-bottom:40px;
+}
 .filter{
   height:76px;
   margin-bottom: 40px;
@@ -160,6 +172,11 @@ button{
 
   color: #9155EB;
 
+}
+.pagenation{
+  width:100%;
+  display:flex;
+  justify-content:flex-end;
 }
 </style>
 
