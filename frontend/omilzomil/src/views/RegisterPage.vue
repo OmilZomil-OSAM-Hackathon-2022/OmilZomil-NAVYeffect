@@ -1,13 +1,25 @@
-<template >
+<template>
   <div style="display: flex; width: 100%; height: 100vh">
     <div class="left">
-      <img class="back" src="@/assets/images/loginBackground.svg" />
-      <img class="hand" src="@/assets/images/hand.svg" />
-      <img class="front" src="@/assets/images/topBackground.svg" />
+      <img
+        class="back"
+        src="@/assets/images/loginBackground.svg"
+      >
+      <img
+        class="hand"
+        src="@/assets/images/hand.svg"
+      >
+      <img
+        class="front"
+        src="@/assets/images/topBackground.svg"
+      >
       <div class="wrap-title">
-        <h2>오밀조밀<br />복장과 두발을 검사하다</h2>
+        <h2>오밀조밀<br>복장과 두발을 검사하다</h2>
         <div class="title">
-          <img width="52px" src="@/assets/logo.svg" />
+          <img
+            width="52px"
+            src="@/assets/logo.svg"
+          >
           <h1>OMIL-ZOMIL</h1>
         </div>
       </div>
@@ -16,115 +28,191 @@
       <div class="flow-wrap">
         <h2>회원가입</h2>
         <div class="title">
-          <img width="52px" src="@/assets/logo.svg" />
+          <img
+            width="52px"
+            src="@/assets/logo.svg"
+          >
           <h1>OMIL-ZOMIL</h1>
         </div>
         <div class="right-wrap">
           <form @submit.prevent="submitForm">
             <div class="input-label">
               <h3>이름</h3>
-              <div v-show="name.check == 2" class="input-warning">
+              <div
+                v-show="name.check == 2"
+                class="input-warning"
+              >
                 이름을 입력해주세요.
               </div>
             </div>
             <input
               v-model="name.data"
               placeholder="성명"
-              v-bind:class="{
+              :class="{
                 success: name.check == 1,
                 error: name.check == 2,
               }"
               @change="checkName"
-            />
+            >
 
             <div class="input-label">
               <h3>군번</h3>
-              <div v-show="dogTag.check == 2" class="input-warning">
+              <div
+                v-show="dogTag.check == 2"
+                class="input-warning"
+              >
                 군번을 입력해주세요.
               </div>
             </div>
             <input
               v-model="dogTag.data"
               placeholder="군번"
-              v-bind:class="{
+              :class="{
                 success: dogTag.check == 1,
                 error: dogTag.check == 2,
               }"
               @change="checkDogTag"
-            />
+            >
 
             <div class="input-label">
               <h3>소속</h3>
-              <div v-show="division.check == 2" class="input-warning">
+              <div
+                v-show="division.check == 2"
+                class="input-warning"
+              >
                 소속을 선택하세요.
               </div>
             </div>
             <select v-model="division.data">
-              <option value="" disabled selected>소속을 선택하세요.</option>
-              <option value="육군">육군</option>
-              <option value="해군">해군</option>
-              <option value="공군">공군</option>
-              <option value="해병대">해병대</option>
-              <option value="국방부직속">국방부직속</option>
+              <option
+                value=""
+                disabled
+                selected
+              >
+                소속을 선택하세요.
+              </option>
+              <option value="육군">
+                육군
+              </option>
+              <option value="해군">
+                해군
+              </option>
+              <option value="공군">
+                공군
+              </option>
+              <option value="해병대">
+                해병대
+              </option>
+              <option value="국방부직속">
+                국방부직속
+              </option>
             </select>
 
             <div class="input-label">
               <h3>부대</h3>
-              <div v-show="armyUnit.check == 2" class="input-warning">
+              <div
+                v-show="armyUnit.check == 2"
+                class="input-warning"
+              >
                 부대를 선택하세요.
               </div>
             </div>
 
             <select v-model="armyUnit.data">
-              <option value="" disabled selected>부대을 선택하세요.</option>
+              <option
+                value=""
+                disabled
+                selected
+              >
+                부대을 선택하세요.
+              </option>
 
-              <option value="계룡대 근무지원단">계룡대 근무지원단</option>
-              <option value="1함대">1함대</option>
-              <option value="2함대">2함대</option>
-              <option value="3함대">3함대</option>
-              <option value="작전사">작전사</option>
+              <option value="계룡대 근무지원단">
+                계룡대 근무지원단
+              </option>
+              <option value="1함대">
+                1함대
+              </option>
+              <option value="2함대">
+                2함대
+              </option>
+              <option value="3함대">
+                3함대
+              </option>
+              <option value="작전사">
+                작전사
+              </option>
             </select>
 
             <div class="input-label">
               <h3>계급</h3>
-              <div v-show="uClass.check" class="input-warning">
+              <div
+                v-show="uClass.check"
+                class="input-warning"
+              >
                 계급을 선택하세요.
               </div>
             </div>
             <select v-model="uClass.data">
-              <option value="" disabled selected>계급을 선택하세요.</option>
+              <option
+                value=""
+                disabled
+                selected
+              >
+                계급을 선택하세요.
+              </option>
 
-              <option value="이병">이병</option>
-              <option value="일병">일병</option>
-              <option value="상병">상병</option>
-              <option value="병장">병장</option>
+              <option value="이병">
+                이병
+              </option>
+              <option value="일병">
+                일병
+              </option>
+              <option value="상병">
+                상병
+              </option>
+              <option value="병장">
+                병장
+              </option>
             </select>
 
             <div class="input-label">
               <h3>아이디</h3>
-              <div class="input-comment" v-show="uid.check != 2">
+              <div
+                v-show="uid.check != 2"
+                class="input-comment"
+              >
                 아이디를 6자 이상 입력해주세요.
               </div>
-              <div class="input-warning" v-show="uid.check == 2">
+              <div
+                v-show="uid.check == 2"
+                class="input-warning"
+              >
                 아이디를 6자 이상 입력해주세요.
               </div>
             </div>
             <input
               v-model="uid.data"
-              v-bind:class="{
+              :class="{
                 success: uid.check == 1,
                 error: uid.check == 2,
               }"
               placeholder="아이디"
               @change="checkID"
-            />
+            >
 
             <div class="input-label">
               <h3>비밀번호</h3>
-              <div v-show="password.check != 2" class="input-comment">
+              <div
+                v-show="password.check != 2"
+                class="input-comment"
+              >
                 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.
               </div>
-              <div v-show="password.check == 2" class="input-warning">
+              <div
+                v-show="password.check == 2"
+                class="input-warning"
+              >
                 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.
               </div>
             </div>
@@ -133,18 +221,21 @@
               type="password"
               placeholder="비밀번호"
               style="margin-bottom: 20px; background-image: none"
-              v-bind:class="{
+              :class="{
                 success: password.check == 1,
                 error: password.check == 2,
               }"
               @change="checkPassword"
-            />
+            >
             <div class="input-label">
               <h3>비밀번호 확인</h3>
               <!-- <div v-show="passwordConfirm.check != 2" class="input-comment">
                 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.
               </div> -->
-              <div v-show="passwordConfirm.check == 2" class="input-warning">
+              <div
+                v-show="passwordConfirm.check == 2"
+                class="input-warning"
+              >
                 비밀번호가 일치하지 않습니다.
               </div>
             </div>
@@ -152,16 +243,20 @@
               v-model="passwordConfirm.data"
               type="password"
               placeholder="비밀번호 확인"
-              v-bind:class="{
+              :class="{
                 success: passwordConfirm.check == 1,
                 error: passwordConfirm.check == 2,
               }"
               style="background-image: none"
               @change="checkPasswordCofirm"
-            />
-            <button type="submit">확인</button>
+            >
+            <button type="submit">
+              확인
+            </button>
           </form>
-          <h1 id="console">{{ text }}</h1>
+          <h1 id="console">
+            {{ text }}
+          </h1>
         </div>
       </div>
     </div>

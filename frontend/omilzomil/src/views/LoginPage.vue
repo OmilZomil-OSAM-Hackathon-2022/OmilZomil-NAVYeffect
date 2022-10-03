@@ -1,13 +1,25 @@
-<template >
+<template>
   <div style="display: flex; width: 100%; height: 100%">
     <div class="left">
-      <img class="back" src="@/assets/images/loginBackground.svg" />
-      <img class="hand" src="@/assets/images/hand.svg" />
-      <img class="front" src="@/assets/images/topBackground.svg" />
+      <img
+        class="back"
+        src="@/assets/images/loginBackground.svg"
+      >
+      <img
+        class="hand"
+        src="@/assets/images/hand.svg"
+      >
+      <img
+        class="front"
+        src="@/assets/images/topBackground.svg"
+      >
       <div class="wrap-title">
-        <h2>오밀조밀<br />복장과 두발을 검사하다</h2>
+        <h2>오밀조밀<br>복장과 두발을 검사하다</h2>
         <div class="title">
-          <img width="52px" src="@/assets/logo.svg" />
+          <img
+            width="52px"
+            src="@/assets/logo.svg"
+          >
           <h1>OMIL-ZOMIL</h1>
         </div>
       </div>
@@ -15,19 +27,39 @@
     <div class="right">
       <h2>로그인</h2>
       <div class="title">
-        <img width="52px" src="@/assets/logo.svg" />
+        <img
+          width="52px"
+          src="@/assets/logo.svg"
+        >
         <h1>OMIL-ZOMIL</h1>
       </div>
       <div class="right-wrap">
         <form @submit.prevent="buttonClick">
-          <input class="user" placeholder="아이디" />
-          <input class="password" type="password" placeholder="비밀번호" :style="{ 'margin-bottom': (loginFail? '0px':'60px')}"/>
-          <div v-show="loginFail" class="input-warning">아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.<br/>
-입력하신 내용을 다시 확인해주세요.</div>
-          <button type="sumit">로그인</button>
+          <input
+            class="user"
+            placeholder="아이디"
+          >
+          <input
+            class="password"
+            type="password"
+            placeholder="비밀번호"
+            :style="{ 'margin-bottom': (loginFail? '0px':'60px')}"
+          >
+          <div
+            v-show="loginFail"
+            class="input-warning"
+          >
+            아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.<br>
+            입력하신 내용을 다시 확인해주세요.
+          </div>
+          <button type="sumit">
+            로그인
+          </button>
         </form>
         <div style="display: flex; gap: 20px">
-          <router-link to="/register">회원가입</router-link>
+          <router-link to="/register">
+            회원가입
+          </router-link>
           <a>아이디 찾기</a>
           <a>비밀번호 찾기</a>
         </div>

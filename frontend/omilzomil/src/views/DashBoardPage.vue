@@ -1,19 +1,25 @@
 <template>
-    <div class="row-center">
-        <div class="wrap">
-            <div class="row row-1">
-                <div class="card card-1">test</div>
-                <div class="row card-1">
-                    <div class="card">test</div>
-                    <div class="card">test</div>
-                    <div class="card">test</div>
-                </div>
-            </div>
-            <div class="row row-2">
-                
-            </div>
+  <div class="row-center">
+    <div class="wrap">
+      <div class="row row-1">
+        <div class="card card-1">
+          test
         </div>
+        <div class="row card-1">
+          <div class="card">
+            test
+          </div>
+          <div class="card">
+            test
+          </div>
+          <div class="card">
+            test
+          </div>
+        </div>
+      </div>
+      <div class="row row-2" />
     </div>
+  </div>
 </template>
 
 <script>

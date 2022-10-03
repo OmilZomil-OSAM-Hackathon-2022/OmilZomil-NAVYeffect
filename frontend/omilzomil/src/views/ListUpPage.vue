@@ -3,21 +3,35 @@
     <div class="card filter">
       <form class="form1">
         <select>
-          <option value="" disabled selected>불량 요를 선택하세요.</option>
+          <option
+            value=""
+            disabled
+            selected
+          >
+            불량 요를 선택하세요.
+          </option>
         </select>
         <select>
-
-          <option value="" disabled selected>계급을 선택하세요.</option>
+          <option
+            value=""
+            disabled
+            selected
+          >
+            계급을 선택하세요.
+          </option>
         </select>
-        <input type="date" placeholder="기한을 선택하세요."/>
+        <input
+          type="date"
+          placeholder="기한을 선택하세요."
+        >
         <button>필터 적용</button>
       </form>
       <form class="form2">
-        <button><img src="@/assets/icons/mdi_magnify.svg"/></button>
-        <input/>
+        <button><img src="@/assets/icons/mdi_magnify.svg"></button>
+        <input>
       </form>
     </div>
-    <ListUp></ListUp>
+    <ListUp />
   </div>
 </template>
 
