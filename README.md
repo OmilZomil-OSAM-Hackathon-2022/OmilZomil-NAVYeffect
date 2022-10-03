@@ -10,13 +10,13 @@
   <ol>
     <li><a href="#intro"> ᐅ 프로젝트 소개 (Intro)</a></li>
     <li><a href="#features"> ᐅ 기능 설명 (Features)</a></li>
-    <li><a href="pre-required" ᐅ 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</a></li>
-    <li><a href="technique" ᐅ 기술 스택 (Technique used)</a></li>
-    <li><a href="install" ᐅ 설치 안내 (How to download)</a></li>
-    <li><a href="usage" ᐅ 프로젝트 사용법 (How to use)</a></li>
-    <li><a href="team" ᐅ 팀원 정보 (Meet the team)</a></li>
-    <li><a href="copyright" ᐅ 저작권 및 사용권 정보 (Copyright and License)</a></li>
-    <li><a href="appendex" ᐅ 부록 (Appendex)</a></li>
+    <li><a href="pre-required"> ᐅ 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</a></li>
+    <li><a href="technique"> ᐅ 기술 스택 (Technique used)</a></li>
+    <li><a href="install"> ᐅ 설치 안내 (How to download)</a></li>
+    <li><a href="usage"> ᐅ 프로젝트 사용법 (How to use)</a></li>
+    <li><a href="team"> ᐅ 팀원 정보 (Meet the team)</a></li>
+    <li><a href="copyright"> ᐅ 저작권 및 사용권 정보 (Copyright and License)</a></li>
+    <li><a href="appendex"> ᐅ 부록 (Appendex)</a></li>
   </ol>
 </details>
 
