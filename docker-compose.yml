@@ -22,7 +22,7 @@ services:
       dockerfile: Dockerfile
     env_file: .env.private
     volumes:
-      - ./backend:/home/backend
+      -  ${DIR_PATH}:/home/backend
     depends_on:
       db:
         condition: service_healthy
