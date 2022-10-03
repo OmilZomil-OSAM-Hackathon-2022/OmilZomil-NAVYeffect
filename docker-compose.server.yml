@@ -12,8 +12,8 @@ services:
     #   - ./data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD","echo 'SELECT version();' | mysql"]
-      timeout: 60s
-      retries: 10
+      timeout: 10s
+      retries: 100
 
   backend:
     container_name: omil_backend
