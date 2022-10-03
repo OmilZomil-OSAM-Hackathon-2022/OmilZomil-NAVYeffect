@@ -41,7 +41,6 @@
         <input>
       </form>
     </div>
-    <h1>{{ date }}</h1>
     <ListUp />
   </div>
 </template>
@@ -102,15 +101,28 @@ select{
   width: 224px;
   height: 28px;
 
-  background: #FFFFFF;
+  background: var(--color-input);
   /* Dark8 */
 
-  border: 1px solid #D9D8E8;
+  border: 1px solid var(--color-input-border);
   border-radius: 4px;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  /* identical to box height */
+
+  letter-spacing: 0.4px;
+
+  /* Dark6 */
+
+  color: #ABACC0;
 }
 input{
   box-sizing: border-box;
-  padding: 6px 0px 6px 12px;
+  padding: 7px 12px;
   /* gap: 2px; */
 
   width: 224px;
