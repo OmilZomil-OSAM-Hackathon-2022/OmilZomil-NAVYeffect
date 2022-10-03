@@ -60,7 +60,7 @@
 <h2 id="technique"> :technologist: 기술 스택 (Technique used)</h>
 
 ### Back end
- + python 3.8
+ + python 3.8 <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
  + fastapi
 
 ### DB(back-end)
