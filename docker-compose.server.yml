@@ -11,7 +11,7 @@ services:
     # volumes:
     #   - ./data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD","mysqladmin", "ping", "-p1234", ]
+      test: ["CMD","mysqladmin", "ping", "-p${MYSQL_ROOT_PASSWORD}", ]
       timeout: 10s
       retries: 100
 
