@@ -9,7 +9,7 @@ RUN apt-get install -y cron
 # 작업 폴더 설정
 WORKDIR /home
 RUN git clone https://github.com/osamhack2022/WEB_CLOUD_OmilZomil_NAVYeffect
-WORKDIR /home/WEB_CLOUD_OmilZomil_NAVYeffect/
+WORKDIR /home/WEB_CLOUD_OmilZomil_NAVYeffect/backend
 # 개발용 branch 로 이동
 RUN git checkout -t origin/dev/rebase
 
