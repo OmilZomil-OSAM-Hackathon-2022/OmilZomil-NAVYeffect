@@ -1,5 +1,5 @@
 # WEB_CLOUD_OmilJomil_NAVYeffect
-외적 군기 디텍팅 솔루션
+외적 군기 디텍팅 솔루션. 사진 넣을 것 gif.
 # :sunglasses: 오밀조밀 : 외적 군기 디텍팅 솔루션 :whale:
 
 ### 기지 정문에 카메라를 설치, 외적 군기 불량 여부를 판단해 부대 관리자 및 병들이 볼 수 있는 체계에 제공한다.
@@ -10,20 +10,20 @@
   <ol>
     <li><a href="#intro"> ᐅ 프로젝트 소개 (Intro)</a></li>
     <li><a href="#features"> ᐅ 기능 설명 (Features)</a></li>
-    <li><a href="pre-required"> ᐅ 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</a></li>
-    <li><a href="technique"> ᐅ 기술 스택 (Technique used)</a></li>
-    <li><a href="install"> ᐅ 설치 안내 (How to download)</a></li>
-    <li><a href="usage"> ᐅ 프로젝트 사용법 (How to use)</a></li>
-    <li><a href="team"> ᐅ 팀원 정보 (Meet the team)</a></li>
-    <li><a href="copyright"> ᐅ 저작권 및 사용권 정보 (Copyright and License)</a></li>
-    <li><a href="appendex"> ᐅ 부록 (Appendex)</a></li>
+    <li><a href="#pre-required"> ᐅ 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</a></li>
+    <li><a href="#technique"> ᐅ 기술 스택 (Technique used)</a></li>
+    <li><a href="#install"> ᐅ 설치 안내 (How to download)</a></li>
+    <li><a href="#usage"> ᐅ 프로젝트 사용법 (How to use)</a></li>
+    <li><a href="#team"> ᐅ 팀원 정보 (Meet the team)</a></li>
+    <li><a href="#copyright"> ᐅ 저작권 및 사용권 정보 (Copyright and License)</a></li>
+    <li><a href="#appendex"> ᐅ 부록 (Appendex)</a></li>
   </ol>
 </details>
 
 # sections
 
 <h2 id="intro"> :grey_question: 프로젝트 소개 (Intro)</h2>
-## :grey_question: 프로젝트 소개
+
 > + 카메라를 설치해, AI가 군 기지 출입시 두발 및 복장 불량 여부를 인식한다.
 >    + 대시보드에 부대별, 전군 실시간 데이터를 올려 통계직인 여러 인사이트를 게재한다.
 >    + 각 부대 담당 간부는 접근 가능한 계정을 부여받아 이를 통해 확인할 수 있다.
@@ -39,7 +39,7 @@
 우리 **NAVY효과의 "오밀조밀"은 이러한 사례들을 수집해 관리자, 일반 사병, 군사 경찰 할 것 없이 기지 내 장병들에게 편의와 인사이트를 제공하는 솔루션**이 될 것입니다.
 
 <h2 id="features"> :mag: 기능 설명 및 프로젝트 사용법 (Features)</h2>
-## :mag: 기능 설명 및 프로젝트 사용법
+
 ### :computer: UX/UI
 > 이미지를 기능 설명하며 보여주기
  + 로그인 및 회원가입 기능입니다. 각 부대 담당자들은 부여받은 계정으로 접근 가능합니다.
@@ -52,13 +52,13 @@
 
 
 <h2 id="pre-required"> :dash: 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</h2>
-## 컴퓨터 구성 / 필수 조건 안내
+
  + ECMAScript 6 지원 브라우저 사용
  + 권장: Google Chrome 버전 77 이상
  + Internet Explorer 미사용 추천 등
 
 <h2 id="technique"> :technologist: 기술 스택 (Technique used)</h>
-## 기술 스택
+
 ### Back end
  + python 3.8
  + fastapi
@@ -76,11 +76,10 @@
  + node.js
 
 <h2 id="install"> :arrow_down: 설치 안내 (How to download)</h2>
-## 설치 안내
+
 **어느 것 다운받아서 어느 주소로 들어가야 사용 가능한지 설명. 추후 공지 예정**
 
 <h2 id="team"> :kissing_heart: 팀원 정보 (Meet the team)</h2>
-## 팀원 정보
 
 > 팀 NAVY효과
 
@@ -93,9 +92,12 @@
 |허태량| 프론트 엔드 개발자 | cake0702@naver.com |   
 |김민섭| 프론트 엔드 개발자 | tjqtjq0516@gmail.com |
 
-## 저작권 및 사용권 정보
+<h2 id="copyright"> :books: 팀원 정보 (Copyright & License)</h2>
+
  + MIT
 This project is licensed under the terms of the MIT license.
 
-## Appendix
+
+<h2 id="appendex"> :books: 부록 (Appendex)</h2>
+
 > 개발 문서 
