@@ -11,7 +11,7 @@ services:
     # volumes:
     #   - ./data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD","test -f var/lib/mysql/db"]
+      test: ["CMD","echo 'SELECT version();' | mysql"]
       timeout: 60s
       retries: 10
 
