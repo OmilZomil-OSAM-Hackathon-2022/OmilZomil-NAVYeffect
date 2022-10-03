@@ -60,24 +60,24 @@
 <h2 id="technique"> :technologist: 기술 스택 (Technique used)</h>
 
 ### Back end
- + python 3.8 <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
- + fastapi
+ + <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">
+ + <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=FastAPI&logoColor=white">
 
 ### DB(back-end)
- + postgresql
+ + <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=PostgreSQL&logoColor=white">
 
 ### AI(back-end)
- + lib : tensorflow, OpenCV
- + model : swit-transformer, YOLO v4, HED(Holistically-Nested Edge Dataset), MobileNet
+ + lib : <img src="https://img.shields.io/badge/TensolFlow-FF6F00?style=for-the-badge&logo=TensorFlow&logoColor=white"> <img src="https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=OpenCV&logoColor=white">
+ + model : swit-transformer, <img src="https://img.shields.io/badge/YOLO-00FFFF?style=for-the-badge&logo=YOLO&logoColor=white"> v4, HED(Holistically-Nested Edge Dataset), MobileNet
  + dataset : MS-COCO, Pascal VOC Dataset Mirror, CelebAMask-HQ, Figaro-1k, Lft
 
 ### Front end
- + vue.js
- + node.js
+ + <img src="https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=Vue.js&logoColor=white">
+ + <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
 
 <h2 id="install"> :arrow_down: 설치 안내 (How to download)</h2>
 
-**어느 것 다운받아서 어느 주소로 들어가야 사용 가능한지 설명. 추후 공지 예정**
+**어느 것 다운받아서 어느 주소로 들어가야 사용 가능한지 설명. 추후 링크 공지 예정**
 
 <h2 id="team"> :kissing_heart: 팀원 정보 (Meet the team)</h2>
 
