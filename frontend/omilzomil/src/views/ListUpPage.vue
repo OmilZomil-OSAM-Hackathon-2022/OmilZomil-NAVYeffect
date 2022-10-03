@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/attribute-hyphenation -->
 <template>
   <div class="wrap">
     <div class="card filter">
@@ -8,7 +9,7 @@
             disabled
             selected
           >
-            불량 요를 선택하세요.
+            불량 요소를 선택하세요.
           </option>
         </select>
         <select>
@@ -20,10 +21,16 @@
             계급을 선택하세요.
           </option>
         </select>
-        <input
+        <!-- <input
           type="date"
           placeholder="기한을 선택하세요."
-        >
+        > -->
+        <Datepicker
+          v-model="date"
+          range
+          inputClassName="datepicker-input"
+          placeholder="기한을 선택하세요."
+        />
         <button>필터 적용</button>
       </form>
       <form class="form2">
@@ -36,9 +43,17 @@
 </template>
 
 <script>
+
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 import ListUp from '@/components/ListUp.vue';
 export default {
-    components: { ListUp }
+    components: { Datepicker,ListUp },
+    data(){
+      return {
+        date:null,
+      }
+    }
 }
 </script>
 
@@ -58,7 +73,7 @@ export default {
 }
 select{
   box-sizing: border-box;
-  padding: 6px 0px 6px 12px;
+  padding: 6px 12px;
   /* gap: 2px; */
 
   width: 224px;
@@ -105,6 +120,15 @@ button{
   /* Primary */
 
   color: #9155EB;
+
+}
+
+.datepicker-input{
+  box-sizing: border-box;
+  height:28px;
+}
+
+.datepicker-input::placeholder{
 
 }
 </style>
