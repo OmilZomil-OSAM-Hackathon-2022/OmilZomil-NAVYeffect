@@ -32,7 +32,7 @@
           inputClassName="datepicker-input"
           placeholder="기한을 선택하세요."
           selectText="확인"
-          dark
+          :dark="getDarkMode"
         />
         <button>필터 적용</button>
       </form>
@@ -71,6 +71,11 @@ export default {
         date,
         format,
       }
+    },
+    computed:{
+      getDarkMode() {
+        return this.$store.getters.getDarkMode;
+      },
     }
 }
 </script>
