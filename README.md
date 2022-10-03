@@ -2,12 +2,13 @@
 외적 군기 디텍팅 솔루션
 # :sunglasses: 오밀조밀 : 외적 군기 디텍팅 솔루션 :whale:
 
-### 기지 정문에 카메라를 설치, 외적 군기 불량 여부를 판단해 관리자들이 볼 수 있는 체계에 제공한다.
+### 기지 정문에 카메라를 설치, 외적 군기 불량 여부를 판단해 부대 관리자 및 병들이 볼 수 있는 체계에 제공한다.
 
 
 ## :pencil: INDEX
 <details open="open">
   <ol>
+    - [Sections](#sections)
     <li> ᐅ 프로젝트 소개</li>
     <li> ᐅ 기능 설명</li>
     <li> ᐅ 컴퓨터 구성 / 필수 조건 안내</li>
@@ -19,6 +20,8 @@
     <li> ᐅ 부록</li>
   </ol>
 </details>
+
+# sections
 
 ## :grey_question: 프로젝트 소개
 > + 카메라를 설치해, AI가 군 기지 출입시 두발 및 복장 불량 여부를 인식한다.
@@ -60,10 +63,13 @@
  + postgresql
 
 ### AI(back-end)
- + 
+ + lib : tensorflow, OpenCV
+ + model : swit-transformer, YOLO v4, HED(Holistically-Nested Edge Dataset), MobileNet
+ + dataset : MS-COCO, Pascal VOC Dataset Mirror, CelebAMask-HQ, Figaro-1k, Lft
 
 ### Front end
  + vue.js
+ + node.js
 
 ## 설치 안내
 **어느 것 다운받아서 어느 주소로 들어가야 사용 가능한지 설명. 추후 공지 예정**
