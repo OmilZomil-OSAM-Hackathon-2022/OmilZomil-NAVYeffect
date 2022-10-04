@@ -3,11 +3,10 @@ import time
 
 
 def video2image(video):
-    i = 0
+    frame_n = 0
     while True:
         ret, frame = video.read()
         if ret:
-            print(frame.shape, i)
             h, w, c = frame.shape
             if w > h:
                 ro = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
@@ -17,14 +16,10 @@ def video2image(video):
                 # tr1 = cv2.resize(tr1, dsize=(
                 #     h, w), interpolation=cv2.INTER_AREA)
                 # frame = tr1
-
-            print(frame.shape, i)
-            cv2.imwrite(f'../image/video_frame/1/{i}.jpg', frame)
-            i += 1
-            break
+            cv2.imwrite(f'../image/video_frame/1/{frame_n}.jpg', frame)
+            frame_n += 1
         else:
             break
-    print(i)
 
 
 video = cv2.VideoCapture('../video/1.mp4')
