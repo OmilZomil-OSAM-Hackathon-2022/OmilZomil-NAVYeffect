@@ -17,13 +17,20 @@
           </div>
         </div>
       </div>
-      <div class="row row-2" />
+      <div class="row row-2">
+        <div class="list-up">
+          <ListUp gap="46" />
+        </div>
+        <div class="card" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import ListUp from '@/components/ListUp.vue';
 export default {
+    components: { ListUp }
 }
 </script>
 
@@ -43,5 +50,8 @@ export default {
 }
 .card-1{
     width:50%;
+}
+.list-up{
+  width:792px;
 }
 </style>
