@@ -6,4 +6,4 @@ WORKDIR /home
 RUN mkdir "frontend"
 WORKDIR /home/frontend/
 
-ENTRYPOINT ["sh", "/home/frontend/entrypoint.sh"]
+CMD ["sh", "/home/frontend/omilzomil/entrypoint.sh"]

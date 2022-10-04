@@ -4,6 +4,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
+    component: () => import('../views/DashBoardPage.vue'),
     // component: () => import('../views/DashBoardPage.vue'),
     // redirect: '/login',
   },
@@ -17,11 +18,17 @@ const routes = [
     path: "/login",
     name: "Login",
     component: () => import('../views/LoginPage.vue'),
+    meta:{
+      hideAppBar:true,
+    },
   },
   {
     path: "/register",
     name: "Register",
     component: () => import('../views/RegisterPage.vue'),
+    meta:{
+      hideAppBar:true,
+    },
   },
   {
     path: "/listup",
@@ -31,6 +38,7 @@ const routes = [
   {
     path: "/ranking",
     name: "Ranking",
+    component: () => import('../views/DashBoardPage.vue'),
     // component: () => import('../views/ListUpPage.vue'),
   },
   {
