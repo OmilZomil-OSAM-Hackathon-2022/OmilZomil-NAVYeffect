@@ -27,7 +27,74 @@
             시간 : {{ item.time }}
           </div>
           <div class="dress-type">
-            복장 : 
+            복장 : <DressType :dress-type="item.dressType" />
+          </div>
+          <div class="parts-grid">
+            <div class="parts">
+              <!-- <img
+                width="160px"
+                height="120px"
+              > -->
+              <div class="parts-image" />
+              <div class="parts-info">
+                <div class="parts-name">
+                  이름표
+                </div>
+                <GoodBadTag :is-good="true" />
+              </div>
+            </div>
+            <div class="parts">
+              <!-- <img
+                width="160px"
+                height="120px"
+              > -->
+              <div class="parts-image" />
+              <div class="parts-info">
+                <div class="parts-name">
+                  계급장
+                </div>
+                <GoodBadTag :is-good="true" />
+              </div>
+            </div>
+            <div class="parts">
+              <!-- <img
+                width="160px"
+                height="120px"
+              > -->
+              <div class="parts-image" />
+              <div class="parts-info">
+                <div class="parts-name">
+                  태극기
+                </div>
+                <GoodBadTag :is-good="true" />
+              </div>
+            </div>
+            <div class="parts">
+              <!-- <img
+                width="160px"
+                height="120px"
+              > -->
+              <div class="parts-image" />
+              <div class="parts-info">
+                <div class="parts-name">
+                  모자
+                </div>
+                <GoodBadTag :is-good="true" />
+              </div>
+            </div>
+            <div class="parts">
+              <!-- <img
+                width="160px"
+                height="120px"
+              > -->
+              <div class="parts-image" />
+              <div class="parts-info">
+                <div class="parts-name">
+                  두발
+                </div>
+                <GoodBadTag :is-good="true" />
+              </div>
+            </div>
           </div>
         </div>
         <img
@@ -41,14 +108,17 @@
 </template>
 
 <script>
+import DressType from './DressType.vue';
+import GoodBadTag from './GoodBadTag.vue';
 export default {
-    props:{
-        item:{
-            type:Object,
-            default:null,
+    components: { DressType, GoodBadTag },
+    props: {
+        item: {
+            type: Object,
+            default: null,
         },
     },
-    emits:["close"]
+    emits: ["close"]
 }
 </script>
 
@@ -77,6 +147,16 @@ export default {
   padding:40px;
   display:flex;
   gap:40px;
+
+
+  font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    /* identical to box height */
+
+    letter-spacing: 0.15px;
 }
 .overlay-card img{
   width:380px;
@@ -88,6 +168,7 @@ export default {
   display:flex;
   flex-direction: column;
   align-items: flex-start;
+  gap:24px;
 }
 .overlay-card .detail .info{
   display:flex;
@@ -101,6 +182,43 @@ export default {
   height:16px;
 }
 
+.dress-type{
+    display:flex;
+    align-items: center;
+    gap:4px;
+}
+
+.parts-grid{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap:40px;
+}
+.parts{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    gap:10px;
+}
+.parts-image{
+    background: #D9D9D9;
+    border-radius: 10px;
+    width:160px;
+    height:120px;
+}
+.parts .parts-info{
+    display:flex;
+    width:100%;
+    justify-content: space-between;
+}
+.parts .parts-info .parts-name{
+
+    /* Dark2 */
+
+    /* color: #585767; */
+
+}
+
+/* 애니매이션 */
 .overlay-enter-active, .overlay-leave-active {
     transition: opacity 0.4s;
 }
