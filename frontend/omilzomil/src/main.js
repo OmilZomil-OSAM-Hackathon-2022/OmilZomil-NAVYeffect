@@ -7,6 +7,8 @@ import store from "./stores";
 // Vue
 const app = createApp(App)
 app.config.globalProperties.$axios = axios; 
+app.use(store)
+app.use(router).mount('#app')
 // app.config.globalProperties.$axios = axios.create({
 //         timeout: 3000,
 //         headers: {
@@ -22,5 +24,3 @@ app.config.globalProperties.$axios = axios;
 //           },
 //         }
 //       })
-app.use(store)
-app.use(router).mount('#app')
