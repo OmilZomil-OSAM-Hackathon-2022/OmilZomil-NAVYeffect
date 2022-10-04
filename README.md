@@ -111,5 +111,5 @@ This project is licensed under the terms of the MIT license.
 
 > 개발 문서
 
-+리스트업 페이지 와이어프레임
++ wiki 항목 참고
 
