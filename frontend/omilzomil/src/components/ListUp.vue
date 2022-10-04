@@ -1,7 +1,10 @@
 <template>
   <div class="card-list card">
     <div class="list">
-      <div class="list-header">
+      <div
+        class="list-header"
+        :style="{gap:gap+'px'}"
+      >
         <div style="width:80px">
           사진
         </div>
@@ -29,6 +32,7 @@
           v-for="(item,index) in dummy"
           :key="index"
           class="list-item"
+          :style="{gap:gap+'px'}"
         >
           <img
             class="thumb"
@@ -58,34 +62,10 @@
             </IconBase>
             {{ item.dressType }}
           </div>
-          <div
-            class="hair-state"
-            :style="{color:item.hairStatus?'#3FC6B8':'#FF5467'}"
-          >
-            <img
-              v-if="item.hairStatus"
-              src="@/assets/icons/check-circle.svg"
-            >
-            <img
-              v-if="!item.hairStatus"
-              src="@/assets/icons/error-circle.svg"
-            >
-            {{ item.hairStatus ? "양호":"불량" }}
-          </div>
-          <div
-            class="dress-state"
-            :style="{color:item.dressStatus?'#3FC6B8':'#FF5467'}"
-          >
-            <img
-              v-if="item.dressStatus"
-              src="@/assets/icons/check-circle.svg"
-            >
-            <img
-              v-if="!item.dressStatus"
-              src="@/assets/icons/error-circle.svg"
-            >
-            {{ item.dressStatus ? "양호":"불량" }}
-          </div>
+
+          <GoodBadTag :is-good="item.hairStatus" />
+          <GoodBadTag :is-good="item.dressStatus" />
+          
           <a
             class="more"
             @click="openDetail(item)"
@@ -97,7 +77,12 @@
     </div>
   </div>
 
-  <div
+  <DetailCard
+    v-if="isDetail"
+    :item="detail"
+    @close="closeDetail"
+  />
+  <!-- <div
     v-show="isDetail"
     class="overlay"
   >
@@ -130,12 +115,14 @@
         @click="closeDetail"
       >
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
 import TshirtIcon from "../assets/icons/tshirt-icon.vue";
 import IconBase from "./IconBase.vue";
+import GoodBadTag from "./GoodBadTag.vue";
+import DetailCard from "./DetailCard.vue";
 
 class Item{
   constructor(){
@@ -151,7 +138,13 @@ class Item{
 }
 
 export default {
-    components: { TshirtIcon, IconBase },
+    components: { TshirtIcon, IconBase, GoodBadTag, DetailCard },
+    props:{
+      gap: {
+        type:String,
+        default:"100"
+      },
+    },
     data() {
         return {
             detail: new Item(),
@@ -191,14 +184,14 @@ export default {
 .card-list{
     box-sizing: border-box;
     padding: 28px 61px;
-    /* height:100%; */
-
-    height: 500px;
+    height:100%;
+    min-height: 500px;
     align-items: flex-start;
 }
+
 .list-header{
   display: flex;
-  gap:100px;
+  /* gap:100px; */
   white-space: nowrap;
   height: 61px;
   align-items: center;
@@ -224,7 +217,7 @@ export default {
 }
 .list-item{
   display: flex;
-  gap:100px;
+  /* gap:100px; */
   align-items: center;
 }
 .list-item .thumb{
