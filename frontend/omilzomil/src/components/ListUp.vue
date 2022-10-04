@@ -82,40 +82,6 @@
     :item="detail"
     @close="closeDetail"
   />
-  <!-- <div
-    v-show="isDetail"
-    class="overlay"
-  >
-    <div class="overlay-card card">
-      <img
-        src="@/assets/images/test.png"
-      >
-      <div class="detail">
-        <div class="info">
-          <div class="division">
-            소속 : 대한민군 {{ detail.division }}
-          </div>
-          <div class="uClass">
-            계급 : {{ detail.uClass }}
-          </div>
-          <div class="uName">
-            이름 : {{ detail.uName }}
-          </div>
-        </div>
-        <div class="time">
-          시간 : {{ detail.time }}
-        </div>
-        <div class="dress-type">
-          복장 : 
-        </div>
-      </div>
-      <img
-        class="close"
-        src="@/assets/icons/close-thick.svg"
-        @click="closeDetail"
-      >
-    </div>
-  </div> -->
 </template>
 
 <script>
@@ -131,7 +97,7 @@ class Item{
     this.uClass = "일병",
     this.uName= "나해군",
     this.time= "2020-06-24 22:57:36",
-    this.dressType= "해군 군복",
+    this.dressType= "해군 전투복",
     this.hairStatus= true,
     this.dressStatus= false
   }
@@ -311,51 +277,5 @@ export default {
   display:flex;
   align-items: center;
   justify-content: center;
-}
-.overlay{
-  position: fixed;
-  /* display:none; */
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  width:100%;
-  height:100%;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  background-color:rgba(0,0,0,0.5);
-  z-index:2;
-}
-.overlay-card{
-  position: relative;
-  box-sizing: border-box;
-  width:1080px;
-  height:600px;
-  padding:40px;
-  display:flex;
-  gap:40px;
-}
-.overlay-card img{
-  width:380px;
-  height:100%;
-}
-.overlay-card .detail{
-  width:580px;
-  height:100%;
-  display:flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.overlay-card .detail .info{
-  display:flex;
-  gap:30px;
-}
-.overlay-card .close{
-  position:absolute;
-  right:20px;
-  top:20px;
-  width:16px;
-  height:16px;
 }
 </style>
