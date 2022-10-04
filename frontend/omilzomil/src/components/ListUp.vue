@@ -1,28 +1,28 @@
 <template>
   <div class="card">
     <table>
-        <thead>
-            <tr>
-                <th>사진</th>
-                <th>소속 / 계급 / 이름</th>
-                <th>시간</th>
-                <th>복장</th>
-                <th>두발상태</th>
-                <th>복장상태</th>
-                <th>자세히보기</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>tser</td>
-                <td>tser</td>
-                <td>tser</td>
-                <td>tser</td>
-                <td>tser</td>
-                <td>tser</td>
-                <td>tser</td>
-            </tr>
-        </tbody>
+      <thead>
+        <tr>
+          <th>사진</th>
+          <th>소속 / 계급 / 이름</th>
+          <th>시간</th>
+          <th>복장</th>
+          <th>두발상태</th>
+          <th>복장상태</th>
+          <th>자세히보기</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>tser</td>
+          <td>tser</td>
+          <td>tser</td>
+          <td>tser</td>
+          <td>tser</td>
+          <td>tser</td>
+          <td>tser</td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </template>
