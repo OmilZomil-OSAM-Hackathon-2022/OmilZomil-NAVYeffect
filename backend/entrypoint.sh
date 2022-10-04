@@ -1,5 +1,5 @@
 # 작업 폴더로 이동
-cd backend/src
+cd src
 # 테스트 실행
 pytest
 # 서버 실행
