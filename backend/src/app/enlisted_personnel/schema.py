@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from core.base_schema import AllOptional
 
 
 class EnlistedPersonnelSchema(BaseModel):
@@ -35,3 +36,9 @@ class EnlistedPersonnelCreate(EnlistedPersonnelSchema):
 class EnlistedPersonnelRead(EnlistedPersonnelSchema):
     class Config:
         orm_mode = True
+
+
+class EnlistedPersonnelUpdate(EnlistedPersonnelSchema, metaclass=AllOptional):
+    success: bool = Field(title="성공여부")
+    message: str = Field(title="결과 메시지")
+    personnel_id: int = Field(title="장병 ID")
