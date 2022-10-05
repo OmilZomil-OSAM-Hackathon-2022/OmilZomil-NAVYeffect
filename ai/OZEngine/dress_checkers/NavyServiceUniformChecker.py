@@ -66,8 +66,8 @@ class NavyServiceUniformChecker():
                 classes_n += 1
 
         if 1 <= classes_n <= 4:
-            print(masked_img)
-            
+
+
             plt_imshow(['masked_img'],  [masked_img])
             return res_box_position, Classes.dic[classes_n], masked_img
         else:
@@ -106,14 +106,13 @@ class NavyServiceUniformChecker():
                 center_p = getContourCenterPosition(contour)
 
                 # 이름표 체크
-                name = 'name_tag'
-                if center_p[0] < (w//2) and not component_dic.get(name):
-                    box_position_dic[name], component_dic[name] = self.getName(
+                if center_p[0] < (w//2) and not component_dic.get('name_tag'):
+                    box_position_dic['name_tag'], component_dic['name_tag'] = self.getName(
                         contour, ocr_list)
 
                 # 계급장 체크
                 elif center_p[0] > (w//2) and not component_dic.get('class_tag'):
-                    box_position_dic[name], component_dic[name], masked_img[name] = self.getClasses(
+                    box_position_dic['class_tag'], component_dic['class_tag'], masked_img['class_tag'] = self.getClasses(
                         img, hsv_img, contour)
 
         # half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
