@@ -20,7 +20,7 @@ sudo docker-compose --env-file .env.lock run backend python src/init_db.py
 
 # ssl 만들기
 cd ./backend/deploy
-sh make_ssl.sh 
+openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
 
 # docker 빌드 캐쉬 제거
 sudo docker builder prune
