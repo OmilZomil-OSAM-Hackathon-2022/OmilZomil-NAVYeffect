@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.enlisted_personnel.model import EnlistedPersonnel
-from app.enlisted_personnel.schema import EnlistedPersonnelCreate
+from app.enlisted_personnel.schema import EnlistedPersonnelCreate, EnlistedPersonnelUpdate
 
 
 def get_personnel_by_id(db: Session, personnel_id: int):
@@ -24,3 +24,9 @@ def create_personnel(db: Session, personnel: EnlistedPersonnelCreate):
     db.commit()
     db.refresh(personnel)
     return personnel
+
+
+def update_personnel(db: Session, personnel: EnlistedPersonnelUpdate):
+    personnel = {x: y for x, y in personnel.dict().items() if y is not None}
+    db.query(EnlistedPersonnel).filter_by(personnel_id=personnel["personnel_id"]).update(personnel)
+    db.commit()
