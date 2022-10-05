@@ -95,9 +95,9 @@
 | Name | Role | Contect |   
 |:---:|:---:|:---:| 
 |조남훈| 팀장, 기획자 | lovin6109@gmail.com |   
-|조준영| AI 개발자, 웹디자이너 | joon0zo1022@gmail.com |
+|조준영| AI 개발자, 웹 디자이너 | joon0zo1022@gmail.com |
 |정의철| 백엔드 개발자 | com.dos.m0nk3y@gmail.com |
-|김대원| 백엔드 개발자 | kdwkd0078@gmail.com |   
+|김대원| DevOps 담당자 | kdwkd0078@gmail.com |   
 |허태량| 프론트 엔드 개발자 | cake0702@naver.com |   
 |김민섭| 프론트 엔드 개발자 | tjqtjq0516@gmail.com |
 
