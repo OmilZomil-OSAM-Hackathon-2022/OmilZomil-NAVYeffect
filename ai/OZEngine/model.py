@@ -29,7 +29,8 @@ class OmilZomil:
         plt_imshow(['morphed', 'hed'], [morphed_edge, hed_edge])
 
     def debug(self, debug_img):
-        pairs = [(name, img) for name, img in debug_img.items() if img is not None]
+        pairs = [(name, img)
+                 for name, img in debug_img.items() if img is not None]
         names, imgs = zip(*pairs)
         plt_imshow([*names], [*imgs])
 
@@ -71,7 +72,7 @@ class OmilZomil:
             self.uniform_type = classificate(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
 
         if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
-            component_dic, box_position_dic, masked_img = self.navy_service_uniform_checker.checkUniform(
+            component_dic, box_position_dic, masked_img, masked_img_dic = self.navy_service_uniform_checker.checkUniform(
                 input_img)
 
         elif self.uniform_type == UniformType.dic['FULL_DRESS']:
