@@ -51,24 +51,25 @@ class NavyServiceUniformChecker():
         return cv2.boundingRect(contour), ''.join(name_chrs)
 
     def getClasses(self, img, hsv_img, contour):
-        res_box_position = None
-        contours, masked_img = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind='classes', sort=False)
+        if contour is None:
+            return None, None, None
 
         res_box_position = cv2.boundingRect(contour)
         x, y, w, h = res_box_position
         roi = img[y:y+h, x:x+w]
         hsv_roi = hsv_img[y:y+h, x: x+w]
 
+        contours, masked_img = self.getMaskedContours(
+            img=roi, hsv_img=hsv_roi, kind='classes', sort=False)
+
         classes_n = 0
         for contour in contours:
+            print(cv2.contourArea(contour))
             if 10 < cv2.contourArea(contour):
                 classes_n += 1
+        print(classes_n)
 
         if 1 <= classes_n <= 4:
-
-
-            plt_imshow(['masked_img'],  [masked_img])
             return res_box_position, Classes.dic[classes_n], masked_img
         else:
             return None, None, None
