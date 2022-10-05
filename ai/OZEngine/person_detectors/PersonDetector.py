@@ -5,11 +5,11 @@ import os
 
 if __file__:
     cur_dir = os.path.dirname(os.path.realpath(__file__))
-    WEIGHTS_PATH = os.path.join(cur_dir, 'weights/yolov2-tiny.weights')
-    CFG_PATH = os.path.join(cur_dir, 'cgf/yolov2.cfg')
+    WEIGHTS_PATH = os.path.join(cur_dir, 'refs/weights/yolov4.weights')
+    CFG_PATH = os.path.join(cur_dir, 'refs/cfg/yolov4.cfg')
 else:
-    WEIGHTS_PATH = 'OZEngine/person_detectors/weights/yolov2-tiny.weights'
-    CFG_PATH = 'OZEngine/person_detectors/cfg/yolov2-tiny.cfg'
+    WEIGHTS_PATH = 'OZEngine/person_detectors/refs/weights/yolov4.weights'
+    CFG_PATH = 'OZEngine/person_detectors/refs/cfg/yolov4.cfg'
 
 
 class PersonDetector():
