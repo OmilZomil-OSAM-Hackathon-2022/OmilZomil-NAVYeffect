@@ -1,6 +1,17 @@
 <template>
-  <div class="card-list card">
-    <div class="list">
+  <div
+    class="card-list card"
+    :style="{'min-height': minHeight}"
+  >
+    <CardHead
+      v-if="isInDash"
+      title="위병소 실시간 감지현황"
+      target="/ListUp"
+    />
+    <div
+      class="list"
+      :style="{padding:padding}"
+    >
       <div
         class="list-header"
         :style="{gap:gap+'px'}"
@@ -29,7 +40,7 @@
       </div>
       <div class="list-body">
         <div
-          v-for="(item,index) in dummy"
+          v-for="(item,index) in isInDash ? dummy.slice(0,4):dummy"
           :key="index"
           class="list-item"
           :style="{gap:gap+'px'}"
@@ -89,6 +100,7 @@ import TshirtIcon from "../assets/icons/tshirt-icon.vue";
 import IconBase from "./IconBase.vue";
 import GoodBadTag from "./GoodBadTag.vue";
 import DetailCard from "./DetailCard.vue";
+import CardHead from "./CardHead.vue";
 
 class Item{
   constructor(){
@@ -104,18 +116,33 @@ class Item{
 }
 
 export default {
-    components: { TshirtIcon, IconBase, GoodBadTag, DetailCard },
+    components: { TshirtIcon, IconBase, GoodBadTag, DetailCard, CardHead },
     props:{
       gap: {
         type:String,
         default:"100"
       },
+      padding:{
+        type:String,
+        default:"28px 61px",
+      },
+      minHeight:{
+        type:String,
+        default:"1112px",
+      },
+      isInDash:{
+        type:Boolean,
+        default:false,
+      }
     },
     data() {
         return {
             detail: new Item(),
             isDetail: false,
             dummy: [
+                new Item(),
+                new Item(),
+                new Item(),
                 new Item(),
                 new Item(),
                 new Item(),
@@ -149,10 +176,11 @@ export default {
 <style scoped>
 .card-list{
     box-sizing: border-box;
-    padding: 28px 61px;
     height:100%;
-    min-height: 500px;
-    align-items: flex-start;
+    display:flex;
+    flex-direction:column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .list-header{
