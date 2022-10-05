@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from app.base_access.model import BaseAccess
-from app.base_access.schema import BaseAccessCreate
+from app.models.base_access import BaseAccess
+from app.schemas.base_access import BaseAccessCreate
 
 
 def get_access_by_id(db: Session, access_id: int):
