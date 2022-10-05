@@ -18,6 +18,4 @@ jobs:
           key: ${{ secrets.DEV_SERVER_PW }}
           port: ${{ secrets.DEV_SERVER_PORT }}
           script: |
-            cd /config/workspace/WEB_CLOUD_OmilZomil_NAVYeffect/
-            sh build.sh
-            sh start.sh
+            echo "github action test"
