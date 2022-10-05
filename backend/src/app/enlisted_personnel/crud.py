@@ -26,7 +26,7 @@ def create_personnel(db: Session, personnel: EnlistedPersonnelCreate):
     return personnel
 
 
-def update_personnel(db: Session, personnel: EnlistedPersonnelUpdate):
+def update_personnel(db: Session, personnel_id: int, personnel: EnlistedPersonnelUpdate):
     personnel = {x: y for x, y in personnel.dict().items() if y is not None}
-    db.query(EnlistedPersonnel).filter_by(personnel_id=personnel["personnel_id"]).update(personnel)
+    db.query(EnlistedPersonnel).filter_by(personnel_id=personnel_id).update(personnel)
     db.commit()
