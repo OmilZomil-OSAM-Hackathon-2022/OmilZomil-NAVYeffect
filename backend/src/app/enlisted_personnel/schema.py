@@ -30,3 +30,8 @@ class EnlistedPersonnelCreate(EnlistedPersonnelSchema):
                 "has_flag": False,
             }
         }
+
+
+class EnlistedPersonnelRead(EnlistedPersonnelSchema):
+    class Config:
+        orm_mode = True
