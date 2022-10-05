@@ -11,13 +11,19 @@ router = APIRouter(
 )
 
 
-@router.get("/{personnel_id}")
-async def get_enlisted_personnel_by_id(personnel_id: int, db: Session = Depends(get_db)):
-    return crud.get_enlisted_personnel_by_id(db, personnel_id)
+@router.get("/{personnel_id}", response_model=schema.EnlistedPersonnelRead)
+async def get_personnel_info_by_id(personnel_id: int, db: Session = Depends(get_db)):
+    personnel_info = crud.get_personnel_info_by_id(db, personnel_id)
+    if personnel_info is None:
+        personnel_info = schema.EnlistedPersonnelRead(success=False, message="Personnel info not found")
+    return personnel_info
 
 
-@router.put("/{personnel_id}")
-async def update_enlisted_personnel(personnel_id: int, personnel: schema.EnlistedPersonnelUpdate = Body(), db: Session = Depends(get_db)):
-    crud.update_enlisted_personnel(db, personnel_id, personnel)
-    res = {"success": True, "message": "Personnel info successfully updated"}
+@router.put("/{personnel_id}", response_model=schema.EnlistedPersonnelUpdateResult)
+async def update_personnel_info(personnel_id: int, personnel: schema.EnlistedPersonnelUpdate = Body(), db: Session = Depends(get_db)):
+    if crud.get_personnel_info_by_id(db, personnel_id) is not None:
+        crud.update_personnel_info(db, personnel_id, personnel)
+        res = schema.EnlistedPersonnelUpdateResult(success=True, message="Personnel info successfully updated")
+    else:
+        res = schema.EnlistedPersonnelUpdateResult(success=False, message="Personnel info not found")
     return res

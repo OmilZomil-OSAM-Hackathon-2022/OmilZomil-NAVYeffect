@@ -22,8 +22,24 @@ class EnlistedPersonnelCreate(EnlistedPersonnelBase):
     pass
 
 
-class EnlistedPersonnelRead(EnlistedPersonnelBase):
+class EnlistedPersonnelRead(EnlistedPersonnelBase, metaclass=AllOptional):
     class Config:
+        schema_extra = {
+            "example": {
+                "success": True,
+                "message": "Personnel info sucessfully read",
+                "access_id": 1,
+                "army_type": "해군",
+                "name": "정의철",
+                "rank": "병장",
+                "uniform_type": "샘당",
+                "has_name": True,
+                "has_rank": True,
+                "has_neckerchief": False,
+                "has_muffler": False,
+                "has_flag": False,
+            }
+        }
         orm_mode = True
 
 
@@ -34,5 +50,15 @@ class EnlistedPersonnelUpdate(EnlistedPersonnelBase, metaclass=AllOptional):
                 "uniform_type": "정복",
                 "has_neckerchief": True,
                 "has_muffler": True,
+            }
+        }
+
+
+class EnlistedPersonnelUpdateResult(EnlistedPersonnelUpdate):
+    class Config:
+        schema_extra = {
+            "example": {
+                "success": True,
+                "message": "Personnel info sucessfully updated",
             }
         }
