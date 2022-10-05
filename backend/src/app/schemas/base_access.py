@@ -1,6 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel, Field
 from typing import Optional
+from core.base_schema import AllOptional
 
 
 class BaseAccessBase(BaseModel):
@@ -15,6 +16,15 @@ class BaseAccessCreate(BaseAccessBase):
     pass
 
 
-class BaseAccessRead(BaseAccessBase):
+class BaseAccessRead(BaseAccessBase, metaclass=AllOptional):
     class Config:
+        schema_extra = {
+            "example": {
+                "success": True,
+                "message": "Access log sucessfully read",
+                "base_name": "계룡대 1정문",
+                "access_time": datetime.now(),
+                "image": b"base64_encoded_image",
+            }
+        }
         orm_mode = True
