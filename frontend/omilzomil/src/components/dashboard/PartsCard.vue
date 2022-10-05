@@ -16,14 +16,24 @@
     </div>
     <div class="number-wrap">
       <div class="count">
-        {{ count }}
+        <number
+          :from="0"
+          :to="count"
+          :duration="2"
+          easing="Expo.easeOut"
+        />
+        <!-- {{ count }} -->
       </div>
       <div
         class="percent"
         :style="{color:getPercentColor}"
       >
         <img :src="getPercentSvg">
-        {{ getPercent }}%
+        <number
+          :from="0"
+          :to="getPercent"
+          :duration="1"
+        />%
       </div>
     </div>
   </div>
