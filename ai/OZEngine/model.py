@@ -31,8 +31,9 @@ class OmilZomil:
     def debug(self, debug_img):
         pairs = [(name, img)
                  for name, img in debug_img.items() if img is not None]
-        names, imgs = zip(*pairs)
-        plt_imshow([*names], [*imgs])
+        if len(pairs):
+            names, imgs = zip(*pairs)
+            plt_imshow([*names], [*imgs])
 
     def boxImage(self, org_img, box_position_dic):
         img = org_img.copy()
@@ -83,5 +84,6 @@ class OmilZomil:
             boxed_img, roi_dic = self.boxImage(input_img, box_position_dic)
             plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic)
+            print('deb', masked_img_dic)
             self.debug(masked_img_dic)
         return component_dic, box_position_dic
