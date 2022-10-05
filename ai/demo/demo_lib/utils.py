@@ -7,7 +7,7 @@ def setImportPath():
     res_path = ''
     path_dir_names = cur_path.split('/')
     for i, path_dir_name in enumerate(path_dir_names[::-1]):
-        if path_dir_name == 'AI_BE':
+        if path_dir_name == 'ai':
             break
     if i == 0:
         res_path = cur_path
