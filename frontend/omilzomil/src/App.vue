@@ -29,6 +29,7 @@ export default {
 /* :root{
 } */
 :root {
+  color:#585767;
   --color-background: #f4f5fa;
   --color-appbar: #ffffff;
   --color-card: #ffffff;
