@@ -57,8 +57,12 @@ class NavyServiceUniformChecker():
                 name_chrs.append(ocr_str[0])
             else:
                 pass
+        name = ''.join(name_chrs)
 
-        return cv2.boundingRect(contour), ''.join(name_chrs)
+        if name:
+            return cv2.boundingRect(contour), ''.join(name_chrs)
+        else:
+            return None, None
 
     def getClasses(self, img, hsv_img, contour):
         if contour is None:
@@ -73,7 +77,6 @@ class NavyServiceUniformChecker():
         #     img=roi, hsv_img=hsv_roi, morph='erode', kind='classes', sort=False)
         contours, masked_img = self.getMaskedContours(
             img=roi, hsv_img=hsv_roi, kind='classes', sort=False)
-        
 
         classes_n = 0
         for contour in contours:
