@@ -1,7 +1,6 @@
 from pydantic import BaseModel, Field
 
 
-# Shared Properties
 class EnlistedPersonnelSchema(BaseModel):
     access_id: int = Field(title="출입기록 ID", description="int 형식의 출입기록 ID")
     army_type: str = Field(title="군 구분", description="str 형식의 소속 군 이름")
@@ -13,3 +12,21 @@ class EnlistedPersonnelSchema(BaseModel):
     has_neckerchief: bool = Field(title="네커치프&네커치프 링 착용 유무", description="bool 형식의 네커치프&네커치프 링 착용 유무")
     has_muffler: bool = Field(title="머플러 착용 유무", description="bool 형식의 머플러 착용 유무")
     has_flag: bool = Field(title="태극기 부착 유무", description="bool 형식의 태극기 부착 유무")
+
+
+class BaseAccessCreate(EnlistedPersonnelSchema):
+    class Config:
+        schema_extra = {
+            "example": {
+                "access_id": 1,
+                "army_type": "해군",
+                "name": "정의철",
+                "rank": "병장",
+                "uniform_type": "샘당",
+                "has_name": True,
+                "has_rank": True,
+                "has_neckerchief": False,
+                "has_muffler": False,
+                "has_flag": False,
+            }
+        }
