@@ -63,7 +63,10 @@ class PersonDetector():
         for i in range(len(boxes)):
             if i in indexes:
                 x, y, w, h = boxes[i]
-                label = str(self.classes[class_ids[i]])
+                class_id = class_ids[i]
+                if class_id > len(self.classes):
+                    continue
+                label = str(self.classes[class_id])
                 color = Color.RED  # self.colors[i]
                 cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
                 if x < 0:
