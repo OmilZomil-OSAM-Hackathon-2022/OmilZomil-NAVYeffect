@@ -3,7 +3,7 @@ import cv2
 from .dress_checkers import FullDressUniformChecker, NavyServiceUniformChecker
 from .dress_classifier import classificate
 from .edge_detectors import HED, Morph, RCF
-from .person_detectors import PersonDetector  # haarcascade
+from .person_detectors import PersonDetector
 from .lib.defines import UniformType, Color
 from .lib.utils import plt_imshow, histNorm
 
@@ -22,7 +22,6 @@ class OmilZomil:
         self.uniform_type = UniformType.dic[uniform_type]
         self.mode = mode
         self.detect_person = detect_person
-
 
     def demo(self, img):
         morphed_edge, ret = self.morph_engine.detect_edge(img)
@@ -64,7 +63,7 @@ class OmilZomil:
 
         if self.img_norm_type:
             input_img = histNorm(input_img, type=self.img_norm_type)
-        
+
         # hair_segmentation(org) 머리카락인식
 
         if self.uniform_type is None:
@@ -75,11 +74,12 @@ class OmilZomil:
                 input_img)
 
         elif self.uniform_type == UniformType.dic['FULL_DRESS']:
-            component_dic, box_position_dic, masked_img = self.full_dress_uniform_checker.checkUniform(
+            component_dic, box_position_dic, masked_img_dic = self.full_dress_uniform_checker.checkUniform(
                 input_img)
 
         if self.mode == 'debug':
             boxed_img, roi_dic = self.boxImage(input_img, box_position_dic)
             plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic)
+            self.debug(masked_img_dic)
         return component_dic, box_position_dic

@@ -87,7 +87,7 @@ class NavyServiceUniformChecker():
 
         box_position_dic = {}
         component_dic = {}
-        masked_img = {}
+        masked_img_dic = {}
 
         # 이름표, 계급장 체크
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
@@ -112,9 +112,9 @@ class NavyServiceUniformChecker():
 
                 # 계급장 체크
                 elif center_p[0] > (w//2) and not component_dic.get('class_tag'):
-                    box_position_dic['class_tag'], component_dic['class_tag'], masked_img['class_tag'] = self.getClasses(
+                    box_position_dic['class_tag'], component_dic['class_tag'], masked_img_dic['class_tag'] = self.getClasses(
                         img, hsv_img, contour)
 
         # half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
         # cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
-        return component_dic, box_position_dic, masked_img
+        return component_dic, box_position_dic, masked_img_dic
