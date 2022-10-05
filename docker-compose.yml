@@ -22,7 +22,9 @@ services:
       dockerfile: Dockerfile
     env_file: .env.private
     volumes:
-      -  ${BACKEND_DIR_PATH}:/home/backend
+      - ${BACKEND_DIR_PATH}:/home/backend
+    ports:
+      - "${BACKEND_PORT}:8000"
     depends_on:
       db:
         condition: service_healthy
@@ -34,6 +36,6 @@ services:
       dockerfile: Dockerfile
     env_file: .env.private
     volumes:
-      -  ${FRONTEND_DIR_PATH}:/home/frontend
+      - ${FRONTEND_DIR_PATH}:/home/frontend
     ports:
       - "${FRONTEND_PORT}:8080"
