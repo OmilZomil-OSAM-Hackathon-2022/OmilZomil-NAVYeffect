@@ -4,7 +4,7 @@ from app.base_access.schema import BaseAccessCreate
 
 
 def get_access_by_id(db: Session, access_id: int):
-    return db.query(BaseAccess).filter(BaseAccess.access_id == access_id).first()
+    return db.query(BaseAccess).get(access_id)
 
 
 def create_access(db: Session, access: BaseAccessCreate):
