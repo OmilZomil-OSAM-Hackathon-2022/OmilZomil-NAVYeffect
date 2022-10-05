@@ -6,7 +6,7 @@ class EnlistedPersonnel(Base):
     __tablename__ = "enlisted_personnel"
 
     personnel_id = Column(Integer, primary_key=True, index=True, nullable=False)
-    access_id = Column(Integer, ForeignKey("base_access.id"), nullable=False)
+    access_id = Column(Integer, ForeignKey("base_access.access_id"), nullable=False)
     army_type = Column(String(30), nullable=False)  # 군 구분
     name = Column(String(30), nullable=False)  # 이름
     rank = Column(String(30), nullable=False)  # 계급
