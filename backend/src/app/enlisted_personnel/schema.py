@@ -14,7 +14,7 @@ class EnlistedPersonnelSchema(BaseModel):
     has_flag: bool = Field(title="태극기 부착 유무", description="bool 형식의 태극기 부착 유무")
 
 
-class BaseAccessCreate(EnlistedPersonnelSchema):
+class EnlistedPersonnelCreate(EnlistedPersonnelSchema):
     class Config:
         schema_extra = {
             "example": {
