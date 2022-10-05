@@ -18,4 +18,4 @@ jobs:
           password: ${{ secrets.DEV_SERVER_PW }}
           port: ${{ secrets.DEV_SERVER_PORT }}
           script: |
-            echo "github action test"
+            echo "github action test password test"
