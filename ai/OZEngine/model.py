@@ -84,6 +84,5 @@ class OmilZomil:
             boxed_img, roi_dic = self.boxImage(input_img, box_position_dic)
             plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic)
-            print('deb', masked_img_dic)
             self.debug(masked_img_dic)
         return component_dic, box_position_dic

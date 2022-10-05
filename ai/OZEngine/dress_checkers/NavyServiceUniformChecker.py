@@ -13,7 +13,7 @@ class NavyServiceUniformChecker():
 
         self.debug_mode = False
 
-    def getMaskedContours(self, img=None, hsv_img=None, kind=None, sort=True):
+    def getMaskedContours(self, img=None, hsv_img=None, morph=None, kind=None, sort=True):
         if kind == 'uniform':
             lower, upper = self.uniform_filter['lower'], self.uniform_filter['upper']
         elif kind == 'classes':
@@ -22,6 +22,16 @@ class NavyServiceUniformChecker():
             pass
 
         mask = cv2.inRange(hsv_img, lower, upper)
+
+        if morph == 'erode':
+            kernel = np.ones((3, 3), np.uint8)
+            org_mask = mask.copy()
+
+            k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 2))
+            mask = cv2.erode(org_mask, k, iterations=2)
+
+            plt_imshow(['org_mask', 'maskk', 'm2'], [org_mask, mask])
+
         masked_img = cv2.bitwise_and(img, img, mask=mask)
 
         if sort:
@@ -59,8 +69,11 @@ class NavyServiceUniformChecker():
         roi = img[y:y+h, x:x+w]
         hsv_roi = hsv_img[y:y+h, x: x+w]
 
+        # contours, masked_img = self.getMaskedContours(
+        #     img=roi, hsv_img=hsv_roi, morph='erode', kind='classes', sort=False)
         contours, masked_img = self.getMaskedContours(
             img=roi, hsv_img=hsv_roi, kind='classes', sort=False)
+        
 
         classes_n = 0
         for contour in contours:
