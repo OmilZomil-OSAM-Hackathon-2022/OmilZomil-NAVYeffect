@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from lib.utils import *
+from lib.defines import Color
 import os
 
 if __file__:
@@ -63,7 +64,7 @@ class PersonDetector():
             if i in indexes:
                 x, y, w, h = boxes[i]
                 label = str(self.classes[class_ids[i]])
-                color = self.colors[i]
+                color = Color.RED  # self.colors[i]
                 cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
                 if x < 0:
                     x = 0
