@@ -1,8 +1,8 @@
 DIR_PATH=`pwd`
 
 cat .env.private > .env.lock
-echo BACKEND_DIR_PATH=$DIR_PATH/backend >> .env.lock
-echo FRONTEND_DIR_PATH=$DIR_PATH/frontend >> .env.lock
+echo BACKEND_DIR_PATH="$DIR_PATH"/backend >> .env.lock
+echo FRONTEND_DIR_PATH="$DIR_PATH"/frontend >> .env.lock
 
 echo [+] makeing DB 
 
