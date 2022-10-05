@@ -72,7 +72,7 @@ class OmilZomil:
             self.uniform_type = classificate(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
 
         if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
-            component_dic, box_position_dic, masked_img, masked_img_dic = self.navy_service_uniform_checker.checkUniform(
+            component_dic, box_position_dic, masked_img_dic = self.navy_service_uniform_checker.checkUniform(
                 input_img)
 
         elif self.uniform_type == UniformType.dic['FULL_DRESS']:
