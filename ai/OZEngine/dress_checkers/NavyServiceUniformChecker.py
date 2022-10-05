@@ -64,10 +64,8 @@ class NavyServiceUniformChecker():
 
         classes_n = 0
         for contour in contours:
-            print(cv2.contourArea(contour))
-            if 10 < cv2.contourArea(contour):
+            if 100 < cv2.contourArea(contour):
                 classes_n += 1
-        print(classes_n)
 
         if 1 <= classes_n <= 4:
             return res_box_position, Classes.dic[classes_n], masked_img
