@@ -5,12 +5,11 @@ import os
 
 if __file__:
     cur_dir = os.path.dirname(os.path.realpath(__file__))
-    print(cur_dir)
-    WEIGHTS_PATH = os.path.join(cur_dir, 'yolov2-tiny.weights')
-    CFG_PATH = os.path.join(cur_dir, 'yolov2-tiny.cfg')
+    WEIGHTS_PATH = os.path.join(cur_dir, 'weights/yolov2-tiny.weights')
+    CFG_PATH = os.path.join(cur_dir, 'cgf/yolov2.cfg')
 else:
-    WEIGHTS_PATH = 'OZEngine/person_detectors/yolov2-tiny.weights'
-    CFG_PATH = 'OZEngine/person_detectors/yolov2-tiny.cfg'
+    WEIGHTS_PATH = 'OZEngine/person_detectors/weights/yolov2-tiny.weights'
+    CFG_PATH = 'OZEngine/person_detectors/cfg/yolov2-tiny.cfg'
 
 
 class PersonDetector():
@@ -20,7 +19,7 @@ class PersonDetector():
         if only_person:
             self.classes = ['person']
         else:
-            with open("OZEngine/person_detectors/coco.names", "r") as f:
+            with open("OZEngine/person_detectors/names/coco.names", "r") as f:
                 self.classes = [line.strip() for line in f.readlines()]
         self.layer_names = self.net.getLayerNames()
         self.output_layers = [self.layer_names[i-1]
