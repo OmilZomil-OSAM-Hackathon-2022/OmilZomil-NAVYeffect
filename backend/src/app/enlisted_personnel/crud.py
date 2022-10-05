@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from app.enlisted_personnel.model import EnlistedPersonnel
-from app.enlisted_personnel.schema import EnlistedPersonnelCreate
+from app.enslited_personnel.model import EnlistedPersonnel
+from app.enslited_personnel.schema import EnlistedPersonnelCreate
 
 
 def get_personnel_by_id(db: Session, personnel_id: int):
