@@ -18,3 +18,5 @@ service ssh restart
 useradd omil
 passwd omil
 
+sudo usermod -aG sudo omil
+
