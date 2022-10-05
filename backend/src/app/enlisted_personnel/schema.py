@@ -39,6 +39,14 @@ class EnlistedPersonnelRead(EnlistedPersonnelSchema):
 
 
 class EnlistedPersonnelUpdate(EnlistedPersonnelSchema, metaclass=AllOptional):
-    success: bool = Field(title="성공여부")
-    message: str = Field(title="결과 메시지")
     personnel_id: int = Field(title="장병 ID")
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "personnel_id": 1,
+                "uniform_type": "정복",
+                "has_neckerchief": True,
+                "has_muffler": True,
+            }
+        }
