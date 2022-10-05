@@ -1,6 +1,5 @@
 from datetime import datetime
 from pydantic import BaseModel, Field
-from core.base_schema import AllOptional
 
 
 # Shared Properties
@@ -20,13 +19,3 @@ class BaseAccessCreate(BaseAccessSchema):
                 "image": b"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=",
             }
         }
-
-
-# Properties to receive on item update
-class BaseAccessRead(BaseAccessSchema):
-    class Config:
-        orm_mode = True
-
-
-class BaseAccessUpdate(BaseAccessSchema, metaclass=AllOptional):
-    pass
