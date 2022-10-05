@@ -7,7 +7,6 @@ from app.enlisted_personnel.model import Base as enlisted_personnel_model
 
 
 db_url = "mysql+mysqldb://{user}:{pw}@{ip}:{port}/{name}".format(**DB_INFO)
-print(db_url)
 
 engine = create_engine(db_url, echo=True)
 user_model.metadata.create_all(bind=engine)
