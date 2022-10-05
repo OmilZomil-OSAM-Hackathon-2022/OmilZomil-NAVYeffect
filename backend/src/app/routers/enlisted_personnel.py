@@ -7,7 +7,7 @@ import app.crud.enlisted_personnel as crud
 
 router = APIRouter(
     prefix="/enlisted",
-    tags=["장병 정보"],
+    tags=["장병 복장 정보"],
 )
 
 
