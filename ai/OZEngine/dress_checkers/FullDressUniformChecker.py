@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 import re
+from OZEngine.dress_classifier import classification2
 from lib.utils import sortContoursByArea, getVertexCnt, getContourCenterPosition, getRectCenterPosition, isPointInBox
 from lib.defines import *
 from lib.ocr import OCR
@@ -27,7 +28,7 @@ class FullDressUniformChecker():
         res_string = ''.join(filtered_list)
         return res_string
 
-    def getMaskedContours(self, img=None, hsv_img=None, morph=None, kind=None, sort=True):
+    def getMaskedContours(self, img=None, hsv_img=None, morph=None, kmeans=None, kind=None, sort=True):
         if hsv_img is None:
             hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         if kind == 'uniform':
@@ -40,6 +41,11 @@ class FullDressUniformChecker():
             pass
 
         mask = cv2.inRange(hsv_img, lower, upper)
+
+        if kmeans:
+            img_s = classification2(img)
+            plt_imshow(['origin', 's'], [img, img_s])
+            img = classification2(img)
 
         if morph == 'erode':
             kernel = np.ones((3, 3), np.uint8)
@@ -73,7 +79,10 @@ class FullDressUniformChecker():
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
             cur_node, next_node, prev_node, first_child, parent = lev
             if i == 0:  # 정복
+                img2 = img.copy()
                 shirt_contour = contour
+                cv2.drawContours(img2, [contour], -1, Color.RED, -1)
+                plt_imshow('img2', img2)
                 shirt_node = cur_node
                 continue
 
@@ -126,7 +135,7 @@ class FullDressUniformChecker():
                     roi = masked_img[y:y+h, x:x+w]
 
                     small_contours, small_mask = self.getMaskedContours(
-                        img=roi, morph='erode', kind='classes', sort=False)
+                        img=roi, kmeans=True, kind='classes', sort=False)
 
                     classes_n = 0
                     for small_contour in small_contours:
