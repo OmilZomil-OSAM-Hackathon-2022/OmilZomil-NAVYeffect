@@ -16,7 +16,7 @@
                 title="두발 양호 인원"
                 :count="126"
                 :percent="12"
-                parts-type="0"
+                :parts-type="0"
               />
             </div>
             <div
@@ -26,7 +26,7 @@
                 title="복장 양호 인원"
                 :count="96"
                 :percent="-4"
-                parts-type="1"
+                :parts-type="1"
               />
             </div>
             <div
@@ -36,7 +36,7 @@
                 title="출입 인원"
                 :count="53"
                 :percent="0"
-                parts-type="2"
+                :parts-type="2"
               />
             </div>
           </div>
@@ -48,14 +48,14 @@
               gap="46"
               padding="41px 32px"
               min-height="0px"
-              count="4"
-              is-in-dash="true"
+              :is-in-dash="true"
             />
           </div>
           <div
             style="flex:3"
-            class="card"
-          />
+          >
+            <DoughnutCard />
+          </div>
         </div>
         <div class="row3">
           <div style="display:flex;flex:2;">
@@ -82,8 +82,9 @@
 import ListUp from '@/components/ListUp.vue';
 import TitleCard from '../components/dashboard/TitleCard.vue';
 import PartsCard from '@/components/dashboard/PartsCard.vue';
+import DoughnutCard from '@/components/dashboard/DoughnutCard.vue';
 export default {
-    components: { ListUp, TitleCard, PartsCard }
+    components: { ListUp, TitleCard, PartsCard, DoughnutCard }
 }
 </script>
 
