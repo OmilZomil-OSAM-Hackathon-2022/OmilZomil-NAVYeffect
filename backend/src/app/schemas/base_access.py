@@ -1,7 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel, Field
 from typing import Optional
-from core.base_schema import AllOptional
+from app.db.base_schema import AllOptional
 
 
 class BaseAccessBase(BaseModel):
