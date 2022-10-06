@@ -67,9 +67,6 @@ class OmilZomil:
         if self.img_norm_type:
             input_img = histNorm(input_img, type=self.img_norm_type)
 
-        classs = classification2(input_img)
-        plt_imshow('cs', classs)
-
         if self.uniform_type is None:
             self.uniform_type = classificate(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
 
