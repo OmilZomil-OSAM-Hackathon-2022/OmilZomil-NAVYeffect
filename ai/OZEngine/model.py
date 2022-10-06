@@ -9,7 +9,7 @@ from .lib.utils import plt_imshow, histNorm
 
 
 class OmilZomil:
-    def __init__(self, resize=None, img_norm_type=None, uniform_type=None, mode='real', detect_person=True):
+    def __init__(self, resize=None, img_norm_type=None, uniform_type=None, mode='real'):
         self.HED_engine = HED()
         self.morph_engine = Morph()
         self.full_dress_uniform_checker = FullDressUniformChecker()
@@ -21,7 +21,6 @@ class OmilZomil:
         self.img_norm_type = img_norm_type
         self.uniform_type = UniformType.dic[uniform_type]
         self.mode = mode
-        self.detect_person = detect_person
 
     def demo(self, img):
         morphed_edge, ret = self.morph_engine.detect_edge(img)
@@ -57,12 +56,9 @@ class OmilZomil:
         if self.resize is not None:
             img = cv2.resize(img, resize)
 
-        if self.detect_person:
-            input_img, boxed_img = self.person_detector.detect(img)  # 사람인식
-            if input_img is None:
-                raise Exception("인식가능한 사람이 없습니다!")
-        else:
-            input_img = img
+        input_img, boxed_img = self.person_detector.detect(img)  # 사람인식
+        if input_img is None:
+            raise Exception("인식가능한 사람이 없습니다!")
 
         # input_img = classification2(input_img)
         if self.img_norm_type:
