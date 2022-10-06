@@ -27,8 +27,8 @@ class OmilZomil:
         hed_edge = self.HED_engine.detect_edge(img, 500, 500)
         plt_imshow(['morphed', 'hed'], [morphed_edge, hed_edge])
 
-    def debug(self, debug_img):
-        pairs = [(name, img)
+    def debug(self, debug_img, msg=""):
+        pairs = [(f'{msg} - name', img)
                  for name, img in debug_img.items() if img is not None]
         if len(pairs):
             names, imgs = zip(*pairs)
@@ -60,7 +60,6 @@ class OmilZomil:
         if input_img is None:
             raise Exception("인식가능한 사람이 없습니다!")
 
-        # input_img = classification2(input_img)
         if self.img_norm_type:
             histed_img = histNorm(input_img, type=self.img_norm_type)
             if self.mode == 'debug':
@@ -81,6 +80,6 @@ class OmilZomil:
         if self.mode == 'debug':
             boxed_img, roi_dic = self.boxImage(input_img, box_position_dic)
             plt_imshow(['boxed'], [boxed_img])
-            self.debug(roi_dic)
-            self.debug(masked_img_dic)
+            self.debug(roi_dic, msg="roi")
+            self.debug(masked_img_dic, msg="masked")
         return component_dic, box_position_dic
