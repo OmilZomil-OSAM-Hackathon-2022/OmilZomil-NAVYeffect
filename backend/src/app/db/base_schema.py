@@ -1,5 +1,9 @@
 from pydantic.main import ModelMetaclass
 from typing import Optional
+from sqlalchemy.ext.declarative import declarative_base
+
+
+Base = declarative_base()
 
 
 class AllOptional(ModelMetaclass):
