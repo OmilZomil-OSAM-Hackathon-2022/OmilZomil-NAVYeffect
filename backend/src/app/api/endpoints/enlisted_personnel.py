@@ -11,7 +11,6 @@ router = APIRouter()
 @router.put("/{personnel_id}", response_model=schema.EnlistedPersonnelUpdateResult)
 async def update_personnel_info(personnel_id: int, personnel: schema.EnlistedPersonnelUpdate = Body(), db: Session = Depends(deps.get_db)):
     if crud.get_personnel_info_by_id(db, personnel_id) is not None:
-        crud.update_personnel_info(db, personnel_id, personnel)
         res = schema.EnlistedPersonnelUpdateResult(success=True, message="Personnel info successfully updated")
     else:
         res = schema.EnlistedPersonnelUpdateResult(success=False, message="Personnel info not found")
