@@ -8,10 +8,10 @@
     "applications": {
         "fastapi": {
             "type": "python 3.9",
-            "path": "/app/backend",
-            "home": "/app/backend/venv/",
+            "path": "/fastapi",
+            "home": "/usr/local",
             "module": "main",
-            "callable": "main"
+            "callable": "app"
         }
     }
 }
