@@ -1,16 +1,16 @@
 import cv2
 import numpy as np
 from lib.utils import *
+from lib.defines import Color
 import os
 
 if __file__:
     cur_dir = os.path.dirname(os.path.realpath(__file__))
-    print(cur_dir)
-    WEIGHTS_PATH = os.path.join(cur_dir, 'yolov2-tiny.weights')
-    CFG_PATH = os.path.join(cur_dir, 'yolov2-tiny.cfg')
+    WEIGHTS_PATH = os.path.join(cur_dir, 'refs/weights/yolov4.weights')
+    CFG_PATH = os.path.join(cur_dir, 'refs/cfg/yolov4.cfg')
 else:
-    WEIGHTS_PATH = 'OZEngine/person_detectors/yolov2-tiny.weights'
-    CFG_PATH = 'OZEngine/person_detectors/yolov2-tiny.cfg'
+    WEIGHTS_PATH = 'OZEngine/person_detectors/refs/weights/yolov4.weights'
+    CFG_PATH = 'OZEngine/person_detectors/refs/cfg/yolov4.cfg'
 
 
 class PersonDetector():
@@ -20,7 +20,7 @@ class PersonDetector():
         if only_person:
             self.classes = ['person']
         else:
-            with open("OZEngine/person_detectors/coco.names", "r") as f:
+            with open("OZEngine/person_detectors/names/coco.names", "r") as f:
                 self.classes = [line.strip() for line in f.readlines()]
         self.layer_names = self.net.getLayerNames()
         self.output_layers = [self.layer_names[i-1]
@@ -63,8 +63,11 @@ class PersonDetector():
         for i in range(len(boxes)):
             if i in indexes:
                 x, y, w, h = boxes[i]
-                label = str(self.classes[class_ids[i]])
-                color = self.colors[i]
+                class_id = class_ids[i]
+                if class_id > len(self.classes):
+                    continue
+                label = str(self.classes[class_id])
+                color = Color.RED  # self.colors[i]
                 cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
                 if x < 0:
                     x = 0
