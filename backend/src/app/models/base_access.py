@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, LargeBinary
-from core.db import Base
+from app.db.base_schema import Base
 
 
 class BaseAccess(Base):
