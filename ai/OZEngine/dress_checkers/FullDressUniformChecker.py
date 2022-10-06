@@ -79,7 +79,7 @@ class FullDressUniformChecker():
 
             # 정복 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표)
             # 이름표 체크
-            if not res_content and parent == shirt_node and 4 <= getVertexCnt(contour) <= 5 and cv2.contourArea(contour) > 300:
+            if not res_content and parent == shirt_node and 4 <= getVertexCnt(contour) <= 10 and cv2.contourArea(contour) > 300:
                 center_p = getContourCenterPosition(contour)
                 max_xy, min_xy = np.max(contour, axis=0)[
                     0], np.min(contour, axis=0)[0]
@@ -109,6 +109,7 @@ class FullDressUniformChecker():
                             # cv2.rectangle(img, p1, p3, Color.RED, 3)
                     res_box_position, res_content = cv2.boundingRect(
                         contour), ''.join(name_chrs)
+
         return cv2.boundingRect(shirt_contour), res_box_position, res_content
 
     def getClasses(self, masked_img, contours, hierarchy):
