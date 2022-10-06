@@ -99,16 +99,16 @@ class NavyServiceUniformChecker():
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         h, w = img.shape[: 2]
 
+        box_position_dic = {}
+        component_dic = {}
+        masked_img_dic = {}
+
         # 샘당 filter
-        contours, hierarchy, mask = self.getMaskedContours(
+        contours, hierarchy, masked_img_dic['shirt'] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='uniform')
 
         # 이름표 OCR
         ocr_list = OCR(img)
-
-        box_position_dic = {}
-        component_dic = {}
-        masked_img_dic = {}
 
         # 이름표, 계급장 체크
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
