@@ -64,15 +64,19 @@ class OmilZomil:
         else:
             input_img = img
 
+        # input_img = classification2(input_img)
         if self.img_norm_type:
-            input_img = histNorm(input_img, type=self.img_norm_type)
+            histed_img = histNorm(input_img, type=self.img_norm_type)
+            if self.mode == 'debug':
+                plt_imshow(['org', 'histed_img'], [input_img, histed_img])
+                input_img = histed_img
 
         if self.uniform_type is None:
             self.uniform_type = classificate(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
 
         if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
             component_dic, box_position_dic, masked_img_dic = self.navy_service_uniform_checker.checkUniform(
-                classs)
+                input_img)
 
         elif self.uniform_type == UniformType.dic['FULL_DRESS']:
             component_dic, box_position_dic, masked_img_dic = self.full_dress_uniform_checker.checkUniform(

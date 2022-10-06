@@ -135,7 +135,7 @@ class FullDressUniformChecker():
                     roi = masked_img[y:y+h, x:x+w]
 
                     small_contours, small_mask = self.getMaskedContours(
-                        img=roi, kmeans=True, kind='classes', sort=False)
+                        img=roi, kind='classes', sort=False)
 
                     classes_n = 0
                     for small_contour in small_contours:

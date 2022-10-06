@@ -1,6 +1,7 @@
 from lib.utils import *
 from lib.defines import *
 from lib.ocr import OCR, draw_rectangle
+from OZEngine.dress_classifier import classification2
 
 
 # 샘브레이 검사
@@ -13,7 +14,7 @@ class NavyServiceUniformChecker():
 
         self.debug_mode = False
 
-    def getMaskedContours(self, img=None, hsv_img=None, morph=None, kind=None, sort=True):
+    def getMaskedContours(self, img=None, hsv_img=None, kmeans=None, morph=None, kind=None, sort=True):
         if kind == 'uniform':
             lower, upper = self.uniform_filter['lower'], self.uniform_filter['upper']
         elif kind == 'classes':
@@ -22,6 +23,11 @@ class NavyServiceUniformChecker():
             pass
 
         mask = cv2.inRange(hsv_img, lower, upper)
+
+        if kmeans:
+            img_s = classification2(img)
+            plt_imshow(['origin', 's'], [img, img_s])
+            img = classification2(img)
 
         if morph == 'erode':
             kernel = np.ones((3, 3), np.uint8)
