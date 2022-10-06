@@ -5,6 +5,13 @@ import axios from 'axios'
 import store from "./stores";
 import VueNumber from 'vue-number-animation'
 
+
+import {
+    Chart,
+    registerables,
+  } from 'chart.js'
+  Chart.register(...registerables);
+  
 // Vue
 const app = createApp(App)
 app.config.globalProperties.$axios = axios; 
