@@ -1,19 +1,10 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import scoped_session, sessionmaker
-from app.core.settings import DB_INFO
+from typing import Generator
+from app.db.session import SessionLocal
 
 
-db_url = "mysql+mysqldb://{user}:{pw}@{ip}:{port}/{name}".format(**DB_INFO)
-engine = create_engine(db_url)
-db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
-
-Base = declarative_base()
-
-
-def get_db():
-    db = db_session()
+def get_db() -> Generator:
     try:
+        db = SessionLocal()
         yield db
     finally:
         db.close()
