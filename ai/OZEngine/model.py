@@ -1,7 +1,7 @@
 import cv2
 
 from .dress_checkers import FullDressUniformChecker, NavyServiceUniformChecker
-from .dress_classifier import classificate
+from .dress_classifier import classificate, classification2
 from .edge_detectors import HED, Morph, RCF
 from .person_detectors import PersonDetector
 from .lib.defines import UniformType, Color
@@ -67,14 +67,15 @@ class OmilZomil:
         if self.img_norm_type:
             input_img = histNorm(input_img, type=self.img_norm_type)
 
-        # hair_segmentation(org) 머리카락인식
+        classs = classification2(input_img)
+        plt_imshow('cs', classs)
 
         if self.uniform_type is None:
             self.uniform_type = classificate(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
 
         if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
             component_dic, box_position_dic, masked_img_dic = self.navy_service_uniform_checker.checkUniform(
-                input_img)
+                classs)
 
         elif self.uniform_type == UniformType.dic['FULL_DRESS']:
             component_dic, box_position_dic, masked_img_dic = self.full_dress_uniform_checker.checkUniform(
