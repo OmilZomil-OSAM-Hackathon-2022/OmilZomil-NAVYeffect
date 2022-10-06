@@ -25,9 +25,9 @@ class NavyServiceUniformChecker():
         mask = cv2.inRange(hsv_img, lower, upper)
 
         if kmeans:
-            img_s = classification2(img)
+            img_s = classification2(img, 10)
             plt_imshow(['origin', 's'], [img, img_s])
-            img = classification2(img)
+            img = classification2(img, 10)
 
         if morph == 'erode':
             kernel = np.ones((3, 3), np.uint8)
@@ -82,7 +82,7 @@ class NavyServiceUniformChecker():
         # contours, masked_img = self.getMaskedContours(
         #     img=roi, hsv_img=hsv_roi, morph='erode', kind='classes', sort=False)
         contours, masked_img = self.getMaskedContours(
-            img=roi, hsv_img=hsv_roi, kind='classes', sort=False)
+            img=roi, hsv_img=hsv_roi, kmeans=True, kind='classes', sort=False)
 
         classes_n = 0
         for contour in contours:
