@@ -13,7 +13,7 @@
       <div class="front-circle" />
       <div class="canvas-wrap">
         <canvas
-          id="doughnutChart"
+          ref="doughnutChart"
         />
       </div>
       <div>
@@ -85,7 +85,7 @@ export default {
     },
     methods: {
         start() {
-            const ctx = document.getElementById("doughnutChart").getContext("2d");
+            const ctx = this.$refs.doughnutChart.getContext("2d");
             this.doughnutChart = new Chart(ctx, {
                 type: "doughnut",
                 data: {

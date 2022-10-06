@@ -42,36 +42,41 @@
           </div>
         </div>
         <div class="row2">
-          <div style="flex:7;">
+          <div style="width:792px;">
             <!-- test -->
             <ListUp
-              gap="46"
+              gap="40"
               padding="41px 32px"
               min-height="0px"
               :is-in-dash="true"
             />
           </div>
           <div
-            style="flex:3"
+            style="width:384px;"
           >
             <DoughnutCard />
           </div>
         </div>
         <div class="row3">
-          <div style="display:flex;flex:2;">
-            <div
-              class="card"
+          <div style="width:384px;display:flex;flex-direction:column;gap:25px">
+            <EventCard
               style="flex:1"
+              :type="0"
+              title="충청지역 부대 중 외적군기 1등!"
+              content="이번 달 우리 부대는 몇 등 했을까?"
             />
-            <div
-              class="card"
+            <EventCard
               style="flex:1"
+              :type="1"
+              title="이번 달 계룡대 으뜸병사 나해군"
+              content="우리 부대 으뜸병사는?"
             />
           </div>
           <div
-            style="flex:1"
-            class="card"
-          />
+            style="width:792px;"
+          >
+            <LineCard />
+          </div>
         </div>
       </div>
     </div>
@@ -83,8 +88,10 @@ import ListUp from '@/components/ListUp.vue';
 import TitleCard from '../components/dashboard/TitleCard.vue';
 import PartsCard from '@/components/dashboard/PartsCard.vue';
 import DoughnutCard from '@/components/dashboard/DoughnutCard.vue';
+import LineCard from '@/components/dashboard/LineCard.vue';
+import EventCard from '@/components/dashboard/EventCard.vue';
 export default {
-    components: { ListUp, TitleCard, PartsCard, DoughnutCard }
+    components: { ListUp, TitleCard, PartsCard, DoughnutCard, LineCard,EventCard}
 }
 </script>
 
@@ -105,7 +112,10 @@ export default {
 .row1{
   height:196px;
 }
-.row2 .row3{
+.row2{
   height:562px;
+}
+.row3{
+  height:417px;
 }
 </style>
