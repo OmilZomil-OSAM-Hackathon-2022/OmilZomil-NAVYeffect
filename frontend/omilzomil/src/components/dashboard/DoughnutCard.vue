@@ -126,11 +126,9 @@ export default {
   box-sizing: border-box;
   width:100%;
   align-items: center;
-  padding-bottom:50px;
-  height: 100%;
+  height: 70%;
   display:flex;
   flex-direction: column;
-  align-content: center;
   justify-content: center;
   position:relative;
 }
@@ -157,7 +155,7 @@ export default {
   background:var(--color-state-card);
   border-radius:100%;
   z-index:1;
-  top:75px;
+  top:35px;
 }
 .front-circle{
   position:absolute;
@@ -166,7 +164,7 @@ export default {
   background:var(--color-card);
   border-radius:100%;
   z-index:1;
-  top:145px;
+  top:105px;
 }
 .canvas-wrap{
   z-index:100;
