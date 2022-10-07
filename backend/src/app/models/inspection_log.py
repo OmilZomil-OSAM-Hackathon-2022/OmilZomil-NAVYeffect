@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from app.db.base_schema import Base
-from app.model.access_log import AccessLog
-from app.model.uniform import Uniform
+from app.models.access_log import AccessLog
+from app.models.uniform import Uniform
 
 
 class InspectionLog(Base):
