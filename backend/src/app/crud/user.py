@@ -21,11 +21,10 @@ def create_user(db: Session, user: UserCreate):
         db.refresh(user)
         return UserResponse(success=True, message="success", user_id=user.user_id)
     except sqlalchemy.exc.IntegrityError as e:
-        print(e.orig.args[1])
         if "foreign key constraint fail" in e.orig.args[1]:
             return UserResponse(success=False, message="foreign key constraint fail", user_id=-1)
-        elif "duplicate entry" in e.orig.args[1]:
-            return UserResponse(success=False, message="duplicate entry", user_id=-1)
+        elif "Duplicate entry" in e.orig.args[1]:
+            return UserResponse(success=False, message="unique key constraint fail", user_id=-1)
         raise e
 
 
@@ -38,12 +37,19 @@ def get_user_by_id(db: Session, user_id: int):
 
 
 def update_user_information(db: Session, user_id: int, information: UserUpdateInformation):
+    user = get_user_by_id(user_id)
+    if not user.count():
+        return UserResponse(success=False, message="entry not found")
     try:
-        res = db.query(User).filter_by(user_id=user_id).update(information.dict())
+        user.update(information.dict())
         db.commit()
-    except sqlalchemy.exc.IntegrityError:
-        res = None
-    return res
+        return UserResponse(success=True, message="success", user_id=user_id)
+    except sqlalchemy.exc.IntegrityError as e:
+        if "foreign key constraint fail" in e.orig.args[1]:
+            return UserResponse(success=False, message="foreign key constraint fail", user_id=-1)
+        elif "Duplicate entry" in e.orig.args[1]:
+            return UserResponse(success=False, message="unique key constraint fail", user_id=-1)
+        raise e
 
 
 def update_user_password(db: Session, user_id: int, password: UserUpdatePassword):
