@@ -89,7 +89,7 @@ export default {
             this.doughnutChart = new Chart(ctx, {
                 type: "doughnut",
                 data: {
-                    labels: ["이름표", "계급장", "태국기", "모자"],
+                    labels: ["이름표", "계급장", "태극기", "모자"],
                     datasets: [
                         {
                             backgroundColor: ["#9155EB", "#BD91FF", "#EDE2FF", "#F5EEFF"],

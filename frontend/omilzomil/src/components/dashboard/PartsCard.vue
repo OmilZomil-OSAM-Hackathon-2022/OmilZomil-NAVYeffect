@@ -22,77 +22,80 @@
           :duration="2"
           easing="Expo.easeOut"
         />
-        <!-- {{ count }} -->
       </div>
-      <div
-        class="percent"
-        :style="{color:getPercentColor}"
-      >
-        <img :src="getPercentSvg">
-        <number
-          :from="0"
-          :to="getPercent"
-          :duration="1"
-        />%
-      </div>
+      <PercentTag :percent="percent" />
     </div>
   </div>
 </template>
 
 <script>
+import PercentTag from '../common/PercentTag.vue';
     
 export default {
-    props:{
-        title:{
-            type:String,
-            default:null,
+    components: { PercentTag },
+    props: {
+        title: {
+            type: String,
+            default: null,
         },
-        count:{
-            type:Number,
-            default:0,
+        count: {
+            type: Number,
+            default: 0,
         },
-        percent:{
-            type:Number,
-            default:0,
+        percent: {
+            type: Number,
+            default: 0,
         },
-        partsType:{
-            type:Number,
-            default:0,
+        partsType: {
+            type: Number,
+            default: 0,
         }
     },
-    data(){
-        return{
-            number:0,
-        }
+    data() {
+        return {
+            number: 0,
+        };
     },
-    computed:{
-        getColor(){
-            if(this.partsType == 0) return 'rgba(255, 215, 68, 0.2)';
-            else if(this.partsType == 1) return 'rgba(255, 84, 103, 0.2)';
-            else return 'rgba(63, 198, 184, 0.2)';
+    computed: {
+        getColor() {
+            if (this.partsType == 0)
+                return "rgba(255, 215, 68, 0.2)";
+            else if (this.partsType == 1)
+                return "rgba(255, 84, 103, 0.2)";
+            else
+                return "rgba(63, 198, 184, 0.2)";
         },
-        getSvg(){
-            if(this.partsType == 0) return require('@/assets/icons/face-man-shimmer.svg');
-            else if(this.partsType == 1) return require('@/assets/icons/tshirt-crew-red.svg');
-            else return require('@/assets/icons/door.svg');
+        getSvg() {
+            if (this.partsType == 0)
+                return require("@/assets/icons/face-man-shimmer.svg");
+            else if (this.partsType == 1)
+                return require("@/assets/icons/tshirt-crew-red.svg");
+            else
+                return require("@/assets/icons/door.svg");
         },
-        getPercent(){
-            if(this.percent < 0) return -this.percent;
+        getPercent() {
+            if (this.percent < 0)
+                return -this.percent;
             return this.percent;
         },
-        getPercentColor(){
-            if(this.percent > 0) return '#3FC6B8';
-            else if(this.percent < 0) return '#FF5467';
-            else return '#ABACC0';
+        getPercentColor() {
+            if (this.percent > 0)
+                return "#3FC6B8";
+            else if (this.percent < 0)
+                return "#FF5467";
+            else
+                return "#ABACC0";
         },
-        getPercentSvg(){
-            if(this.percent > 0) return require('@/assets/icons/up.svg');
-            else if(this.percent < 0) return require('@/assets/icons/down.svg');
-            else return require('@/assets/icons/equal.svg');
+        getPercentSvg() {
+            if (this.percent > 0)
+                return require("@/assets/icons/up.svg");
+            else if (this.percent < 0)
+                return require("@/assets/icons/down.svg");
+            else
+                return require("@/assets/icons/equal.svg");
         }
     },
-    methods:{
-    }
+    methods: {}
 }
 </script>
 
