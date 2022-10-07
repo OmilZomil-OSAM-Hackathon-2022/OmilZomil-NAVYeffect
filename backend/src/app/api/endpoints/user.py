@@ -31,9 +31,4 @@ async def update_user_password(user_id: int, password: schema.UserUpdatePassword
 
 @router.put("/role/{user_id}", response_model=schema.UserResponse)
 async def update_user_role(user_id: int, role: schema.UserUpdateRole = Body(), db: Session = Depends(deps.get_db)):
-    res = crud.update_user_role(db, user_id, role)
-    if res is not None:
-        res = schema.UserResponse(success=True, message="success")
-    else:
-        res = schema.UserResponse(success=False, message="entry not found")
-    return res
+    return crud.update_user_role(db, user_id, role)
