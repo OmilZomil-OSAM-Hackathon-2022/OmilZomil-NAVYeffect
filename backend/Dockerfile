@@ -1,14 +1,14 @@
-# Using base image provided by nginx unit
+# syntax=docker/dockerfile:1
+FROM python:3.9
+ENV PYTHONUNBUFFERED=1
 
-# nginx unit python
-FROM nginx/unit:1.22.0-python3.9
+# 작업 폴더 설정
+WORKDIR /backend
 
 # 라이브러리 설치
-WORKDIR /backend
+RUN pip install --upgrade pip
 COPY requirements.txt /backend/requirements.txt
 RUN pip install -r requirements.txt
 
-# 설정값 입력
-COPY deploy/config.json /docker-entrypoint.d/config.json
-
-# 소스코드는 volume으로 연결
+# 개발용으로 entrypoint.sh 파일를 연결
+CMD ["sh", "/home/backend/entrypoint.sh"]
