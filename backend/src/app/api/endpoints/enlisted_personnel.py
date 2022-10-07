@@ -1,17 +1,17 @@
 from fastapi import APIRouter, Depends, Body
 from sqlalchemy.orm import Session
-from app.crud import enlisted_personnel as crud
-from app.schemas import enlisted_personnel as schema
+from app.crud import inspection_log as crud
+from app.schemas import inspection_log as schema
 from app.api import deps
 
 
 router = APIRouter()
 
 
-@router.put("/{personnel_id}", response_model=schema.EnlistedPersonnelUpdateResult)
-async def update_personnel_info(personnel_id: int, personnel: schema.EnlistedPersonnelUpdate = Body(), db: Session = Depends(deps.get_db)):
-    if crud.get_personnel_info_by_id(db, personnel_id) is not None:
-        res = schema.EnlistedPersonnelUpdateResult(success=True, message="Personnel info successfully updated")
+@router.put("/{log_id}", response_model=schema.InspectionLogResponse)
+async def update_inspection_log(log_id: int, log: schema.InspectionLogUpdate = Body(), db: Session = Depends(deps.get_db)):
+    if crud.get_inspection_log_by_id(db, log_id) is not None:
+        res = schema.InspectionLogResponse(success=True, message="success")
     else:
-        res = schema.EnlistedPersonnelUpdateResult(success=False, message="Personnel info not found")
+        res = schema.InspectionLogResponse(success=False, message="entry not found")
     return res
