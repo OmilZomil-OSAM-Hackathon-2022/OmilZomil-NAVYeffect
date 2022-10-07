@@ -11,11 +11,7 @@ router = APIRouter()
 
 @router.post("/", response_model=schema.UserResponse)
 async def create_user(user: schema.UserCreate = Body(), db: Session = Depends(deps.get_db)):
-    if crud.create_user(db, user) is not None:
-        res = schema.UserResponse(success=True, message="success")
-    else:
-        res = schema.UserResponse(success=False, message="duplicate entry")
-    return res
+    return crud.create_user(db, user)
 
 
 @router.get("/", response_model=List[schema.UserRead])
