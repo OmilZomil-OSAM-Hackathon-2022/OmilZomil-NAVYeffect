@@ -2,7 +2,7 @@ import sqlalchemy.exc
 from sqlalchemy.orm import Session
 from app.core.security import get_password_hash, verify_password
 from app.models.user import User
-from app.schemas.user import UserCreate, UserUpdateInformation, UserUpdatePassword, UserUpdateRole, UserResponse
+from app.schemas.user import UserCreate, UserFilter, UserUpdateInformation, UserUpdatePassword, UserUpdateRole, UserResponse
 
 
 def create_user(db: Session, user: UserCreate):
@@ -28,12 +28,25 @@ def create_user(db: Session, user: UserCreate):
         raise e
 
 
-def get_user(db: Session):
-    return db.query(User).all()
+def get_user(db: Session, flt: UserFilter):
+    is_active = flt.is_active
+    flt = {x: (y is None and "%" or y) for x, y in flt.dict().items() if x != "is_active"}
 
+    user = (
+        db.query(User)
+        .filter(User.full_name.like(flt["full_name"]))
+        .filter(User.affiliation.like(flt["affiliation"]))
+        .filter(User.military_unit.like(flt["military_unit"]))
+        .filter(User.rank.like(flt["rank"]))
+    )
 
-def get_user_by_id(db: Session, user_id: int):
-    return db.query(User).get(user_id)
+    if is_active is not None:
+        if is_active:
+            user = user.filter(User.role != "inactive")
+        else:
+            user = user.filter(User.role == "inactive")
+
+    return user.all()
 
 
 def update_user_information(db: Session, user_id: int, information: UserUpdateInformation):
