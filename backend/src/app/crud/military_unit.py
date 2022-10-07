@@ -28,7 +28,7 @@ def update_military_unit(db: Session, old_unit: str, new_unit: str):
         db.commit()
         return MilitaryUnitResponse(success=True, message="success")
     except sqlalchemy.exc.IntegrityError:
-        return MilitaryUnitResponse(success=False, message="duplicate entry")
+        return MilitaryUnitResponse(success=False, message="unique key constraint fail")
 
 
 def delete_military_unit(db: Session, unit: str):
