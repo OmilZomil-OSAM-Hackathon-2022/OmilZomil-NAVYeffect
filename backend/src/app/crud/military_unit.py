@@ -19,8 +19,11 @@ def get_military_unit(db: Session):
 
 
 def update_military_unit(db: Session, old_unit: str, new_unit: str):
-    res = db.query(MilitaryUnit).filter_by(unit=old_unit).update({"unit": new_unit})
-    db.commit()
+    try:
+        res = db.query(MilitaryUnit).filter_by(unit=old_unit).update({"unit": new_unit})
+        db.commit()
+    except sqlalchemy.exc.IntegrityError:
+        res = None
     return res
 
 
