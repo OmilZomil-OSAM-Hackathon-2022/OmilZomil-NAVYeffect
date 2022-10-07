@@ -48,6 +48,13 @@ const routes = [
     component: () => import('../views/DashBoardPage.vue'),
     // component: () => import('../views/ListUpPage.vue'),
   },
+  {
+    path: "/event",
+    name: "Event",
+
+    component: () => import('../views/EventCardTest.vue'),
+    // component: () => import('../views/ListUpPage.vue'),
+  },
 ];
 
 const router = createRouter({
