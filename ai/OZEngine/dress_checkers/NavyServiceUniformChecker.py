@@ -76,8 +76,9 @@ class NavyServiceUniformChecker():
 
         res_box_position = cv2.boundingRect(contour)
         x, y, w, h = res_box_position
-        roi = img[y:y+h, x:x+w]
-        hsv_roi = hsv_img[y:y+h, x: x+w]
+        padding = 10
+        roi = img[y-padding:y+h+padding, x-padding:x+w+padding]
+        hsv_roi = hsv_img[y-padding:y+h+padding, x-padding:x+w+padding]
 
         # contours, masked_img = self.getMaskedContours(
         #     img=roi, hsv_img=hsv_roi, morph='erode', kind='classes', sort=False)
@@ -92,7 +93,7 @@ class NavyServiceUniformChecker():
         if 1 <= classes_n <= 4:
             return res_box_position, Classes.dic[classes_n], masked_img
         else:
-            return None, None, None
+            return None, None, masked_img
 
     def checkUniform(self, org_img):
         img = org_img
