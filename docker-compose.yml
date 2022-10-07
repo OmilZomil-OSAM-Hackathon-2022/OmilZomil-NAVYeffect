@@ -34,20 +34,23 @@ services:
       dockerfile: Dockerfile
     env_file: .env.private
     volumes:
-      -  ${BACKEND_DIR_PATH}:/backend
-      -  ${FRONTEND_DIR_PATH}/omilzomil:/frontend
+      - ${BACKEND_DIR_PATH}:/backend
+      - ${FRONTEND_DIR_PATH}/omilzomil:/frontend
+    ports:
+      - "8080:80"
 
     depends_on:
       db:
         condition: service_healthy
 
-  frontend:
-    container_name: omil_frontend
+  backend:
+    container_name: omil_backend
     build:
-      context: frontend/deploy
+      context: backend/deploy
       dockerfile: Dockerfile
     env_file: .env.private
     volumes:
-      -  ${FRONTEND_DIR_PATH}:/home/frontend
-    ports:
-      - "${FRONTEND_PORT}:8080"
+      -  ${BACKEND_DIR_PATH}:/home/backend
+    depends_on:
+      db:
+        condition: service_healthy
