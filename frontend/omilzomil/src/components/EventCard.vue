@@ -40,6 +40,20 @@ export default {
 </script>
 
 <style>
+    @keyframes boom {
+        0% {
+            transform: scale(0.8);
+            transform-origin: 0% 100%;
+        }
+        50% {
+            transform: scale(1);
+            transform-origin: 0% 100%;
+        }
+        /* 100% {
+            transform: scale(0.9);
+            transform-origin: 0% 100%;    
+        } */
+    }
     @keyframes scale-up-br {
         0% {
             transform: scale(0.2);
@@ -139,6 +153,7 @@ export default {
         right: 38.33%;
         top: 38.05%;
         bottom: 6.37%;
+        animation: boom 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
     }
     .card .image .one{
         position: absolute;
