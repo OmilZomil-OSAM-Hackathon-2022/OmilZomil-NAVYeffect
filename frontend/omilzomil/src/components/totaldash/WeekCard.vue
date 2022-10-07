@@ -71,7 +71,7 @@ export default {
                     }
                 },
                 grid: {
-                    show: false
+                    show: false,
                 },
                 xaxis: {
 
@@ -110,7 +110,9 @@ export default {
 .df{
     display:flex;
     height:100%;
-    width:100%;
+    width:282px;
+
+    /* box-sizing:border-box; */
 }
 .info{
     width:60px;
@@ -126,6 +128,7 @@ font-style: normal;
 font-weight: 500;
 font-size: 10px;
 line-height: 12px;
+white-space:nowrap;
 /* identical to box height */
 
 letter-spacing: 1.5px;
@@ -135,6 +138,7 @@ letter-spacing: 1.5px;
 color: #9C9DB2;
 margin-bottom:2px;
 margin-top:4px;
+/* width:50px; */
 }
 .count{
     font-family: 'Roboto';

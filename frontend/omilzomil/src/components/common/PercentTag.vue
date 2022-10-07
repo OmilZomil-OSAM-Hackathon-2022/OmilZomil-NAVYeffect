@@ -47,7 +47,7 @@ export default {
         },
         getPercentColor(){
           if(this.percent == 0) return "#ABACC0";
-            return this.percent >= 0 && !this.reverse ? '#3FC6B8' : '#FF5467';
+            return this.percent > 0 && !this.reverse || this.percent < 0 && this.reverse ? '#3FC6B8' : '#FF5467';
         }
     }
 }
