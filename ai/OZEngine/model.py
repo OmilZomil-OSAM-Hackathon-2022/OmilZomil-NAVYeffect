@@ -4,6 +4,7 @@ from .dress_checkers import FullDressUniformChecker, NavyServiceUniformChecker
 from .dress_classifier import classificate, classification2
 from .edge_detectors import HED, Morph, RCF
 from .person_detectors import PersonDetector
+from .face_detectors import FaceDetector
 from .lib.defines import UniformType, Color
 from .lib.utils import plt_imshow, histNorm
 
@@ -15,6 +16,7 @@ class OmilZomil:
         self.full_dress_uniform_checker = FullDressUniformChecker()
         self.navy_service_uniform_checker = NavyServiceUniformChecker()
         self.person_detector = PersonDetector()
+        self.face_detector = FaceDetector()
         print('init!')
 
         self.resize = resize
@@ -61,7 +63,7 @@ class OmilZomil:
         if input_img is None:
             raise Exception("인식가능한 사람이 없습니다!")
 
-        
+        self.face_detector.detect(input_img)
         # 히스토그램 평활화 여부 확인 후 적용
         if self.img_norm_type:
             histed_img = histNorm(input_img, type=self.img_norm_type)
