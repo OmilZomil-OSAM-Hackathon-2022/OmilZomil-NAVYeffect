@@ -7,7 +7,6 @@ class FaceDetector():
         self.detector = dlib.get_frontal_face_detector()
     
     def detect(self, img):
-        img2 = img.copy()
         detected_boxes = self.detector(img)
         
         if len(detected_boxes) >= 2:
