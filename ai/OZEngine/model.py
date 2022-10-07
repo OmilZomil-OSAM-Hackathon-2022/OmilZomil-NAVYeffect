@@ -53,17 +53,15 @@ class OmilZomil:
         return img, roi_dic
 
     def detect(self, img):
-        input_img = None
-
-        
         if self.resize is not None:
             img = cv2.resize(img, resize)
 
-        input_img, boxed_img = self.person_detector.detect(img)  # 사람인식
-        if input_img is None:
+        person_img, boxed_img = self.person_detector.detect(img)  # 사람인식
+        if person_img is None:
             raise Exception("인식가능한 사람이 없습니다!")
 
-        self.face_detector.detect(input_img)
+        face_box = self.face_detector.detect(person_img)
+
         # 히스토그램 평활화 여부 확인 후 적용
         if self.img_norm_type:
             histed_img = histNorm(input_img, type=self.img_norm_type)
@@ -78,11 +76,11 @@ class OmilZomil:
         # 옷 종류별로 분기를 나눔
         if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
             component_dic, box_position_dic, masked_img_dic = self.navy_service_uniform_checker.checkUniform(
-                input_img)
+                person_img)
 
         elif self.uniform_type == UniformType.dic['FULL_DRESS']:
             component_dic, box_position_dic, masked_img_dic = self.full_dress_uniform_checker.checkUniform(
-                input_img)
+                person_img)
 
         # 최종 debug 여부 확인
         if self.mode == 'debug':
