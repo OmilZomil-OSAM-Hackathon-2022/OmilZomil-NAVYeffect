@@ -8,11 +8,13 @@
       />
       <div class="f1 df-col">
         <div class="f1 df">
-          <WeekChard class="f1" />
-          <div class="f1 card" />
+          <WeekCard class="f1" />
+          <MonthCard class="f1" />
+          <!-- <div class="f1 card" /> -->
         </div>
         <div class="f1 df">
-          <div class="f1 card" />
+          <UnitCard class="f1" />
+          <!-- <div class="f1 card" /> -->
           <div class="f1 card" />
         </div>
       </div>
@@ -29,9 +31,11 @@
 
 <script>
 import TotalScoreCard from '@/components/totaldash/TotalScoreCard.vue';
-import WeekChard from '@/components/totaldash/WeekChard.vue';
+import WeekCard from '@/components/totaldash/WeekCard.vue';
+import MonthCard from '@/components/totaldash/MonthCard.vue';
+import UnitCard from '@/components/totaldash/UnitCard.vue';
 export default {
-    components: { TotalScoreCard,WeekChard }
+    components: { TotalScoreCard, WeekCard, MonthCard, UnitCard }
 }
 </script>
 
