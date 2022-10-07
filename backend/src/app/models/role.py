@@ -6,4 +6,4 @@ class Role(Base):
     __tablename__ = "role"
 
     role_id = Column(Integer, primary_key=True, index=True)
-    role = Column(String(6), unique=True, nullable=False)
+    role = Column(String(9), unique=True, nullable=False)
