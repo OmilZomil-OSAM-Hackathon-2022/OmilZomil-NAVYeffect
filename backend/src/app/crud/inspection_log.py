@@ -1,32 +1,32 @@
 from sqlalchemy.orm import Session
-from app.models.enlisted_personnel import EnlistedPersonnel
-from app.schemas.enlisted_personnel import EnlistedPersonnelCreate, EnlistedPersonnelUpdate
+from app.models.inspection_log import InspectionLog
+from app.schemas.inspection_log import InspectionLogCreate, InspectionLogUpdate
 
 
-def get_personnel_info_by_id(db: Session, personnel_id: int):
-    return db.query(EnlistedPersonnel).get(personnel_id)
+def get_inspection_log_by_id(db: Session, inspection_id: int):
+    return db.query(InspectionLog).get(inspection_id)
 
 
-def create_personnel_info(db: Session, personnel: EnlistedPersonnelCreate):
-    personnel = EnlistedPersonnel(
-        access_id=personnel.access_id,
-        army_type=personnel.army_type,
-        name=personnel.name,
-        rank=personnel.rank,
-        uniform_type=personnel.uniform_type,
-        has_name=personnel.has_name,
-        has_rank=personnel.has_rank,
-        has_neckerchief=personnel.has_neckerchief,
-        has_muffler=personnel.has_muffler,
-        has_flag=personnel.has_flag,
+def create_inspection_log(db: Session, inspection: InspectionLogCreate):
+    inspection = InspectionLog(
+        access_id=inspection.access_id,
+        affiliation=inspection.affiliation,
+        name=inspection.name,
+        rank=inspection.rank,
+        uniform=inspection.uniform,
+        has_name=inspection.has_name,
+        has_rank=inspection.has_rank,
+        has_neckerchief=inspection.has_neckerchief,
+        has_muffler=inspection.has_muffler,
+        has_flag=inspection.has_flag,
     )
-    db.add(personnel)
+    db.add(inspection)
     db.commit()
-    db.refresh(personnel)
-    return personnel
+    db.refresh(inspection)
+    return inspection
 
 
-def update_personnel_info(db: Session, personnel_id: int, personnel: EnlistedPersonnelUpdate):
-    personnel = {x: y for x, y in personnel.dict().items() if y is not None}
-    db.query(EnlistedPersonnel).filter_by(personnel_id=personnel_id).update(personnel)
+def update_inspection_log(db: Session, inspection_id: int, inspection: InspectionLogUpdate):
+    inspection = {x: y for x, y in inspection.dict().items() if y is not None}
+    db.query(InspectionLog).filter_by(inspection_id=inspection_id).update(inspection)
     db.commit()
