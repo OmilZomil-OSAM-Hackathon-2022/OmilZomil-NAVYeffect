@@ -1,8 +1,10 @@
 <template>
   <div>
-    <div>DarkMod : {{getDarkMode}}</div>
-  <h1>{{ res }}</h1>
-  <button @click="getAPI">test</button>
+    <div>DarkMod : {{ getDarkMode }}</div>
+    <h1>{{ res }}</h1>
+    <button @click="getAPI">
+      test
+    </button>
   </div>
 </template>
 
