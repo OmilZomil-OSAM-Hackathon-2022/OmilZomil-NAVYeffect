@@ -2,7 +2,7 @@ import sqlalchemy.exc
 from sqlalchemy.orm import Session
 from app.core.security import get_password_hash, verify_password
 from app.models.user import User
-from app.schemas.user import UserCreate, UserUpdateInformation, UserUpdatePassword, UserUpdateRole
+from app.schemas.user import UserCreate, UserUpdateInformation, UserUpdatePassword, UserUpdateRole, UserResponse
 
 
 def create_user(db: Session, user: UserCreate):
@@ -19,9 +19,14 @@ def create_user(db: Session, user: UserCreate):
         db.add(user)
         db.commit()
         db.refresh(user)
-        return user
-    except sqlalchemy.exc.IntegrityError:
-        return None
+        return UserResponse(success=True, message="success", user_id=user.user_id)
+    except sqlalchemy.exc.IntegrityError as e:
+        print(e.orig.args[1])
+        if "foreign key constraint fail" in e.orig.args[1]:
+            return UserResponse(success=False, message="foreign key constraint fail", user_id=-1)
+        elif "duplicate entry" in e.orig.args[1]:
+            return UserResponse(success=False, message="duplicate entry", user_id=-1)
+        raise e
 
 
 def get_user(db: Session):
