@@ -1,33 +1,31 @@
 from pydantic import BaseModel, Field
-from typing import Optional
-from app.db.base_schema import AllOptional
+from app.db.base_schema import Response, AllOptional
 
 
-class EnlistedPersonnelBase(BaseModel):
-    success: Optional[bool] = Field(None, description="성공여부")
-    message: Optional[str] = Field(None, description="실행결과")
-    access_id: int = Field(None, description="출입기록 ID")
-    army_type: str = Field(None, description="군 구분")
-    name: str = Field(None, description="이름")
-    rank: str = Field(None, description="계급")
-    uniform_type: str = Field(None, description="복장 유형")
-    has_name: bool = Field(None, description="이름표 부착 유무")
-    has_rank: bool = Field(None, description="계급장 부착 유무")
-    has_neckerchief: bool = Field(None, description="네커치프&네커치프 링 착용 유무")
-    has_muffler: bool = Field(None, description="머플러 착용 유무")
-    has_flag: bool = Field(None, description="태극기 부착 유무")
+class InspectionLogBase(BaseModel):
+    access_id: int = Field(None, description="access id")
+    affiliation: str = Field(None, description="affiliation")
+    name: str = Field(None, description="name")
+    rank: str = Field(None, description="rank")
+    uniform: str = Field(None, description="uniform")
+    has_name: bool = Field(None, description="has name")
+    has_rank: bool = Field(None, description="has rank")
+    has_neckerchief: bool = Field(None, description="has neckerchief and neckerchief ring")
+    has_muffler: bool = Field(None, description="has muffler")
+    has_flag: bool = Field(None, description="has flag")
 
 
-class EnlistedPersonnelCreate(EnlistedPersonnelBase):
+class InspectionLogCreate(InspectionLogBase):
     pass
 
 
-class EnlistedPersonnelRead(EnlistedPersonnelBase, metaclass=AllOptional):
+class InspectionLogRead(InspectionLogBase):
+    inspection_id: int = Field(None, description="primary key")
+
     class Config:
         schema_extra = {
             "example": {
-                "success": True,
-                "message": "Personnel info sucessfully read",
+                "inspection_id": 1,
                 "access_id": 1,
                 "army_type": "해군",
                 "name": "정의철",
@@ -43,7 +41,7 @@ class EnlistedPersonnelRead(EnlistedPersonnelBase, metaclass=AllOptional):
         orm_mode = True
 
 
-class EnlistedPersonnelUpdate(EnlistedPersonnelBase, metaclass=AllOptional):
+class InspectionLogUpdate(InspectionLogBase, metaclass=AllOptional):
     class Config:
         schema_extra = {
             "example": {
@@ -54,11 +52,5 @@ class EnlistedPersonnelUpdate(EnlistedPersonnelBase, metaclass=AllOptional):
         }
 
 
-class EnlistedPersonnelUpdateResult(EnlistedPersonnelUpdate):
-    class Config:
-        schema_extra = {
-            "example": {
-                "success": True,
-                "message": "Personnel info sucessfully updated",
-            }
-        }
+class InspectionLogResponse(Response):
+    pass
