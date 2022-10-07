@@ -1,6 +1,7 @@
 from lib.defines import *
 from sys import path as syspath
 from os.path import abspath, join, dirname
+from requests.exceptions import ConnectionError
 import numpy as np
 import cv2
 import requests
@@ -40,8 +41,11 @@ def OCR(img):
     headers = {'Authorization': 'KakaoAK {}'.format(KEY)}
     jpeg_img = cv2.imencode(".jpg", img)[1]
     data = jpeg_img.tobytes()
-    ocr_json = requests.post(API_URL, headers=headers, files={"image": data})
-    
+    try:
+        ocr_json = requests.post(API_URL, headers=headers, files={"image": data})
+    except ConnectionError as error_msg:
+        raise Exception("네트워크 오류")
+        
     outputs = ocr_json.json()['result']
 
 
