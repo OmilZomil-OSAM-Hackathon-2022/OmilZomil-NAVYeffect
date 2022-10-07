@@ -53,13 +53,14 @@ def update_user_information(db: Session, user_id: int, information: UserUpdateIn
 
 
 def update_user_password(db: Session, user_id: int, password: UserUpdatePassword):
-    user = get_user_by_id(user_id)
-    if user is not None and verify_password(password.old_password, user.password):
-        res = None
-    else:
-        res = user.update({"password": get_password_hash(password.new_password)})
-        db.commit()
-    return res
+    user = db.query(User).filter_by(user_id=user_id)
+    if not user.count():
+        return UserResponse(success=False, message="entry not found", user_id=-1)
+    elif not verify_password(password.old_password, user.password):
+        return UserResponse(success=False, message="invalid password", user_id=-1)
+    user.first().update({"password": get_password_hash(password.new_password)})
+    db.commit()
+    return UserResponse(success=True, message="success")
 
 
 def update_user_role(db: Session, user_id: int, role: UserUpdateRole):
