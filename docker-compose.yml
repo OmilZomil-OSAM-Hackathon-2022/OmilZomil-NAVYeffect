@@ -23,11 +23,6 @@ services:
     env_file: .env.private
     volumes:
       - ${FRONTEND_DIR_PATH}/omilzomil:/frontend
-    healthcheck:
-      test: bash -c [ -f frontend/dist/index.html ]
-      timeout: 10s
-      retries: 100
-
 
   web:
     container_name: omil_web
