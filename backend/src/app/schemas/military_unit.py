@@ -8,7 +8,7 @@ class MilitaryUnitBase(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "unit": "계룡대 근무지원단",
+                "unit": "계룡대 근무지원단 본부대대",
             }
         }
 
