@@ -54,7 +54,7 @@ class OmilZomil:
 
     def detect(self, img):
         if self.resize is not None:
-            img = cv2.resize(img, resize)
+            img = cv2.resize(img, self.resize)
 
         person_img, boxed_img = self.person_detector.detect(img)  # 사람인식
         if person_img is None:
