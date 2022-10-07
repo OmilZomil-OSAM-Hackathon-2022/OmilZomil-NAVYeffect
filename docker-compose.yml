@@ -27,6 +27,8 @@ services:
       test: bash -c [ -f frontend/dist/index.html ]
       timeout: 10s
       retries: 100
+
+
   web:
     container_name: omil_web
     build:
@@ -38,19 +40,6 @@ services:
       - ${FRONTEND_DIR_PATH}/omilzomil:/frontend
     ports:
       - "8080:80"
-
-    depends_on:
-      db:
-        condition: service_healthy
-
-  backend:
-    container_name: omil_backend
-    build:
-      context: backend/deploy
-      dockerfile: Dockerfile
-    env_file: .env.private
-    volumes:
-      -  ${BACKEND_DIR_PATH}:/home/backend
     depends_on:
       db:
         condition: service_healthy
