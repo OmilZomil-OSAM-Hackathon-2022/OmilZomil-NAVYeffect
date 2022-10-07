@@ -33,8 +33,9 @@ services:
     volumes:
       - ${BACKEND_DIR_PATH}:/backend
       - ${FRONTEND_DIR_PATH}/omilzomil/dist:/backend/src/app/static
-    ports:
-      - "8080:80"
+
     depends_on:
       db:
         condition: service_healthy
+    ports:
+      - "${WEB_PAGE_PORT}:80"
