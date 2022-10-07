@@ -56,9 +56,11 @@ def update_user_password(db: Session, user_id: int, password: UserUpdatePassword
     user = db.query(User).filter_by(user_id=user_id)
     if not user.count():
         return UserResponse(success=False, message="entry not found", user_id=-1)
-    elif not verify_password(password.old_password, user.password):
+
+    if not verify_password(password.old_password, user.first().password):
         return UserResponse(success=False, message="invalid password", user_id=-1)
-    user.first().update({"password": get_password_hash(password.new_password)})
+
+    user.update({"password": get_password_hash(password.new_password)})
     db.commit()
     return UserResponse(success=True, message="success")
 
