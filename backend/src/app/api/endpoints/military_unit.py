@@ -25,10 +25,13 @@ def get_military_unit(db: Session = Depends(deps.get_db)):
 
 @router.put("/{unit}", response_model=schema.MilitaryUnitResponse)
 async def update_military_unit(unit: str, new_unit: schema.MilitaryUnitUpdate = Body(), db: Session = Depends(deps.get_db)):
-    if crud.update_military_unit(db, unit, new_unit.unit):
+    res = crud.update_military_unit(db, unit, new_unit.unit)
+    if res:
         res = schema.MilitaryUnitResponse(success=True, message="success")
-    else:
+    elif res is not None:
         res = schema.MilitaryUnitResponse(success=False, message="entry not found")
+    else:
+        res = schema.MilitaryUnitResponse(success=False, message="duplicate entry")
     return res
 
 
