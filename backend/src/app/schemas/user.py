@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from typing import Optional
 from app.db.base_schema import Response
 
 
@@ -28,15 +29,30 @@ class UserCreate(UserBase):
         }
 
 
-class UserRead(UserBase, Response):
+class UserFilter(UserBase):
+    full_name: Optional[str] = Field(None, description="full name")
+    affiliation: Optional[str] = Field(None, description="affiliation")
+    military_unit: Optional[str] = Field(None, description="military unit")
+    rank: Optional[str] = Field(None, description="rank")
+    is_active: Optional[bool] = Field(None, description="is active")
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "full_name": "정의철",
+                "rank": "병장",
+                "is_active": True,
+            }
+        }
+
+
+class UserRead(UserBase):
     user_id: int = Field(None, description="primary key")
     role: str = Field(None, description="role")
 
     class Config:
         schema_extra = {
             "example": {
-                "success": True,
-                "message": "success",
                 "user_id": 1,
                 "full_name": "정의철",
                 "dog_number": "21-71007011",
