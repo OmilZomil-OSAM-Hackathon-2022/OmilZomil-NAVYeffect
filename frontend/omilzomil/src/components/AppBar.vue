@@ -108,6 +108,30 @@
             <!-- <img src="@/assets/icons/trophy-variant.svg"/>랭킹 -->
           </div>
         </router-link>
+        <router-link to="/totalDashboard">
+          <div class="nav-item">
+            <IconBase
+              :width="24"
+              :height="24"
+            >
+              <ChartBox />
+            </IconBase>
+            전군 통계
+            <!-- <img src="@/assets/icons/trophy-variant.svg"/>랭킹 -->
+          </div>
+        </router-link>
+        <router-link to="/vacation">
+          <div class="nav-item">
+            <IconBase
+              :width="24"
+              :height="24"
+            >
+              <BookAccount />
+            </IconBase>
+            휴가 관리
+            <!-- <img src="@/assets/icons/trophy-variant.svg"/>랭킹 -->
+          </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -119,9 +143,11 @@ import DashboardIcon from "../assets/icons/dashboard-icon.vue";
 import TrophyIcon from "@/assets/icons/trophy-icon.vue";
 import HomeIcon from "../assets/icons/home-icon.vue";
 import GroupIcon from "../assets/icons/group-icon.vue";
+import BookAccount from "@/assets/icons/book-account.vue";
+import ChartBox from "@/assets/icons/chart-box.vue";
 export default {
     name:"AppBar",
-    components:{ IconBase, DashboardIcon, TrophyIcon, HomeIcon, GroupIcon },
+    components:{ IconBase, DashboardIcon, TrophyIcon, HomeIcon, GroupIcon, BookAccount, ChartBox },
     data(){
       return {
         userName: "김민섭",
