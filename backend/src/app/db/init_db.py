@@ -29,6 +29,7 @@ def init_db(db: Session):
     role_crud.create_role(db, "super")
     role_crud.create_role(db, "admin")
     role_crud.create_role(db, "user")
+    role_crud.create_role(db, "inactive")
 
     military_unit_model.metadata.create_all(bind=engine)
 
