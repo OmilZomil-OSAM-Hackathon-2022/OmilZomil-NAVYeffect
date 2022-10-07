@@ -34,6 +34,12 @@
         <div style="width:55px">
           복장상태
         </div>
+        <div
+          v-if="!isInDash"
+          style="width:26px;display: flex;justify-content: center;"
+        >
+          관리자 확인
+        </div>
         <div style="width:43px;display: flex;justify-content: flex-end;">
           자세히보기
         </div>
@@ -76,7 +82,10 @@
 
           <GoodBadTag :is-good="item.hairStatus" />
           <GoodBadTag :is-good="item.dressStatus" />
-          
+          <CheckTag
+            v-if="!isInDash"
+            :is-check="item.check"
+          />
           <a
             class="more"
             @click="openDetail(item)"
@@ -101,6 +110,7 @@ import IconBase from "./IconBase.vue";
 import GoodBadTag from "./GoodBadTag.vue";
 import DetailCard from "./DetailCard.vue";
 import CardHead from "./CardHead.vue";
+import CheckTag from "./CheckTag.vue";
 
 class Item{
   constructor(){
@@ -112,15 +122,16 @@ class Item{
     this.dressType= "해군 전투복",
     this.hairStatus= true,
     this.dressStatus= false
+    this.check = true
   }
 }
 
 export default {
-    components: { TshirtIcon, IconBase, GoodBadTag, DetailCard, CardHead },
+    components: { TshirtIcon, IconBase, GoodBadTag, DetailCard, CardHead, CheckTag },
     props:{
       gap: {
         type:String,
-        default:"100"
+        default:"80"
       },
       padding:{
         type:String,
