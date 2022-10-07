@@ -9,8 +9,8 @@ class FaceDetector():
     def detect(self, img):
         img2 = img.copy()
         detected_boxes = self.detector(img)
-        for box in detected_boxes:
-            print('box')
-            # print(box)
-        # cv2.rectangle(img2, (res_box[0], res_box[1]),(res_box[2], res_box[3]), (0, 255, 0), 2)
         
+        if len(detected_boxes) >= 2:
+            raise("두명이상 인식 불가능합니다!")
+        
+        return detected_boxes
