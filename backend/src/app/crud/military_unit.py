@@ -1,6 +1,7 @@
 import sqlalchemy.exc
 from sqlalchemy.orm import Session
 from app.models.military_unit import MilitaryUnit
+from app.schemas.military_unit import MilitaryUnitResponse
 
 
 def create_military_unit(db: Session, unit: str):
@@ -9,9 +10,9 @@ def create_military_unit(db: Session, unit: str):
         db.add(unit)
         db.commit()
         db.refresh(unit)
-        return unit
+        return MilitaryUnitResponse(success=True, message="success")
     except sqlalchemy.exc.IntegrityError:
-        return None
+        return MilitaryUnitResponse(success=False, message="duplicate entry")
 
 
 def get_military_unit(db: Session):
@@ -19,15 +20,22 @@ def get_military_unit(db: Session):
 
 
 def update_military_unit(db: Session, old_unit: str, new_unit: str):
+    unit = db.query(MilitaryUnit).filter_by(unit=old_unit)
+    if not unit.count():
+        return MilitaryUnitResponse(success=False, message="entry not found")
     try:
-        res = db.query(MilitaryUnit).filter_by(unit=old_unit).update({"unit": new_unit})
+        unit.update({"unit": new_unit})
         db.commit()
+        return MilitaryUnitResponse(success=True, message="success")
     except sqlalchemy.exc.IntegrityError:
-        res = None
-    return res
+        return MilitaryUnitResponse(success=False, message="duplicate entry")
 
 
 def delete_military_unit(db: Session, unit: str):
-    res = db.query(MilitaryUnit).filter_by(unit=unit).delete()
-    db.commit()
-    return res
+    unit = db.query(MilitaryUnit).filter_by(unit=unit)
+    if not unit.count():
+        return MilitaryUnitResponse(success=False, message="entry not found")
+    else:
+        unit.delete()
+        db.commit()
+        return MilitaryUnitResponse(success=True, message="success")
