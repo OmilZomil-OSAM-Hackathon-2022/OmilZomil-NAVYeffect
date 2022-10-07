@@ -3,30 +3,30 @@ from app.models.inspection_log import InspectionLog
 from app.schemas.inspection_log import InspectionLogCreate, InspectionLogUpdate
 
 
-def get_inspection_log_by_id(db: Session, inspection_id: int):
-    return db.query(InspectionLog).get(inspection_id)
+def get_inspection_log_by_id(db: Session, log_id: int):
+    return db.query(InspectionLog).get(log_id)
 
 
-def create_inspection_log(db: Session, inspection: InspectionLogCreate):
-    inspection = InspectionLog(
-        access_id=inspection.access_id,
-        affiliation=inspection.affiliation,
-        name=inspection.name,
-        rank=inspection.rank,
-        uniform=inspection.uniform,
-        has_name=inspection.has_name,
-        has_rank=inspection.has_rank,
-        has_neckerchief=inspection.has_neckerchief,
-        has_muffler=inspection.has_muffler,
-        has_flag=inspection.has_flag,
+def create_inspection_log(db: Session, log: InspectionLogCreate):
+    log = InspectionLog(
+        access_id=log.access_id,
+        affiliation=log.affiliation,
+        name=log.name,
+        rank=log.rank,
+        uniform=log.uniform,
+        has_name=log.has_name,
+        has_rank=log.has_rank,
+        has_neckerchief=log.has_neckerchief,
+        has_muffler=log.has_muffler,
+        has_flag=log.has_flag,
     )
-    db.add(inspection)
+    db.add(log)
     db.commit()
-    db.refresh(inspection)
-    return inspection
+    db.refresh(log)
+    return log
 
 
-def update_inspection_log(db: Session, inspection_id: int, inspection: InspectionLogUpdate):
-    inspection = {x: y for x, y in inspection.dict().items() if y is not None}
-    db.query(InspectionLog).filter_by(inspection_id=inspection_id).update(inspection)
+def update_inspection_log(db: Session, log_id: int, log: InspectionLogUpdate):
+    log = {x: y for x, y in log.dict().items() if y is not None}
+    db.query(InspectionLog).filter_by(inspection_id=log_id).update(log)
     db.commit()
