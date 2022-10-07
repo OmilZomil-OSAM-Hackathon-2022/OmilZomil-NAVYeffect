@@ -12,7 +12,7 @@ def create_military_unit(db: Session, unit: str):
         db.refresh(unit)
         return MilitaryUnitResponse(success=True, message="success")
     except sqlalchemy.exc.IntegrityError:
-        return MilitaryUnitResponse(success=False, message="duplicate entry")
+        return MilitaryUnitResponse(success=False, message="unique key constraint fail")
 
 
 def get_military_unit(db: Session):
