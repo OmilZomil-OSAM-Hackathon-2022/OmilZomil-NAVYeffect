@@ -93,7 +93,7 @@ class UserUpdateRole(BaseModel):
         }
 
 
-class UserResponse(BaseModel, Response):
+class UserResponse(Response):
     user_id: int = Field(None, description="primary key")
 
     class Config:
