@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from fastapi import APIRouter, Depends, Body
 from sqlalchemy.orm import Session
 from app.crud import user as crud
@@ -15,8 +15,16 @@ async def create_user(user: schema.UserCreate = Body(), db: Session = Depends(de
 
 
 @router.get("/", response_model=List[schema.UserRead])
-def get_user(db: Session = Depends(deps.get_db)):
-    return [schema.UserRead(user=user.user) for user in crud.get_user(db)]
+def get_user(
+    full_name: Optional[str] = None,
+    affiliation: Optional[str] = None,
+    military_unit: Optional[str] = None,
+    rank: Optional[str] = None,
+    is_active: Optional[bool] = None,
+    db: Session = Depends(deps.get_db),
+):
+    flt = schema.UserFilter(full_name=full_name, affiliation=affiliation, military_unit=military_unit, rank=rank, is_active=is_active)
+    return crud.get_user(db, flt)
 
 
 @router.put("/information/{user_id}", response_model=schema.UserResponse)
