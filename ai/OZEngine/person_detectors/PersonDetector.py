@@ -1,3 +1,4 @@
+import enum
 import cv2
 import numpy as np
 from lib.utils import *
@@ -60,14 +61,12 @@ class PersonDetector():
         # font = cv2.FONT_HERSHEY_PLAIN
 
         x, y, w, h = None, None, None, None
-        for i in range(len(boxes)):
+        for i, (box, class_id) in enumerate(zip(boxes, class_ids)):
             if i in indexes:
-                
-                class_id = class_ids[i]
                 if class_id > len(self.classes):
                     continue
                 else:
-                    x, y, w, h = boxes[i]
+                    x, y, w, h = box
                     break
                 
                 if x < 0:
