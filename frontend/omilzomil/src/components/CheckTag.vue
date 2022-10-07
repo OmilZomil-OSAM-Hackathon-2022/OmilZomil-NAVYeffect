@@ -1,15 +1,15 @@
 <template>
-    <div class="check-tag">
-      <img
-        v-if="isCheck"
-        src="@/assets/icons/manager-check.svg"
-      >
-      <img
-        v-else
-        src="@/assets/icons/manager-nocheck.svg"
-      >
-    </div>
-  </template>
+  <div class="check-tag">
+    <img
+      v-if="isCheck"
+      src="@/assets/icons/manager-check.svg"
+    >
+    <img
+      v-else
+      src="@/assets/icons/manager-nocheck.svg"
+    >
+  </div>
+</template>
   
   <script>
   export default {
