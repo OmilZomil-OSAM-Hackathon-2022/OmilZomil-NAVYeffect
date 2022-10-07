@@ -4,7 +4,7 @@ import router from './router'
 import axios from 'axios'
 import store from "./stores";
 import VueNumber from 'vue-number-animation'
-
+import VueApexCharts from 'vue3-apexcharts';
 
 import {
     Chart,
@@ -16,6 +16,8 @@ import {
 const app = createApp(App)
 app.config.globalProperties.$axios = axios; 
 app.use(store)
+app.use(VueApexCharts)
+// app.component
 app.use(VueNumber)
 app.use(router).mount('#app')
 
