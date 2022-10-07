@@ -13,7 +13,7 @@ class NavyServiceUniformChecker():
 
         self.debug_mode = False
 
-    def getMaskedContours(self, img=None, hsv_img=None, kind=None, sort=True):
+    def getMaskedContours(self, img=None, hsv_img=None, morph=None, kind=None, sort=True):
         if kind == 'uniform':
             lower, upper = self.uniform_filter['lower'], self.uniform_filter['upper']
         elif kind == 'classes':
@@ -22,6 +22,16 @@ class NavyServiceUniformChecker():
             pass
 
         mask = cv2.inRange(hsv_img, lower, upper)
+
+        if morph == 'erode':
+            kernel = np.ones((3, 3), np.uint8)
+            org_mask = mask.copy()
+
+            k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 2))
+            mask = cv2.erode(org_mask, k, iterations=2)
+
+            plt_imshow(['org_mask', 'maskk', 'm2'], [org_mask, mask])
+
         masked_img = cv2.bitwise_and(img, img, mask=mask)
 
         if sort:
@@ -51,24 +61,26 @@ class NavyServiceUniformChecker():
         return cv2.boundingRect(contour), ''.join(name_chrs)
 
     def getClasses(self, img, hsv_img, contour):
-        res_box_position = None
-        contours, masked_img = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind='classes', sort=False)
+        if contour is None:
+            return None, None, None
 
         res_box_position = cv2.boundingRect(contour)
         x, y, w, h = res_box_position
         roi = img[y:y+h, x:x+w]
         hsv_roi = hsv_img[y:y+h, x: x+w]
 
+        # contours, masked_img = self.getMaskedContours(
+        #     img=roi, hsv_img=hsv_roi, morph='erode', kind='classes', sort=False)
+        contours, masked_img = self.getMaskedContours(
+            img=roi, hsv_img=hsv_roi, kind='classes', sort=False)
+        
+
         classes_n = 0
         for contour in contours:
-            if 10 < cv2.contourArea(contour):
+            if 100 < cv2.contourArea(contour):
                 classes_n += 1
 
         if 1 <= classes_n <= 4:
-            print(masked_img)
-            
-            plt_imshow(['masked_img'],  [masked_img])
             return res_box_position, Classes.dic[classes_n], masked_img
         else:
             return None, None, None
@@ -87,7 +99,7 @@ class NavyServiceUniformChecker():
 
         box_position_dic = {}
         component_dic = {}
-        masked_img = {}
+        masked_img_dic = {}
 
         # 이름표, 계급장 체크
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
@@ -106,16 +118,15 @@ class NavyServiceUniformChecker():
                 center_p = getContourCenterPosition(contour)
 
                 # 이름표 체크
-                name = 'name_tag'
-                if center_p[0] < (w//2) and not component_dic.get(name):
-                    box_position_dic[name], component_dic[name] = self.getName(
+                if center_p[0] < (w//2) and not component_dic.get('name_tag'):
+                    box_position_dic['name_tag'], component_dic['name_tag'] = self.getName(
                         contour, ocr_list)
 
                 # 계급장 체크
                 elif center_p[0] > (w//2) and not component_dic.get('class_tag'):
-                    box_position_dic[name], component_dic[name], masked_img[name] = self.getClasses(
+                    box_position_dic['class_tag'], component_dic['class_tag'], masked_img_dic['class_tag'] = self.getClasses(
                         img, hsv_img, contour)
 
         # half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
         # cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
-        return component_dic, box_position_dic, masked_img
+        return component_dic, box_position_dic, masked_img_dic

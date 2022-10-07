@@ -40,7 +40,14 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      vue:
-        condition: service_healthy
-      
-      
+
+  frontend:
+    container_name: omil_frontend
+    build:
+      context: frontend/deploy
+      dockerfile: Dockerfile
+    env_file: .env.private
+    volumes:
+      -  ${FRONTEND_DIR_PATH}:/home/frontend
+    ports:
+      - "${FRONTEND_PORT}:8080"
