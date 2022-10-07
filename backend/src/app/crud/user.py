@@ -66,6 +66,12 @@ def update_user_password(db: Session, user_id: int, password: UserUpdatePassword
 
 
 def update_user_role(db: Session, user_id: int, role: UserUpdateRole):
-    res = db.query(User).filter_by(user_id=user_id).update(role.dict())
-    db.commit()
-    return res
+    user = db.query(User).filter_by(user_id=user_id)
+    if not user.count():
+        return UserResponse(success=False, message="entry not found", user_id=-1)
+    try:
+        user.update(role.dict())
+        db.commit()
+        return UserResponse(success=True, message="success", user_id=user_id)
+    except sqlalchemy.exc.IntegrityError:
+        return UserResponse(success=False, message="foreign key constraint fail", user_id=-1)
