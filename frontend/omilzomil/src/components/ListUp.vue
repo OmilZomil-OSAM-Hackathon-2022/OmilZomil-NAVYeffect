@@ -1,6 +1,17 @@
 <template>
-  <div class="card-list card">
-    <div class="list">
+  <div
+    class="card-list card"
+    :style="{'min-height': minHeight}"
+  >
+    <CardHead
+      v-if="isInDash"
+      title="위병소 실시간 감지현황"
+      target="/ListUp"
+    />
+    <div
+      class="list"
+      :style="{padding:padding}"
+    >
       <div
         class="list-header"
         :style="{gap:gap+'px'}"
@@ -23,13 +34,19 @@
         <div style="width:55px">
           복장상태
         </div>
+        <div
+          v-if="!isInDash"
+          style="width:26px;display: flex;justify-content: center;"
+        >
+          관리자 확인
+        </div>
         <div style="width:43px;display: flex;justify-content: flex-end;">
           자세히보기
         </div>
       </div>
       <div class="list-body">
         <div
-          v-for="(item,index) in dummy"
+          v-for="(item,index) in isInDash ? dummy.slice(0,4):dummy"
           :key="index"
           class="list-item"
           :style="{gap:gap+'px'}"
@@ -65,7 +82,10 @@
 
           <GoodBadTag :is-good="item.hairStatus" />
           <GoodBadTag :is-good="item.dressStatus" />
-          
+          <CheckTag
+            v-if="!isInDash"
+            :is-check="item.check"
+          />
           <a
             class="more"
             @click="openDetail(item)"
@@ -89,6 +109,8 @@ import TshirtIcon from "../assets/icons/tshirt-icon.vue";
 import IconBase from "./IconBase.vue";
 import GoodBadTag from "./GoodBadTag.vue";
 import DetailCard from "./DetailCard.vue";
+import CardHead from "./CardHead.vue";
+import CheckTag from "./CheckTag.vue";
 
 class Item{
   constructor(){
@@ -100,22 +122,38 @@ class Item{
     this.dressType= "해군 전투복",
     this.hairStatus= true,
     this.dressStatus= false
+    this.check = true
   }
 }
 
 export default {
-    components: { TshirtIcon, IconBase, GoodBadTag, DetailCard },
+    components: { TshirtIcon, IconBase, GoodBadTag, DetailCard, CardHead, CheckTag },
     props:{
       gap: {
         type:String,
-        default:"100"
+        default:"80"
       },
+      padding:{
+        type:String,
+        default:"28px 61px",
+      },
+      minHeight:{
+        type:String,
+        default:"1112px",
+      },
+      isInDash:{
+        type:Boolean,
+        default:false,
+      }
     },
     data() {
         return {
             detail: new Item(),
             isDetail: false,
             dummy: [
+                new Item(),
+                new Item(),
+                new Item(),
                 new Item(),
                 new Item(),
                 new Item(),
@@ -149,10 +187,11 @@ export default {
 <style scoped>
 .card-list{
     box-sizing: border-box;
-    padding: 28px 61px;
     height:100%;
-    min-height: 500px;
-    align-items: flex-start;
+    display:flex;
+    flex-direction:column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .list-header{
