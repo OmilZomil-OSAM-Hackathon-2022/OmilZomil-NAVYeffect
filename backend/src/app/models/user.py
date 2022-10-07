@@ -15,6 +15,6 @@ class User(Base):
     affiliation = Column(String(6), ForeignKey(Affiliation.affiliation), nullable=False)
     military_unit = Column(String(128), ForeignKey(MilitaryUnit.unit), nullable=False)
     rank = Column(String(4), ForeignKey(Rank.rank), nullable=False)
-    username = Column(String(17), unique=True, nullable=False)
-    password = Column(String(17), nullable=False)
+    username = Column(String(33), unique=True, nullable=False)
+    password = Column(String(129), nullable=False)
     role = Column(String(6), ForeignKey(Role.role), default="unauthorized")
