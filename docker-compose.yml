@@ -15,25 +15,32 @@ services:
       timeout: 10s
       retries: 100
 
-  backend:
-    container_name: omil_backend
+  vue:
+    container_name: omil_vue
     build:
-      context: backend/deploy
+      context: frontend
       dockerfile: Dockerfile
     env_file: .env.private
     volumes:
-      -  ${BACKEND_DIR_PATH}:/home/backend
+      - ${FRONTEND_DIR_PATH}/omilzomil:/frontend
+    healthcheck:
+      test: bash -c [ -f frontend/dist/index.html ]
+      timeout: 10s
+      retries: 100
+  web:
+    container_name: omil_web
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    env_file: .env.private
+    volumes:
+      -  ${BACKEND_DIR_PATH}:/backend
+      -  ${FRONTEND_DIR_PATH}/omilzomil:/frontend
+
     depends_on:
       db:
         condition: service_healthy
-
-  frontend:
-    container_name: omil_frontend
-    build:
-      context: frontend/deploy
-      dockerfile: Dockerfile
-    env_file: .env.private
-    volumes:
-      -  ${FRONTEND_DIR_PATH}:/home/frontend
-    ports:
-      - "${FRONTEND_PORT}:8080"
+      vue:
+        condition: service_healthy
+      
+      
