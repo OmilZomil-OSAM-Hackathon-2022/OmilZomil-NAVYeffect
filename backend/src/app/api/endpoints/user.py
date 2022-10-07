@@ -21,14 +21,7 @@ def get_user(db: Session = Depends(deps.get_db)):
 
 @router.put("/information/{user_id}", response_model=schema.UserResponse)
 async def update_user_information(user_id: int, information: schema.UserUpdateInformation = Body(), db: Session = Depends(deps.get_db)):
-    res = crud.update_user_information(db, user_id, information)
-    if res:
-        res = schema.UserResponse(success=True, message="success")
-    elif res is not None:
-        res = schema.UserResponse(success=False, message="entry not found")
-    else:
-        res = schema.UserResponse(success=False, message="duplicate entry")
-    return res
+    return crud.update_user_information(db, user_id, information)
 
 
 @router.put("/password/{user_id}", response_model=schema.UserResponse)
