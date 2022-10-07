@@ -38,7 +38,7 @@ def get_user_by_id(db: Session, user_id: int):
 
 def update_user_information(db: Session, user_id: int, information: UserUpdateInformation):
     user = get_user_by_id(db, user_id)
-    if not user.count():
+    if user is None:
         return UserResponse(success=False, message="entry not found")
     try:
         user.update(information.dict())
