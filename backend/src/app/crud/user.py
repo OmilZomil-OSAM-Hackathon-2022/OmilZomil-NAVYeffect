@@ -32,9 +32,9 @@ def get_user_by_id(db: Session, user_id: int):
     return db.query(User).get(user_id)
 
 
-def update_user_information(db: Session, user_id: int, user: UserUpdateInformation):
+def update_user_information(db: Session, user_id: int, information: UserUpdateInformation):
     try:
-        res = db.query(User).filter_by(user_id=user_id).update(user.dict())
+        res = db.query(User).filter_by(user_id=user_id).update(information.dict())
         db.commit()
     except sqlalchemy.exc.IntegrityError:
         res = None
