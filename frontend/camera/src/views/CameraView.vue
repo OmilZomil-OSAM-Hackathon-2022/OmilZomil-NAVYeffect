@@ -19,6 +19,14 @@ export default {
 
       ctx.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
       image.src = canvas.toDataURL('image/webp');
+
+
+
+      const url = "wss://
+
+      var ws = new WebSocket(`wss://218.150.159.22:14491/v1"`);
+
+
     }
   },
   mounted() {
