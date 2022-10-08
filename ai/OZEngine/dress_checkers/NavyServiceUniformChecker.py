@@ -131,13 +131,16 @@ class NavyServiceUniformChecker():
 
                 # 이름표 체크
                 if center_p[0] < (w//2) and not component_dic.get('name_tag'):
-                    box_position_dic['name_tag'], component_dic['name_tag'] = self.getName(
-                        contour, ocr_list)
+                    box_position, component = self.getName(contour, ocr_list)
+                    box_position_dic['name_tag'] = box_position
+                    component_dic['name_tag'] = component
 
                 # 계급장 체크
                 elif center_p[0] > (w//2) and not component_dic.get('class_tag'):
-                    box_position_dic['class_tag'], component_dic['class_tag'], masked_img_dic['class_tag'] = self.getClasses(
-                        img, hsv_img, contour)
+                    box_position, component, masked_img = self.getClasses(img, hsv_img, contour)
+                    box_position_dic['class_tag'] = box_position
+                    component_dic['class_tag'] = component  
+                    masked_img_dic['class_tag'] = masked_img
 
         # half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
         # cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
