@@ -7,7 +7,7 @@ services:
     container_name: omil_db
     image: mysql
     restart: always
-    env_file: .env.private
+    env_file: .env.lock
     # volumes:
     #   - ./data:/var/lib/postgresql/data
     healthcheck:
@@ -16,23 +16,23 @@ services:
       retries: 100
 
   web_vue:
-    container_name: omil_web_vue
+    container_name: web_vue
     build:
       context: frontend
       dockerfile: Dockerfile
-    env_file: .env.private
+    env_file: .env.lock
     volumes:
-      - ${FRONTEND_DIR_PATH}/omilzomil:/frontend
+      - ${DIR_PATH}/omilzomil/frontend:/frontend
 
 
   camera_vue:
-    container_name: omil_camera_vue
+    container_name: camera_vue
     build:
       context: frontend
       dockerfile: Dockerfile
     env_file: .env.private
     volumes:
-      - ${FRONTEND_DIR_PATH}/camera:/frontend
+      - ${DIR_PATH}/webrtc/frontend:/frontend
   
   camera:
     container_name: omil_camera
@@ -41,8 +41,8 @@ services:
       dockerfile: Dockerfile
     env_file: .env.private
     volumes:
-      - ${CAMERA_DIR_PATH}:/backend
-      - ${FRONTEND_DIR_PATH}/camera/dist:/backend/src/app/static
+      - ${DIR_PATH}/webrtc/backend:/backend
+      - ${DIR_PATH}/webrtc/frontend/dist:/backend/src/app/static
 
     depends_on:
       db:
@@ -57,8 +57,8 @@ services:
       dockerfile: Dockerfile
     env_file: .env.private
     volumes:
-      - ${BACKEND_DIR_PATH}:/backend
-      - ${FRONTEND_DIR_PATH}/omilzomil/dist:/backend/src/app/static
+      - ${DIR_PATH}/omilzomil/backend:/backend
+      - ${DIR_PATH}/omilzomil/frontend/dist:/backend/src/app/static
 
     depends_on:
       db:
