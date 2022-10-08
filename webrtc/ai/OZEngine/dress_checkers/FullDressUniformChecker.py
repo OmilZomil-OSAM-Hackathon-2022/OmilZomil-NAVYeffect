@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 import re
+from OZEngine.dress_classifier import classification2
 from lib.utils import sortContoursByArea, getVertexCnt, getContourCenterPosition, getRectCenterPosition, isPointInBox
 from lib.defines import *
 from lib.ocr import OCR
@@ -27,7 +28,7 @@ class FullDressUniformChecker():
         res_string = ''.join(filtered_list)
         return res_string
 
-    def getMaskedContours(self, img=None, hsv_img=None, morph=None, kind=None, sort=True):
+    def getMaskedContours(self, img=None, hsv_img=None, morph=None, kmeans=None, kind=None, sort=True):
         if hsv_img is None:
             hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         if kind == 'uniform':
@@ -40,6 +41,11 @@ class FullDressUniformChecker():
             pass
 
         mask = cv2.inRange(hsv_img, lower, upper)
+
+        if kmeans:
+            img_s = classification2(img)
+            plt_imshow(['origin', 's'], [img, img_s])
+            img = classification2(img)
 
         if morph == 'erode':
             kernel = np.ones((3, 3), np.uint8)
@@ -73,13 +79,16 @@ class FullDressUniformChecker():
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
             cur_node, next_node, prev_node, first_child, parent = lev
             if i == 0:  # 정복
+                img2 = img.copy()
                 shirt_contour = contour
+                cv2.drawContours(img2, [contour], -1, Color.RED, -1)
+                plt_imshow('img2', img2)
                 shirt_node = cur_node
                 continue
 
             # 정복 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표)
             # 이름표 체크
-            if not res_content and parent == shirt_node and 4 <= getVertexCnt(contour) <= 5 and cv2.contourArea(contour) > 300:
+            if not res_content and parent == shirt_node and 4 <= getVertexCnt(contour) <= 10 and cv2.contourArea(contour) > 300:
                 center_p = getContourCenterPosition(contour)
                 max_xy, min_xy = np.max(contour, axis=0)[
                     0], np.min(contour, axis=0)[0]
@@ -109,6 +118,7 @@ class FullDressUniformChecker():
                             # cv2.rectangle(img, p1, p3, Color.RED, 3)
                     res_box_position, res_content = cv2.boundingRect(
                         contour), ''.join(name_chrs)
+
         return cv2.boundingRect(shirt_contour), res_box_position, res_content
 
     def getClasses(self, masked_img, contours, hierarchy):
@@ -125,7 +135,7 @@ class FullDressUniformChecker():
                     roi = masked_img[y:y+h, x:x+w]
 
                     small_contours, small_mask = self.getMaskedContours(
-                        img=roi, morph='erode', kind='classes', sort=False)
+                        img=roi, kind='classes', sort=False)
 
                     classes_n = 0
                     for small_contour in small_contours:
