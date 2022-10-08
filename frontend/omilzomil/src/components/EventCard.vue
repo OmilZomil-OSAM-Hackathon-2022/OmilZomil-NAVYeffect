@@ -1,15 +1,57 @@
 <template>
   <div class="card">
+    <div class="background">
+      <img 
+        class="star1" 
+        src="@/assets/images/fire/light.svg" 
+      />
+      <img 
+        class="star2" 
+        src="@/assets/images/fire/light.svg" 
+      />
+      <img 
+        class="star3" 
+        src="@/assets/images/fire/light.svg" 
+      />
+      <img 
+        class="star4" 
+        src="@/assets/images/fire/light.svg" 
+      />
+      <img 
+        class="star5" 
+        src="@/assets/images/fire/light.svg" 
+      />
+      <img 
+        class="star6" 
+        src="@/assets/images/fire/light.svg" 
+      />
+      <img 
+        class="star7" 
+        src="@/assets/images/fire/light.svg" 
+      />
+      <img 
+        class="star8" 
+        src="@/assets/images/fire/light.svg" 
+      />
+      <img 
+        class="star9" 
+        src="@/assets/images/fire/light.svg" 
+      />
+      <img 
+        class="star10" 
+        src="@/assets/images/fire/light.svg" 
+      />
+    </div>
     <button
       class="x"
       @click="close"
     />
     <div class="textbox">
       <div class="text1">
-        { {name} }
+        {{ name }}
       </div>
       <div class="text2">
-        { {contents} }
+        {{ contents }}
       </div>
     </div>
     <div class="image">
@@ -68,11 +110,15 @@ export default {
             type:String,
             default:null
         }
-    },
+    }
 }
 </script>
 
 <style>
+    @keyframes blink{
+      0% {opacity:0;}
+      100% {opacity:1;}
+    }
     @keyframes boom {
         0% {
             transform: scale(0.8);
@@ -145,10 +191,93 @@ export default {
 
         background: linear-gradient(180deg, #47237D 0%, #623FAC 49.83%, #47237D 100%);
     }
+    .background{
+        position:absolute;
+        width: 400px;
+        height: 600px;
+    }
+    .background .star1{
+      position:absolute;
+      width:10px;
+      top:40px;
+      left:30px;
+      animation:blink 2s ease-in-out infinite alternate;
+    }
+    .background .star1{
+      position:absolute;
+      width:10px;
+      top:40px;
+      left:30px;
+      animation:blink 2s ease-in-out infinite alternate;
+    }
+    .background .star2{
+      position:absolute;
+      width:9px;
+      top:91px;
+      left:120px;
+      animation:blink 1.3s ease-in-out infinite alternate;
+    }
+    .background .star3{
+      position:absolute;
+      width:14px;
+      top:34px;
+      left:201px;
+      animation:blink 1.1s ease-in-out infinite alternate;
+    }
+    .background .star4{
+      position:absolute;
+      width:20px;
+      top:201px;
+      left:40px;
+      animation:blink 2s ease-in-out infinite alternate;
+    }
+    .background .star5{
+      position:absolute;
+      width:17px;
+      top:180px;
+      left:276px;
+      animation:blink 2.6s ease-in-out infinite alternate;
+    }
+    .background .star6{
+      position:absolute;
+      width:21px;
+      top:377px;
+      left:248px;
+      animation:blink 1.7s ease-in-out infinite alternate;
+    }
+    .background .star7{
+      position:absolute;
+      width:9px;
+      top:409px;
+      left:30px;
+      animation:blink 1s ease-in-out infinite alternate;
+    }
+    .background .star8{
+      position:absolute;
+      width:15px;
+      top:30px;
+      left:329px;
+      animation:blink 2s ease-in-out infinite alternate;
+    }
+    .background .star9{
+      position:absolute;
+      width:14px;
+      top:503px;
+      left:319px;
+      animation:blink 0.9s ease-in-out infinite alternate;
+    }
+    .background .star10{
+      position:absolute;
+      width:21px;
+      top:531px;
+      left:229px;
+      animation:blink 2s ease-in-out infinite alternate;
+    }
     .card .textbox{
         display:flex;
         width: 256px;
         gap:5px;
+        z-index: 1;
         flex-direction: column;
         justify-content: center;
         align-items: center;
