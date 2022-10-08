@@ -22,11 +22,24 @@ export default {
 
 
 
-      const url = "wss://
 
-      var ws = new WebSocket(`wss://218.150.159.22:14491/v1"`);
+      console.log("test 1")
+      fetch('/v1/')
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+
+      // WebSocket 연결 생성
+      var ws = new WebSocket("wss://218.150.159.22:14491/v1/ws");
+      
 
 
+      ws.addEventListener('open', function (event) {
+          console.log('Hello Server!');
+      });
+
+      ws.send("connetions")
+
+      console.log('end')
     }
   },
   mounted() {
