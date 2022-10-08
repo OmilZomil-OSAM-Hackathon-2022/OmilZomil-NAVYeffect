@@ -94,6 +94,9 @@ class NavyServiceUniformChecker():
             return res_box_position, Classes.dic[classes_n], masked_img
         else:
             return None, None, masked_img
+        
+    def isInShirt(contour):
+        return 3 <= getVertexCnt(contour) <= 10 and cv2.contourArea(contour) > 300
 
     def checkUniform(self, org_img):
         img = org_img
@@ -113,6 +116,9 @@ class NavyServiceUniformChecker():
 
         # 이름표, 계급장 체크
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
+            if component_dic.get('name_tag') and component_dic.get('class_tag'):
+                break
+            
             cur_node, next_node, prev_node, first_child, parent = lev
             if i == 0:  # 셈브레이
                 shirt_node = cur_node
@@ -120,11 +126,8 @@ class NavyServiceUniformChecker():
 
             # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
             # 이름표 또는 계급장
-            if (not component_dic.get('name_tag') or not component_dic.get('class_tag')) and \
-                    parent == shirt_node and \
-                    3 <= getVertexCnt(contour) <= 10 and \
-                    cv2.contourArea(contour) > 300:
-
+            
+            if parent == shirt_node and self.isInShirt(contour):
                 center_p = getContourCenterPosition(contour)
 
                 # 이름표 체크
