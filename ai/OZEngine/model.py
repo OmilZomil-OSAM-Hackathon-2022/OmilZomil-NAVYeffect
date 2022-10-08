@@ -38,7 +38,7 @@ class OmilZomil:
             if 'plt' in self.debug_list and self.frame_cnt == 0:
                 names, imgs = zip(*pairs)
                 plt_imshow([*names], [*imgs])
-                self.frame_cnt += 1
+                
             if 'imwrite' in self.debug_list and self.save_path:
                 for name, img in pairs:
                     parts_dir = os.path.join(self.path, name)
@@ -67,7 +67,6 @@ class OmilZomil:
             img = cv2.resize(img, self.resize)
         
         input_img = img
-        plt_imshow('img', img)
         # 사람인식
         person_box = self.person_detector.detect(img)
         person_base_point = person_box[0]
@@ -119,6 +118,9 @@ class OmilZomil:
         if self.debug_list:
             boxed_img, roi_dic = self.boxImage(input_img, box_position_dic)
             plt_imshow(['boxed'], [boxed_img])
+            print(masked_img_dic)
             self.debug(roi_dic, msg="roi")
             self.debug(masked_img_dic, msg="masked")
+            
+        self.frame_cnt += 1
         return component_dic, box_position_dic
