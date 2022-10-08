@@ -6,7 +6,7 @@ from .edge_detectors import HED, Morph, RCF
 from .person_detectors import PersonDetector
 from .face_detectors import FaceDetector
 from .lib.defines import UniformType, Color
-from .lib.utils import plt_imshow, histNorm
+from .lib.utils import plt_imshow, histNorm, box2img
 
 
 class OmilZomil:
@@ -56,16 +56,20 @@ class OmilZomil:
         if self.resize is not None:
             img = cv2.resize(img, self.resize)
 
-        person_box = self.person_detector.detect(img)  # 사람인식
-        # person_img, axes = box2img(person_box)
+        # 사람인식
+        person_box = self.person_detector.detect(img)
+        person_img, person_axes = box2img(img, person_box)
         if person_img is None:
             raise Exception("인식가능한 사람이 없습니다!")
 
+        # 얼굴인식
         face_box = self.face_detector.detect(person_img)
-        # face_img, axes = box2img(face_box)
+        face_img, face_axes = box2img(person_img, face_box)
 
-        # shirt_box = ~
-        # (shirt_img, axes), (face_img, axes) = ~
+        # 셔츠인식
+        max_y = face_img
+        shirt_box = img[max_y:, :]
+        (shirt_img, shirt_axes) = box2img(shirt_box)
         
         # 히스토그램 평활화 여부 확인 후 적용
         if self.img_norm_type:
@@ -81,11 +85,11 @@ class OmilZomil:
         # 옷 종류별로 분기를 나눔
         if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
             component_dic, box_position_dic, masked_img_dic = self.navy_service_uniform_checker.checkUniform(
-                person_img)
+                shirt_img)
 
         elif self.uniform_type == UniformType.dic['FULL_DRESS']:
             component_dic, box_position_dic, masked_img_dic = self.full_dress_uniform_checker.checkUniform(
-                person_img)
+                shirt_img)
 
         # 최종 debug 여부 확인
         if self.mode == 'debug':
