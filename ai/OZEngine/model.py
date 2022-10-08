@@ -46,8 +46,6 @@ class OmilZomil:
                         parts_dir = os.path.join(parts_dir, msg)
                     dst_path = os.path.join(parts_dir, self.frame_cnt)
                     cv2.imwrite(dst_path, img)
-            
-                
 
     def boxImage(self, org_img, box_position_dic):
         img = org_img.copy()
@@ -111,10 +109,11 @@ class OmilZomil:
 
         base_point = (person_base_point[0] + shirt_base_point[0]), (person_base_point[1] + shirt_base_point[1])
         for name, pos in box_position_dic.items():
-            x, y, w, h = pos
-            x += base_point[1]
-            y += base_point[0]
-            box_position_dic[name] = (x, y, w, h)
+            if pos:
+                x, y, w, h = pos
+                x += base_point[1]
+                y += base_point[0]
+                box_position_dic[name] = (x, y, w, h)
             
         # 최종 debug 여부 확인
         if self.debug_list:
