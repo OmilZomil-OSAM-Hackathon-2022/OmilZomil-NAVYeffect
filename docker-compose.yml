@@ -48,7 +48,7 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "${WEB_PAGE_PORT}:80"    
+      - "${CAMERA_PORT}:80"    
 
   web:
     container_name: omil_web
@@ -64,4 +64,4 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "${WEB_PAGE_PORT}:80"
+      - "${WEB_PORT}:80"
