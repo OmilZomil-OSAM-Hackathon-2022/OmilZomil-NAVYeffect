@@ -18,7 +18,7 @@ echo DIR_PATH="$DIR_PATH" >> .env.lock
 
 # 기존 컨테이너 지우기
 echo [+] remove container
-sudo docker-compose --env-file .env.lock down
+sudo docker-compose --env-file .env.lock down --remove-orphans
 
 # docker 빌드
 echo [+] docker build
