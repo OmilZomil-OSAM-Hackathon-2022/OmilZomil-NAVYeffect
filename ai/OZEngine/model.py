@@ -56,12 +56,17 @@ class OmilZomil:
         if self.resize is not None:
             img = cv2.resize(img, self.resize)
 
-        person_img, boxed_img = self.person_detector.detect(img)  # 사람인식
+        person_box = self.person_detector.detect(img)  # 사람인식
+        # person_img, axes = box2img(person_box)
         if person_img is None:
             raise Exception("인식가능한 사람이 없습니다!")
 
         face_box = self.face_detector.detect(person_img)
+        # face_img, axes = box2img(face_box)
 
+        # shirt_box = ~
+        # (shirt_img, axes), (face_img, axes) = ~
+        
         # 히스토그램 평활화 여부 확인 후 적용
         if self.img_norm_type:
             histed_img = histNorm(input_img, type=self.img_norm_type)
