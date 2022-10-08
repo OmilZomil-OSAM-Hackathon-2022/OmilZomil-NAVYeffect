@@ -1,27 +1,60 @@
 <template>
-    <div class="card">
-        <button class="x" @click="close" />
-        <div class="textbox">
-            <div class="text1">
-                {{name}}
-            </div>
-            <div class="text2">
-                {{contents}}
-            </div>
-        </div>
-        <div class="image">
-            <img class="back" src="@/assets/images/fire/back.svg" />
-            <img class="one" src="@/assets/images/fire/one.svg" />
-            <img class="two" src="@/assets/images/fire/two.svg" />
-            <img class="three" src="@/assets/images/fire/three.svg" />
-            <img class="four" src="@/assets/images/fire/four.svg" />
-            <img class="five" src="@/assets/images/fire/red.svg" />
-            <img class="six" src="@/assets/images/fire/yellow.svg" />
-            <img class="seven" src="@/assets/images/fire/red.svg" />
-            <img class="eight" src="@/assets/images/fire/yellow.svg" />
-            <img class="nine" src="@/assets/images/fire/blue.svg" />
-        </div>
-    </div> 
+  <div class="card">
+    <button
+      class="x"
+      @click="close"
+    />
+    <div class="textbox">
+      <div class="text1">
+        { {name} }
+      </div>
+      <div class="text2">
+        { {contents} }
+      </div>
+    </div>
+    <div class="image">
+      <img
+        class="back"
+        src="@/assets/images/fire/back.svg" 
+      >
+      <img
+        class="one"
+        src="@/assets/images/fire/one.svg" 
+      >
+      <img
+        class="two"
+        src="@/assets/images/fire/two.svg" 
+      >
+      <img
+        class="three"
+        src="@/assets/images/fire/three.svg" 
+      >
+      <img
+        class="four"
+        src="@/assets/images/fire/four.svg" 
+      >
+      <img
+        class="five"
+        src="@/assets/images/fire/red.svg" 
+      >
+      <img
+        class="six"
+        src="@/assets/images/fire/yellow.svg" 
+      >
+      <img
+        class="seven"
+        src="@/assets/images/fire/red.svg" 
+      >
+      <img
+        class="eight"
+        src="@/assets/images/fire/yellow.svg" 
+      >
+      <img
+        class="nine"
+        src="@/assets/images/fire/blue.svg" 
+      >
+    </div>
+  </div> 
 </template>
 
 <script>
