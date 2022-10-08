@@ -32,10 +32,6 @@ sudo docker-compose --env-file .env.lock up -d db
 echo [+] make db tables
 sudo docker-compose --env-file .env.lock run --rm web python src/initial_data.py
 
-# 프론트 빌드
-echo [+] frontend build
-sudo docker-compose --env-file .env.lock up -d web_vue
-sudo docker-compose --env-file .env.lock up -d camera_vue
 
 # ssl 만들기 - .env 파일이 있는지 검증 => 없으면 생성
 if [ ! -e "./omilzomil/backend/key.pem" ]; then
@@ -56,13 +52,32 @@ fi
 echo [+] remove build cache
 sudo docker builder prune -f
 
+ 
+# 프론트 빌드
+echo [+] frontend build
+sudo docker-compose --env-file .env.lock up web_vue
+sudo docker-compose --env-file .env.lock up camera_vue
+
 echo [+] frontend build 대기
 
-until sudo docker-compose --env-file .env.lock ps --services --filter status=running | grep -q 'vue'; do
+while sudo docker-compose --env-file .env.lock ps --services --filter status=running | grep -q 'vue'; do
+    echo `sudo docker-compose --env-file .env.lock ps --services --filter status=running`
     wait_time=`date +%T`
-    echo webrtc $wait_time
+    echo frontend $wait_time
     sleep 1;
 done;
+
+
+echo [+] Checking build files...
+while [ ! -f ./omilzomil/frontend/dist/index.html ] ; do
+    echo [!] omilzomil $wait_time
+    sleep 1;
+done
+while [ ! -f ./webrtc/frontend/dist/index.html ] ; do
+    echo [!] webrtc $wait_time
+    sleep 1;
+done
+
 
 sudo docker-compose --env-file .env.lock rm -f
 
