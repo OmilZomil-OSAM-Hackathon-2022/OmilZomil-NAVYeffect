@@ -19,10 +19,16 @@
         />
       </div>
       <div class="circle-wrap">
-        <div class="circle1" />
-        <div class="circle2" />
+        <div
+          :style=" {background:(percent <= 0?'rgba(63, 198, 184, 0.2)':'rgba(255, 84, 103, 0.2)')}"
+          class="circle1"
+        />
+        <div
+          :style=" {background:(percent <= 0?'rgba(63, 198, 184, 0.2)':'rgba(255, 84, 103, 0.2)')}" 
+          class="circle2"
+        />
         <img
-          src="@/assets/images/smile-face.svg"
+          :src="percent <= 0 ? require('@/assets/images/smile-face.svg'):require('@/assets/images/crying-face.svg')"
           class="circle3"
         >
       </div>
@@ -60,7 +66,6 @@ export default {
   }
   .info{
       width:60px;
-      padding-left:18px;   
       display:flex;
       flex-direction: column;
       justify-content: center;
@@ -100,7 +105,6 @@ font-family: 'Roboto';
   position: absolute;
   /* background: #ffffff; */
   border-radius: 50%;
-  background: rgba(63, 198, 184, 0.2);
   
 }
 
