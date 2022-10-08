@@ -95,7 +95,7 @@ class NavyServiceUniformChecker():
         
         return box_position, class_name, masked_img
         
-    def isInShirt(contour):
+    def isInShirt(self, contour):
         # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
         return 3 <= getVertexCnt(contour) <= 10 and cv2.contourArea(contour) > 300
 
