@@ -48,7 +48,6 @@ class OmilZomil:
                         parts_dir = os.path.join(parts_dir, msg)
                     os.makedirs(parts_dir, exist_ok=True)
                     dst_path = os.path.join(parts_dir, str(self.frame_cnt) + '.jpg')
-                    print(dst_path)
                     cv2.imwrite(dst_path, img)
 
     def boxImage(self, org_img, box_position_dic):
