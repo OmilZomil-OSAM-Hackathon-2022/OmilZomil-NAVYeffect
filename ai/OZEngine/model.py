@@ -39,8 +39,7 @@ class OmilZomil:
     def boxImage(self, org_img, box_position_dic):
         img = org_img.copy()
         roi_dic = {}
-
-        # cv2.drawContours(img, [contour_dic['shirt']], 0, Color.GREEN, -1)
+        
         for name, box_position in box_position_dic.items():
             if name != 'shirt' and box_position is not None:
                 x, y, w, h = box_position
