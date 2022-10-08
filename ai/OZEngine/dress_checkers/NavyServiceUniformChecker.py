@@ -71,12 +71,12 @@ class NavyServiceUniformChecker():
             return None, None
 
     def getClasses(self, img, hsv_img, contour):
-        res_box_position, class_name, masked_img = None, None, None
+        box_position, class_name, masked_img = None, None, None
         if contour is None:
-            return res_box_position, class_name, masked_img
+            return box_position, class_name, masked_img
 
-        res_box_position = cv2.boundingRect(contour)
-        x, y, w, h = res_box_position
+        box_position = cv2.boundingRect(contour)
+        x, y, w, h = box_position
         roi = img[y:y+h, x:x+w]
         hsv_roi = hsv_img[y:y+h, x:x+w]
 
@@ -93,7 +93,7 @@ class NavyServiceUniformChecker():
         if 1 <= classes_n <= 4:
             class_name = Classes.dic[classes_n]
         
-        return res_box_position, class_name, masked_img
+        return box_position, class_name, masked_img
         
     def isInShirt(contour):
         # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
