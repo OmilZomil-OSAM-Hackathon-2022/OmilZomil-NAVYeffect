@@ -55,25 +55,28 @@ class OmilZomil:
     def detect(self, img):
         if self.resize is not None:
             img = cv2.resize(img, self.resize)
-
+        
+        input_img = img
+        plt_imshow('img', img)
         # 사람인식
         person_box = self.person_detector.detect(img)
-        print(person_box)
         person_img, person_axes = box2img(img, person_box)
         if person_img is None:
             raise Exception("인식가능한 사람이 없습니다!")
-
-        plt_imshow('person', person_img)
+        
         # 얼굴인식
         face_box = self.face_detector.detect(person_img)
-        print(face_box)
         face_img, face_axes = box2img(person_img, face_box)
-
+        y_diff = person_axes[0]
+        # x_diff = person_axes[1]
+        # origin_face_box = (face_box[0][0] + y_diff, face_box[0][1] + x_diff), (face_box[1][0] + y_diff, face_box[1][1] + x_diff)
+        
         # 셔츠인식
+        w, h = person_img.shape[:2]
         max_y = face_box[1][0]
-        print(max_y)
-        shirt_box = img[max_y:, :]
-        (shirt_img, shirt_axes) = box2img(img, shirt_box)
+        shirt_box = ((max_y, 0), (h, w))
+        (shirt_img, shirt_axes) = box2img(person_img, shirt_box)
+        plt_imshow('shirt', shirt_img)
         
         # 히스토그램 평활화 여부 확인 후 적용
         if self.img_norm_type:
