@@ -60,22 +60,21 @@ class OmilZomil:
         plt_imshow('img', img)
         # 사람인식
         person_box = self.person_detector.detect(img)
-        person_img, person_axes = box2img(img, person_box)
+        person_base_point = person_box[0]
+        person_img = box2img(img, person_box)
         if person_img is None:
             raise Exception("인식가능한 사람이 없습니다!")
         
         # 얼굴인식
         face_box = self.face_detector.detect(person_img)
-        face_img, face_axes = box2img(person_img, face_box)
-        y_diff = person_axes[0]
-        # x_diff = person_axes[1]
-        # origin_face_box = (face_box[0][0] + y_diff, face_box[0][1] + x_diff), (face_box[1][0] + y_diff, face_box[1][1] + x_diff)
+        face_img = box2img(person_img, face_box)
         
         # 셔츠인식
         w, h = person_img.shape[:2]
         max_y = face_box[1][0]
         shirt_box = ((max_y, 0), (h, w))
-        (shirt_img, shirt_axes) = box2img(person_img, shirt_box)
+        shirt_base_point = shirt_box[0]
+        shirt_img = box2img(person_img, shirt_box)
         plt_imshow('shirt', shirt_img)
         
         # 히스토그램 평활화 여부 확인 후 적용
@@ -103,5 +102,8 @@ class OmilZomil:
             boxed_img, roi_dic = self.boxImage(input_img, box_position_dic)
             plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic, msg="roi")
+            base_point = person_base_point + shirt_base_point
+            
+            
             self.debug(masked_img_dic, msg="masked")
         return component_dic, box_position_dic
