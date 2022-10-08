@@ -1,4 +1,4 @@
-import cv2
+import cv2, os
 
 from .dress_checkers import FullDressUniformChecker, NavyServiceUniformChecker
 from .dress_classifier import classificate, classification2
@@ -10,7 +10,7 @@ from .lib.utils import plt_imshow, histNorm, box2img
 
 
 class OmilZomil:
-    def __init__(self, resize=None, img_norm_type=None, uniform_type=None, mode='real'):
+    def __init__(self, resize=None, img_norm_type=None, uniform_type=None, mode='real', save_path=None):
         self.HED_engine = HED()
         self.morph_engine = Morph()
         self.full_dress_uniform_checker = FullDressUniformChecker()
@@ -23,6 +23,8 @@ class OmilZomil:
         self.img_norm_type = img_norm_type
         self.uniform_type = UniformType.dic[uniform_type]
         self.mode = mode
+        
+        self.frame_cnt = 0
 
     def demo(self, img):
         morphed_edge, ret = self.morph_engine.detect_edge(img)
@@ -35,6 +37,10 @@ class OmilZomil:
         if len(pairs):
             names, imgs = zip(*pairs)
             plt_imshow([*names], [*imgs])
+            if self.save_path:
+                for name, img in pairs:
+                    dst_path = os.path.join(self.path, name, self.frame_cnt)
+                    cv2.imwrite(dst_path, img)
 
     def boxImage(self, org_img, box_position_dic):
         img = org_img.copy()
