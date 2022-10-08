@@ -109,7 +109,7 @@
   .df{
       display:flex;
       
-    width:282px;
+      width:282px;
       height:142px;
       overflow:hidden;
       position:relative;
