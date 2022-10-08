@@ -54,7 +54,9 @@ class NavyServiceUniformChecker():
         max_xy, min_xy = np.max(contour, axis=0)[
             0], np.min(contour, axis=0)[0]
 
+        box_position, name = None, None
         name_chrs = []
+        
         for ocr_res in ocr_list:
             ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
             ocr_center_xy = getRectCenterPosition(ocr_box)
@@ -62,10 +64,11 @@ class NavyServiceUniformChecker():
                 name_chrs.append(ocr_str[0])
             else:
                 pass
+        
         name = ''.join(name_chrs)
 
         if name:
-            return cv2.boundingRect(contour), ''.join(name_chrs)
+            return box_position, name
         else:
             return None, None
 
