@@ -18,8 +18,8 @@ services:
   web_vue:
     container_name: web_vue
     build:
-      context: frontend
-      dockerfile: Dockerfile
+      context: omilzomil
+      dockerfile: frontend.Dockerfile
     env_file: .env.lock
     volumes:
       - ${DIR_PATH}/omilzomil/frontend:/frontend
@@ -28,8 +28,8 @@ services:
   camera_vue:
     container_name: camera_vue
     build:
-      context: frontend
-      dockerfile: Dockerfile
+      context: webrtc
+      dockerfile: frontend.Dockerfile
     env_file: .env.private
     volumes:
       - ${DIR_PATH}/webrtc/frontend:/frontend
@@ -37,8 +37,8 @@ services:
   camera:
     container_name: omil_camera
     build:
-      context: WebRTC
-      dockerfile: Dockerfile
+      context: webrtc
+      dockerfile: backend.Dockerfile
     env_file: .env.private
     volumes:
       - ${DIR_PATH}/webrtc/backend:/backend
@@ -53,8 +53,8 @@ services:
   web:
     container_name: omil_web
     build:
-      context: backend
-      dockerfile: Dockerfile
+      context: omilzomil
+      dockerfile: backend.Dockerfile
     env_file: .env.private
     volumes:
       - ${DIR_PATH}/omilzomil/backend:/backend
