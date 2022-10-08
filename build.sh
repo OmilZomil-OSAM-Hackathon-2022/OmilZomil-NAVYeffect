@@ -37,7 +37,6 @@ sudo docker-compose --env-file .env.lock run --rm web python src/initial_data.py
 # 프론트 빌드
 echo [+] frontend build
 sudo docker-compose --env-file .env.lock up -d vue
-sudo docker-compose --env-file .env.lock stop vue
 
 
 # ssl 만들기
@@ -51,3 +50,16 @@ fi
 # docker 빌드 캐쉬 제거
 # echo [+] remove build cache
 # sudo docker builder prune 
+
+echo [+] frontend build 대기
+
+until sudo docker-compose --env-file .env.lock ps --services --filter status=stopped | grep -q 'vue'; do
+
+    wait_time=`date +%T`
+    echo $wait_time
+    sleep 1;
+done;
+
+sudo docker-compose --env-file .env.lock rm -f
+
+echo [+] Done
