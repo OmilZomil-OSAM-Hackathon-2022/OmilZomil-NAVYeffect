@@ -144,6 +144,4 @@ class NavyServiceUniformChecker():
                     component_dic['class_tag'] = component  
                     masked_img_dic['class_tag'] = masked_img
 
-        # half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
-        # cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
         return component_dic, box_position_dic, masked_img_dic
