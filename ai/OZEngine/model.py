@@ -23,6 +23,7 @@ class OmilZomil:
         self.img_norm_type = img_norm_type
         self.uniform_type = UniformType.dic[uniform_type]
         self.debug_list = debug_list
+        self.save_path = save_path
         
         self.frame_cnt = 0
 
@@ -41,10 +42,13 @@ class OmilZomil:
                 
             if 'imwrite' in self.debug_list and self.save_path:
                 for name, img in pairs:
-                    parts_dir = os.path.join(self.path, name)
+                    name = name.split(' - ')[1]
+                    parts_dir = os.path.join(self.save_path, name)
                     if msg:
                         parts_dir = os.path.join(parts_dir, msg)
-                    dst_path = os.path.join(parts_dir, self.frame_cnt)
+                    os.makedirs(parts_dir, exist_ok=True)
+                    dst_path = os.path.join(parts_dir, str(self.frame_cnt) + '.jpg')
+                    print(dst_path)
                     cv2.imwrite(dst_path, img)
 
     def boxImage(self, org_img, box_position_dic):
