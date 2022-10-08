@@ -10,7 +10,7 @@ from .lib.utils import plt_imshow, histNorm, box2img
 
 
 class OmilZomil:
-    def __init__(self, resize=None, img_norm_type=None, uniform_type=None, mode='real', save_path=None):
+    def __init__(self, resize=None, img_norm_type=None, uniform_type=None, debug_list=[], save_path=None):
         self.HED_engine = HED()
         self.morph_engine = Morph()
         self.full_dress_uniform_checker = FullDressUniformChecker()
@@ -22,7 +22,7 @@ class OmilZomil:
         self.resize = resize
         self.img_norm_type = img_norm_type
         self.uniform_type = UniformType.dic[uniform_type]
-        self.mode = mode
+        self.debug_list = debug_list
         
         self.frame_cnt = 0
 
@@ -35,12 +35,14 @@ class OmilZomil:
         pairs = [(f'{msg} - {name}', img)
                  for name, img in debug_img.items() if img is not None]
         if len(pairs):
-            names, imgs = zip(*pairs)
-            plt_imshow([*names], [*imgs])
             if self.save_path:
                 for name, img in pairs:
                     dst_path = os.path.join(self.path, name, self.frame_cnt)
                     cv2.imwrite(dst_path, img)
+                    
+            else:
+                names, imgs = zip(*pairs)
+                plt_imshow([*names], [*imgs])
 
     def boxImage(self, org_img, box_position_dic):
         img = org_img.copy()
@@ -86,7 +88,7 @@ class OmilZomil:
         if self.img_norm_type:
             histed_img = histNorm(input_img, type=self.img_norm_type)
             # 디버깅 여부 확인
-            if self.mode == 'debug':
+            if self.debug_list == 'debug':
                 plt_imshow(['org', 'histed_img'], [input_img, histed_img])
                 input_img = histed_img
 
@@ -110,7 +112,7 @@ class OmilZomil:
             box_position_dic[name] = (x, y, w, h)
             
         # 최종 debug 여부 확인
-        if self.mode == 'debug':
+        if self.debug_list == 'debug':
             boxed_img, roi_dic = self.boxImage(input_img, box_position_dic)
             plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic, msg="roi")
