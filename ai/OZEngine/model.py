@@ -70,7 +70,8 @@ class OmilZomil:
         face_img, face_axes = box2img(person_img, face_box)
 
         # 셔츠인식
-        max_y = face_img
+        max_y = face_box[1][0]
+        print(max_y)
         shirt_box = img[max_y:, :]
         (shirt_img, shirt_axes) = box2img(img, shirt_box)
         
