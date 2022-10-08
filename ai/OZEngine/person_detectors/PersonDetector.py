@@ -70,4 +70,4 @@ class PersonDetector():
                     break
         x = max(0, x)
         y = max(0, y)  
-        return ((x,y), (x+w, y+h))
+        return ((y,x), (y+h, x+w))
