@@ -30,7 +30,7 @@ class OmilZomil:
         plt_imshow(['morphed', 'hed'], [morphed_edge, hed_edge])
 
     def debug(self, debug_img, msg=""):
-        pairs = [(f'{msg} - name', img)
+        pairs = [(f'{msg} - {name}', img)
                  for name, img in debug_img.items() if img is not None]
         if len(pairs):
             names, imgs = zip(*pairs)
