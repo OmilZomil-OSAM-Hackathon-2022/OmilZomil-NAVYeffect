@@ -1,5 +1,6 @@
 ## 개발환경 설정 
 
+
 ### vscode
 
 ```
@@ -63,3 +64,27 @@ router : api endpoint 를 담당
 
 개발때 사용하는 코드들 모음
 dockerfile 이나 기타 웹서비스에 포함되지 않는 코드들을 모음
+
+
+
+
+## install ssh server
+
+github action시 빌드를 위한 ssh server를 vscode server에서 빌드
+
+### 설치
+sudo apt-get install openssh-server
+service ssh start
+
+/etc/ssh/sshd_config 파일 수정
+service ssh restart
+
+### 옵션 추가
+
+### 사용자 설정
+
+useradd omil
+passwd omil
+
+sudo usermod -aG sudo omil
+
