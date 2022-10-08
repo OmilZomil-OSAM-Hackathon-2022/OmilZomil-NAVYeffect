@@ -14,7 +14,7 @@ class NavyServiceUniformChecker():
 
         self.debug_mode = False
 
-    def getMaskedContours(self, img=None, hsv_img=None, kmeans=None, morph=None, kind=None, sort=True):
+    def getMaskedContours(self, img=None, hsv_img=None, kmeans=None, morph=None, kind=None, sort=False):
         if kind == 'uniform':
             lower, upper = self.uniform_filter['lower'], self.uniform_filter['upper']
         elif kind == 'classes':
@@ -83,7 +83,7 @@ class NavyServiceUniformChecker():
         hsv_roi = hsv_img[y:y+h, x:x+w]
 
         contours, masked_img = self.getMaskedContours(
-            img=roi, hsv_img=hsv_roi, kmeans=True, kind='classes', sort=False)
+            img=roi, hsv_img=hsv_roi, kmeans=True, kind='classes')
 
         classes_n = 0
         for contour in contours:
