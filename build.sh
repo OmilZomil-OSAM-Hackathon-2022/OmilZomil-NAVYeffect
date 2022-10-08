@@ -42,11 +42,13 @@ if [ ! -e "./omilzomil/backend/key.pem" ]; then
     echo [+] omilzomil 에 key.pem 파일이 없어 생성합니다.
     cd ./omilzomil/backend
     openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
+    cd $DIR_PATH
 fi
 if [ ! -e "./webrtc/backend/key.pem" ]; then
     echo [+] webrtc 에 key.pem 파일이 없어 생성합니다.
     cd ./webrtc/backend
     openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
+    cd $DIR_PATH
 fi
 
 
