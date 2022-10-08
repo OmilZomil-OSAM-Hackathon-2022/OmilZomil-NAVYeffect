@@ -5,12 +5,15 @@
 
 
 echo [+] Checking build files...
-if [ -f ./frontend/omilzomil/dist/index.html ] ; then
-    :
-else
-    echo "[!] Please run 'build.sh' first!"
+if [ ! -f ./omilzomil/frontend/dist/index.html ] ; then
+    echo "[!] Please run 'build.sh' first! - omilzomil front NONE"
+    exit
+fi
+if [ ! -f ./webrtc/frontend/dist/index.html ] ; then
+    echo "[!] Please run 'build.sh' first! - omilzomil front NONE"
     exit
 fi
 
-echo [+] run web
-sudo docker-compose --env-file .env.lock up web
+
+echo [+] run web & camera
+sudo docker-compose --env-file .env.lock up web camera
