@@ -80,8 +80,6 @@ class NavyServiceUniformChecker():
         roi = img[y:y+h, x:x+w]
         hsv_roi = hsv_img[y:y+h, x:x+w]
 
-        # contours, masked_img = self.getMaskedContours(
-        #     img=roi, hsv_img=hsv_roi, morph='erode', kind='classes', sort=False)
         contours, masked_img = self.getMaskedContours(
             img=roi, hsv_img=hsv_roi, kmeans=True, kind='classes', sort=False)
 
