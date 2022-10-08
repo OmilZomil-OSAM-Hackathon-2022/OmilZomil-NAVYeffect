@@ -1,6 +1,6 @@
 from lib.utils import *
 from lib.defines import *
-from lib.ocr import OCR, draw_rectangle
+from lib.ocr import OCR
 from OZEngine.dress_classifier import classification2
 
 
