@@ -30,7 +30,6 @@ class NavyServiceUniformChecker():
             img = classification2(img, 10)
 
         if morph == 'erode':
-            kernel = np.ones((3, 3), np.uint8)
             org_mask = mask.copy()
 
             k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 2))
