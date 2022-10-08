@@ -1,9 +1,12 @@
 #! /bin/bash
+# 스크립트 설명: 서비스를 시작하기전 필요한 파일들을 생성
+# 프론트 빌드도 해당 스크립트에서 동작
+
 
 # .env 파일이 있는지 검증
 if [ ! -e ".env.private" ]; then
 	echo ".env.private 파일이 없습니다."
-    echo ".env.publoc 를 복사하여 만들어 주시길 바랍니다."
+    echo ".env.public 를 복사하여 만들어 주시길 바랍니다."
     exit
 fi
 
@@ -29,11 +32,13 @@ sudo docker-compose --env-file .env.lock up -d db
 
 # DB 테이블 만들기
 echo [+] make db tables
-sudo docker-compose --env-file .env.lock run web python src/initial_data.py
+sudo docker-compose --env-file .env.lock run --rm web python src/initial_data.py
 
 # 프론트 빌드
 echo [+] frontend build
 sudo docker-compose --env-file .env.lock up -d vue
+sudo docker-compose --env-file .env.lock stop vue
+
 
 # ssl 만들기
 # .env 파일이 있는지 검증
