@@ -96,6 +96,7 @@ class NavyServiceUniformChecker():
             return None, None, masked_img
         
     def isInShirt(contour):
+        # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
         return 3 <= getVertexCnt(contour) <= 10 and cv2.contourArea(contour) > 300
 
     def checkUniform(self, org_img):
@@ -124,9 +125,7 @@ class NavyServiceUniformChecker():
                 shirt_node = cur_node
                 continue
 
-            # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
             # 이름표 또는 계급장
-            
             if parent == shirt_node and self.isInShirt(contour):
                 center_p = getContourCenterPosition(contour)
 
