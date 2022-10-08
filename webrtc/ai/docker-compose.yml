@@ -1,0 +1,12 @@
+version: "3.9"
+
+# 실서버에서 사용하는 환경
+
+services:
+  ai:
+    container_name: omil_ai
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/omil
