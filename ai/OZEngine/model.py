@@ -35,6 +35,10 @@ class OmilZomil:
         pairs = [(f'{msg} - {name}', img)
                  for name, img in debug_img.items() if img is not None]
         if len(pairs):
+            if 'plt' in self.debug_list and self.frame_cnt == 0:
+                names, imgs = zip(*pairs)
+                plt_imshow([*names], [*imgs])
+                self.frame_cnt += 1
             if 'imwrite' in self.debug_list and self.save_path:
                 for name, img in pairs:
                     parts_dir = os.path.join(self.path, name)
@@ -42,9 +46,7 @@ class OmilZomil:
                         parts_dir = os.path.join(parts_dir, msg)
                     dst_path = os.path.join(parts_dir, self.frame_cnt)
                     cv2.imwrite(dst_path, img)
-            if 'plt' in self.debug_list:
-                names, imgs = zip(*pairs)
-                plt_imshow([*names], [*imgs])
+            
                 
 
     def boxImage(self, org_img, box_position_dic):
