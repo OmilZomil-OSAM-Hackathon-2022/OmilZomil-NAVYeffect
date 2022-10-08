@@ -110,7 +110,7 @@ class NavyServiceUniformChecker():
 
         # 샘당 filter
         contours, hierarchy, masked_img_dic['shirt'] = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind='uniform')
+            img=img, hsv_img=hsv_img, kind='uniform', sort=True)
 
         # 이름표 OCR
         ocr_list = OCR(img)
