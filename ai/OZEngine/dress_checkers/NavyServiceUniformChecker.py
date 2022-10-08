@@ -76,9 +76,8 @@ class NavyServiceUniformChecker():
 
         res_box_position = cv2.boundingRect(contour)
         x, y, w, h = res_box_position
-        padding = 10
-        roi = img[y-padding:y+h+padding, x-padding:x+w+padding]
-        hsv_roi = hsv_img[y-padding:y+h+padding, x-padding:x+w+padding]
+        roi = img[y:y+h, x:x+w]
+        hsv_roi = hsv_img[y:y+h, x:x+w]
 
         # contours, masked_img = self.getMaskedContours(
         #     img=roi, hsv_img=hsv_roi, morph='erode', kind='classes', sort=False)
