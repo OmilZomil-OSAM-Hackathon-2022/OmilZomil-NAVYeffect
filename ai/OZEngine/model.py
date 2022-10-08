@@ -58,18 +58,21 @@ class OmilZomil:
 
         # 사람인식
         person_box = self.person_detector.detect(img)
+        print(person_box)
         person_img, person_axes = box2img(img, person_box)
         if person_img is None:
             raise Exception("인식가능한 사람이 없습니다!")
 
+        plt_imshow('person', person_img)
         # 얼굴인식
         face_box = self.face_detector.detect(person_img)
+        print(face_box)
         face_img, face_axes = box2img(person_img, face_box)
 
         # 셔츠인식
         max_y = face_img
         shirt_box = img[max_y:, :]
-        (shirt_img, shirt_axes) = box2img(shirt_box)
+        (shirt_img, shirt_axes) = box2img(img, shirt_box)
         
         # 히스토그램 평활화 여부 확인 후 적용
         if self.img_norm_type:
