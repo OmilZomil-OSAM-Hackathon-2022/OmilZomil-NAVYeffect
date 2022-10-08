@@ -27,3 +27,6 @@ pnpm-debug.log*
 
 # pem
 *.pem
+
+# docker 개발용 파일
+dev_docker.sh
