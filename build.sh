@@ -14,6 +14,7 @@ DIR_PATH=`pwd`
 
 # 환경변수 파일 정의
 cat .env.private > .env.lock
+echo CAMERA_DIR_PATH="$DIR_PATH"/WebRTC>> .env.lock
 echo BACKEND_DIR_PATH="$DIR_PATH"/backend >> .env.lock
 echo FRONTEND_DIR_PATH="$DIR_PATH"/frontend >> .env.lock
 
