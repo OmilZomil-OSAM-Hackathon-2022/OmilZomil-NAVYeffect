@@ -129,8 +129,8 @@ def isPointInBox(center_xy, box_min_max_xy):
     return min_x < center_x < max_x and min_y < center_y < max_y
 
 def box2img(org_img, box):
-    p1, p2 = box
-    return org_img[p1[0]:p2[0], p1[1]:p2[1]], (p1[0], p1[1])
+    (p1, p2) = box
+    return org_img[p1[1]:p2[1], p1[0]:p2[0]], (p1[0], p1[1])
 
 def histNorm(org_img, type):
     if type == 'hsv':
