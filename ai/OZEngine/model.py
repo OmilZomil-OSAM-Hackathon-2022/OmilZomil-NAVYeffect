@@ -118,7 +118,6 @@ class OmilZomil:
         if self.debug_list:
             boxed_img, roi_dic = self.boxImage(input_img, box_position_dic)
             plt_imshow(['boxed'], [boxed_img])
-            print(masked_img_dic)
             self.debug(roi_dic, msg="roi")
             self.debug(masked_img_dic, msg="masked")
             

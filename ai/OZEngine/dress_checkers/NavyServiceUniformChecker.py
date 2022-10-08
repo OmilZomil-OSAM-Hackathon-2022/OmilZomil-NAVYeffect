@@ -61,12 +61,13 @@ class NavyServiceUniformChecker():
             ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
             ocr_center_xy = getRectCenterPosition(ocr_box)
             if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
+                box_position = cv2.boundingRect(contour)
                 name_chrs.append(ocr_str[0])
             else:
                 pass
         
         name = ''.join(name_chrs)
-
+        
         if name:
             return box_position, name
         else:
@@ -127,6 +128,7 @@ class NavyServiceUniformChecker():
 
             # 이름표 또는 계급장
             if parent == shirt_node and self.isInShirt(contour):
+                box_position = cv2.boundingRect(contour)
                 center_p = getContourCenterPosition(contour)
 
                 # 이름표 체크
