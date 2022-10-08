@@ -97,13 +97,17 @@ class OmilZomil:
             component_dic, box_position_dic, masked_img_dic = self.full_dress_uniform_checker.checkUniform(
                 shirt_img)
 
+        base_point = (person_base_point[0] + shirt_base_point[0]), (person_base_point[1] + shirt_base_point[1])
+        for name, pos in box_position_dic.items():
+            x, y, w, h = pos
+            x += base_point[1]
+            y += base_point[0]
+            box_position_dic[name] = (x, y, w, h)
+            
         # 최종 debug 여부 확인
         if self.mode == 'debug':
             boxed_img, roi_dic = self.boxImage(input_img, box_position_dic)
             plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic, msg="roi")
-            base_point = person_base_point + shirt_base_point
-            
-            
             self.debug(masked_img_dic, msg="masked")
         return component_dic, box_position_dic
