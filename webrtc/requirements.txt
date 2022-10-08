@@ -1,12 +1,12 @@
 dlib==19.9.0
+torch==1.10.0
 numpy
 opencv-python
 matplotlib
-opencv-python
 imutils
 requests
 scikit-learn
-torch
+
 
 
 

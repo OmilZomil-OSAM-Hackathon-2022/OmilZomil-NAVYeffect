@@ -56,7 +56,7 @@ sudo docker builder prune -f
 
 echo [+] frontend build 대기
 
-until sudo docker-compose --env-file .env.lock ps --services --filter status=runnig | grep -q 'vue'; do
+until sudo docker-compose --env-file .env.lock ps --services --filter status=running | grep -q 'vue'; do
     wait_time=`date +%T`
     echo webrtc $wait_time
     sleep 1;
