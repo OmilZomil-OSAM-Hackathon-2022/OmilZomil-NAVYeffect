@@ -1,9 +1,23 @@
+from pydantic import BaseModel, Field
 from pydantic.main import ModelMetaclass
 from typing import Optional
 from sqlalchemy.ext.declarative import declarative_base
 
 
 Base = declarative_base()
+
+
+class Response(BaseModel):
+    success: Optional[bool] = Field(None, description="result")
+    message: Optional[str] = Field(None, description="message")
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "success": True,
+                "message": "success",
+            }
+        }
 
 
 class AllOptional(ModelMetaclass):
