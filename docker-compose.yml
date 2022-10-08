@@ -15,14 +15,40 @@ services:
       timeout: 10s
       retries: 100
 
-  vue:
-    container_name: omil_vue
+  web_vue:
+    container_name: omil_web_vue
     build:
       context: frontend
       dockerfile: Dockerfile
     env_file: .env.private
     volumes:
       - ${FRONTEND_DIR_PATH}/omilzomil:/frontend
+
+
+  camera_vue:
+    container_name: omil_camera_vue
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    env_file: .env.private
+    volumes:
+      - ${FRONTEND_DIR_PATH}/camera:/frontend
+  
+  camera:
+    container_name: omil_camera
+    build:
+      context: WebRTC
+      dockerfile: Dockerfile
+    env_file: .env.private
+    volumes:
+      - ${CAMERA_DIR_PATH}:/backend
+      - ${FRONTEND_DIR_PATH}/camera/dist:/backend/src/app/static
+
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${WEB_PAGE_PORT}:80"    
 
   web:
     container_name: omil_web
