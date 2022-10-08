@@ -35,14 +35,17 @@ class OmilZomil:
         pairs = [(f'{msg} - {name}', img)
                  for name, img in debug_img.items() if img is not None]
         if len(pairs):
-            if self.save_path:
+            if 'imwrite' in self.debug_list and self.save_path:
                 for name, img in pairs:
-                    dst_path = os.path.join(self.path, name, self.frame_cnt)
+                    parts_dir = os.path.join(self.path, name)
+                    if msg:
+                        parts_dir = os.path.join(parts_dir, msg)
+                    dst_path = os.path.join(parts_dir, self.frame_cnt)
                     cv2.imwrite(dst_path, img)
-                    
-            else:
+            if 'plt' in self.debug_list:
                 names, imgs = zip(*pairs)
                 plt_imshow([*names], [*imgs])
+                
 
     def boxImage(self, org_img, box_position_dic):
         img = org_img.copy()
@@ -112,7 +115,7 @@ class OmilZomil:
             box_position_dic[name] = (x, y, w, h)
             
         # 최종 debug 여부 확인
-        if self.debug_list == 'debug':
+        if self.debug_list:
             boxed_img, roi_dic = self.boxImage(input_img, box_position_dic)
             plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic, msg="roi")
