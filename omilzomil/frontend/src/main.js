@@ -3,10 +3,24 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 import store from "./stores";
+import VueNumber from 'vue-number-animation'
+import VueApexCharts from 'vue3-apexcharts';
 
+import {
+    Chart,
+    registerables,
+  } from 'chart.js'
+  Chart.register(...registerables);
+  
 // Vue
 const app = createApp(App)
 app.config.globalProperties.$axios = axios; 
+app.use(store)
+app.use(VueApexCharts)
+// app.component
+app.use(VueNumber)
+app.use(router).mount('#app')
+
 // app.config.globalProperties.$axios = axios.create({
 //         timeout: 3000,
 //         headers: {
@@ -22,5 +36,3 @@ app.config.globalProperties.$axios = axios;
 //           },
 //         }
 //       })
-app.use(store)
-app.use(router).mount('#app')
