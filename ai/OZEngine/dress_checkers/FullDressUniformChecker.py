@@ -115,7 +115,6 @@ class FullDressUniformChecker():
                                 pass
                         else:
                             break
-                            # cv2.rectangle(img, p1, p3, Color.RED, 3)
                     res_box_position, res_content = cv2.boundingRect(
                         contour), ''.join(name_chrs)
 
@@ -171,9 +170,6 @@ class FullDressUniformChecker():
     def checkUniform(self, org_img):
         img = org_img
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-
-        # half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
-        # cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
 
         box_position_dic = {}
         component_dic = {}
