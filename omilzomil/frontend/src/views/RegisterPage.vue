@@ -403,6 +403,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: #fff;
   /* overflow: scroll; */
 }
 .left .back {

@@ -108,6 +108,30 @@
             <!-- <img src="@/assets/icons/trophy-variant.svg"/>랭킹 -->
           </div>
         </router-link>
+        <router-link to="/totalDashboard">
+          <div class="nav-item">
+            <IconBase
+              :width="24"
+              :height="24"
+            >
+              <ChartBox />
+            </IconBase>
+            전군 통계
+            <!-- <img src="@/assets/icons/trophy-variant.svg"/>랭킹 -->
+          </div>
+        </router-link>
+        <router-link to="/vacation">
+          <div class="nav-item">
+            <IconBase
+              :width="24"
+              :height="24"
+            >
+              <BookAccount />
+            </IconBase>
+            휴가 관리
+            <!-- <img src="@/assets/icons/trophy-variant.svg"/>랭킹 -->
+          </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -119,9 +143,11 @@ import DashboardIcon from "../assets/icons/dashboard-icon.vue";
 import TrophyIcon from "@/assets/icons/trophy-icon.vue";
 import HomeIcon from "../assets/icons/home-icon.vue";
 import GroupIcon from "../assets/icons/group-icon.vue";
+import BookAccount from "@/assets/icons/book-account.vue";
+import ChartBox from "@/assets/icons/chart-box.vue";
 export default {
     name:"AppBar",
-    components:{ IconBase, DashboardIcon, TrophyIcon, HomeIcon, GroupIcon },
+    components:{ IconBase, DashboardIcon, TrophyIcon, HomeIcon, GroupIcon, BookAccount, ChartBox },
     data(){
       return {
         userName: "김민섭",
@@ -189,9 +215,10 @@ export default {
 
 /* 토글 스위치 */
 .toggleSwitch {
+  box-sizing: border-box;
   width: 64px;
   /* margin: 2rem; */
-  height: 26px;
+  height: 28px;
   display: block;
   position: relative;
   border-radius: 40px;
@@ -204,8 +231,9 @@ export default {
 }
 
 .toggleSwitch .toggleButton {
-  width: 18px;
-  height: 18px;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
   position: absolute;
   top: 50%;
   left: 4px;
@@ -233,7 +261,7 @@ export default {
 
 
 #toggle:checked ~ .toggleSwitch .toggleButton {
-  left: calc(100% - 26px);
+  left: calc(100% - 24px);
   background: rgba(183, 134, 255, 0.2);
 
   border: #B786FF solid 2px;
