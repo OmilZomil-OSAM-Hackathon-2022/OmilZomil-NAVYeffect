@@ -56,7 +56,7 @@ class NavyServiceUniformChecker():
 
         box_position, name = None, None
         name_chrs = []
-        
+
         for ocr_res in ocr_list:
             ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
             ocr_center_xy = getRectCenterPosition(ocr_box)
@@ -65,9 +65,9 @@ class NavyServiceUniformChecker():
                 name_chrs.append(ocr_str[0])
             else:
                 pass
-        
+
         name = ''.join(name_chrs)
-        
+
         if name:
             return box_position, name
         else:
@@ -93,9 +93,9 @@ class NavyServiceUniformChecker():
 
         if 1 <= classes_n <= 4:
             class_name = Classes.dic[classes_n]
-        
+
         return box_position, class_name, masked_img
-        
+
     def isInShirt(self, contour):
         # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
         return 3 <= getVertexCnt(contour) <= 10 and cv2.contourArea(contour) > 300
@@ -120,7 +120,7 @@ class NavyServiceUniformChecker():
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
             if component_dic.get('name_tag') and component_dic.get('class_tag'):
                 break
-            
+
             cur_node, next_node, prev_node, first_child, parent = lev
             if i == 0:  # 셈브레이
                 shirt_node = cur_node
@@ -139,9 +139,10 @@ class NavyServiceUniformChecker():
 
                 # 계급장 체크
                 elif center_p[0] > (w//2) and not component_dic.get('class_tag'):
-                    box_position, component, masked_img = self.getClasses(img, hsv_img, contour)
+                    box_position, component, masked_img = self.getClasses(
+                        img, hsv_img, contour)
                     box_position_dic['class_tag'] = box_position
-                    component_dic['class_tag'] = component  
+                    component_dic['class_tag'] = component
                     masked_img_dic['class_tag'] = masked_img
 
         return component_dic, box_position_dic, masked_img_dic

@@ -183,22 +183,29 @@ class FullDressUniformChecker():
         name = 'name'
         contours, sorted_hierarchy, masked_img_dic[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='uniform', sort=True)
-        box_position_dic['shirt'], box_position_dic[name], component_dic[name] = self.getName(
+        box_position, component, masked_img = self.getName(
             img, contours, sorted_hierarchy)
+        box_position_dic['shirt'] = box_position
+        box_position_dic[name] = component
+        component_dic[name] = masked_img
 
         # 네카치프 / 네카치프링 체크
         name = 'anchor'
         contours, masked_img_dic[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name, sort=False)
-        box_position_dic[name], component_dic[name] = self.getAnchor(
-            contours, None)
+        box_position, component = self.getAnchor(contours, None)
+        box_position_dic[name] = box_position
+        component_dic[name] = component
 
         # 계급장 체크
         name = 'classes'
         contours, masked_img_dic[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name, sort=False)
-        box_position_dic[name], component_dic[name], masked_img_dic['classes_roi'] = self.getClasses(
+        box_position, component, masked_img = self.getClasses(
             img, contours, None)
+        box_position_dic[name] = box_position
+        component_dic[name] = component
+        masked_img_dic[name] = masked_img
 
         # 마후라 체크
         # name = 'mahura'
