@@ -1,102 +1,104 @@
 <template>
-  <div class="card">
-    <div class="background">
-      <img 
-        class="star1" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star2" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star3" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star4" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star5" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star6" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star7" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star8" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star9" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star10" 
-        src="@/assets/images/fire/light.svg" 
-      />
-    </div>
-    <button
-      class="x"
-      @click="close"
-    />
-    <div class="textbox">
-      <div class="text1">
-        {{ name }}
+  <div class="overlay">
+    <div class="card">
+      <div class="background">
+        <img 
+          class="star1" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star2" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star3" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star4" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star5" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star6" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star7" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star8" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star9" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star10" 
+          src="@/assets/images/fire/light.svg" 
+        >
       </div>
-      <div class="text2">
-        {{ contents }}
+      <button
+        class="x"
+        @click="$emit('closeCard')"
+      />
+      <div class="textbox">
+        <div class="text1">
+          {{ name }}
+        </div>
+        <div class="text2">
+          {{ contents }}
+        </div>
       </div>
-    </div>
-    <div class="image">
-      <img
-        class="back"
-        src="@/assets/images/fire/back.svg" 
-      >
-      <img
-        class="one"
-        src="@/assets/images/fire/one.svg" 
-      >
-      <img
-        class="two"
-        src="@/assets/images/fire/two.svg" 
-      >
-      <img
-        class="three"
-        src="@/assets/images/fire/three.svg" 
-      >
-      <img
-        class="four"
-        src="@/assets/images/fire/four.svg" 
-      >
-      <img
-        class="five"
-        src="@/assets/images/fire/red.svg" 
-      >
-      <img
-        class="six"
-        src="@/assets/images/fire/yellow.svg" 
-      >
-      <img
-        class="seven"
-        src="@/assets/images/fire/red.svg" 
-      >
-      <img
-        class="eight"
-        src="@/assets/images/fire/yellow.svg" 
-      >
-      <img
-        class="nine"
-        src="@/assets/images/fire/blue.svg" 
-      >
-    </div>
-  </div> 
+      <div class="image">
+        <img
+          class="back"
+          src="@/assets/images/fire/back.svg" 
+        >
+        <img
+          class="one"
+          src="@/assets/images/fire/one.svg" 
+        >
+        <img
+          class="two"
+          src="@/assets/images/fire/two.svg" 
+        >
+        <img
+          class="three"
+          src="@/assets/images/fire/three.svg" 
+        >
+        <img
+          class="four"
+          src="@/assets/images/fire/four.svg" 
+        >
+        <img
+          class="five"
+          src="@/assets/images/fire/red.svg" 
+        >
+        <img
+          class="six"
+          src="@/assets/images/fire/yellow.svg" 
+        >
+        <img
+          class="seven"
+          src="@/assets/images/fire/red.svg" 
+        >
+        <img
+          class="eight"
+          src="@/assets/images/fire/yellow.svg" 
+        >
+        <img
+          class="nine"
+          src="@/assets/images/fire/blue.svg" 
+        >
+      </div>
+    </div> 
+  </div>
 </template>
 
 <script>
@@ -110,11 +112,28 @@ export default {
             type:String,
             default:null
         }
-    }
+    },
+    emits: ["closeCard"]
 }
 </script>
 
-<style>
+<style scoped>
+
+.overlay{
+  position: fixed;
+  /* display:none; */
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background-color:rgba(0,0,0,0.5);
+  z-index:1000000;
+}
     @keyframes blink{
       0% {opacity:0;}
       100% {opacity:1;}

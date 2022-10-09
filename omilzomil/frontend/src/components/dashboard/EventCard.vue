@@ -12,15 +12,25 @@
           {{ content }}
         </div>
       </div>
-      <router-link to="/">
+      <a @click="openCard">
         <div>자세히 보기</div>
-      </router-link>
+      </a>
     </div>
   </div>
+
+  <EventCard
+    v-if="showEvent"
+    name="계룡대 본부대대"
+    contents="충청지역 부대 중 외적 군기 1등을 축하합니다!"
+    @close-card="closeCard"
+  />
 </template>
 
 <script>
+import EventCard from '../EventCard.vue';
+
 export default {
+    components:{EventCard},
     props:{
         type:{
             type:Number,
@@ -35,12 +45,26 @@ export default {
             default:null
         },
     },
+    data(){
+      return {
+        showEvent:false,
+      }
+    },
     computed:{
         returnImage(){
             // return null
             if(this.type == 0) return require("@/assets/icons/podium-gold.svg");
             else return require("@/assets/icons/trophy-outline.svg");
         }
+    },
+    methods:{
+      closeCard(){
+        console.log("Testsets");
+        this.showEvent =false;
+      },
+      openCard(){
+        this.showEvent = true;
+      }
     }
 }
 </script>
@@ -91,7 +115,7 @@ a{
     background:#9155EB;
     width:fit-content;
     border-radius: 8px;
-
+    cursor: pointer;
 }
 .img-wrap{
     width:56px;
