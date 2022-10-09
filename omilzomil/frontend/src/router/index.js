@@ -60,8 +60,15 @@ const routes = [
     name: "Vacation",
 
     component: () => import('../views/VacationPage.vue'),
-    // component: () => import('../views/ListUpPage.vue'),
+    // component: () => import('../views/RegistVacationPage.vue'),
   },
+  // {
+  //   path: "/RegistVacation",
+  //   name: "registVacation",
+
+  //   component: () => import('../views/RegistVacationPage.vue'),
+  //   // component: () => import('../views/ListUpPage.vue'),
+  // },
   
 ];
 
