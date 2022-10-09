@@ -36,15 +36,12 @@ sudo docker-compose --env-file .env.lock run --rm web python src/initial_data.py
 # ssl 만들기 - .env 파일이 있는지 검증 => 없으면 생성
 if [ ! -e "./omilzomil/backend/key.pem" ]; then
     echo [+] omilzomil 에 key.pem 파일이 없어 생성합니다.
-    cd ./omilzomil/backend
-    openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
+    openssl req -x509 -newkey rsa:4096 -nodes -out ./omilzomil/backend/cert.pem -keyout ./omilzomil/backend/key.pem -days 365
     cd $DIR_PATH
 fi
 if [ ! -e "./webrtc/backend/key.pem" ]; then
     echo [+] webrtc 에 key.pem 파일이 없어 생성합니다.
-    cd ./webrtc/backend
-    openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
-    cd $DIR_PATH
+    openssl req -x509 -newkey rsa:4096 -nodes -out ./webrtc/backend/cert.pem -keyout ./webrtc/backend/key.pem -days 365
 fi
 
 
