@@ -10,7 +10,7 @@ if [ ! -f ./omilzomil/frontend/dist/index.html ] ; then
     exit
 fi
 if [ ! -f ./webrtc/frontend/dist/index.html ] ; then
-    echo "[!] Please run 'build.sh' first! - omilzomil front NONE"
+    echo "[!] Please run 'build.sh' first! - webrtc front NONE"
     exit
 fi
 
