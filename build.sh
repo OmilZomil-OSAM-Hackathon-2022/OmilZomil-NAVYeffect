@@ -48,7 +48,14 @@ fi
 echo [+] remove build cache
 sudo docker builder prune -f
 
- 
+
+# 프론트 빌드 폴더 구성
+mkdir -p ./omilzomil/frontend/dist/css
+mkdir -p ./omilzomil/frontend/dist/img
+mkdir -p ./omilzomil/frontend/dist/js
+mkdir -p ./webrtc/frontend/dist/css
+mkdir -p ./webrtc/frontend/dist/img
+mkdir -p ./webrtc/frontend/dist/js
 # 프론트 빌드
 echo [+] frontend build
 sudo docker-compose --env-file .env.lock up web_vue
