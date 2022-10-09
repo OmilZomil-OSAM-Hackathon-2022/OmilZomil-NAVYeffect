@@ -111,5 +111,5 @@ This project is licensed under the terms of the MIT license.
 
 > 개발 문서
 
-+ wiki 항목 참고
++ wiki 항목 참고 (여기 개인 레포에선 일단 docs 폴더 만들어서 그 안에 images.md 만듬)
 
