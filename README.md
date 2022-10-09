@@ -77,7 +77,7 @@
 
 ### AI(back-end)
  + lib : <img src="https://img.shields.io/badge/TensolFlow-FF6F00?style=for-the-badge&logo=TensorFlow&logoColor=white"> <img src="https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=OpenCV&logoColor=white">
- + model : swit-transformer, <img src="https://img.shields.io/badge/YOLO-00FFFF?style=for-the-badge&logo=YOLO&logoColor=white"> v4, HED(Holistically-Nested Edge Dataset), MobileNet
+ + model : <img src="https://img.shields.io/badge/YOLO-00FFFF?style=for-the-badge&logo=YOLO&logoColor=white"> v4, swit-transformer, HED(Holistically-Nested Edge Dataset), MobileNet
  + dataset : MS-COCO, Pascal VOC Dataset Mirror, CelebAMask-HQ, Figaro-1k, Lft
 
 ### Front end
