@@ -64,6 +64,7 @@
               :type="0"
               title="충청지역 부대 중 외적군기 1등!"
               content="이번 달 우리 부대는 몇 등 했을까?"
+              :on-click="open"
             />
             <EventCard
               style="flex:1"
@@ -91,7 +92,7 @@ import DoughnutCard from '@/components/dashboard/DoughnutCard.vue';
 import LineCard from '@/components/dashboard/LineCard.vue';
 import EventCard from '@/components/dashboard/EventCard.vue';
 export default {
-    components: { ListUp, TitleCard, PartsCard, DoughnutCard, LineCard,EventCard}
+    components: { ListUp, TitleCard, PartsCard, DoughnutCard, LineCard,EventCard},
 }
 </script>
 
