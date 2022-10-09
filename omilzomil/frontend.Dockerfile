@@ -2,4 +2,6 @@ FROM node:16
 
 WORKDIR /frontend
 
-CMD ["sh", "/frontend/entrypoint.sh"]
+COPY ./frontend/entrypoint.sh /entrypoint.sh
+
+CMD ["sh", "/entrypoint.sh"]
