@@ -1,6 +1,7 @@
 from lib.utils import *
 from lib.defines import *
 from lib.ocr import OCR, draw_rectangle
+from OZEngine.dress_classifier import classification2
 
 
 # 샘브레이 검사
@@ -13,7 +14,7 @@ class NavyServiceUniformChecker():
 
         self.debug_mode = False
 
-    def getMaskedContours(self, img=None, hsv_img=None, morph=None, kind=None, sort=True):
+    def getMaskedContours(self, img=None, hsv_img=None, kmeans=None, morph=None, kind=None, sort=True):
         if kind == 'uniform':
             lower, upper = self.uniform_filter['lower'], self.uniform_filter['upper']
         elif kind == 'classes':
@@ -22,6 +23,11 @@ class NavyServiceUniformChecker():
             pass
 
         mask = cv2.inRange(hsv_img, lower, upper)
+
+        if kmeans:
+            img_s = classification2(img, 10)
+            plt_imshow(['origin', 's'], [img, img_s])
+            img = classification2(img, 10)
 
         if morph == 'erode':
             kernel = np.ones((3, 3), np.uint8)
@@ -57,8 +63,12 @@ class NavyServiceUniformChecker():
                 name_chrs.append(ocr_str[0])
             else:
                 pass
+        name = ''.join(name_chrs)
 
-        return cv2.boundingRect(contour), ''.join(name_chrs)
+        if name:
+            return cv2.boundingRect(contour), ''.join(name_chrs)
+        else:
+            return None, None
 
     def getClasses(self, img, hsv_img, contour):
         if contour is None:
@@ -66,14 +76,14 @@ class NavyServiceUniformChecker():
 
         res_box_position = cv2.boundingRect(contour)
         x, y, w, h = res_box_position
-        roi = img[y:y+h, x:x+w]
-        hsv_roi = hsv_img[y:y+h, x: x+w]
+        padding = 10
+        roi = img[y-padding:y+h+padding, x-padding:x+w+padding]
+        hsv_roi = hsv_img[y-padding:y+h+padding, x-padding:x+w+padding]
 
         # contours, masked_img = self.getMaskedContours(
         #     img=roi, hsv_img=hsv_roi, morph='erode', kind='classes', sort=False)
         contours, masked_img = self.getMaskedContours(
-            img=roi, hsv_img=hsv_roi, kind='classes', sort=False)
-        
+            img=roi, hsv_img=hsv_roi, kmeans=True, kind='classes', sort=False)
 
         classes_n = 0
         for contour in contours:
@@ -83,23 +93,23 @@ class NavyServiceUniformChecker():
         if 1 <= classes_n <= 4:
             return res_box_position, Classes.dic[classes_n], masked_img
         else:
-            return None, None, None
+            return None, None, masked_img
 
     def checkUniform(self, org_img):
         img = org_img
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         h, w = img.shape[: 2]
 
+        box_position_dic = {}
+        component_dic = {}
+        masked_img_dic = {}
+
         # 샘당 filter
-        contours, hierarchy, mask = self.getMaskedContours(
+        contours, hierarchy, masked_img_dic['shirt'] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='uniform')
 
         # 이름표 OCR
         ocr_list = OCR(img)
-
-        box_position_dic = {}
-        component_dic = {}
-        masked_img_dic = {}
 
         # 이름표, 계급장 체크
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):

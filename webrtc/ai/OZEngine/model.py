@@ -1,35 +1,36 @@
 import cv2
 
 from .dress_checkers import FullDressUniformChecker, NavyServiceUniformChecker
-from .dress_classifier import classificate
+from .dress_classifier import classificate, classification2
 from .edge_detectors import HED, Morph, RCF
 from .person_detectors import PersonDetector
+from .face_detectors import FaceDetector
 from .lib.defines import UniformType, Color
 from .lib.utils import plt_imshow, histNorm
 
 
 class OmilZomil:
-    def __init__(self, resize=None, img_norm_type=None, uniform_type=None, mode='real', detect_person=True):
+    def __init__(self, resize=None, img_norm_type=None, uniform_type=None, mode='real'):
         self.HED_engine = HED()
         self.morph_engine = Morph()
         self.full_dress_uniform_checker = FullDressUniformChecker()
         self.navy_service_uniform_checker = NavyServiceUniformChecker()
         self.person_detector = PersonDetector()
+        self.face_detector = FaceDetector()
         print('init!')
 
         self.resize = resize
         self.img_norm_type = img_norm_type
         self.uniform_type = UniformType.dic[uniform_type]
         self.mode = mode
-        self.detect_person = detect_person
 
     def demo(self, img):
         morphed_edge, ret = self.morph_engine.detect_edge(img)
         hed_edge = self.HED_engine.detect_edge(img, 500, 500)
         plt_imshow(['morphed', 'hed'], [morphed_edge, hed_edge])
 
-    def debug(self, debug_img):
-        pairs = [(name, img)
+    def debug(self, debug_img, msg=""):
+        pairs = [(f'{msg} - name', img)
                  for name, img in debug_img.items() if img is not None]
         if len(pairs):
             names, imgs = zip(*pairs)
@@ -54,24 +55,27 @@ class OmilZomil:
     def detect(self, img):
         input_img = None
 
+        
         if self.resize is not None:
             img = cv2.resize(img, resize)
 
-        if self.detect_person:
-            input_img, boxed_img = self.person_detector.detect(img)  # 사람인식
-            if input_img is None:
-                raise Exception("인식가능한 사람이 없습니다!")
-        else:
-            input_img = img
+        input_img, boxed_img = self.person_detector.detect(img)  # 사람인식
+        if input_img is None:
+            raise Exception("인식가능한 사람이 없습니다!")
 
+        self.face_detector.detect(input_img)
+        # 히스토그램 평활화 여부 확인 후 적용
         if self.img_norm_type:
-            input_img = histNorm(input_img, type=self.img_norm_type)
-
-        # hair_segmentation(org) 머리카락인식
+            histed_img = histNorm(input_img, type=self.img_norm_type)
+            # 디버깅 여부 확인
+            if self.mode == 'debug':
+                plt_imshow(['org', 'histed_img'], [input_img, histed_img])
+                input_img = histed_img
 
         if self.uniform_type is None:
             self.uniform_type = classificate(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
 
+        # 옷 종류별로 분기를 나눔
         if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
             component_dic, box_position_dic, masked_img_dic = self.navy_service_uniform_checker.checkUniform(
                 input_img)
@@ -80,9 +84,10 @@ class OmilZomil:
             component_dic, box_position_dic, masked_img_dic = self.full_dress_uniform_checker.checkUniform(
                 input_img)
 
+        # 최종 debug 여부 확인
         if self.mode == 'debug':
             boxed_img, roi_dic = self.boxImage(input_img, box_position_dic)
             plt_imshow(['boxed'], [boxed_img])
-            self.debug(roi_dic)
-            self.debug(masked_img_dic)
+            self.debug(roi_dic, msg="roi")
+            self.debug(masked_img_dic, msg="masked")
         return component_dic, box_position_dic
