@@ -37,7 +37,6 @@ sudo docker-compose --env-file .env.lock run --rm web python src/initial_data.py
 if [ ! -e "./omilzomil/backend/cert.pem" ]; then
     echo [+] omilzomil 에 cert.pem 파일이 없어 생성합니다.
     openssl req -x509 -newkey rsa:4096 -nodes -out ./omilzomil/backend/cert.pem -keyout ./omilzomil/backend/key.pem -days 365
-    cd $DIR_PATH
 fi
 if [ ! -e "./webrtc/backend/cert.pem" ]; then
     echo [+] webrtc 에 cert.pem 파일이 없어 생성합니다.
