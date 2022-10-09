@@ -59,7 +59,6 @@ export default {
     },
     methods:{
       closeCard(){
-        console.log("Testsets");
         this.showEvent =false;
       },
       openCard(){
