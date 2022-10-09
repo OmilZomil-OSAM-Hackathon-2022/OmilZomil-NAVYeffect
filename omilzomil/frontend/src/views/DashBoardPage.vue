@@ -1,47 +1,121 @@
 <template>
   <div class="row-center">
     <div class="wrap">
-      <div class="row row-1">
-        <div class="card card-1">
-          test
+      <div class="column">
+        <div class="row1">
+          <div
+            style="flex:1"
+          >
+            <TitleCard title="계룡대 본부대대" />
+          </div>
+          <div style="flex:1; display:flex;gap:24px">
+            <div
+              style="flex:1"
+            >
+              <PartsCard
+                title="두발 양호 인원"
+                :count="126"
+                :percent="12"
+                :parts-type="0"
+              />
+            </div>
+            <div
+              style="flex:1"
+            >
+              <PartsCard
+                title="복장 양호 인원"
+                :count="96"
+                :percent="-4"
+                :parts-type="1"
+              />
+            </div>
+            <div
+              style="flex:1"
+            >
+              <PartsCard
+                title="출입 인원"
+                :count="53"
+                :percent="0"
+                :parts-type="2"
+              />
+            </div>
+          </div>
         </div>
-        <div class="row card-1">
-          <div class="card">
-            test
+        <div class="row2">
+          <div style="width:792px;">
+            <!-- test -->
+            <ListUp
+              gap="40"
+              padding="41px 32px"
+              min-height="0px"
+              :is-in-dash="true"
+            />
           </div>
-          <div class="card">
-            test
+          <div
+            style="width:384px;"
+          >
+            <DoughnutCard />
           </div>
-          <div class="card">
-            test
+        </div>
+        <div class="row3">
+          <div style="width:384px;display:flex;flex-direction:column;gap:25px">
+            <EventCard
+              style="flex:1"
+              :type="0"
+              title="충청지역 부대 중 외적군기 1등!"
+              content="이번 달 우리 부대는 몇 등 했을까?"
+            />
+            <EventCard
+              style="flex:1"
+              :type="1"
+              title="이번 달 계룡대 으뜸병사 나해군"
+              content="우리 부대 으뜸병사는?"
+            />
+          </div>
+          <div
+            style="width:792px;"
+          >
+            <LineCard />
           </div>
         </div>
       </div>
-      <div class="row row-2" />
     </div>
   </div>
 </template>
 
 <script>
+import ListUp from '@/components/ListUp.vue';
+import TitleCard from '../components/dashboard/TitleCard.vue';
+import PartsCard from '@/components/dashboard/PartsCard.vue';
+import DoughnutCard from '@/components/dashboard/DoughnutCard.vue';
+import LineCard from '@/components/dashboard/LineCard.vue';
+import EventCard from '@/components/dashboard/EventCard.vue';
 export default {
+    components: { ListUp, TitleCard, PartsCard, DoughnutCard, LineCard,EventCard}
 }
 </script>
 
 <style scoped>
-
-.row{
-    display:flex;
-    gap:24px;
-    /* margin-top:40px; */
+.column{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width:100%;
+  margin-bottom: 100px;
+  gap: 46px;
 }
-.row-1{
-    height:196px;
+.row1, .row2, .row3{
+  width:100%;
+  display:flex;
+  gap:24px;
 }
-.row-2{
-    margin-top:40px;
-    height: 562px;
+.row1{
+  height:196px;
 }
-.card-1{
-    width:50%;
+.row2{
+  height:562px;
+}
+.row3{
+  height:417px;
 }
 </style>
