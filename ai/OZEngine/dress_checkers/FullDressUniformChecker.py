@@ -125,14 +125,17 @@ class FullDressUniformChecker():
         res_box_position, res_content, small_mask = None, None, None
 
         box_position = None
-        for contour in contours:  # contours : 계급장이라 판별되는 contour
+
+        # 계급장 체크
+        for contour in contours:
+            if res_content:
+                break
             if cv2.contourArea(contour) > 300:
                 center_p = getContourCenterPosition(contour)
-                if center_p[0] < (w//2) and not res_content:
+                if center_p[0] < (w//2):
                     box_position = cv2.boundingRect(contour)
                     x, y, w, h = box_position
                     roi = masked_img[y:y+h, x:x+w]
-
                     small_contours, small_mask = self.getMaskedContours(
                         img=roi, kind='classes')
 
@@ -144,17 +147,21 @@ class FullDressUniformChecker():
                                 small_mask, [small_contour], 0, Color.BLUE, 1)
 
                     if 1 <= classes_n <= 4:
-                        res_box_position, res_content = box_position, Classes.dic[classes_n]
+                        res_box_position = box_position
+                        res_content = Classes.dic[classes_n]
+
         return res_box_position, res_content, small_mask
 
     def getAnchor(self, contours, hierarchy):
         res_box_position, res_content = None, None
+
+        # 계급장 체크
         for contour in contours:
             if cv2.contourArea(contour) > 100:
                 center_p = getContourCenterPosition(contour)
-                if not res_content:
-                    res_box_position, res_content = cv2.boundingRect(
-                        contour), True
+                res_box_position = cv2.boundingRect(contour)
+                res_content = True
+                break
         return res_box_position, res_content
 
     def getMahura(self, contours, hierarchy):
@@ -163,8 +170,9 @@ class FullDressUniformChecker():
             if cv2.contourArea(contour) > 300:
                 center_p = getContourCenterPosition(contour)
                 if not res_content:
-                    res_box_position, res_content = cv2.boundingRect(
-                        contour), True
+                    res_box_position = cv2.boundingRect(contour)
+                    res_content = True
+
         return res_box_position, res_content
 
     def checkUniform(self, org_img):
