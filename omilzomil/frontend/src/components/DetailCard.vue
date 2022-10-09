@@ -53,7 +53,7 @@
                 <div class="parts-name">
                   계급장
                 </div>
-                <GoodBadTag :is-good="true" />
+                <GoodBadTag :is-good="false" />
               </div>
             </div>
             <div class="parts">
@@ -137,7 +137,7 @@ export default {
   right:0;
   bottom:0;
   background-color:rgba(0,0,0,0.5);
-  z-index:30;
+  z-index:1000000;
 }
 .overlay-card{
   position: relative;
@@ -212,9 +212,9 @@ export default {
 }
 .parts .parts-info .parts-name{
 
-    /* Dark2 */
+  /* Dark2 */
 
-    /* color: #585767; */
+  /* color: #585767; */
 
 }
 
