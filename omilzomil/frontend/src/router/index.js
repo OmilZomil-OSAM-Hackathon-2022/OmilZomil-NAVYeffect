@@ -48,6 +48,20 @@ const routes = [
     component: () => import('../views/DashBoardPage.vue'),
     // component: () => import('../views/ListUpPage.vue'),
   },
+  {
+    path: "/totalDashboard",
+    name: "TotalDashboard",
+
+    component: () => import('../views/TotalDashBoardPage.vue'),
+    // component: () => import('../views/ListUpPage.vue'),
+  },
+  {
+    path: "/vacation",
+    name: "Vacation",
+
+    component: () => import('../views/DashBoardPage.vue'),
+    // component: () => import('../views/ListUpPage.vue'),
+  },
 ];
 
 const router = createRouter({

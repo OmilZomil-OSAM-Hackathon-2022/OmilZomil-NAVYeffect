@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex; width: 100%; height: 100%">
+  <div style="display: flex; width: 100%; height: 100vh">
     <div class="left">
       <img
         class="back"
@@ -108,6 +108,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: #fff;
 }
 .left .back {
   position: absolute;

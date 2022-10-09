@@ -24,22 +24,26 @@ export default {
 
 <style>
 @import "@/assets/styles/common.css";
+@import url("http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700");
 /* background: #32313F; */
 /* :root{
 } */
 :root {
+  color:#585767;
   --color-background: #f4f5fa;
   --color-appbar: #ffffff;
   --color-card: #ffffff;
   --color-input: #ffffff;
   --color-input-border: #d9d8e8;
+  --color-state-card:#F9F9FB;
 }
 .dark-mode {
   --color-background: #28243d;
   --color-appbar: #312d4b;
   --color-card: #312d4b;
-  --color-input: #585767;
-  --color-input-border: #78798d;
+  --color-input: #312D4B;
+  --color-input-border: #78798D;
+  --color-state-card:#2C2845;
   color: white;
 }
 html,
@@ -49,7 +53,7 @@ body,
   height: 100%;
 }
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -59,7 +63,9 @@ body,
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  height: auto;
+  min-height: 100%;
+
   background: var(--color-background);
   width: 100%;
 }
