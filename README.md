@@ -45,20 +45,30 @@
  ![Slide 16_9 - 37](https://user-images.githubusercontent.com/59905641/193630489-e5327446-01fe-4ae2-9787-cbe77f0aeea1.png)
  
  + 부대별 대시보드입니다. 실시간으로 출입자 정보가 리스트업되며, 각 요소 별 불량 비율이나 월간 양호 빈도 등을 제공합니다.
+>여러 가지 기능들 있는거 클릭해서 보여주는 gif로 추후 변경 필요.
  ![Slide 16_9 - 36](https://user-images.githubusercontent.com/59905641/193630811-aafc8f62-a53d-43d0-8bdd-55182489bd55.png)
 
  + 부대 인원 조회 페이지입니다. 실시간 감지되는 리스트 중 한 컴포넌트 클릭 시 상세보기 창이 팝업됩니다.
+>gif 변경 필요
  ![부대 인원 조회 페이지-4 2](https://user-images.githubusercontent.com/59905641/193631247-77354eec-01c4-40cd-8a2f-5dd60f037057.png)
+ ![부대인원조회_자세히보기](https://user-images.githubusercontent.com/59905641/194754317-0d71336a-ad51-4e24-a1bc-53a583bf13ff.png)
  
  + 랭킹페이지입니다. 위반 비율을 따져 1순위부터 전 부대를 확인할 수 있습니다.
- ![랭킹](https://user-images.githubusercontent.com/59905641/193633520-e8b3bd72-e596-4350-9a69-cf3c19700a74.png)
+ ![랭킹](https://user-images.githubusercontent.com/59905641/194753760-d9a72b5d-0fcc-4e74-8467-b82ef967490e.png)
 
  + 전군 통계 대시보드입니다. 부대별 현황과 다르게 훨씬 넓은 범위에서의 추이를 보여줍니다.
- ![전군2](https://user-images.githubusercontent.com/59905641/193633758-4d7275df-f4eb-496c-a669-0d5487245661.png)
+ ![전군통계](https://user-images.githubusercontent.com/59905641/194753907-dc546fd1-81f1-4e42-b2f8-f0d0efea910c.png)
  
  + 인공지능이 외적 군기 위반 여부를 판별하는 모습입니다.
  ![인공지능-1](https://user-images.githubusercontent.com/59905641/193634048-a2baab28-9483-4dde-b421-dc74c0c96a04.png)
-
+ 
+ + 휴가 관리 페이지입니다. 출타 장병이 관리자를 선택하면 그들의 정보를 관리자dp게 보냅니다.
+![휴가관리](https://user-images.githubusercontent.com/59905641/194754384-5cdd25d6-cb44-4ac5-bae3-25733897314a.png)
+![휴가관리_상세보기](https://user-images.githubusercontent.com/59905641/194754409-c2de29e7-1d16-45f7-aa91-91cdd17f2dcd.png)
+ 
+ + 수정/관리 페이지입니다. 루트 관리자, 일반 관리자(부대 관리자)에게 서로 다른 페이지를 보여줍니다. 프로필 등을 수정하는 기능 및 회원 탈퇴가 가능합니다.
+![루트관리자-프로필수정](https://user-images.githubusercontent.com/59905641/194754473-8e47d034-b061-4ad2-b1fd-14480a3874fb.png)
+![일반관리자-프로필수정](https://user-images.githubusercontent.com/59905641/194754528-4380629c-4117-4296-a9e0-60df82ff5704.png)
 
 <h2 id="pre-required"> :dash: 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</h2>
 
