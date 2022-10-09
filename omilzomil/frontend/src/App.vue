@@ -1,5 +1,7 @@
 <template>
-  <div :class="[getDarkMode ? 'dark-mode' : '', 'main']">
+  <div
+    :class="[getDarkMode ? 'dark-mode' : '', 'main']"
+  >
     <AppBar v-if="!$route.meta.hideAppBar" />
     <router-view />
   </div>
