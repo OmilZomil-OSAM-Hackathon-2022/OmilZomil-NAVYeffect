@@ -15,5 +15,5 @@ if [ ! -f ./webrtc/frontend/dist/index.html ] ; then
 fi
 
 
-echo [+] run web & camera
+echo [+] run web camera
 sudo docker-compose --env-file .env.lock up web camera
