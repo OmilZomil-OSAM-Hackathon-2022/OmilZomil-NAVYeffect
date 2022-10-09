@@ -28,7 +28,7 @@ class FullDressUniformChecker():
         res_string = ''.join(filtered_list)
         return res_string
 
-    def getMaskedContours(self, img=None, hsv_img=None, morph=None, kmeans=None, kind=None, sort=True):
+    def getMaskedContours(self, img=None, hsv_img=None, morph=None, kmeans=None, kind=None, sort=False):
         if hsv_img is None:
             hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         if kind == 'uniform':
@@ -134,7 +134,7 @@ class FullDressUniformChecker():
                     roi = masked_img[y:y+h, x:x+w]
 
                     small_contours, small_mask = self.getMaskedContours(
-                        img=roi, kind='classes', sort=False)
+                        img=roi, kind='classes')
 
                     classes_n = 0
                     for small_contour in small_contours:
@@ -188,7 +188,7 @@ class FullDressUniformChecker():
         # 네카치프 / 네카치프링 체크
         name = 'anchor'
         contours, masked_img_dic[name] = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind=name, sort=False)
+            img=img, hsv_img=hsv_img, kind=name)
         box_position, component = self.getAnchor(contours, None)
         box_position_dic[name] = box_position
         component_dic[name] = component
@@ -196,7 +196,7 @@ class FullDressUniformChecker():
         # 계급장 체크
         name = 'classes'
         contours, masked_img_dic[name] = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind=name, sort=False)
+            img=img, hsv_img=hsv_img, kind=name)
         box_position, component, masked_img = self.getClasses(
             img, contours, None)
         box_position_dic[name] = box_position
