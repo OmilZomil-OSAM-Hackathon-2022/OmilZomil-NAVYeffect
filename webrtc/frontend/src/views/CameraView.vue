@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <button id="camera--trigger" @click="capture">capture</button>
-    <video ref="video" id="camera--view" autoplay width="300"></video>
-    <canvas ref="canvas" style="display:none;" width="300" height="225"></canvas>
+    <video ref="video" id="camera--view" autoplay width="1920"></video>
+    <canvas ref="canvas" style="display:none;" width="1920" height="1080"></canvas>
     <img ref="image" style="object-fit: contain;">
   </div>
 </template>
@@ -23,18 +23,20 @@ export default {
 
 
 
-      console.log("test 1")
+      console.log("test 3")
       fetch('/v1/')
       .then((response) => response.json())
       .then((data) => console.log(data));
 
       // WebSocket 연결 생성
-      var ws = new WebSocket("wss://218.150.159.22:14491/v1/ws");
-      
-
+      var ws = new WebSocket("wss://117.17.110.220:7778/v1/ws");
+     
 
       ws.addEventListener('open', function (event) {
           console.log('Hello Server!');
+          var rawData = canvas.toDataURL("image/jpeg", 1);
+          ws.send(rawData);
+
       });
 
       ws.send("connetions")
