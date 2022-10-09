@@ -42,3 +42,10 @@
   }
 }
   </script>
+
+  <style scoped>
+  svg{
+    display:block;
+    /* margin:auto; */
+  }
+  </style>
