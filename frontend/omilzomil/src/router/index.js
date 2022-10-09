@@ -49,10 +49,17 @@ const routes = [
     // component: () => import('../views/ListUpPage.vue'),
   },
   {
-    path: "/event",
-    name: "Event",
+    path: "/totalDashboard",
+    name: "TotalDashboard",
 
-    component: () => import('../views/EventCardTest.vue'),
+    component: () => import('../views/TotalDashBoardPage.vue'),
+    // component: () => import('../views/ListUpPage.vue'),
+  },
+  {
+    path: "/vacation",
+    name: "Vacation",
+
+    component: () => import('../views/DashBoardPage.vue'),
     // component: () => import('../views/ListUpPage.vue'),
   },
 ];
