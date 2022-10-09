@@ -1,9 +1,18 @@
+import base64
+import numpy as np
+import cv2
+import sys
+
 from typing import List
 from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
 
 from app.api.websocket.connections import ConnectionManager
+
+import logging
+logger = logging.Logger('asdf')
+
 
 socket_mng = ConnectionManager()
 
@@ -22,10 +31,17 @@ async def get():
 async def websocket_endpoint(websocket: WebSocket):
     await socket_mng.connect('single', websocket)
 
-    print("connected")
+    logger.warn("connected")
     try:
         while True:
             data = await websocket.receive_text()
-            print(data)
+            
+            logger.warn(sys.getsizeof(data))
+            img = cv2.imdecode(np.fromstring(base64.b64decode(data.split(',')[1]), np.uint8), cv2.IMREAD_COLOR)
+            # cv2.imshow('image', img)
+            logger.warn(sys.getsizeof(img))
+            logger.warn(img.shape)
+            logger.warn(type(img))
+            cv2.imwrite('webrtc_image.jpg', img)
     except WebSocketDisconnect:
-        manager.disconnect(websocket)
+        socket_mng.disconnect('single')
