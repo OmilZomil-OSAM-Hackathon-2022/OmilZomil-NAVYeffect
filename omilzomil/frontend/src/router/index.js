@@ -38,7 +38,7 @@ const routes = [
   {
     path: "/ranking",
     name: "Ranking",
-    component: () => import('../views/DashBoardPage.vue'),
+    component: () => import('../views/RankingPage.vue'),
     // component: () => import('../views/ListUpPage.vue'),
   },
   {
