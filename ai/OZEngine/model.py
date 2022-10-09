@@ -87,13 +87,14 @@ class OmilZomil:
         shirt_box = ((max_y, 0), (h, w))
         shirt_base_point = shirt_box[0]
         shirt_img = box2img(person_img, shirt_box)
-        plt_imshow('shirt', shirt_img)
+        
+        self.debug({'shirt':shirt_img}, msg='roi')
         
         # 히스토그램 평활화 여부 확인 후 적용
         if self.img_norm_type:
             histed_img = histNorm(input_img, type=self.img_norm_type)
             # 디버깅 여부 확인
-            if self.debug_list == 'debug':
+            if 'plt' in self.debug_list:
                 plt_imshow(['org', 'histed_img'], [input_img, histed_img])
                 input_img = histed_img
 
