@@ -2,6 +2,7 @@
 node_modules
 /dist
 package-lock.json
+*.pyc
 
 # local env files
 .env.local
@@ -26,3 +27,6 @@ pnpm-debug.log*
 
 # pem
 *.pem
+
+# docker 개발용 파일
+dev_docker.sh
