@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
 /dist
-
+package-lock.json
+*.pyc
 
 # local env files
 .env.local
@@ -26,3 +27,15 @@ pnpm-debug.log*
 
 # pem
 *.pem
+
+# docker 개발용 파일
+dev_docker.sh
+
+# 프론트 빌드
+
+dist/
+
+omilzomil/frontend/dist
+webrtc/frontend/dist
+omilzomil/frontend/dist/
+webrtc/frontend/dist/

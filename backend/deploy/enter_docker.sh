@@ -1,1 +1,0 @@
-docker exec -it web_be_app_1 bash

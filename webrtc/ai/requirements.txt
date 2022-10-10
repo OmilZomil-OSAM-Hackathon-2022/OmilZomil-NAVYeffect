@@ -1,0 +1,10 @@
+dlib==19.9.0
+matplotlib
+opencv-python
+imutils
+requests
+scikit-learn
+torch
+
+
+
