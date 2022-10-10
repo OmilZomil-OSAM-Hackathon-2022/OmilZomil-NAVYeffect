@@ -15,7 +15,6 @@ class PartsClassifier():
         class_path = os.path.join(model_set_path, 'classes')
 
         self.features = np.load('./model/features.npy')
-
         with open(img_path, "rb") as fr:
             self.img_paths = pickle.load(fr)
 
@@ -25,6 +24,6 @@ class PartsClassifier():
     def classify(self, img):
         query = self.feature_extractor.extract(img)
         dists = np.linalg.norm(self.features - query, axis=1)
-        ids = np.argsort(dists)[0]
+        id = np.argsort(dists)[0]
         return (dists[id], self.classes[id], id)
     
