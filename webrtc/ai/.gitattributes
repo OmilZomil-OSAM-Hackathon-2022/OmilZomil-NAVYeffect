@@ -1,3 +1,0 @@
-OZEngine/person_detectors/*.weights filter=lfs diff=lfs merge=lfs -text
-OZEngine/person_detectors/weights filter=lfs diff=lfs merge=lfs -text
-OZEngine/person_detectors/refs/weights filter=lfs diff=lfs merge=lfs -text
