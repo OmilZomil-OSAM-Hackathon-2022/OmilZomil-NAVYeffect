@@ -124,7 +124,7 @@
                 disabled
                 selected
               >
-                부대을 선택하세요.
+                부대를 선택하세요.
               </option>
 
               <option value="계룡대 근무지원단">
