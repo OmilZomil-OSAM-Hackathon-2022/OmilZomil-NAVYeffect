@@ -1,16 +1,7 @@
 <template>
   <div class="wrap">
     <div class="search-card card">
-      <div class="card-head">
-        <a @click="$emit('backToPage')">
-          <img
-            src="@/assets/icons/left-arrow.svg"
-            width="9"
-            class="image-center"
-          >
-        </a>
-        휴가신청
-      </div>
+      <CardHead title="휴가신청" />
       <div class="search-content">
         <div class="user-info">
           <div>{{ user.division }}</div>
@@ -73,7 +64,6 @@
 </template>
   
 <script>
-import SearchInput from '../components/common/SearchInput.vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import {ref} from 'vue';
@@ -83,16 +73,18 @@ import {ref} from 'vue';
           this.state = "완료";
       }
   }
+  class User{
+    constructor(){
+        this.uName = "김민섭";
+        this.division = "해군";
+        this.unit = "계룡대근무지원단";
+        this.uClass = "일병";
+        this.dogTag = "22-71005164";
+    }
+}
   export default { 
-      components:{ SearchInput, Datepicker },
-    props:{
-        user:{
-            type:Object,
-            default:null,
-        }
-    },
-      emits:['backToPage'],
-      setup(){
+    components:{ Datepicker },
+    setup(){
       const startDate = ref();
       const endDate = ref();
       const format = (date) => {
@@ -116,6 +108,8 @@ import {ref} from 'vue';
                   new Vacation(),
                   new Vacation(),
               ],
+
+          user:new User(),
           }
       },
       computed:{
