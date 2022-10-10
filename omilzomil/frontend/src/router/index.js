@@ -59,7 +59,7 @@ const routes = [
     path: "/vacation",
     name: "Vacation",
 
-    component: () => import('../views/VacationPage.vue'),
+    component: () => import('../views/RegistVacationPage.vue'),
     // component: () => import('../views/RegistVacationPage.vue'),
   },
   // {
