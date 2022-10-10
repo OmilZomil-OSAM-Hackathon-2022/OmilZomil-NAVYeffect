@@ -2,10 +2,10 @@ import sys
 import numpy as np
 import re
 from OZEngine.dress_classifier import classification2
-from lib.utils import sortContoursByArea, getVertexCnt, getContourCenterPosition, getRectCenterPosition, isPointInBox
-from lib.defines import *
-from lib.ocr import OCR
-from lib.utils import plt_imshow
+from OZEngine.lib.utils import sortContoursByArea, getVertexCnt, getContourCenterPosition, getRectCenterPosition, isPointInBox
+from OZEngine.lib.defines import *
+from OZEngine.lib.ocr import OCR
+from OZEngine.lib.utils import plt_imshow
 
 # (동)정복 검사
 
