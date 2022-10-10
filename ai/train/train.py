@@ -49,8 +49,22 @@ model_set_path = './trainset'
 train_paths, model_paths = get_train_paths(train_set_path, model_set_path)
 print(train_paths, model_paths)
 
+features = []
+img_paths = []
+
 fe = FeatureExtractor()
 for img_path, feature_path in zip(train_paths, model_paths):
     print(img_path, feature_path)
+    
+    img_paths.append(img_path)
     feature = fe.extract(img=Image.open(img_path))
+    features.append(feature)
     np.save(feature_path, feature)
+
+
+img = Image.open("./test_set/0.jpg")
+query = fe.extract(img)
+dists = np.linalg.norm(features - query, axis=1)
+ids = np.argsort(dists)[:30]
+scores = [(dists[id], img_paths[id], id) for id in ids]
+print(scores)
