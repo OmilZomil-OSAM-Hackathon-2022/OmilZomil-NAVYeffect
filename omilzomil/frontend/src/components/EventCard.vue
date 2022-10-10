@@ -141,7 +141,7 @@ export default {
             default:null
         },
         photo:{
-          type:Object,
+          type:String,
           default:null
         }
     },
