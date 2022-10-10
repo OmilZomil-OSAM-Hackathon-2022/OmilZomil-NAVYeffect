@@ -1,3 +1,8 @@
+import numpy as np
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications.vgg16 import VGG16, preprocess_input
+from tensorflow.keras.models import Model
+
 class FeatureExtractor:
     def __init__(self):
         base_model = VGG16(weights='imagenet')
