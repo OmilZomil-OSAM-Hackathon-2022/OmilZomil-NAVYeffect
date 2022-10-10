@@ -15,41 +15,80 @@
         </thead>
         <tbody>
           <tr
-            v-for="(user,index) in pageList[this.page-1]"
+            v-for="(user,index) in pageList[page-1]"
             :key="index"
           >
             <td class="rank">
-              <img v-if="(this.page-1)*10+index===0" src="@/assets/icons/first.svg" />
-              <img v-else-if="(this.page-1)*10+index===1" src="@/assets/icons/second.svg" />
-              <img v-else-if="(this.page-1)*10+index===2" src="@/assets/icons/third.svg" />
+              <img
+                v-if="(page-1)*10+index===0"
+                src="@/assets/icons/first.svg"
+              >
+              <img
+                v-else-if="(page-1)*10+index===1"
+                src="@/assets/icons/second.svg"
+              >
+              <img
+                v-else-if="(page-1)*10+index===2"
+                src="@/assets/icons/third.svg"
+              >
               <div v-else>
-                {{ (this.page-1)*10+index+1 }}
+                {{ (page-1)*10+index+1 }}
               </div> 
             </td>
-            <td class="name">{{ user.name }}</td>
-            <td class="number">{{ user.goodNumber }}명</td>
-            <td class="number">{{ user.badNumber }}명</td>
-            <td class="percent">{{ user.percent }}%</td>
+            <td class="name">
+              {{ user.name }}
+            </td>
+            <td class="number">
+              {{ user.goodNumber }}명
+            </td>
+            <td class="number">
+              {{ user.badNumber }}명
+            </td>
+            <td class="percent">
+              {{ user.percent }}%
+            </td>
           </tr>
         </tbody>
       </table>
       <foot>
         <tr>
           <tf class="choose">
-              <div class="choosebox">
-                <select v-model.number="this.page">
-                  <option v-for="i in pageList.length" :key="i" value.number="i">{{i}}</option>
-                </select>
-              </div>
-              <div class="max-page">
-                /{{ pageList.length }}
-              </div>
+            <div class="choosebox">
+              <select v-model.number="page">
+                <option
+                  v-for="i in pageList.length"
+                  :key="i"
+                  value.number="i"
+                >
+                  {{ i }}
+                </option>
+              </select>
+            </div>
+            <div class="max-page">
+              /{{ pageList.length }}
+            </div>
           </tf>
           <tf class="prev-next">
-            <button class="prev" v-if="page!=1" @click="this.page-=1" />
-            <img class="prev" v-else src="@/assets/icons/prev.svg" />
-            <button class="next" v-if="page!=this.pageList.length" @click="this.page+=1" />
-            <img class="next" v-else src="@/assets/icons/next.svg" />
+            <button
+              v-if="page!=1"
+              class="prev"
+              @click="page-=1"
+            />
+            <img
+              v-else
+              class="prev"
+              src="@/assets/icons/prev.svg"
+            >
+            <button
+              v-if="page!=pageList.length"
+              class="next"
+              @click="page+=1"
+            />
+            <img
+              v-else
+              class="next"
+              src="@/assets/icons/next.svg"
+            >
           </tf>
         </tr>
       </foot>
@@ -194,6 +233,8 @@ td{
   font-size: 16px;
   line-height: 19px;
   letter-spacing: 0.15px;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 table thead tr{

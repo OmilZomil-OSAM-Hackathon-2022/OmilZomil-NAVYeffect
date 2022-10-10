@@ -55,7 +55,10 @@
           {{ contents }}
         </div>
       </div>
-      <div class="image" v-if="photo===null">
+      <div
+        v-if="photo===null"
+        class="image"
+      >
         <img
           class="back"
           src="@/assets/images/fire/back.svg" 
@@ -97,12 +100,30 @@
           src="@/assets/images/fire/blue.svg" 
         >
       </div>
-      <div v-else class="photoclap">
-        <img class="photoback" src="@/assets/images/photoback.svg" />
-        <img class="photo" src= "@/assets/images/photo.svg" />
-        <img class="backhand" src="@/assets/images/clap/back.svg" />
-        <img class="fronthand" src="@/assets/images/clap/front.svg" />
-        <img class="clapeffect" src="@/assets/images/clap/effect.svg" /> 
+      <div
+        v-else
+        class="photoclap"
+      >
+        <img
+          class="photoback"
+          src="@/assets/images/photoback.svg"
+        >
+        <img
+          class="photo"
+          src="@/assets/images/photo.svg"
+        >
+        <img
+          class="backhand"
+          src="@/assets/images/clap/back.svg"
+        >
+        <img
+          class="fronthand"
+          src="@/assets/images/clap/front.svg"
+        >
+        <img
+          class="clapeffect"
+          src="@/assets/images/clap/effect.svg"
+        > 
       </div>
     </div> 
   </div>
