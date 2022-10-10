@@ -8,6 +8,10 @@ from PIL import Image
 import numpy as np
 import os
 
+# ignore tf warning message
+# TF_CPP_MIN_LOG_LEVEL
+
+print(os.environ['TF_CPP_MIN_LOG_LEVEL'])
 def get_train_paths(train_set_path, model_set_path):
     train_paths = []
     model_paths = []
