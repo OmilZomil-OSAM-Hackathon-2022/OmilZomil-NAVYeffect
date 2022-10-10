@@ -6,7 +6,7 @@ class PartsClassifier():
     def __init__(self):
         self.feature_extractor = FeatureExtractor()
         
-        model_set_path = './train_set'
+        model_set_path = './model'
         ## Load pickle
         feature_path = os.path.join(model_set_path, 'features')
         img_path = os.path.join(model_set_path, 'img_paths')
