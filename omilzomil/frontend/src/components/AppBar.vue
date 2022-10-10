@@ -48,16 +48,53 @@
             class="search"
             placeholder="검색"
           >
-          <router-link
-            class="profile"
-            to="/"
-          >
-            <img
-              width="32"
-              src="@/assets/icons/mdi_account-circle.svg"
+          <div>
+            <a
+              v-if="isLogin"
+              class="profile"
+              to="/"
+              @click="openUserMenu"
             >
-            <div class="user-name">
-              {{ userName }}님
+              <img
+                width="32"
+                src="@/assets/icons/mdi_account-circle.svg"
+              >
+              <div class="user-name">
+                {{ userName }}님
+              </div>
+            </a>
+            <div
+              v-if="userMenu"
+              class="close-menu"
+              @click="closeUserMenu"
+            />
+            <div
+              v-if="userMenu"
+              class="userMenu card"
+            >
+              <router-link to="/">
+                프로필 수정
+              </router-link>
+              <router-link to="/">
+                사용자 관리
+              </router-link>
+              <router-link to="/">
+                부대 관리
+              </router-link>
+              <router-link to="/">
+                로그아웃
+              </router-link>
+              <router-link to="/">
+                회원 탈퇴
+              </router-link>
+            </div>
+          </div>
+          <router-link
+            v-if="!isLogin"
+            to="/login"
+          >
+            <div class="login">
+              로그인
             </div>
           </router-link>
         </div>
@@ -151,6 +188,8 @@ export default {
     data(){
       return {
         userName: "김민섭",
+        isLogin:true,
+        userMenu:false,
       }
     },
     computed: {
@@ -162,6 +201,12 @@ export default {
       setDarkMode(){
         // console.log("test");
         return this.$store.commit('setDarkMode');
+      },
+      openUserMenu(){
+        this.userMenu = true;
+      },
+      closeUserMenu(){
+        this.userMenu = false;
       },
     },
 }
@@ -295,6 +340,7 @@ button{
   align-items: center;
   
   text-decoration: none;
+  position:relative;
 }
 
 .profile .user-name{
@@ -323,6 +369,52 @@ button{
   margin-left:4px;
 }
 
+.close-menu{
+  position:absolute;
+  width:100%;
+  height:100%;
+  left:0px;
+  top:0px;
+}
+
+.userMenu{
+  margin-top:10px;
+  position:absolute;
+  /* bottom:0px; */
+  height:auto;
+  width:auto;
+  padding:20px 17px;
+  box-sizing:border-box;
+  height:auto;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  right:110px;
+  gap:5px;
+}
+.userMenu a{
+  box-sizing:border-box;
+  padding-left:10px;
+  width: 100px;
+  height: 28px;
+
+  /* Subtitle 2 - Bold */
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.1px;
+  /* color: #616276; */
+  color:var(--color);
+  border-radius: 9px;
+}
+.userMenu a:hover{
+  background: rgba(145, 85, 235, 0.1);
+}
 .search{
   box-sizing: border-box;
 
@@ -399,4 +491,21 @@ button{
 {
   color:#9155EB;
 }
+
+.login{
+  /* Subtitle 1 - Bold */
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+  letter-spacing: 0.15px;
+
+  /* Primary */
+  color: #9155EB;
+
+}
+
 </style>
