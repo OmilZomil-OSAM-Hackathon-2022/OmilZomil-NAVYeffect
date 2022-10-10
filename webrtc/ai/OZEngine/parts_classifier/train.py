@@ -7,6 +7,7 @@ import os, sys
 import pickle
 
 from OZEngine.parts_classifier.FeatureExtractor import FeatureExtractor
+from OZEngine.parts_classifier.PartsClassifier import PartsClassifier
 
 # ignore tf warning message
 # TF_CPP_MIN_LOG_LEVEL
@@ -53,9 +54,6 @@ with open(class_path, 'wb') as f:
 # print(data)
 
 
+classifier = PartsClassifier()
 img = Image.open("./test_set/0.jpg")
-query = fe.extract(img)
-dists = np.linalg.norm(features - query, axis=1)
-ids = np.argsort(dists)[:30]
-scores = [(dists[id], img_paths[id], id) for id in ids]
-print(scores)
+classifier.classify(img)
