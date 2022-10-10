@@ -7,7 +7,6 @@ import os, sys
 import pickle
 
 from OZEngine.parts_classifier.FeatureExtractor import FeatureExtractor
-from OZEngine.parts_classifier.PartsClassifier import PartsClassifier
 
 # ignore tf warning message
 # TF_CPP_MIN_LOG_LEVEL
