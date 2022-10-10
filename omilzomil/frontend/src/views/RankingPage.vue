@@ -50,9 +50,9 @@
           </tr>
         </tbody>
       </table>
-      <foot>
+      <div class="foot">
         <tr>
-          <tf class="choose">
+          <td class="choose">
             <div class="choosebox">
               <select v-model.number="page">
                 <option
@@ -67,8 +67,8 @@
             <div class="max-page">
               /{{ pageList.length }}
             </div>
-          </tf>
-          <tf class="prev-next">
+          </td>
+          <td class="prev-next">
             <button
               v-if="page!=1"
               class="prev"
@@ -89,9 +89,9 @@
               class="next"
               src="@/assets/icons/next.svg"
             >
-          </tf>
+          </td>
         </tr>
-      </foot>
+      </div>
     </div>
   </div>
 </template>
@@ -244,7 +244,7 @@ table thead tr{
 table tbody tr{
     height:58px;
 }
-foot{
+.foot{
   position:relative;
   box-sizing: border-box;
   width: 100%;
