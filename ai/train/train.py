@@ -8,7 +8,7 @@ from PIL import Image
 import numpy as np
 import os
 
-def get_train_paths(train_set_path):
+def get_train_paths(train_set_path, model_set_path):
     train_paths = []
     model_paths = []
     for (root, dirs, files) in os.walk(train_set_path):
@@ -17,9 +17,16 @@ def get_train_paths(train_set_path):
             train_dir_name, uniform_kind, parts_kind = d_split
             
             for file in files:
+                # 학습모델 path 저장
                 train_paths.append(os.path.join(root, file))
-                model_name = file.split('.')[0] + '.npy'
-                model_paths.append(os.path.join('./model', uniform_kind, parts_kind, model_name))
+                
+                # 최종 모델 이름 설정
+                model_name = file.split('.')[0] # + '.npy'
+                
+                # model이 저장될 위치
+                dst_path = os.path.join(model_set_path, uniform_kind, parts_kind)
+                os.makedirs(dst_path, exist_ok=True)
+                model_paths.append(os.path.join(dst_path, model_name))
     return train_paths, model_paths
 
 class FeatureExtractor:
@@ -38,7 +45,8 @@ class FeatureExtractor:
         return feature / np.linalg.norm(feature)
 
 train_set_path = './trainset'
-train_paths, model_paths = get_train_paths(train_set_path)
+model_set_path = './trainset'
+train_paths, model_paths = get_train_paths(train_set_path, model_set_path)
 print(train_paths, model_paths)
 
 fe = FeatureExtractor()
