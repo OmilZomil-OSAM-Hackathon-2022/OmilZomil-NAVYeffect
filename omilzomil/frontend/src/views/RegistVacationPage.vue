@@ -66,8 +66,11 @@
 <script>
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
+
 import {ref} from 'vue';
-  class Vacation{
+import CardHead from '@/components/CardHead.vue';
+
+class Vacation{
       constructor(){
           this.term = "2022.09.29 ~ 2022.10.09";
           this.state = "완료";
@@ -83,7 +86,7 @@ import {ref} from 'vue';
     }
 }
   export default { 
-    components:{ Datepicker },
+    components:{ Datepicker, CardHead },
     setup(){
       const startDate = ref();
       const endDate = ref();
