@@ -288,6 +288,7 @@ table tbody tr{
 
   background: rgba(94, 99, 102, 0.08);
   border-radius: 8px;
+  box-sizing:border-box;
 }
 .prev-next{
   display: flex;
@@ -330,4 +331,9 @@ table a{
     color:white;
 }
 
+select{
+  border:none;
+  background:rgba(0, 0, 0, 0);
+  padding:0px 5px;
+}
 </style>
