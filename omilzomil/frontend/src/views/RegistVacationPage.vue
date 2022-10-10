@@ -47,9 +47,6 @@
       </div>
     </div>
     <div class="list-card card">
-      <div class="search">
-        <SearchInput @on-click="search" />
-      </div>
       <table>
         <thead>
           <tr> 
