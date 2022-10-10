@@ -15,7 +15,7 @@ jobs:
         with:
           host: ${{ secrets.DEV_SERVER_IP }}          
           username: ${{ secrets.DEV_SERVER_USER }}
-          password: ${{ secrets.DEV_SERVER_PW }}
+          key: ${{ secrets.DEV_SERVER_PW }}
           port: ${{ secrets.DEV_SERVER_PORT }}
           script: |
-            echo "github action test password test 7773"
+            echo "github action test oracle test 7773"
