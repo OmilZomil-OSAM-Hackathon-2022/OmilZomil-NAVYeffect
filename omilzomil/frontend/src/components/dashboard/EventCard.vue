@@ -31,7 +31,6 @@
     photo="1"
     @close-card="closeCard"
   />
-
 </template>
 
 <script>
