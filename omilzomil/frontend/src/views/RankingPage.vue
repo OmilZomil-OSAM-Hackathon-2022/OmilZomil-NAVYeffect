@@ -288,5 +288,10 @@ table a{
     text-decoration:none;
     color:white;
 }
+@media (max-width: 1200px) {
+  .card{
+    padding: 28px 16px;
+  }
+}
 
 </style>
