@@ -125,5 +125,6 @@ class OmilZomil:
             self.debug(roi_dic, msg="roi")
             self.debug(masked_img_dic, msg="masked")
             
+            
         self.frame_cnt += 1
         return component_dic, box_position_dic
