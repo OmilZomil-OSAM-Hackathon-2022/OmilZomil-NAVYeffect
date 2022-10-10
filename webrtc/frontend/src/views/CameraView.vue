@@ -1,48 +1,102 @@
 <template>
-  <div class="home">
-    <button id="camera--trigger" @click="capture">capture</button>
-    <video ref="video" id="camera--view" autoplay width="1920"></video>
-    <canvas ref="canvas" style="display:none;" width="1920" height="1080"></canvas>
-    <img ref="image" style="object-fit: contain;">
+  <div style="display: flex; flex-wrap:wrap; flex-direction: row;  width:100%; height:100%;">
+    <div class="left">
+      <div class="pc">
+        <img class="mac" src="@/assets/images/mac.svg" />
+        <video ref="video" class="camera--view" autoplay />
+        <canvas ref="canvas" class="camera--view" style="display:none;" ></canvas>
+      </div>
+      <div class="but">
+        <button id="camera-trigger" @click="connect">capture</button>
+        <button id="stop" @click="stop">stop</button>
+        <button id="show" @click="show">show</button>
+        <button id="noshow" @click="noshow">noshow</button>
+      </div>
+    </div>
+    <div class="right">
+      <div class="result" v-if="resive===true">
+        <h1>{{kind}}</h1>
+        <p v-if="one[1]">{{one[0]}} : pass</p>
+        <p v-else>{{one[0]}} : fail</p>
+        <p v-if="two[1]">{{two[0]}} : pass</p>
+        <p v-else>{{two[0]}} : fail</p>
+        <p v-if="three[1]">{{three[0]}} : pass</p>
+        <p v-else>{{three[0]}} : fail</p>
+        <p v-if="four[1]">{{four[0]}} : pass</p>
+        <p v-else>{{four[0]}} : fail</p>
+        <div v-if="five===null" />
+        <div v-else>
+          <p v-if="five[1]">{{five[0]}} : pass</p>
+          <p v-else>{{five[0]}} : fail</p>
+        </div>
+      </div>
+      <img src="@/assets/images/loading.svg" class="loading" v-else-if="capturing===true" />
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Capture',
+  data() {
+    return {
+      ws : null,
+      url : `wss://echo.websocket.org`,
+      img : null,
+      setI : null,
+      kind: '해군 동정복',
+      one:["태극기",true],
+      two:["이름표",false],
+      three:["계급장",true],
+      four:["두발",true],
+      five:null,
+      resive:false,
+      capturing:false,
+    }
+  },
   methods: {
     capture() {
-      const video = this.$refs.video
-      const canvas = this.$refs.canvas
-      const image = this.$refs.image
-      const ctx = canvas.getContext('2d')
-
-      ctx.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
-      image.src = canvas.toDataURL('image/webp');
-
-
-
-
-      console.log("test 3")
-      fetch('/v1/')
-      .then((response) => response.json())
-      .then((data) => console.log(data));
-
-      // WebSocket 연결 생성
-      var ws = new WebSocket("wss://117.17.110.220:7778/v1/ws");
-     
-
-      ws.addEventListener('open', function (event) {
-          console.log('Hello Server!');
-          var rawData = canvas.toDataURL("image/jpeg", 1);
-          ws.send(rawData);
-
-      });
-
-      ws.send("connetions")
-
-      console.log('end')
+      this.capturing=true;
+      const video = this.$refs.video;
+      const canvas = this.$refs.canvas;
+      const image = this.$refs.image;
+      const ctx = canvas.getContext('2d');
+      let canvas_width=video.videoWidth;
+      let canvas_height=video.videoHeight;
+      canvas.width=canvas_width;
+      canvas.height=canvas_height;
+      ctx.drawImage(video, 0, 0,  canvas_width, canvas_height);
+      this.img = canvas.toDataURL('image/webp');
+      this.ws.send(this.img);
+      
+    },
+    connect() {
+      this.setI = setInterval(this.capture, 1000);
+    },
+    stop() {
+      this.capturing=false;
+      clearInterval(this.setI);
+    },
+    show() {
+      this.resive=true;
+    },
+    noshow() {
+      this.resive=false;
     }
+  },
+  created() {
+    console.log("Starting connection to WebSocket Server");
+    // this.ws = new WebSocket(this.url);
+    // this.ws.onopen=()=> {
+    //   console.log("Connected.");
+    // }
+    // this.ws.onmessage=(msg)=> {
+    //   stop();
+	  //   console.log(msg.data);
+	  // }
+    // this.ws.onerror=(error)=> {
+    //   console.log('error')
+    // }
   },
   mounted() {
     navigator.mediaDevices.getUserMedia({
@@ -56,3 +110,96 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  @keyframes scale-in-center {
+    0% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scaleX(-1);
+      opacity: 1;
+    }
+  }
+  @keyframes text-focus-in {
+    0% {
+      filter: blur(12px);
+      opacity: 0;
+    }
+    100% {
+      filter: blur(0px);
+      opacity: 1;
+    }
+  }
+  @keyframes rotate-center {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .but {
+    position:absolute;
+    display:flex;
+  }
+  .left {
+    width:50%;
+    height:100%;
+  }
+  .right {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+  }
+  .result {
+    background-color: aqua;
+    border-radius: 20px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width:70%;
+    height:90%;
+    top:0;
+    left:0;
+    animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+  }
+  .loading {
+    width:10%;
+    height:10%;
+    animation: rotate-center 0.6s ease-in-out infinite both;
+  }
+  .pc {
+    position:relative;
+    width:100%;
+    height:100%;
+  }
+  .mac {
+    width:100%;
+  }
+  .camera--view {
+    /* background-color: blue; */
+    animation: scale-in-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    position:absolute;
+    width:82%;
+    height:87%;
+    top:3.2%;
+    left:9.5%;
+    transform: translateY(-50%);
+  }
+
+
+
+  @media (max-width: 1200px) {
+  .left {
+    width: 100%;
+  }
+  .right {
+    width: 100%;
+    height: 50vh;
+  }
+}
+</style>
