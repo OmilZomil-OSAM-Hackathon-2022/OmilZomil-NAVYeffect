@@ -23,7 +23,7 @@ class PartsClassifier():
             self.classes = pickle.load(fr)
 
     def classify(self, img):
-        query = fe.extract(img)
+        query = self.feature_extractor.extract(img)
         dists = np.linalg.norm(self.features - query, axis=1)
         ids = np.argsort(dists)[0]
         return (dists[id], self.classes[id], id)
