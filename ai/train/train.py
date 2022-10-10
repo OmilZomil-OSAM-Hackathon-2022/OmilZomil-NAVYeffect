@@ -48,7 +48,7 @@ class FeatureExtractor:
         return feature / np.linalg.norm(feature)
 
 train_set_path = './trainset'
-model_set_path = './trainset'
+model_set_path = './model'
 train_paths, model_paths = get_train_paths(train_set_path, model_set_path)
 print(train_paths, model_paths)
 
