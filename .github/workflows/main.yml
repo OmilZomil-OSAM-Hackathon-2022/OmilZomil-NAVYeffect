@@ -3,7 +3,7 @@ name: Build and deploy Python app
 
 on: 
   push:            
-    branches: [ "main" , "dev/devops"]
+    branches: [ "main" , "dev/cicd"]
 
 jobs:
   React-Build-ssh-action:
