@@ -1,5 +1,7 @@
 import numpy as np
 import os
+import pickle
+from PIL import Image
 from OZEngine.parts_classifier import FeatureExtractor
 
 class PartsClassifier():

@@ -1,3 +1,4 @@
+from PIL import Image
 from OZEngine.parts_classifier.PartsClassifier import PartsClassifier
 
 classifier = PartsClassifier()
