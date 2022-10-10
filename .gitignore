@@ -1,14 +1,11 @@
 .DS_Store
 node_modules
 /dist
-package-lock.json
-*.pyc
+
 
 # local env files
 .env.local
 .env.*.local
-.env.private
-.env.lock
 
 # Log files
 npm-debug.log*
@@ -24,9 +21,3 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-
-# pem
-*.pem
-
-# docker 개발용 파일
-dev_docker.sh
