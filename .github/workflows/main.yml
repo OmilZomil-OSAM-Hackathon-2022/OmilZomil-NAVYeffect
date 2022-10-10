@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build
     steps:
-      - name: SSH Remote Commands
+      - name: 경유서버에서 스크립트 실행
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.DEV_SERVER_IP }}          
