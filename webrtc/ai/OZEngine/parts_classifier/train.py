@@ -47,13 +47,3 @@ with open(img_path, 'wb') as f:
 
 with open(class_path, 'wb') as f:
     pickle.dump(classes, f)
-
-## Load pickle
-# with open("data.pickle","rb") as fr:
-#     data = pickle.load(fr)
-# print(data)
-
-
-classifier = PartsClassifier()
-img = Image.open("./test_set/0.jpg")
-classifier.classify(img)
