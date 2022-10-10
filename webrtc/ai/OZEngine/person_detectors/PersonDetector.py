@@ -1,8 +1,8 @@
 import enum
 import cv2
 import numpy as np
-from lib.utils import *
-from lib.defines import Color
+from OZEngine.lib.utils import *
+from OZEngine.lib.defines import Color
 import os
 
 if __file__:

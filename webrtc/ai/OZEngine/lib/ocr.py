@@ -1,4 +1,4 @@
-from lib.defines import *
+from OZEngine.lib.defines import *
 from sys import path as syspath
 from os.path import abspath, join, dirname
 from requests.exceptions import ConnectionError
