@@ -32,6 +32,8 @@ pnpm-debug.log*
 dev_docker.sh
 run_server.sh
 connect_server.sh
+github_action.sh
+
 
 # 프론트 빌드
 
