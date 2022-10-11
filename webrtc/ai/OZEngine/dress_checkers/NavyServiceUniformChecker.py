@@ -13,33 +13,14 @@ class NavyServiceUniformChecker(UniformChecker):
             'uniform': {
                 'lower': (30, 20, 0),
                 'upper': (255, 255, 255)
-            }
+            },
             'class_tag': {
                 'lower': (0, 150, 90),
                 'upper': (255, 255, 255)
             }
         }
 
-    def getName(self, contour, ocr_list=[]):
-        max_xy, min_xy = np.max(contour, axis=0)[
-            0], np.min(contour, axis=0)[0]
-
-        box_position, name = None, None
-        name_chrs = []
-
-        if orc_list:
-            for ocr_res in ocr_list:
-                ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
-                ocr_center_xy = getRectCenterPosition(ocr_box)
-                if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
-                    box_position = cv2.boundingRect(contour)
-                    name_chrs.append(ocr_str[0])
-                else:
-                    pass
-
-            name = ''.join(name_chrs)
-
-        return box_position, name
+    
 
     def getClasses(self, img, hsv_img, contour):
         box_position, class_name, masked_img = None, None, None
