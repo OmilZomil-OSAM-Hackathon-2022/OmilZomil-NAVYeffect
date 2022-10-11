@@ -113,7 +113,10 @@ class NavyServiceUniformChecker():
 
         # 이름표, 계급장 체크
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
-            if component_dic.get('name_tag') and component_dic.get('class_tag'):
+            is_class_tag = component_dic.get('class_tag')
+            is_name_tag = component_dic.get('name_tag')
+
+            if is_name_tag and is_class_tag:
                 break
 
             cur_node, next_node, prev_node, first_child, parent = lev
@@ -127,21 +130,23 @@ class NavyServiceUniformChecker():
                 center_p = getContourCenterPosition(contour)
 
                 # 이름표 체크
-                if center_p[0] < (w//2) and not component_dic.get('name_tag'):
+                if not is_name_tag and center_p[0] < (w//2):
                     # 이름표 인식모델 체크
                     # is_name_tag = model(img)
-                    
+
                     if is_name_tag:
                         # 이름표 OCR
                         if self.name_cache:
-                            ox_position_dic['name_tag'] = cv2.boundingBox(contour)
+                            ox_position_dic['name_tag'] = cv2.boundingBox(
+                                contour)
                             component_dic['name_tag'] = self.name_cache
                         else:
                             ocr_list = OCR(img)
-                            box_position_dic['name_tag'], component_dic['name_tag'] = self.getName(contour, ocr_list)
+                            box_position_dic['name_tag'], component_dic['name_tag'] = self.getName(
+                                contour, ocr_list)
 
                 # 계급장 체크
-                elif center_p[0] > (w//2) and not component_dic.get('class_tag'):
+                elif not is_class_tag and center_p[0] > (w//2):
                     box_position, component, masked_img = self.getClasses(
                         img, hsv_img, contour)
                     box_position_dic['class_tag'] = box_position
