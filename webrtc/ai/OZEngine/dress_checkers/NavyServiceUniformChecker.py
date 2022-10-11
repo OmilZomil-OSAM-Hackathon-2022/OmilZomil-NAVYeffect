@@ -18,7 +18,6 @@ class NavyServiceUniformChecker():
                 'upper': (255, 255, 255)
             }
         }
-        self.debug_mode = False
 
     def getMaskedContours(self, img=None, hsv_img=None, kmeans=None, morph=None, kind=None, sort=False):
         lower, upper = self.filter[kind]['lower'], self.uniform_filter[kind]['upper']
