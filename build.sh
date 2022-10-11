@@ -49,22 +49,6 @@ while sudo docker-compose --env-file .env.lock ps --services --filter status=run
 done;
 
 
-echo [+] Checking build files...
-while [ ! -f ./omilzomil/frontend/dist/index.html ] ; do
-    wait_time=`date +%T`
-    echo [!] omilzomil 프론트 빌드 실패 - $wait_time
-    sleep 1;
-done
-while [ ! -f ./webrtc/frontend/dist/index.html ] ; do
-    wait_time=`date +%T`
-    echo [!] webrtc 프론트 빌드 실패 - $wait_time
-    sleep 1;
-done
-
-
-
-
-
 # DB 실행
 echo [+] make db
 sudo docker-compose --env-file .env.lock up -d db
