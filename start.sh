@@ -8,7 +8,7 @@ input=$1
 if [ "$input" = "--build" ]; then
     # 프론트 빌드
     echo [+] frontend build
-    sudo docker-compose --env-file .env.lock build web_vue camera_vue  
+    sudo docker-compose --env-file .env.lock build  
     sudo docker-compose --env-file .env.lock up web_vue
     sudo docker-compose --env-file .env.lock up camera_vue
 
