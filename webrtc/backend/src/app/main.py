@@ -9,11 +9,27 @@ app = FastAPI(
     description="test",
     openapi_url='/api/openapi.json'
 )
+from fastapi.middleware.cors import CORSMiddleware
 
+origins = [
+    "*"
+    # "http://localhost.tiangolo.com",
+    # "https://localhost.tiangolo.com",
+    # "http://localhost",
+    # "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/aaaaa")
 def read_root():
-    return {'hello': 'world'}
+    return {'hello': 'world 11'}
 
 
 app.include_router(api_router)
