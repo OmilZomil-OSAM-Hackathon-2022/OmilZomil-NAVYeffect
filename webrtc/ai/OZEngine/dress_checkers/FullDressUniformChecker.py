@@ -28,47 +28,6 @@ class FullDressUniformChecker():
         res_string = ''.join(filtered_list)
         return res_string
 
-    def getMaskedContours(self, img=None, hsv_img=None, morph=None, kmeans=None, kind=None, sort=False):
-        if hsv_img is None:
-            hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        if kind == 'uniform':
-            lower, upper = self.uniform_filter['lower'], self.uniform_filter['upper']
-        elif kind == 'classes':
-            lower, upper = self.classes_filter['lower'], self.classes_filter['upper']
-        elif kind == 'anchor':
-            lower, upper = self.anchor_filter['lower'], self.anchor_filter['upper']
-        else:
-            pass
-
-        mask = cv2.inRange(hsv_img, lower, upper)
-
-        if kmeans:
-            img_s = classification2(img)
-            plt_imshow(['origin', 's'], [img, img_s])
-            img = classification2(img)
-
-        if morph == 'erode':
-            kernel = np.ones((3, 3), np.uint8)
-            org_mask = mask.copy()
-
-            k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 2))
-            mask = cv2.erode(org_mask, k, iterations=2)
-
-            plt_imshow(['org_mask', 'maskk', 'm2'], [org_mask, mask])
-
-        masked_img = cv2.bitwise_and(img, img, mask=mask)
-
-        if sort:
-            contours, hierarchy = cv2.findContours(
-                mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
-            sorted_contours, sorted_hierarchy = sortContoursByArea(
-                contours, hierarchy)
-            return sorted_contours, sorted_hierarchy, masked_img
-        else:
-            contours, _ = cv2.findContours(
-                mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-            return contours, masked_img
-
     def getName(self, img, contours, hierarchy):
         h, w = img.shape[:2]
         shirt_contour, res_box_position, res_content = None, None, None
