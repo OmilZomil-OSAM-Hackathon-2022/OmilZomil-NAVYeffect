@@ -50,28 +50,26 @@ class NavyServiceUniformChecker():
                 mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
             return contours, masked_img
 
-    def getName(self, contour, ocr_list):
+    def getName(self, contour, ocr_list=[]):
         max_xy, min_xy = np.max(contour, axis=0)[
             0], np.min(contour, axis=0)[0]
 
         box_position, name = None, None
         name_chrs = []
 
-        for ocr_res in ocr_list:
-            ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
-            ocr_center_xy = getRectCenterPosition(ocr_box)
-            if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
-                box_position = cv2.boundingRect(contour)
-                name_chrs.append(ocr_str[0])
-            else:
-                pass
+        if orc_list:
+            for ocr_res in ocr_list:
+                ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
+                ocr_center_xy = getRectCenterPosition(ocr_box)
+                if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
+                    box_position = cv2.boundingRect(contour)
+                    name_chrs.append(ocr_str[0])
+                else:
+                    pass
 
-        name = ''.join(name_chrs)
+            name = ''.join(name_chrs)
 
-        if name:
-            return box_position, name
-        else:
-            return None, None
+        return box_position, name
 
     def getClasses(self, img, hsv_img, contour):
         box_position, class_name, masked_img = None, None, None
@@ -113,9 +111,6 @@ class NavyServiceUniformChecker():
         contours, hierarchy, masked_img_dic['shirt'] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='uniform', sort=True)
 
-        # 이름표 OCR
-        ocr_list = OCR(img)
-
         # 이름표, 계급장 체크
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
             if component_dic.get('name_tag') and component_dic.get('class_tag'):
@@ -133,9 +128,17 @@ class NavyServiceUniformChecker():
 
                 # 이름표 체크
                 if center_p[0] < (w//2) and not component_dic.get('name_tag'):
-                    box_position, component = self.getName(contour, ocr_list)
-                    box_position_dic['name_tag'] = box_position
-                    component_dic['name_tag'] = component
+                    # 이름표 인식모델 체크
+                    # is_name_tag = model(img)
+                    
+                    if is_name_tag:
+                        # 이름표 OCR
+                        if self.name_cache:
+                            ox_position_dic['name_tag'] = cv2.boundingBox(contour)
+                            component_dic['name_tag'] = self.name_cache
+                        else:
+                            ocr_list = OCR(img)
+                            box_position_dic['name_tag'], component_dic['name_tag'] = self.getName(contour, ocr_list)
 
                 # 계급장 체크
                 elif center_p[0] > (w//2) and not component_dic.get('class_tag'):
