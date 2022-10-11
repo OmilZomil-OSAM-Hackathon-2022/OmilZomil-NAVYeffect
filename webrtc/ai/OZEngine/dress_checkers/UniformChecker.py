@@ -51,3 +51,26 @@ class UniformCheck:
             name = ''.join(name_chrs)
 
         return box_position, name
+
+    def getClasses(self, img, hsv_img, contour):
+        box_position, class_name, masked_img = None, None, None
+        if contour is None:
+            return box_position, class_name, masked_img
+
+        box_position = cv2.boundingRect(contour)
+        x, y, w, h = box_position
+        roi = img[y:y+h, x:x+w]
+        hsv_roi = hsv_img[y:y+h, x:x+w]
+
+        contours, masked_img = self.getMaskedContours(
+            img=roi, hsv_img=hsv_roi, kmeans=True, kind='classes')
+
+        classes_n = 0
+        for contour in contours:
+            if 100 < cv2.contourArea(contour):
+                classes_n += 1
+
+        if 1 <= classes_n <= 4:
+            class_name = Classes.dic[classes_n]
+
+        return box_position, class_name, masked_img
