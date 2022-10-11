@@ -45,4 +45,9 @@ class PartsClassifier():
         query = self.feature_extractor.extract(img)
         dists = np.linalg.norm(self.features - query, axis=1)
         id = np.argsort(dists)[0]
-        return (dists[id], self.classes[id], id)
+        dist = dists[id]
+        kind = self.classes[id]
+        if dist < 1:
+            return (dist, kind, id)
+        else:
+            return (None, None, None)
