@@ -6,12 +6,6 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /backend
 COPY ./backend /backend
 
-
-# 이미지 및 ai 작업에 필요한 프로그램 설치
-RUN apt-get update -y && \
-    apt-get install build-essential cmake pkg-config -y
-RUN apt-get -y install libgl1-mesa-glx
-
 # 라이브러리 설치
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
