@@ -139,7 +139,7 @@ class NavyServiceUniformChecker():
                     if self.name_cache:
                         ox_position_dic['name_tag'] = cv2.boundingBox(
                             contour)
-                        component_dic['name_tag'] = self.name_cache
+                        component_dic['name_tag'] = 'cached ' + self.name_cache
                     else:
                         ocr_list = OCR(img)
                         box_position_dic['name_tag'], component_dic['name_tag'] = self.getName(
