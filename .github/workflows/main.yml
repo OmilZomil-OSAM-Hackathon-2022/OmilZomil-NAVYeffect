@@ -1,5 +1,5 @@
 
-name: Build and deploy Python app 
+name: 117 서버에 배포
 
 on: 
   push:            
