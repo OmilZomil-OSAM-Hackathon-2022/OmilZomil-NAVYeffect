@@ -1,3 +1,4 @@
+from OZEngine.dress_chekcers import UniformChecker
 from OZEngine.lib.utils import *
 from OZEngine.lib.defines import *
 from OZEngine.lib.ocr import OCR
@@ -5,10 +6,10 @@ from OZEngine.dress_classifier import classification2
 
 
 # 샘브레이 검사
-class NavyServiceUniformChecker():
+class NavyServiceUniformChecker(UniformChecker):
     def __init__(self):
         # hyperparameter
-        self.filter = {
+        filter = {
             'uniform': {
                 'lower': (30, 20, 0),
                 'upper': (255, 255, 255)
@@ -25,7 +26,6 @@ class NavyServiceUniformChecker():
 
         if kmeans:
             img_s = classification2(img, 10)
-            plt_imshow(['origin', 's'], [img, img_s])
             img = classification2(img, 10)
 
         if morph == 'erode':
