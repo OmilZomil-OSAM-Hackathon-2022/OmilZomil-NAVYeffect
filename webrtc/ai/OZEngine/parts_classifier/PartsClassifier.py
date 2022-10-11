@@ -39,8 +39,6 @@ class PartsClassifier():
                     cnt += 1
         return cnt / all_cnt * 100
 
-        path = os.path.join(validation_path)
-
     def predict(self, img):
         query = self.feature_extractor.extract(img)
         dists = np.linalg.norm(self.features - query, axis=1)
