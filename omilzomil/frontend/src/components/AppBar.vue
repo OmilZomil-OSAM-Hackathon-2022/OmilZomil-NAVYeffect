@@ -341,8 +341,17 @@ button{
   
   text-decoration: none;
   position:relative;
+  /* border-radius:8px;
+  padding:5px; */
 }
 
+.profile:active{
+  /* background:#9155EB1A;
+  box-shadow:  4px 4px 6px 0 rgba(145, 85, 235, 0.5),
+              -4px -4px 6px 0 #9155EB1A, 
+    inset -4px -4px 6px 0 rgba(145, 85, 235, 0.1),
+    inset 4px 4px 6px 0 #9155EB1A; */
+}
 .profile .user-name{
   font-family: 'Roboto';
   font-style: normal;
