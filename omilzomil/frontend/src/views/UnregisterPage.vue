@@ -159,13 +159,14 @@
     justify-content: center;
     align-items: flex-end;
     padding: 0px;
-    gap: 91px;
+    justify-content: space-between;
     width: 428px;
     height: 19px;
   }
   .pw1-box1-msg1{
     width: 60px;
     height: 19px;
+    text-align: left;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 700;
@@ -202,8 +203,7 @@
     flex-direction: row;
     align-items: center;
     padding: 0px;
-    gap: 8px;
-    width: 404px;
+    justify-content: space-between;
     height: 16px;
   }
   input{
@@ -245,8 +245,9 @@
     height: 75px;
   }
   .pw2-box1{
-    width: 94px;
+    width: 428px;
     height: 19px;
+    text-align: left;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 700;
@@ -282,5 +283,48 @@
     line-height: 23px;
     letter-spacing: 0.15px;
     color: #FFFFFF;
+  }
+  @media (max-width: 1200px) {
+    .box{
+      width:270px;
+    }
+    .msg2{
+      font-size:11px;
+    }
+    .pw1{
+      width:300px;
+    }
+    .pw1-box1{
+      width:300px;
+    }
+    .pw1-box1-msg1{
+      width:55px;
+      font-size:14px;
+    }
+    .pw1-box1-msg2{
+      width:230px;
+      font-size:10px;
+    }
+    .pw2{
+      width:300px;
+    }
+    .pw2-box1{
+      width:300px;
+      font-size:14px;
+    }
+    .box2{
+      width:300px;
+    }
+    input{
+      width:250px;
+    }
+    .button{
+      width:150px;
+    }
+    .button:hover {
+      height:59px;
+      width:170px;
+      box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
   }
 </style>
