@@ -20,31 +20,6 @@ class NavyServiceUniformChecker(UniformChecker):
             }
         }
 
-    
-
-    def getClasses(self, img, hsv_img, contour):
-        box_position, class_name, masked_img = None, None, None
-        if contour is None:
-            return box_position, class_name, masked_img
-
-        box_position = cv2.boundingRect(contour)
-        x, y, w, h = box_position
-        roi = img[y:y+h, x:x+w]
-        hsv_roi = hsv_img[y:y+h, x:x+w]
-
-        contours, masked_img = self.getMaskedContours(
-            img=roi, hsv_img=hsv_roi, kmeans=True, kind='classes')
-
-        classes_n = 0
-        for contour in contours:
-            if 100 < cv2.contourArea(contour):
-                classes_n += 1
-
-        if 1 <= classes_n <= 4:
-            class_name = Classes.dic[classes_n]
-
-        return box_position, class_name, masked_img
-
     def isInShirt(self, contour):
         # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
         return 3 <= getVertexCnt(contour) <= 10 and cv2.contourArea(contour) > 300
@@ -81,7 +56,7 @@ class NavyServiceUniformChecker(UniformChecker):
                 center_p = getContourCenterPosition(contour)
 
                 # 파츠 분류
-                # kind = model(img)
+                kind = model(img)
                 position = 'left' if center_p[0] < (w//2) else 'right'
 
                 # 이름표 체크
