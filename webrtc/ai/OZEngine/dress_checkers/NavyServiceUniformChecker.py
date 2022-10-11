@@ -8,20 +8,20 @@ from OZEngine.dress_classifier import classification2
 class NavyServiceUniformChecker():
     def __init__(self):
         # hyperparameter
-        self.uniform_filter = {'lower': (30, 20, 0), 'upper': (255, 255, 255)}
-        self.classes_filter = {
-            'lower': (0, 150, 90), 'upper': (255, 255, 255)}
-
+        self.filter = {
+            'uniform': {
+                'lower': (30, 20, 0),
+                'upper': (255, 255, 255)
+            }
+            'class_tag': {
+                'lower': (0, 150, 90),
+                'upper': (255, 255, 255)
+            }
+        }
         self.debug_mode = False
 
     def getMaskedContours(self, img=None, hsv_img=None, kmeans=None, morph=None, kind=None, sort=False):
-        if kind == 'uniform':
-            lower, upper = self.uniform_filter['lower'], self.uniform_filter['upper']
-        elif kind == 'classes':
-            lower, upper = self.classes_filter['lower'], self.classes_filter['upper']
-        else:
-            pass
-
+        lower, upper = self.filter[kind]['lower'], self.uniform_filter[kind]['upper']
         mask = cv2.inRange(hsv_img, lower, upper)
 
         if kmeans:
