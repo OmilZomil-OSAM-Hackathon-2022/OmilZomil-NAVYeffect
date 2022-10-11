@@ -24,6 +24,23 @@ class PartsClassifier():
         with open(path, "rb") as fr:
             self.classes = pickle.load(fr)
 
+    def evaluate(self):
+        validation_path = './dataset/valiation_set'
+        all_cnt = 0
+        cnt = 0
+        for (root, dirs, files) in os.walk(validation_path):
+            all_cnt = len(files)
+            for file_name in files:
+                path = os.path.join(validationn_path, file_name)
+                kind = path[-2]
+                img = cv2.imread(path)
+                res = self.predict(img)
+                if res == kind:
+                    cnt += 1
+        return cnt / all_cnt * 100
+
+        path = os.path.join(validation_path)
+
     def predict(self, img):
         query = self.feature_extractor.extract(img)
         dists = np.linalg.norm(self.features - query, axis=1)
