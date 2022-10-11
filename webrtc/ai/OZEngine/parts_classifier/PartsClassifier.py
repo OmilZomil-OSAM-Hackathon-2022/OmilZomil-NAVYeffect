@@ -24,7 +24,7 @@ class PartsClassifier():
         with open(path, "rb") as fr:
             self.classes = pickle.load(fr)
 
-    def classify(self, img):
+    def predict(self, img):
         query = self.feature_extractor.extract(img)
         dists = np.linalg.norm(self.features - query, axis=1)
         id = np.argsort(dists)[0]
