@@ -20,6 +20,12 @@ class NavyServiceUniformChecker(UniformChecker):
             }
         }
 
+    def isNameTag(contour, is_namme_tag, position, kind):
+        return not is_name_tag and position == 'left' kind == 'name_tag'
+
+    def isClassTag(contour, is_namme_tag, position, kind):
+        not is_class_tag and position == 'right' kind == 'class_tag'
+
     def isInShirt(self, contour):
         # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
         return 3 <= getVertexCnt(contour) <= 10 and cv2.contourArea(contour) > 300
@@ -60,7 +66,7 @@ class NavyServiceUniformChecker(UniformChecker):
                 position = 'left' if center_p[0] < (w//2) else 'right'
 
                 # 이름표 체크
-                if not is_name_tag and position == 'left' kind == 'name_tag':
+                if isNameTag(contour):
                     # 이름표 OCR
                     if self.name_cache:
                         ox_position_dic['name_tag'] = cv2.boundingBox(
@@ -72,7 +78,7 @@ class NavyServiceUniformChecker(UniformChecker):
                             contour, ocr_list)
 
                 # 계급장 체크
-                elif not is_class_tag and position == 'right' kind == 'class_tag':
+                elif isClassTag(contour):
                     box_position, component, masked_img = self.getClasses(
                         img, hsv_img, contour)
                     box_position_dic['class_tag'] = box_position
