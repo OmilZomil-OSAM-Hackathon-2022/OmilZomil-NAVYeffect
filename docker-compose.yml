@@ -41,8 +41,7 @@ services:
       dockerfile: backend.Dockerfile
     env_file: .env.lock
     volumes:
-      - ${DIR_PATH}/webrtc/backend:/backend
-      - omil_volume:/backend/src/app/static
+      - webrtc_volume:/backend/src/app/static
 
     depends_on:
       db:
@@ -57,8 +56,7 @@ services:
       dockerfile: backend.Dockerfile
     env_file: .env.lock
     volumes:
-      - ${DIR_PATH}/omilzomil/backend:/backend
-      - webrtc_volume:/backend/src/app/static
+      - omil_volume:/backend/src/app/static
 
     depends_on:
       db:
