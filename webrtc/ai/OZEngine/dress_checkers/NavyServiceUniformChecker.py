@@ -56,7 +56,7 @@ class NavyServiceUniformChecker(UniformChecker):
                 shirt_node = cur_node
                 continue
 
-            # 이름표 또는 계급장
+            # 파츠
             if parent == shirt_node and self.isInShirt(contour):
                 box_position = cv2.boundingRect(contour)
                 center_p = getContourCenterPosition(contour)
@@ -69,18 +69,23 @@ class NavyServiceUniformChecker(UniformChecker):
                 if not is_name_tag and isNameTag(contour):
                     # 이름표 OCR
                     if self.name_cache:
-                        ox_position_dic['name_tag'] = cv2.boundingBox(
-                            contour)
-                        component_dic['name_tag'] = 'cached ' + self.name_cache
+                        box_position = cv2.boundingBox(contour)
+                        component = 'cached ' + self.name_cache
                     else:
                         ocr_list = OCR(img)
-                        box_position_dic['name_tag'], component_dic['name_tag'] = self.getName(
+                        box_position, component = self.getName(
                             contour, ocr_list)
+
+                    # return값에 반영
+                    box_position_dic['name_tag'] = box_position
+                    component_dic['name_tag'] = component
 
                 # 계급장 체크
                 elif not is_class_tag and isClassTag(contour):
                     box_position, component, masked_img = self.getClasses(
                         img, hsv_img, contour)
+
+                    # return값에 반영
                     box_position_dic['class_tag'] = box_position
                     component_dic['class_tag'] = component
                     masked_img_dic['class_tag'] = masked_img
