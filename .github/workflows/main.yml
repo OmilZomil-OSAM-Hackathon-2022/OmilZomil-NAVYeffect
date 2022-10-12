@@ -1,21 +1,21 @@
 
-name: Build and deploy Python app 
+name: 117 서버에 배포
 
 on: 
   push:            
-    branches: [ "main" , "dev/devops"]
+    branches: [ "main" , "dev/cicd", "development"]
 
 jobs:
-  React-Build-ssh-action:
+  Build-ssh-action:
     runs-on: ubuntu-latest
     name: Build
     steps:
-      - name: SSH Remote Commands
+      - name: 경유서버에서 스크립트 실행
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.DEV_SERVER_IP }}          
           username: ${{ secrets.DEV_SERVER_USER }}
-          password: ${{ secrets.DEV_SERVER_PW }}
+          key: ${{ secrets.DEV_SERVER_PW }}
           port: ${{ secrets.DEV_SERVER_PORT }}
           script: |
-            echo "github action test password test 7773"
+            sh run_github_action.sh
