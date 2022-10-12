@@ -1,5 +1,5 @@
 class UniformCheck:
-    def __init__(filter):
+    def __init__(self, filter):
         self.filter = filter
 
     def getMaskedContours(self, img=None, hsv_img=None, kmeans=None, morph=None, kind=None, sort=False):
