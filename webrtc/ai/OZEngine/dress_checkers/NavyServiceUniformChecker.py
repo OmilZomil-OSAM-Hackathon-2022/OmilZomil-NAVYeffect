@@ -24,10 +24,10 @@ class NavyServiceUniformChecker(UniformChecker):
 
 
     def isNameTag(contour, position, kind):
-        return position == 'left' kind == 'name_tag'
+        return position == 'left' and kind == 'name_tag'
 
     def isClassTag(contour, position, kind):
-        return position == 'right' kind == 'class_tag'
+        return position == 'right' and kind == 'class_tag'
 
     def isInShirt(self, contour):
         # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
