@@ -22,7 +22,7 @@ if [ "$input" = "--build" ]; then
         sleep 1;
     done;
 
-elif [ "$input" = "--SERVER" ]; then
+elif [ "$input" = "--server" ]; then
     echo [+] run web camera
     sudo docker-compose --env-file .env.private up web camera
 
