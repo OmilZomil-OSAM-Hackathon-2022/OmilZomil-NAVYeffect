@@ -20,8 +20,11 @@ class NavyServiceUniformChecker(UniformChecker):
             }
         }
 
+        super().__init__(filter)
+
+
     def isNameTag(contour, position, kind):
-        return and position == 'left' kind == 'name_tag'
+        return position == 'left' kind == 'name_tag'
 
     def isClassTag(contour, position, kind):
         return position == 'right' kind == 'class_tag'
