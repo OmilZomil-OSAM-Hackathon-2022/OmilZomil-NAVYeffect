@@ -20,7 +20,6 @@ class FeatureExtractor:
         self.validation_set_path = os.path.join(base_path, 'dataset', 'validation_set')
         self.model_set_path = os.path.join(base_path, 'model')
         self.getFeatures()
-        print('!!!!!!!!!!!!!!!classes', self.classes)
 
 
     def getFeatures(self):
@@ -53,14 +52,14 @@ class FeatureExtractor:
         train_paths = self.get_train_paths(self.train_set_path)
 
         for img_path in train_paths:
-            print('img_path', img_path)
             class_name = img_path.split('/')[-2]
-            print('class_name ', class_name)
-            feature = self.extract(img=Image.open(img_path))
+            img = cv2.imread(img_path)
+            feature = self.extract(img=img)
             features.append(feature)
             img_paths.append(img_path)
             classes.append(class_name)
 
+        
         feature_path = os.path.join(self.model_set_path, 'features')
         img_path = os.path.join(self.model_set_path, 'img_paths')
         class_path = os.path.join(self.model_set_path, 'classes')
@@ -98,10 +97,9 @@ class FeatureExtractor:
         
 
     def extract(self, img):
-        img = Image.fromarray(img)
-        img = img.resize((224, 224))
-        img = img.convert('RGB')
-        x = image.img_to_array(img)
+        img = cv2.resize(img, (224, 224))
+        rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        x = np.array(rgb)
         x = np.expand_dims(x, axis=0)
         x = preprocess_input(x)
         feature = self.model.predict(x)[0]
