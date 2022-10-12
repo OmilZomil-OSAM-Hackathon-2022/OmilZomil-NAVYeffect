@@ -1,5 +1,8 @@
 <template>
-  <div class="overlay">
+  <div
+    class="overlay"
+    @click.self="$emit('closeCard')"
+  >
     <div class="card">
       <div class="background">
         <img 
