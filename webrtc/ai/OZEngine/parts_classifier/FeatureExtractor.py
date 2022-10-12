@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pickle
 import cv2
+from PIL import Image
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.vgg16 import VGG16, preprocess_input
 from tensorflow.keras.models import Model
@@ -19,6 +20,7 @@ class FeatureExtractor:
         self.validation_set_path = os.path.join(base_path, 'dataset', 'validation_set')
         self.model_set_path = os.path.join(base_path, 'model')
         self.getFeatures()
+        print('!!!!!!!!!!!!!!!classes', self.classes)
 
 
     def getFeatures(self):
@@ -51,7 +53,9 @@ class FeatureExtractor:
         train_paths = self.get_train_paths(self.train_set_path)
 
         for img_path in train_paths:
+            print('img_path', img_path)
             class_name = img_path.split('/')[:-2]
+            print('class_name ', class_name)
             feature = fe.extract(img=Image.open(img_path))
             features.append(feature)
             img_paths.append(img_path)
@@ -80,6 +84,7 @@ class FeatureExtractor:
                     kind = path[-2]
                     img = cv2.imread(path)
                     res = self.predict(img)
+                    print('res vs kind ', res, kind)
                     if res == kind:
                         cnt += 1
         return cnt / all_cnt * 100
@@ -88,10 +93,12 @@ class FeatureExtractor:
         query = self.extract(img)
         dists = np.linalg.norm(features - query, axis=1)
         id = np.argsort(dists)[0]
+        
         return (dists[id], self.classes[id], self.img_paths[id], id)
         
 
     def extract(self, img):
+        img = Image.fromarray(img)
         img = img.resize((224, 224))
         img = img.convert('RGB')
         x = image.img_to_array(img)
