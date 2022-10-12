@@ -20,7 +20,7 @@ class NavyServiceUniformChecker(UniformChecker):
             }
         }
 
-        super().__init__(filter)
+        super().__init__(filter, 'navy_service_uniform')
 
 
     def isNameTag(contour, position, kind):
