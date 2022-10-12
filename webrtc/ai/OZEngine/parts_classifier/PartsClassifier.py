@@ -8,9 +8,9 @@ from OZEngine.parts_classifier import FeatureExtractor
 class PartsClassifier():
     def __init__(self, dress_kind):
         if dress_kind == 'navy_service_uniform':
-            base_url = ''
+            base_url = 'NavyServiceUniform'
         elif dress_kind == 'full_navy_uniform':
-            base_url = ''
+            base_url = 'FullNavyUniform'
         super().__init__(dress_kind, base_url)
 
         self.feature_extractor = FeatureExtractor()
