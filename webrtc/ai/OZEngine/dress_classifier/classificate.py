@@ -3,6 +3,7 @@ import cv2
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
+
 def plot_colors(hist, centroids):
     # initialize the bar chart representing the relative frequency
     # of each of the colors
@@ -21,6 +22,7 @@ def plot_colors(hist, centroids):
     # return the bar chart
     return bar
 
+
 def centroid_histogram(clt):
     # grab the number of different clusters and create a histogram
     # based on the number of pixels assigned to each cluster
@@ -34,13 +36,14 @@ def centroid_histogram(clt):
     # return the histogram
     return hist
 
+
 def classificate(org_img):
     img = org_img.copy()
-    rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    rgb_img = cv2.cv2tColor(img, cv2.COLOR_BGR2RGB)
     rgb_img = rgb_img.reshape((rgb_img.shape[0] * rgb_img.shape[1], 3))
 
-    k = 3 # 예제는 5개로 나누겠습니다
-    clt = KMeans(n_clusters = k)
+    k = 3  # 예제는 5개로 나누겠습니다
+    clt = KMeans(n_clusters=k)
     clt.fit(rgb_img)
 
     for center in clt.cluster_centers_:
@@ -51,11 +54,27 @@ def classificate(org_img):
 
     bar = plot_colors(hist, clt.cluster_centers_)
 
-
     # show our color bart
     plt.figure()
     plt.axis("off")
     plt.imshow(bar)
     plt.show()
-    
+
     return None
+
+# ==========================================
+
+
+def classification2(img, K=8):
+    Z = img.reshape((-1, 3))
+    # convert to np.float32
+    Z = np.float32(Z)
+    # define criteria, number of clusters(K) and apply kmeans()
+    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
+    ret, label, center = cv2.kmeans(
+        Z, K, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+    # Now convert back into uint8, and make original image
+    center = np.uint8(center)
+    res = center[label.flatten()]
+    res2 = res.reshape((img.shape))
+    return res2

@@ -22,43 +22,42 @@ services:
       dockerfile: frontend.Dockerfile
     env_file: .env.lock
     volumes:
-      - ${DIR_PATH}/omilzomil/frontend:/frontend
-
+      - omil_volume:/frontend/dist
 
   camera_vue:
     container_name: camera_vue
     build:
       context: webrtc
       dockerfile: frontend.Dockerfile
-    env_file: .env.private
+    env_file: .env.lock
     volumes:
-      - ${DIR_PATH}/webrtc/frontend:/frontend
-  
+      - webrtc_volume:/frontend/dist
+
   camera:
     container_name: omil_camera
     build:
       context: webrtc
       dockerfile: backend.Dockerfile
-    env_file: .env.private
+    env_file: .env.lock
     volumes:
-      - ${DIR_PATH}/webrtc/backend:/backend
-      - ${DIR_PATH}/webrtc/frontend/dist:/backend/src/app/static
+      - ${WEBRTC_DIR_PATH:-webrtc_back}:/backend
+      - webrtc_volume:/backend/src/app/static
 
     depends_on:
       db:
         condition: service_healthy
     ports:
-      - "${CAMERA_PORT}:80"    
+      - "${CAMERA_PORT}:80"
 
   web:
     container_name: omil_web
     build:
       context: omilzomil
       dockerfile: backend.Dockerfile
-    env_file: .env.private
+    env_file: .env.lock
     volumes:
-      - ${DIR_PATH}/omilzomil/backend:/backend
-      - ${DIR_PATH}/omilzomil/frontend/dist:/backend/src/app/static
+      - ${OMIL_DIR_PATH:-omil_back}:/backend
+      - omil_volume:/backend/src/app/static
 
     depends_on:
       db:
@@ -66,14 +65,8 @@ services:
     ports:
       - "${WEB_PORT}:80"
 
-  ai:
-    container_name: ai
-    build:
-      context: webrtc
-      dockerfile: ai.Dockerfile
-    env_file: .env.private
-    
-    depends_on:
-      db:
-        condition: service_healthy
-        
+volumes:
+  omil_back:
+  webrtc_back:
+  omil_volume:
+  webrtc_volume:

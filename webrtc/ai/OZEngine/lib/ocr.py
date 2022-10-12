@@ -1,6 +1,7 @@
 from lib.defines import *
 from sys import path as syspath
 from os.path import abspath, join, dirname
+from requests.exceptions import ConnectionError
 import numpy as np
 import cv2
 import requests
@@ -36,26 +37,16 @@ def draw_rectangle(image, p1, p3, color, border, padding):
     cv2.rectangle(image, pp1, pp2, color, border)
 
 
-def OCR(org_img):
-    img = org_img.copy()
+def OCR(img):
     headers = {'Authorization': 'KakaoAK {}'.format(KEY)}
     jpeg_img = cv2.imencode(".jpg", img)[1]
     data = jpeg_img.tobytes()
-    ocr_json = requests.post(API_URL, headers=headers, files={"image": data})
-    
+    try:
+        ocr_json = requests.post(API_URL, headers=headers, files={"image": data})
+    except ConnectionError as error_msg:
+        raise Exception("네트워크 오류")
+        
     outputs = ocr_json.json()['result']
 
 
     return outputs
-
-    # for output in outputs:
-    #     padding = 10  # 10
-    #     p1, p2, p3, p4 = output['boxes']  # LU RU RD LD
-    #     boxes.append((p1, p2, p3, p4))
-    #     #
-
-    #     if not output['recognition_words'] == '':
-    #         res += " ".join(output['recognition_words']) + " "
-
-    # res = res.strip().replace(' ', '_')
-    # return str_encoder(res), boxes
