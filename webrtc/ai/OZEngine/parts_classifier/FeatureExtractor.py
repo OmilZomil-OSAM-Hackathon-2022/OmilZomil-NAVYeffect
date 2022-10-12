@@ -15,6 +15,23 @@ class FeatureExtractor:
         self.train_set_path = os.path.join(base_path, 'dataset', 'train_set')
         self.validation_set_path = os.path.join(base_path, 'dataset', 'vlidation_set')
         self.model_set_path = os.path.join(base_path, 'model')
+        self.getFeatures()
+
+
+    def getFeatures():
+        # Load feature maps
+        path = os.path.join(self.model_set_path, 'features')
+        self.features = np.load(os.path.join(feature_path, 'features.npy'))
+
+        # Load img paths
+        path = os.path.join(self.model_set_path, 'img_paths')
+        with open(path, "rb") as fr:
+            self.img_paths = pickle.load(fr)
+
+        # Load classes
+        path = os.path.join(self.model_set_path, 'classes')
+        with open(path, "rb") as fr:
+            self.classes = pickle.load(fr)
 
     def get_train_paths(train_set_path):
         train_paths = []
