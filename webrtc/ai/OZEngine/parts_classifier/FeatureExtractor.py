@@ -75,7 +75,7 @@ class FeatureExtractor:
                 path = os.path.join(self.validation_set_path, file_name)
                 kind = path[-2]
                 img = cv2.imread(path)
-                res = self.extract(img)
+                res = self.predict(img)
                 if res == kind:
                     cnt += 1
         return cnt / all_cnt * 100
