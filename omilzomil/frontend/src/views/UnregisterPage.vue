@@ -2,11 +2,9 @@
   <div class="wrap">
     <div class="card">
       <div class="unregist">회원 탈퇴</div>
-      <img class="bar" src="@/assets/images/unregist.svg" />
-      <img class="face" src="@/assets/icons/crying-face.svg" />
+      <img class="face" src="@/assets/images/crying-face.svg" />
       <div class="oz">OMIL-ZOMIL</div>
       <div class="msg1">탈퇴 전 확인하세요.</div>
-      <img class="box" src="@/assets/images/box.svg" />
       <div class="msg2">프로필, 이미지 등 저장된 모든 데이터들은 사라집니다.</div>
       <div class="pw1">
         <div class="pw1-box1">
@@ -75,7 +73,7 @@
     position:relative;
     top:21px;
     width: 79px;
-    height: 19px;
+    height: 60px;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 700;
@@ -84,22 +82,19 @@
     text-align: center;
     letter-spacing: 0.15px;
     color: #9155EB;
-  }
-  .bar{
-    position:relative;
-    width: 79px;
-    height: 4px;
-    top: 37px;
+    border-bottom: solid;
+    border-bottom-width:4px;
+    border-bottom-color: #9155EB;
   }
   .face{
     position:relative;
-    top: 122px;
+    top: 85px;
     width:38px;
     height:38px;
   }
   .oz{
     position:relative;
-    top: 128px;
+    top: 89px;
     width: 119px;
     height: 23px;
     font-family: 'Roboto';
@@ -112,7 +107,7 @@
   }
   .msg1{
     position:relative;
-    top:138px;
+    top:99px;
     width: 165px;
     height: 23px;
     font-family: 'Roboto';
@@ -121,19 +116,22 @@
     font-size: 20px;
     line-height: 23px;
     letter-spacing: 0.15px;
-    /* color: #585767; */
+
   }
-  .box{
+  /* .box{
     position:relative;
-    top: 169px;
+    top: 130px;
     width: 427px;
     height: 56px;
-  }
+  } */
   .msg2{
     position:relative;
-    top:131px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    top:111px;
     width: 394px;
-    height: 19px;
+    height: 56px;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
@@ -141,10 +139,12 @@
     line-height: 19px;
     letter-spacing: 0.5px;
     color: #616276;
+    background-color:#F9F9FB;
+    border-radius: 20px;
   }
   .pw1{
     position:relative;
-    top: 199px;
+    top: 179px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -235,7 +235,7 @@
   }
   .pw2{
     position:relative;
-    top: 231px;
+    top: 211px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -259,7 +259,7 @@
     border:none;
     cursor:pointer;
     position:relative;
-    top: 280px;
+    top: 260px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -268,7 +268,7 @@
     background: #78798D;
   }
   .button:hover {
-    top:278px;
+    top:258px;
     height:59px;
     width:432px;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
@@ -285,10 +285,9 @@
     color: #FFFFFF;
   }
   @media (max-width: 1200px) {
-    .box{
-      width:270px;
-    }
     .msg2{
+      width:270px;
+      height:40px;
       font-size:11px;
     }
     .pw1{
