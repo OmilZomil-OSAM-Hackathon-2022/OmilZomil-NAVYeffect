@@ -77,15 +77,17 @@ class FeatureExtractor:
         cnt = 0
         for (root, dirs, files) in os.walk(self.validation_set_path):
             if len(dirs) == 0:
-                all_cnt = len(files)
                 for file_name in files:
                     path = os.path.join(root, file_name)
-                    kind = path[-2]
+                    kind = path.split('/')[-2]
                     img = cv2.imread(path)
                     res = self.predict(img)
-                    print('res vs kind ', res, kind)
-                    if res == kind:
+
+                    res_kind = res[1]
+                    print('res vs kind ', res_kind, kind)
+                    if res_kind == kind:
                         cnt += 1
+                    all_cnt += 1
         return cnt / all_cnt * 100
 
     def predict(self, img):
