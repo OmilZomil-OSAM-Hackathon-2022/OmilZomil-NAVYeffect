@@ -27,5 +27,5 @@ class PartsClassifier(FeatureExtractor):
 
 if __name__ == '__main__':
     pc = PartsClassifier('navy_service_uniform')
-    res = pc.evaluate()
+    res = pc.train()
     print(res)
