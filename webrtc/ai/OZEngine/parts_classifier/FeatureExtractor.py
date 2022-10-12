@@ -13,7 +13,7 @@ class FeatureExtractor:
 
         self.base_path = base_path
         self.train_set_path = os.path.join(base_path, 'dataset', 'train_set')
-        self.validation_set_path = os.path.join(base_path, 'dataset', 'vlidation_set')
+        self.validation_set_path = os.path.join(base_path, 'dataset', 'validation_set')
         self.model_set_path = os.path.join(base_path, 'model')
         self.getFeatures()
 
@@ -67,7 +67,6 @@ class FeatureExtractor:
             pickle.dump(classes, f)
 
     def evaluate(self):
-        validation_path = './dataset/valiation_set'
         all_cnt = 0
         cnt = 0
         for (root, dirs, files) in os.walk(self.validation_set_path):
