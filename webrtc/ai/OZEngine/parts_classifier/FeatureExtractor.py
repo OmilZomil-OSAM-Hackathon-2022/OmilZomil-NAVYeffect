@@ -19,7 +19,7 @@ class FeatureExtractor:
         self.getFeatures()
 
 
-    def getFeatures():
+    def getFeatures(self):
         # Load feature maps
         path = os.path.join(self.model_set_path, 'features')
         self.features = np.load(os.path.join(feature_path, 'features.npy'))
