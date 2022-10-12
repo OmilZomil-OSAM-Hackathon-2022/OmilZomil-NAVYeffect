@@ -3,14 +3,17 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.vgg16 import VGG16, preprocess_input
 from tensorflow.keras.models import Model
 
+
 class FeatureExtractor:
     def __init__(self, base_path):
         base_model = VGG16(weights='imagenet')
         # Customize the model to return features from fully-connected layer
-        self.model = Model(inputs=base_model.input, outputs=base_model.get_layer('fc1').output)
+        self.model = Model(inputs=base_model.input,
+                           outputs=base_model.get_layer('fc1').output)
 
         self.base_path = base_path
-        self.train_set_path = os.path.join(base_path, 'train_set')
+        self.train_set_path = os.path.join(base_path, 'dataset', 'train_set')
+        self.validation_set_path = os.path.join(base_path, 'dataset', 'vlidation_set')
         self.model_set_path = os.path.join(base_path, 'model')
 
     def get_train_paths(train_set_path):
@@ -45,6 +48,21 @@ class FeatureExtractor:
 
         with open(class_path, 'wb') as f:
             pickle.dump(classes, f)
+
+    def evaluate(self):
+        validation_path = './dataset/valiation_set'
+        all_cnt = 0
+        cnt = 0
+        for (root, dirs, files) in os.walk(self.validation_set_path):
+            all_cnt = len(files)
+            for file_name in files:
+                path = os.path.join(self.validation_set_path, file_name)
+                kind = path[-2]
+                img = cv2.imread(path)
+                res = self.predict(img)
+                if res == kind:
+                    cnt += 1
+        return cnt / all_cnt * 100
 
     def extract(self, img):
         img = img.resize((224, 224))
