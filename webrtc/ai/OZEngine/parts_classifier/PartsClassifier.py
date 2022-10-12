@@ -23,6 +23,8 @@ class PartsClassifier():
         path = os.path.join(model_set_path, 'classes')
         with open(path, "rb") as fr:
             self.classes = pickle.load(fr)
+    
+    
 
     def evaluate(self):
         validation_path = './dataset/valiation_set'
