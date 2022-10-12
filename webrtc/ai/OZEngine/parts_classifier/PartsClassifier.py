@@ -14,10 +14,8 @@ class PartsClassifier(FeatureExtractor):
             base_url = os.path.join(project_path, 'FullNavyUniform')
         super().__init__(base_url)
 
-        self.feature_extractor = FeatureExtractor()
-
     def predict(self, img):
-        query = self.feature_extractor.extract(img)
+        query = super().extract(img)
         dists = np.linalg.norm(self.features - query, axis=1)
         id = np.argsort(dists)[0]
         dist = dists[id]
