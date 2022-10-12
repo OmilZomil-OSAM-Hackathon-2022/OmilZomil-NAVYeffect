@@ -10,6 +10,7 @@ from fastapi.responses import JSONResponse
 
 from app.api.websocket.connections import ConnectionManager
 
+import time
 import logging
 logger = logging.Logger('asdf')
 
@@ -20,7 +21,7 @@ router = APIRouter()
 
 @router.get("/")
 async def test():
-    return {'ge': 'tea'}
+    return {'ge': 'tea 1'}
 
 
 @router.get("/")
@@ -43,5 +44,22 @@ async def websocket_endpoint(websocket: WebSocket):
             logger.warn(img.shape)
             logger.warn(type(img))
             cv2.imwrite('webrtc_image.jpg', img)
+    except WebSocketDisconnect:
+        socket_mng.disconnect('single')
+
+
+@router.websocket("/ws2")
+async def websocket_endpoint(websocket: WebSocket):
+    await socket_mng.connect('single', websocket)
+
+    logger.warn("connected")
+    try:
+        while True:
+            data = await websocket.receive_text()
+            time.sleep(3)
+            await websocket.send_text(data)
+            logger.warn("end")
+
+            
     except WebSocketDisconnect:
         socket_mng.disconnect('single')

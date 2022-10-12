@@ -65,3 +65,15 @@ services:
         condition: service_healthy
     ports:
       - "${WEB_PORT}:80"
+
+  ai:
+    container_name: ai
+    build:
+      context: webrtc
+      dockerfile: ai.Dockerfile
+    env_file: .env.private
+    
+    depends_on:
+      db:
+        condition: service_healthy
+        
