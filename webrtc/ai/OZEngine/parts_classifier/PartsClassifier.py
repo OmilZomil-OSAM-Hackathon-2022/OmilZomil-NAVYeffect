@@ -11,7 +11,7 @@ class PartsClassifier():
             base_url = 'NavyServiceUniform'
         elif dress_kind == 'full_navy_uniform':
             base_url = 'FullNavyUniform'
-        super().__init__(dress_kind, base_url)
+        super().__init__(base_url)
 
         self.feature_extractor = FeatureExtractor()
 
