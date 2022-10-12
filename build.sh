@@ -15,6 +15,8 @@ DIR_PATH=`pwd`
 # 환경변수 파일 정의
 cat .env.private > .env.lock
 echo DIR_PATH="$DIR_PATH" >> .env.lock
+echo OMIL_DIR_PATH="$DIR_PATH"/omilzomil/backend >> .env.lock
+echo WEBRTC_DIR_PATH="$DIR_PATH"/webrtc/backend >> .env.lock
 
 # 기존 컨테이너 지우기
 echo [+] remove container

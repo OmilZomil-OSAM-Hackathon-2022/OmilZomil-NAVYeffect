@@ -40,6 +40,7 @@ services:
       dockerfile: backend.Dockerfile
     env_file: .env.lock
     volumes:
+      - ${WEBRTC_DIR_PATH:-webrtc_back}:/backend
       - webrtc_volume:/backend/src/app/static
 
     depends_on:
@@ -55,6 +56,7 @@ services:
       dockerfile: backend.Dockerfile
     env_file: .env.lock
     volumes:
+      - ${OMIL_DIR_PATH:-omil_back}:/backend
       - omil_volume:/backend/src/app/static
 
     depends_on:
@@ -64,5 +66,7 @@ services:
       - "${WEB_PORT}:80"
 
 volumes:
+  omil_back:
+  webrtc_back:
   omil_volume:
   webrtc_volume:
