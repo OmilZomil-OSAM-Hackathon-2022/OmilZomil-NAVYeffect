@@ -54,7 +54,7 @@ class FeatureExtractor:
 
         for img_path in train_paths:
             print('img_path', img_path)
-            class_name = img_path.split('/')[:-2]
+            class_name = img_path.split('/')[-2]
             print('class_name ', class_name)
             feature = self.extract(img=Image.open(img_path))
             features.append(feature)
