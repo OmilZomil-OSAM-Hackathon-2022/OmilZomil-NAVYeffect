@@ -24,16 +24,6 @@ sudo docker-compose --env-file .env.lock down --remove-orphans
 echo [+] docker build
 sudo docker-compose --env-file .env.lock build
 
-# 이전 프론트 빌드 제거
-sudo rm -r omilzomil/frontend/dist
-sudo rm -r webrtc/frontend/dist
-
-mkdir omilzomil/frontend/dist
-mkdir webrtc/frontend/dist
-
-chown $USER:$USER omilzomil/frontend/dist
-chown $USER:$USER webrtc/frontend/dist
-
 # 프론트 빌드
 echo [+] frontend build
 sudo docker-compose --env-file .env.lock up web_vue
@@ -49,22 +39,6 @@ while sudo docker-compose --env-file .env.lock ps --services --filter status=run
 done;
 
 
-echo [+] Checking build files...
-while [ ! -f ./omilzomil/frontend/dist/index.html ] ; do
-    wait_time=`date +%T`
-    echo [!] omilzomil 프론트 빌드 실패 - $wait_time
-    sleep 1;
-done
-while [ ! -f ./webrtc/frontend/dist/index.html ] ; do
-    wait_time=`date +%T`
-    echo [!] webrtc 프론트 빌드 실패 - $wait_time
-    sleep 1;
-done
-
-
-
-
-
 # DB 실행
 echo [+] make db
 sudo docker-compose --env-file .env.lock up -d db
@@ -72,7 +46,6 @@ sudo docker-compose --env-file .env.lock up -d db
 # DB 테이블 만들기 - omilzomil backend 참조
 echo [+] make db tables
 sudo docker-compose --env-file .env.lock run --rm web python src/initial_data.py
-
 
 # ssl 만들기 - .env 파일이 있는지 검증 => 없으면 생성
 if [ ! -e "./omilzomil/backend/cert.pem" ]; then
@@ -89,8 +62,6 @@ fi
 # docker 빌드 캐쉬 제거
 echo [+] remove build cache
 sudo docker builder prune -f
-
-
 
 sudo docker-compose --env-file .env.lock rm -f
 
