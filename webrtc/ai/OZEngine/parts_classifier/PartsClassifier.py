@@ -6,7 +6,10 @@ from OZEngine.parts_classifier import FeatureExtractor
 
 
 class PartsClassifier():
-    def __init__(self):
+    def __init__(self, dress_kind):
+        if dress_kind == 'navy_service_uniform':
+            super.__init__(dress_kind)
+
         self.feature_extractor = FeatureExtractor()
 
         model_set_path = './model'
@@ -23,23 +26,8 @@ class PartsClassifier():
         path = os.path.join(model_set_path, 'classes')
         with open(path, "rb") as fr:
             self.classes = pickle.load(fr)
-    
-    
 
-    def evaluate(self):
-        validation_path = './dataset/valiation_set'
-        all_cnt = 0
-        cnt = 0
-        for (root, dirs, files) in os.walk(validation_path):
-            all_cnt = len(files)
-            for file_name in files:
-                path = os.path.join(validationn_path, file_name)
-                kind = path[-2]
-                img = cv2.imread(path)
-                res = self.predict(img)
-                if res == kind:
-                    cnt += 1
-        return cnt / all_cnt * 100
+    
 
     def predict(self, img):
         query = self.feature_extractor.extract(img)
