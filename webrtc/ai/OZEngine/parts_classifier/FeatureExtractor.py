@@ -37,7 +37,7 @@ class FeatureExtractor:
         with open(path, "rb") as fr:
             self.classes = pickle.load(fr)
 
-    def get_train_paths(train_set_path):
+    def get_train_paths(self, train_set_path):
         train_paths = []
         for (root, dirs, files) in os.walk(train_set_path):
             if len(dirs) == 0:
@@ -56,7 +56,7 @@ class FeatureExtractor:
             print('img_path', img_path)
             class_name = img_path.split('/')[:-2]
             print('class_name ', class_name)
-            feature = fe.extract(img=Image.open(img_path))
+            feature = self.extract(img=Image.open(img_path))
             features.append(feature)
             img_paths.append(img_path)
             classes.append(class_name)
