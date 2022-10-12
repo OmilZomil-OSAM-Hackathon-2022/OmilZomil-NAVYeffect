@@ -20,10 +20,10 @@ def get_military_unit(db: Session = Depends(deps.get_db)):
 
 
 @router.put("/{unit}", response_model=schema.MilitaryUnitResponse)
-async def update_military_unit(unit: str, new_unit: schema.MilitaryUnitUpdate = Body(), db: Session = Depends(deps.get_db)):
+async def update_military_unit(unit: int, new_unit: schema.MilitaryUnitUpdate = Body(), db: Session = Depends(deps.get_db)):
     return crud.update_military_unit(db, unit, new_unit.unit)
 
 
 @router.delete("/{unit}", response_model=schema.MilitaryUnitResponse)
-def delete_military_unit(unit: str, db: Session = Depends(deps.get_db)):
+def delete_military_unit(unit: int, db: Session = Depends(deps.get_db)):
     return crud.delete_military_unit(db, unit)
