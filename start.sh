@@ -6,16 +6,9 @@
 
 input=$1
 if [ "$input" = "--build" ]; then
-    # 프론트 빌드 폴더 구성
-    mkdir -p ./omilzomil/frontend/dist/css
-    mkdir -p ./omilzomil/frontend/dist/img
-    mkdir -p ./omilzomil/frontend/dist/js
-    mkdir -p ./webrtc/frontend/dist/css
-    mkdir -p ./webrtc/frontend/dist/img
-    mkdir -p ./webrtc/frontend/dist/js
     # 프론트 빌드
     echo [+] frontend build
-    sudo docker-compose --env-file .env.lock build web_vue camera_vue  
+    sudo docker-compose --env-file .env.lock build  
     sudo docker-compose --env-file .env.lock up web_vue
     sudo docker-compose --env-file .env.lock up camera_vue
 
@@ -28,30 +21,7 @@ if [ "$input" = "--build" ]; then
         sleep 1;
     done;
 
-
-    echo [+] Checking build files...
-    while [ ! -f ./omilzomil/frontend/dist/index.html ] ; do
-        wait_time=`date +%T`
-        echo [!] omilzomil 프론트 빌드 실패 - $wait_time
-        sleep 1;
-    done
-    while [ ! -f ./webrtc/frontend/dist/index.html ] ; do
-        wait_time=`date +%T`
-        echo [!] webrtc 프론트 빌드 실패 - $wait_time
-        sleep 1;
-    done
 fi
-
-echo [+] Checking build files...
-if [ ! -f ./omilzomil/frontend/dist/index.html ] ; then
-    echo "[!] Please run 'build.sh' first! - omilzomil front NONE"
-    exit
-fi
-if [ ! -f ./webrtc/frontend/dist/index.html ] ; then
-    echo "[!] Please run 'build.sh' first! - webrtc front NONE"
-    exit
-fi
-
 
 echo [+] run web camera
 sudo docker-compose --env-file .env.lock up web camera
