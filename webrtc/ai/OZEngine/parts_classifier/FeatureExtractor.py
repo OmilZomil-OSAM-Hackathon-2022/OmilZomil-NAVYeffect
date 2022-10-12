@@ -38,8 +38,9 @@ class FeatureExtractor:
     def get_train_paths(train_set_path):
         train_paths = []
         for (root, dirs, files) in os.walk(train_set_path):
-            for file_name in files:
-                train_paths.append(os.path.join(root, file_name))
+            if len(dirs) == 0:
+                for file_name in files:
+                    train_paths.append(os.path.join(root, file_name))
         return train_paths
 
     def train(self):
@@ -72,14 +73,15 @@ class FeatureExtractor:
         all_cnt = 0
         cnt = 0
         for (root, dirs, files) in os.walk(self.validation_set_path):
-            all_cnt = len(files)
-            for file_name in files:
-                path = os.path.join(self.validation_set_path, file_name)
-                kind = path[-2]
-                img = cv2.imread(path)
-                res = self.predict(img)
-                if res == kind:
-                    cnt += 1
+            if len(dirs) == 0:
+                all_cnt = len(files)
+                for file_name in files:
+                    path = os.path.join(root, file_name)
+                    kind = path[-2]
+                    img = cv2.imread(path)
+                    res = self.predict(img)
+                    if res == kind:
+                        cnt += 1
         return cnt / all_cnt * 100
 
     def predict(self, img):
