@@ -30,10 +30,7 @@ pnpm-debug.log*
 
 # docker 개발용 파일
 dev_docker.sh
-run_server.sh
-connect_server.sh
-github_action.sh
-
+get-docker.sh
 
 # 프론트 빌드
 

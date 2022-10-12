@@ -50,15 +50,3 @@ def OCR(img):
 
 
     return outputs
-
-    # for output in outputs:
-    #     padding = 10  # 10
-    #     p1, p2, p3, p4 = output['boxes']  # LU RU RD LD
-    #     boxes.append((p1, p2, p3, p4))
-    #     #
-
-    #     if not output['recognition_words'] == '':
-    #         res += " ".join(output['recognition_words']) + " "
-
-    # res = res.strip().replace(' ', '_')
-    # return str_encoder(res), boxes
