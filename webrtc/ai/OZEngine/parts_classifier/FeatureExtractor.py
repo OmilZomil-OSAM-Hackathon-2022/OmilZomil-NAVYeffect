@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.vgg16 import VGG16, preprocess_input
