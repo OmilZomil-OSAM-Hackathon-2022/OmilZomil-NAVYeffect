@@ -5,7 +5,7 @@ from PIL import Image
 from OZEngine.parts_classifier import FeatureExtractor
 
 
-class PartsClassifier():
+class PartsClassifier(FeatureExtractor):
     def __init__(self, dress_kind):
         if dress_kind == 'navy_service_uniform':
             base_url = 'NavyServiceUniform'
