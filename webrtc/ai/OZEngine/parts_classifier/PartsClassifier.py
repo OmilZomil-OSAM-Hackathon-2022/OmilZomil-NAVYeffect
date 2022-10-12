@@ -39,3 +39,7 @@ class PartsClassifier():
             return (dist, kind, id)
         else:
             return (None, None, None)
+
+if __name__ == '__main__':
+    pc = PartsClassifier('navy_service_uniform')
+    pc.predict(img)
