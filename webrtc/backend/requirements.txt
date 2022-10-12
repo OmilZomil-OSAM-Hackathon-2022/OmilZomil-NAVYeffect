@@ -1,13 +1,3 @@
-dlib==19.9.0
-torch==1.10.0
-numpy
-opencv-python
-matplotlib
-imutils
-requests
-scikit-learn
-
-
 
 
 fastapi
