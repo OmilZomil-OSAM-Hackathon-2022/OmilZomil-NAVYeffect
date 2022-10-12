@@ -9,7 +9,7 @@
           class="logo"
         >
           <img
-            width="30"
+            width="35"
             src="@/assets/logo.svg"
           >
           <h1>OMIL-ZOMIL</h1>
@@ -72,19 +72,34 @@
               v-if="userMenu"
               class="userMenu card"
             >
-              <router-link to="/">
+              <router-link
+                to="/profile"
+                @click="closeUserMenu"
+              >
                 프로필 수정
               </router-link>
-              <router-link to="/">
+              <router-link
+                to="/profile/userManagement"
+                @click="closeUserMenu"
+              >
                 사용자 관리
               </router-link>
-              <router-link to="/">
+              <router-link
+                to="/profile/unitManageMent"
+                @click="closeUserMenu"
+              >
                 부대 관리
               </router-link>
-              <router-link to="/">
+              <router-link
+                to="/"
+                @click="closeUserMenu"
+              >
                 로그아웃
               </router-link>
-              <router-link to="/">
+              <router-link
+                to="/"
+                @click="closeUserMenu"
+              >
                 회원 탈퇴
               </router-link>
             </div>
@@ -248,7 +263,7 @@ export default {
     white-space: nowrap;
 }
 .top .logo img{
-    margin-right:5px;
+    /* margin-right:5px; */
 }
 .top .options{
     height:100%;
@@ -384,9 +399,11 @@ button{
   height:100%;
   left:0px;
   top:0px;
+  z-index:1000000;
 }
 
 .userMenu{
+  z-index:10000000;
   margin-top:10px;
   position:absolute;
   /* bottom:0px; */
@@ -398,7 +415,8 @@ button{
   display:flex;
   flex-direction:column;
   align-items:flex-start;
-  right:110px;
+  /* right:20px; */
+  margin-right:20px;
   gap:5px;
 }
 .userMenu a{
