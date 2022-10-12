@@ -11,7 +11,7 @@ class PartsClassifier():
             base_url = ''
         elif dress_kind == 'full_navy_uniform':
             base_url = ''
-        super.__init__(dress_kind, base_url)
+        super().__init__(dress_kind, base_url)
 
         self.feature_extractor = FeatureExtractor()
 
@@ -28,4 +28,5 @@ class PartsClassifier():
 
 if __name__ == '__main__':
     pc = PartsClassifier('navy_service_uniform')
-    pc.predict(img)
+    res = pc.evaluate()
+    print(res)
