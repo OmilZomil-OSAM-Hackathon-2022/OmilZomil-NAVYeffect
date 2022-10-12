@@ -75,10 +75,17 @@ class FeatureExtractor:
                 path = os.path.join(self.validation_set_path, file_name)
                 kind = path[-2]
                 img = cv2.imread(path)
-                res = self.predict(img)
+                res = self.extract(img)
                 if res == kind:
                     cnt += 1
         return cnt / all_cnt * 100
+
+    def predict(self, img):
+        query = self.extract(img)
+        dists = np.linalg.norm(features - query, axis=1)
+        id = np.argsort(dists)[0]
+        return (dists[id], self.classes[id], self.img_paths[id], id)
+        
 
     def extract(self, img):
         img = img.resize((224, 224))
