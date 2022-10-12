@@ -7,10 +7,11 @@ from OZEngine.parts_classifier import FeatureExtractor
 
 class PartsClassifier(FeatureExtractor):
     def __init__(self, dress_kind):
+        project_path = '/config/workspace/WEB_CLOUD_OmilZomil_NAVYeffect/webrtc/ai/OZEngine/parts_classifier'
         if dress_kind == 'navy_service_uniform':
-            base_url = 'NavyServiceUniform'
+            base_url = os.path.join(project_path, 'NavyServiceUniform')
         elif dress_kind == 'full_navy_uniform':
-            base_url = 'FullNavyUniform'
+            base_url = os.path.join(project_path, 'FullNavyUniform')
         super().__init__(base_url)
 
         self.feature_extractor = FeatureExtractor()
