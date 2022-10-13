@@ -22,7 +22,7 @@ class FaceDetector():
         self.detector = detector = MTCNN()
     
     def detect(self, img):
-        detections = detector.detect_faces(img)
+        detections = self.detector.detect_faces(img)
         for detection in detections:
             score = detection["confidence"]
             if score > 0.90:
