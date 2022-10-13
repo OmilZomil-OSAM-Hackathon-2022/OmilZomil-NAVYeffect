@@ -28,10 +28,10 @@ def init_db(db: Session):
     affiliation_crud.create_affiliation(db, "해병대")
 
     role_model.metadata.create_all(bind=engine)
-    role_crud.create_role(db, 1, "super")
-    role_crud.create_role(db, 2, "admin")
-    role_crud.create_role(db, 3, "user")
-    role_crud.create_role(db, 4, "inactive")
+    role_crud.create_role(db, "super")
+    role_crud.create_role(db, "admin")
+    role_crud.create_role(db, "user")
+    role_crud.create_role(db, "inactive")
 
     user_model.metadata.create_all(bind=engine)
 
