@@ -85,6 +85,7 @@ class NavyServiceUniformChecker(UniformChecker):
                     else:
                         ocr_list = OCR(img)
                         box_position, component = self.getName(contour, ocr_list)
+                        self.name_cache = component
 
                     # return값에 반영
                     box_position_dic['name_tag'] = box_position
