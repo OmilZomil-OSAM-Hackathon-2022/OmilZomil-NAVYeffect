@@ -1,6 +1,7 @@
 import sqlalchemy.exc
 from sqlalchemy.orm import Session
 from app.core.security import get_password_hash, verify_password
+from app.models.role import Role
 from app.models.user import User
 from app.schemas.user import UserCreate, UserFilter, UserUpdateInformation, UserUpdatePassword, UserUpdateRole, UserResponse
 
@@ -88,3 +89,23 @@ def update_user_role(db: Session, user_id: int, role: UserUpdateRole):
         return UserResponse(success=True, message="success")
     except sqlalchemy.exc.IntegrityError:
         return UserResponse(success=False, message="foreign key constraint fail")
+
+
+def authenticate(db: Session, *, username: str, password: str):
+    user = db.query(User).filter_by(username=username)
+    if not user.count():
+        return None
+
+    user = user.first()
+    if not verify_password(password, user.password):
+        return None
+
+    return user
+
+
+def is_active(db: Session, user: User):
+    try:
+        role = db.query(Role).filter_by(role_id=user.role).first()
+        return role.role != "inactive"
+    except Exception:
+        return None
