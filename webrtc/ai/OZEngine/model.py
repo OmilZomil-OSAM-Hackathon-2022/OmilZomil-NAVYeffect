@@ -80,6 +80,8 @@ class OmilZomil:
         # 얼굴인식
         face_box = self.face_detector.detect(person_img)
         face_img = box2img(person_img, face_box)
+
+        self.debug({'face':face_img}, msg='roi')
         
         # 셔츠인식
         w, h = person_img.shape[:2]
