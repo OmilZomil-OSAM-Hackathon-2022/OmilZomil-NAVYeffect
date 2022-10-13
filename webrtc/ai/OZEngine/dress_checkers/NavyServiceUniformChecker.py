@@ -65,7 +65,8 @@ class NavyServiceUniformChecker(UniformChecker):
                 center_p = getContourCenterPosition(contour)
 
                 # 파츠 분류
-                kind = model(img)
+                kind = self.parts_classifier.predict(img)[1]
+                print('!!!!!!!!!! kind :', kind)
                 position = 'left' if center_p[0] < (w//2) else 'right'
 
                 # 이름표 체크
