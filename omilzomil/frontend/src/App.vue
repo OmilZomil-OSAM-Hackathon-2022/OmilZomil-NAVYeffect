@@ -1,14 +1,11 @@
 <template>
-  <head>
-    <!-- <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    > -->
-  </head>
   <div
     :class="[getDarkMode ? 'dark-mode' : '', 'main']"
   >
-    <AppBar v-if="!$route.meta.hideAppBar" />
+    <AppBar
+      v-if="!$route.meta.hideAppBar"
+      :style="{'margin-bottom':$route.meta.isLanding ? '0px':''}"
+    />
     <router-view />
   </div>
   <!-- <login-page /> -->
