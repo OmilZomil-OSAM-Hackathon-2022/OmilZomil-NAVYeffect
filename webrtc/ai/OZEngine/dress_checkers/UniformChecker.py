@@ -46,7 +46,7 @@ class UniformChecker:
         box_position, name = None, None
         name_chrs = []
 
-        if orc_list:
+        if ocr_list:
             for ocr_res in ocr_list:
                 ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
                 ocr_center_xy = getRectCenterPosition(ocr_box)
