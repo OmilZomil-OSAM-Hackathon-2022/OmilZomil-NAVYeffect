@@ -68,11 +68,9 @@ class NavyServiceUniformChecker(UniformChecker):
                 
                 x,y,w,h = cv2.boundingRect(contour)
                 parts_img = img[y:y+h, x:x+w]
-                plt_imshow('parts_img', parts_img)
 
                 
                 kind = self.parts_classifier.predict(parts_img)[1]
-                print('!!!!!!!!!! kind :', kind)
                 position = 'left' if center_p[0] < (w//2) else 'right'
 
                 # 이름표 체크
