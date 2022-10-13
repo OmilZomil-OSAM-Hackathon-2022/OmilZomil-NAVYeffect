@@ -17,4 +17,4 @@ class User(Base):
     rank = Column(String(4), ForeignKey(Rank.rank), nullable=False)
     username = Column(String(33), unique=True, nullable=False)
     password = Column(String(129), nullable=False)
-    role = Column(String(9), ForeignKey(Role.role), default="inactive")
+    role = Column(Integer, ForeignKey(Role.role_id), default=4)
