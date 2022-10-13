@@ -2,7 +2,7 @@ import numpy as np
 import os
 import pickle
 from PIL import Image
-from OZEngine import FeatureExtractor
+from OZEngine.FeatureExtractor import FeatureExtractor
 
 
 class PartsClassifier(FeatureExtractor):
