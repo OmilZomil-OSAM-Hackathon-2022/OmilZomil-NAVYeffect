@@ -1,3 +1,4 @@
+import enum
 import cv2
 import numpy as np
 from lib.utils import *
@@ -20,7 +21,7 @@ class PersonDetector():
         if only_person:
             self.classes = ['person']
         else:
-            with open("OZEngine/person_detectors/names/coco.names", "r") as f:
+            with open("OZEngine/person_detectors/names/coco_finetuned.names", "r") as f:
                 self.classes = [line.strip() for line in f.readlines()]
         self.layer_names = self.net.getLayerNames()
         self.output_layers = [self.layer_names[i-1]
@@ -59,22 +60,14 @@ class PersonDetector():
         indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
         # font = cv2.FONT_HERSHEY_PLAIN
 
-        roi = None
-        for i in range(len(boxes)):
+        x, y, w, h = None, None, None, None
+        for i, (box, class_id) in enumerate(zip(boxes, class_ids)):
             if i in indexes:
-                x, y, w, h = boxes[i]
-                class_id = class_ids[i]
                 if class_id > len(self.classes):
                     continue
-                label = str(self.classes[class_id])
-                color = Color.RED  # self.colors[i]
-                cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
-                if x < 0:
-                    x = 0
-                if y < 0:
-                    y = 0
-                roi = org_img[y:y+h, x:x+w]
-                # cv2.putText(img, label, (x, y + 30), font, 3, color, 3)
-
-        plt_imshow("Image", img)
-        return roi, img
+                else:
+                    x, y, w, h = box
+                    break
+        x = max(0, x)
+        y = max(0, y)  
+        return ((y,x), (y+h, x+w))
