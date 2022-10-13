@@ -3,7 +3,7 @@ class UniformChecker:
         self.filter = filter
 
     def getMaskedContours(self, img=None, hsv_img=None, kmeans=None, morph=None, kind=None, sort=False):
-        lower, upper = self.filter[kind]['lower'], self.uniform_filter[kind]['upper']
+        lower, upper = self.filter[kind]['lower'], self.filter[kind]['upper']
         mask = cv2.inRange(hsv_img, lower, upper)
 
         if kmeans:
