@@ -1,3 +1,5 @@
+import cv2
+
 class UniformChecker:
     def __init__(self, filter):
         self.filter = filter
