@@ -3,6 +3,7 @@
 # 프론트 빌드도 해당 스크립트에서 동작
 
 
+# ============== 기타 필요한 파일 생성 
 # .env 파일이 있는지 검증
 if [ ! -e ".env.private" ]; then
 	echo ".env.private 파일이 없습니다."
@@ -18,9 +19,26 @@ echo DIR_PATH="$DIR_PATH" >> .env.lock
 echo OMIL_DIR_PATH="$DIR_PATH"/omilzomil/backend >> .env.lock
 echo WEBRTC_DIR_PATH="$DIR_PATH"/webrtc/backend >> .env.lock
 
+
+
+# ssl 만들기 - .pem 파일이 있는지 검증 => 없으면 생성
+if [ ! -e "./omilzomil/backend/cert.pem" ]; then
+    echo [+] omilzomil 에 cert.pem 파일이 없어 생성합니다.
+    openssl req -x509 -newkey rsa:4096 -nodes -out ./omilzomil/backend/cert.pem -keyout ./omilzomil/backend/key.pem -days 365
+    cd $DIR_PATH
+fi
+if [ ! -e "./webrtc/backend/cert.pem" ]; then
+    echo [+] webrtc 에 cert.pem 파일이 없어 생성합니다.
+    openssl req -x509 -newkey rsa:4096 -nodes -out ./webrtc/backend/cert.pem -keyout ./webrtc/backend/key.pem -days 365
+fi
+
+# ============== 기존 컨테이너 삭제
+
 # 기존 컨테이너 지우기
 echo [+] remove container
 sudo docker-compose --env-file .env.lock down --remove-orphans
+
+# ============== docker 재 build
 
 # docker 빌드
 echo [+] docker build
@@ -40,6 +58,7 @@ while sudo docker-compose --env-file .env.lock ps --services --filter status=run
     sleep 1;
 done;
 
+# ============== DB 구축
 
 # DB 실행
 echo [+] make db
@@ -49,16 +68,8 @@ sudo docker-compose --env-file .env.lock up -d db
 echo [+] make db tables
 sudo docker-compose --env-file .env.lock run --rm web python src/initial_data.py
 
-# ssl 만들기 - .env 파일이 있는지 검증 => 없으면 생성
-if [ ! -e "./omilzomil/backend/cert.pem" ]; then
-    echo [+] omilzomil 에 cert.pem 파일이 없어 생성합니다.
-    openssl req -x509 -newkey rsa:4096 -nodes -out ./omilzomil/backend/cert.pem -keyout ./omilzomil/backend/key.pem -days 365
-    cd $DIR_PATH
-fi
-if [ ! -e "./webrtc/backend/cert.pem" ]; then
-    echo [+] webrtc 에 cert.pem 파일이 없어 생성합니다.
-    openssl req -x509 -newkey rsa:4096 -nodes -out ./webrtc/backend/cert.pem -keyout ./webrtc/backend/key.pem -days 365
-fi
+
+# ============== 기타 잔여 파일 컨테이너 캐쉬 삭제
 
 
 # docker 빌드 캐쉬 제거
