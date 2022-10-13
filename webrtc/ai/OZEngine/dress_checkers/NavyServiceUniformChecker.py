@@ -36,7 +36,7 @@ class NavyServiceUniformChecker(UniformChecker):
     def checkUniform(self, org_img):
         img = org_img
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        h, w = img.shape[: 2]
+        H, W = img.shape[: 2]
 
         box_position_dic = {}
         component_dic = {}
@@ -71,8 +71,10 @@ class NavyServiceUniformChecker(UniformChecker):
 
                 
                 kind = self.parts_classifier.predict(parts_img)[1]
-                position = 'left' if center_p[0] < (w//2) else 'right'
 
+                position = 'left' if center_p[0] < (W//2) else 'right'
+
+                print(component_dic, position, center_p[0], (w//2))
                 # 이름표 체크
                 if not is_name_tag and self.isNameTag(contour, position, kind):
                     # 이름표 OCR
