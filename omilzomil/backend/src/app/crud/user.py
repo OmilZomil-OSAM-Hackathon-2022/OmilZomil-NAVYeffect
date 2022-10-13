@@ -50,6 +50,10 @@ def get_user(db: Session, flt: UserFilter):
     return user.all()
 
 
+def get_user_by_id(db: Session, user_id: int):
+    return db.query(User).get(user_id)
+
+
 def update_user_information(db: Session, user_id: int, information: UserUpdateInformation):
     user = db.query(User).filter_by(user_id=user_id)
     if not user.count():
