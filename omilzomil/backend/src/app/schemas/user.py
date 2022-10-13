@@ -48,7 +48,7 @@ class UserFilter(UserBase):
 
 class UserRead(UserBase):
     user_id: int = Field(None, description="primary key")
-    role: int = Field(None, description="role")
+    role: str = Field(None, description="role")
 
     class Config:
         schema_extra = {
@@ -60,7 +60,7 @@ class UserRead(UserBase):
                 "military_unit": "계룡대 근무지원단 본부대대",
                 "rank": "병장",
                 "username": "21-71007011",
-                "role": 1,
+                "role": "super",
             }
         }
         orm_mode = True
@@ -99,12 +99,12 @@ class UserUpdatePassword(BaseModel):
 
 
 class UserUpdateRole(BaseModel):
-    role: int = Field(None, description="role")
+    role: str = Field(None, description="role")
 
     class Config:
         schema_extra = {
             "example": {
-                "role": 2,
+                "role": "admin",
             }
         }
 
@@ -129,6 +129,6 @@ class UserReadResponse(UserRead, metaclass=AllOptional):
                 "military_unit": "계룡대 근무지원단 본부대대",
                 "rank": "병장",
                 "username": "21-71007011",
-                "role": 1,
+                "role": "super",
             }
         }
