@@ -6,6 +6,9 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /backend
 COPY ./backend /backend
 
+RUN apt-get update
+RUN apt-get install -y libgl1-mesa-glx
+
 # 라이브러리 설치
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
