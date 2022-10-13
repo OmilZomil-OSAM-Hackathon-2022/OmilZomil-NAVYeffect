@@ -97,7 +97,7 @@
                 로그아웃
               </router-link>
               <router-link
-                to="/"
+                to="/unregister"
                 @click="closeUserMenu"
               >
                 회원 탈퇴

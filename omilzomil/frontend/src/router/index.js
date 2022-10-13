@@ -63,6 +63,11 @@ const routes = [
     // component: () => import('../views/RegistVacationPage.vue'),
   },
   {
+    path:"/unregister",
+    name:"Unregister",
+    component: () => import('../views/UnregisterPage.vue'),
+  },
+  {
     path: "/profile",
     name: "Profile",
 
