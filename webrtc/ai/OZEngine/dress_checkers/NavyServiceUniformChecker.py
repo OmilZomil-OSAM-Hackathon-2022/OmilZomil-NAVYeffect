@@ -65,15 +65,21 @@ class NavyServiceUniformChecker(UniformChecker):
                 center_p = getContourCenterPosition(contour)
 
                 # 파츠 분류
-                kind = self.parts_classifier.predict(img)[1]
+                
+                x,y,w,h = cv2.boundingRect(contour)
+                parts_img = img[y:y+h, x:x+w]
+                plt_imshow('parts_img', parts_img)
+
+                
+                kind = self.parts_classifier.predict(parts_img)[1]
                 print('!!!!!!!!!! kind :', kind)
                 position = 'left' if center_p[0] < (w//2) else 'right'
 
                 # 이름표 체크
-                if not is_name_tag and isNameTag(contour):
+                if not is_name_tag and self.isNameTag(contour):
                     # 이름표 OCR
                     if self.name_cache:
-                        box_position = cv2.boundingBox(contour)
+                        box_position = cv2.boundingRect(contour)
                         component = 'cached ' + self.name_cache
                     else:
                         ocr_list = OCR(img)
@@ -85,7 +91,7 @@ class NavyServiceUniformChecker(UniformChecker):
                     component_dic['name_tag'] = component
 
                 # 계급장 체크
-                elif not is_class_tag and isClassTag(contour):
+                elif not is_class_tag and self.isClassTag(contour):
                     box_position, component, masked_img = self.getClasses(
                         img, hsv_img, contour)
 
