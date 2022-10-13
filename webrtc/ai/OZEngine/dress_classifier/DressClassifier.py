@@ -1,6 +1,6 @@
 import numpy as np
 import os
-from OZEngine import FeatureExtractor
+from OZEngine.FeatureExtractor import FeatureExtractor
 
 
 class DressClassifier(FeatureExtractor):

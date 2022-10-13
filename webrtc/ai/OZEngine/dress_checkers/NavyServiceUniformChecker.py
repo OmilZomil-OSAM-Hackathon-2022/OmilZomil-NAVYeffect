@@ -1,4 +1,4 @@
-from OZEngine.dress_checkers import UniformChecker
+from .UniformChecker import UniformChecker
 from OZEngine.lib.utils import *
 from OZEngine.lib.defines import *
 from OZEngine.lib.ocr import OCR
