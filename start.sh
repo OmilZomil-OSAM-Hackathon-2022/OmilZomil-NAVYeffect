@@ -33,7 +33,7 @@ elif [ "$input" = "--server" ]; then
 elif [ "$input" = "--dev-back" ]; then
     # 백앤드 개발용 코드 - 라이브러리 재설치 및 apt install 에 따른 build가 필요한 경우 사용
     echo [+] run web camera 백앤드 개발환경
-    sudo docker-compose --env-file .env.lock up web camera    
+    sudo docker-compose --env-file .env.lock up --build web camera    
 
 else
     echo [+] run web camera 개발환경
