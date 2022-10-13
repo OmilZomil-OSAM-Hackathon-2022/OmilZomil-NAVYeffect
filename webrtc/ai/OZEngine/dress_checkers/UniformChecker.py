@@ -1,4 +1,8 @@
 import cv2
+from OZEngine.lib.utils import *
+from OZEngine.lib.defines import *
+from OZEngine.lib.ocr import OCR
+from OZEngine.dress_classifier import classification2
 
 class UniformChecker:
     def __init__(self, filter):
