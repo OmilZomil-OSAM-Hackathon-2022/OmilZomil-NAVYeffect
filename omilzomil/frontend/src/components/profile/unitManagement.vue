@@ -1,6 +1,10 @@
 <template>
   <div class="page">
     <div class="search-div">
+      <div class="add-unit">
+        <input placeholder="부대 이름을 입력하세요.">
+        <button>추가</button>
+      </div>
       <SearchInput :on-click="search" />
     </div>
     <table>
@@ -60,7 +64,7 @@ export default {
 .search-div{
     width:100%;
     display:flex;
-    justify-content:flex-end;
+    justify-content:space-between;
     margin-bottom:20px;
     height:wrap;
 }
@@ -117,5 +121,57 @@ a{
 .tcenter{
   display:flex;
   justify-content: center;
+}
+
+
+input{
+  box-sizing: border-box;
+
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 7px 10px;
+
+  width: 224px;
+  height: 28px;
+
+  background: var(--color-input);
+
+  border: 1px solid var(--color-input-border);
+  border-radius: 4px;
+}
+input::placeholder{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  color: #9C9DB2;
+}
+
+.add-unit{
+  display:flex;
+  gap:4px;
+}
+
+.add-unit button{
+  /* width:28px; */
+  height:28px;
+  background: rgba(145, 85, 235, 0.2);
+  border-radius: 4px;
+  border:none;
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  cursor: pointer;
+  color:#9155EB;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  /* identical to box height */
+
+  letter-spacing: 0.4px;
 }
 </style>
