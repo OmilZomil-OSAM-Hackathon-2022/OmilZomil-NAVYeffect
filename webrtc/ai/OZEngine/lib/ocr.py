@@ -38,6 +38,7 @@ def draw_rectangle(image, p1, p3, color, border, padding):
 
 
 def OCR(img):
+    print('[+] OCR request')
     headers = {'Authorization': 'KakaoAK {}'.format(KEY)}
     jpeg_img = cv2.imencode(".jpg", img)[1]
     data = jpeg_img.tobytes()
