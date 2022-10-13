@@ -46,8 +46,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    ports:
-      - "${CAMERA_PORT}:80"
 
   web:
     container_name: omil_web
