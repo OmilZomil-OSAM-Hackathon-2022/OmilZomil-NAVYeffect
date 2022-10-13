@@ -7,8 +7,8 @@ DIR_PATH=`pwd`
 
 input=$1
 if [ "$input" = "--build" ]; then
-    # 프론트 빌드
-    echo [+] frontend build
+    # 프론트 빌드 - 단지 프론트 백앤드 빌드만 다시함
+    echo [+] frontend build 프론트 재빌드 - 백앤드 실행 X
     sudo docker-compose --env-file .env.lock build  
     sudo docker-compose --env-file .env.lock up web_vue
     sudo docker-compose --env-file .env.lock up camera_vue
@@ -23,11 +23,16 @@ if [ "$input" = "--build" ]; then
     done;
 
 elif [ "$input" = "--server" ]; then
-    echo [+] run web camera
+    echo [+] run web camera 서버환경
     sudo docker-compose --env-file .env.private up web camera
 
+elif [ "$input" = "--dev-back" ]; then
+    # 백앤드 개발용 코드 - 라이브러리 재설치 및 apt install 에 따른 build가 필요한 경우 사용
+    echo [+] run web camera 백앤드 개발환경
+    sudo docker-compose --env-file .env.lock up web camera    
+
 else
-    echo [+] run web camera
+    echo [+] run web camera 개발환경
     sudo docker-compose --env-file .env.lock up web camera
 
 fi
