@@ -30,9 +30,15 @@ def create_user(db: Session, user: UserCreate):
 
 def get_user(db: Session, flt: UserFilter):
     is_active = flt.is_active
-    flt = {x: (y is None and "%" or y) for x, y in flt.dict().items() if x != "is_active"}
+    flt = {x: (y is None and "%" or f"%{y}%") for x, y in flt.dict().items() if x != "is_active"}
 
-    user = db.query(User).filter(User.full_name.like(flt["full_name"])).filter(User.affiliation.like(flt["affiliation"])).filter(User.rank.like(flt["rank"]))
+    user = (
+        db.query(User)
+        .filter(User.full_name.like(flt["full_name"]))
+        .filter(User.affiliation.like(flt["affiliation"]))
+        .filter(User.military_unit.like(flt["military_unit"]))
+        .filter(User.rank.like(flt["rank"]))
+    )
 
     if is_active is not None:
         if is_active:
