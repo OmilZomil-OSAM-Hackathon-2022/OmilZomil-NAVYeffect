@@ -74,8 +74,6 @@ class NavyServiceUniformChecker(UniformChecker):
                 kind = self.parts_classifier.predict(parts_img)[1]
 
                 position = 'left' if center_p[0] < (W//2) else 'right'
-
-                print(component_dic, position, center_p[0], (w//2))
                 # 이름표 체크
                 if not is_name_tag and self.isNameTag(contour, position, kind):
                     # 이름표 OCR
