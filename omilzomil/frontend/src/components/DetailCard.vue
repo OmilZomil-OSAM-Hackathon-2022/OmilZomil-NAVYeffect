@@ -26,8 +26,20 @@
           <div class="time">
             시간 : {{ item.time }}
           </div>
-          <div class="dress-type">
-            복장 : <DressType :dress-type="item.dressType" />
+          <div style="display:flex;justify-content:space-between;width:100%;">
+            <div class="dress-type">
+              복장 : <DressType :dress-type="item.dressType" />
+            </div>
+            <div
+              v-if="isAdmin"
+              class="match-user-wrap"
+            >
+              <select>
+                <option>병사를 선택해 주세요</option>
+                <option>계룡대본부대대 / 일병 / 김민섭</option>
+              </select>
+              <button>확인</button>
+            </div>
           </div>
           <div class="parts-grid">
             <div class="parts">
@@ -35,7 +47,34 @@
                 width="160px"
                 height="120px"
               > -->
-              <div class="parts-image" />
+              <div class="parts-image">
+                <div class="toggle-wrap">
+                  <input
+                    id="parts-test"
+                    v-model="toggle"
+                    type="checkbox"
+                    hidden
+                    @change="test"
+                  > 
+                  <label
+                    for="parts-test"
+                    :class="['toggleSwitch',toggle?'checked':'']"
+                  >
+                    <span class="toggleMessage" />
+                    <span class="toggleButton" />
+                  </label>
+                </div>
+                <div
+                  v-if="toggle"
+                  class="error-wrap"
+                >
+                  <img
+                    src="@/assets/icons/alert-error.svg"
+                    style="width:24px;height:24px;"
+                  >
+                  인식 오류
+                </div>
+              </div>
               <div class="parts-info">
                 <div class="parts-name">
                   이름표
@@ -118,7 +157,18 @@ export default {
             default: null,
         },
     },
-    emits: ["close"]
+    emits: ["close"],
+    data(){
+      return {
+        isAdmin:true,
+        toggle:false,
+      }
+    },
+    methods:{
+      test(){
+        console.log(this.toggle);
+      }
+    }
 }
 </script>
 
@@ -200,40 +250,151 @@ export default {
     gap:10px;
 }
 .parts-image{
+  position:relative;
     background: #D9D9D9;
     border-radius: 10px;
     width:160px;
     height:120px;
+    overflow:hidden;
 }
 .parts .parts-info{
     display:flex;
     width:100%;
     justify-content: space-between;
 }
-.parts .parts-info .parts-name{
 
-  /* Dark2 */
+.match-user-wrap{
+  display:flex;
+  gap:10px;
+  margin-right:18px;
+}
 
-  /* color: #585767; */
+
+.match-user-wrap select{
+  box-sizing: border-box;
+
+  padding: 0px 12px;
+  width: 281px;
+  height: 31px;
+
+  background: #ffffff;
+  /* Dark8 */
+  border: 2px solid #d9d8e8;
+  border-radius: 8px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  /* identical to box height */
+
+  letter-spacing: 0.4px;
+  -webkit-appearance: none;
+
+  background: url("@/assets/icons/mdi_chevron-down.svg") no-repeat scroll 10px center;
+  background-position: right 5px center;
+  /* background-size:13px; */
+  color:var(--color)
+}
+.match-user-wrap button{
+  height:31px;
+  background:#9155EB33;
+  color:#9155EB;
+  border:none;
+  border-radius: 4px;
+}
+
+.error-wrap{
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:100%;
+  height:100%;
+  background: rgba(128, 128, 128, 0.8);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.1px;
+
+  color: #FFFFFF;
 
 }
 
-/* 애니매이션 */
-.overlay-enter-active, .overlay-leave-active {
-    transition: opacity 0.4s;
-}
-.overlay-enter-active .overlay-card, .overlay-leave-active .overlay-card {
-    transition: opacity 0.4s, transform 0.4s;
-}
-.overlay-leave-active {
-    transition: opacity 0.6s ease 0.4s;
+.toggleSwitch {
+  width: 52px;
+  height: 22.75px;
+  display: block;
+  position: relative;
+  border-radius: 2rem;
+  background-color: #fff;
+  border: 0.8125px solid #D9D8E8;
+  border-radius: 32.5px;
+  cursor: pointer;
 }
 
-.overlay-enter, .overlay-leave-to {
-    opacity: 0;
+.toggleSwitch .toggleButton {
+  
+  position: absolute;
+  top: 50%;
+  /* left: .2rem; */
+  transform: translateY(-50%);
+  width: 16.25px;
+  height: 16.25px;
+  left: 3.25px;
+  /* top: calc(50% - 16.25px/2); */
+
+  background: rgba(63, 198, 184, 0.2);
+  /* Success */
+
+  border: 1.625px solid #3FC6B8;
+  border-radius: 50%;
 }
-.overlay-enter .overlay-card, .overlay-leave-to .overlay-card {
-    opacity: 0;
-    transform: translateY(-20px);
+.toggleSwitch .toggleMessage{
+  /* display:none; */
+  
+}
+.toggleSwitch .toggleMessage::after{
+  font-weight: 600;
+  font-size: 9.75px;
+  line-height: 11px;
+  letter-spacing: 0.203125px;
+
+  left:26px;
+  /* top:50%; */
+  top: 5.69px;
+  position:absolute;
+  /* Success */
+  
+  color: #3FC6B8;
+  content:'정상';
+}
+
+/* 체크박스가 체크되면 변경 이벤트 */
+
+.checked .toggleButton {
+  left:30px;
+  background: rgba(255, 84, 103, 0.2);
+/* Error */
+
+border: 1.625px solid #FF5467;
+}
+.checked .toggleMessage::after{
+  left:8.12px;
+  color: #FF5467;
+  content:'오류';
+}
+.toggleSwitch, .toggleButton , .toggleMessage::after{
+  transition: all 0.2s ease-in;
+}
+
+.toggle-wrap{
+  z-index:10000;
+  position:absolute;
+  top:4px;
+  right:5px;
 }
 </style>
