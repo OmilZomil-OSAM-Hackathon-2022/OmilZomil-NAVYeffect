@@ -238,7 +238,9 @@ select {
   background: url("@/assets/icons/mdi_chevron-down.svg") no-repeat scroll 10px center;
   background-position: right 12px center;
   /* background-size:13px; */
+  color:var(--color)
 }
+
 input {
   box-sizing: border-box;
 
@@ -266,6 +268,11 @@ input {
   background: url("@/assets/icons/check.svg") no-repeat scroll 10px center;
   background-position: right 12px center;
   background-size:13px;
+  color:var(--color);
+}
+
+input::placeholder{
+  color:var(--color);
 }
 
 .wrap-button{

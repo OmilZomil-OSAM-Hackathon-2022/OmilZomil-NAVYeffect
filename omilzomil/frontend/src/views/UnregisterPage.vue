@@ -1,36 +1,84 @@
 <template>
   <div class="wrap">
     <div class="card">
-      <div class="unregist">회원 탈퇴</div>
-      <img class="face" src="@/assets/images/crying-face.svg" />
-      <div class="oz">OMIL-ZOMIL</div>
-      <div class="msg1">탈퇴 전 확인하세요.</div>
-      <div class="msg2">프로필, 이미지 등 저장된 모든 데이터들은 사라집니다.</div>
+      <div class="unregist">
+        회원 탈퇴
+      </div>
+      <img
+        class="face"
+        src="@/assets/images/crying-face.svg"
+      >
+      <div class="oz">
+        OMIL-ZOMIL
+      </div>
+      <div class="msg1">
+        탈퇴 전 확인하세요.
+      </div>
+      <div class="msg2">
+        프로필, 이미지 등 저장된 모든 데이터들은 사라집니다.
+      </div>
       <div class="pw1">
         <div class="pw1-box1">
-          <div class="pw1-box1-msg1">비밀번호</div>
-          <div class="pw1-box1-msg2">8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.</div>
+          <div class="pw1-box1-msg1">
+            비밀번호
+          </div>
+          <div class="pw1-box1-msg2">
+            8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.
+          </div>
         </div>
         <div class="box2">
           <div class="inputbox">
-            <input v-model="pw1" name="pw1input" :type="pw1show ? 'text' : 'password'" placeholder="비밀번호"/>
-            <button v-if="pw1show===true" class="eye-off" @click="pw1show=false" />
-            <button v-else class="eye-on" @click="pw1show=true" />
+            <input
+              v-model="pw1"
+              name="pw1input"
+              :type="pw1show ? 'text' : 'password'"
+              placeholder="비밀번호"
+            >
+            <button
+              v-if="pw1show===true"
+              class="eye-off"
+              @click="pw1show=false"
+            />
+            <button
+              v-else
+              class="eye-on"
+              @click="pw1show=true"
+            />
           </div>
         </div>
       </div>
       <div class="pw2">
-        <div class="pw2-box1">비밀번호 확인</div>
+        <div class="pw2-box1">
+          비밀번호 확인
+        </div>
         <div class="box2">
           <div class="inputbox">
-            <input v-model="pw2" name="pw2input" :type="pw2show ? 'text' : 'password'" placeholder="비밀번호" />
-            <button v-if="pw2show===true" class="eye-off" @click="pw2show=false" />
-            <button v-else class="eye-on" @click="pw2show=true" />
+            <input
+              v-model="pw2"
+              name="pw2input"
+              :type="pw2show ? 'text' : 'password'"
+              placeholder="비밀번호"
+            >
+            <button
+              v-if="pw2show===true"
+              class="eye-off"
+              @click="pw2show=false"
+            />
+            <button
+              v-else
+              class="eye-on"
+              @click="pw2show=true"
+            />
           </div>
         </div>
       </div>
-      <button @click="unregist" class="button">
-        <div class="button-msg">탈퇴하기</div>
+      <button
+        class="button"
+        @click="unregist"
+      >
+        <div class="button-msg">
+          탈퇴하기
+        </div>
       </button>
     </div>
   </div>
@@ -71,20 +119,20 @@
   }
   .unregist{
     position:relative;
-    top:21px;
+    /* top:21px; */
     width: 79px;
     height: 60px;
-    font-family: 'Roboto';
-    font-style: normal;
     font-weight: 700;
     font-size: 16px;
     line-height: 19px;
-    text-align: center;
     letter-spacing: 0.15px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
     color: #9155EB;
-    border-bottom: solid;
-    border-bottom-width:4px;
-    border-bottom-color: #9155EB;
+    border-bottom: solid #9155EB 4px;
+    box-sizing:border-box;
   }
   .face{
     position:relative;
@@ -139,7 +187,7 @@
     line-height: 19px;
     letter-spacing: 0.5px;
     color: #616276;
-    background-color:#F9F9FB;
+    background-color:var(--color-state-card);
     border-radius: 20px;
   }
   .pw1{
@@ -197,6 +245,8 @@
     background: #FFFFFF;
     border: 2px solid #D9D8E8;
     border-radius: 8px;
+
+    background:var(--color-input)
   }
   .inputbox{
     display: flex;
@@ -218,6 +268,7 @@
     color: #ABACC0;
     outline: none;
     border: 0;
+    background:var(--color-input)
   }
   .eye-on{
     width: 16px;
@@ -266,11 +317,13 @@
     width: 428px;
     height: 55px;
     background: #78798D;
+    border-radius: 8px;
   }
   .button:hover {
     top:258px;
     height:59px;
     width:432px;
+    background:#9155EB;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
   }
   .button-msg{
