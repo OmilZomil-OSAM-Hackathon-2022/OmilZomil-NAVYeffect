@@ -30,3 +30,13 @@ pnpm-debug.log*
 
 # docker 개발용 파일
 dev_docker.sh
+get-docker.sh
+
+# 프론트 빌드
+
+dist/
+
+omilzomil/frontend/dist
+webrtc/frontend/dist
+omilzomil/frontend/dist/
+webrtc/frontend/dist/

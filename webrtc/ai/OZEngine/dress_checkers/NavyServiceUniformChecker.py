@@ -1,6 +1,6 @@
 from lib.utils import *
 from lib.defines import *
-from lib.ocr import OCR, draw_rectangle
+from lib.ocr import OCR
 from OZEngine.dress_classifier import classification2
 
 
@@ -14,7 +14,7 @@ class NavyServiceUniformChecker():
 
         self.debug_mode = False
 
-    def getMaskedContours(self, img=None, hsv_img=None, kmeans=None, morph=None, kind=None, sort=True):
+    def getMaskedContours(self, img=None, hsv_img=None, kmeans=None, morph=None, kind=None, sort=False):
         if kind == 'uniform':
             lower, upper = self.uniform_filter['lower'], self.uniform_filter['upper']
         elif kind == 'classes':
@@ -30,7 +30,6 @@ class NavyServiceUniformChecker():
             img = classification2(img, 10)
 
         if morph == 'erode':
-            kernel = np.ones((3, 3), np.uint8)
             org_mask = mask.copy()
 
             k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 2))
@@ -55,35 +54,37 @@ class NavyServiceUniformChecker():
         max_xy, min_xy = np.max(contour, axis=0)[
             0], np.min(contour, axis=0)[0]
 
+        box_position, name = None, None
         name_chrs = []
+
         for ocr_res in ocr_list:
             ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
             ocr_center_xy = getRectCenterPosition(ocr_box)
             if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
+                box_position = cv2.boundingRect(contour)
                 name_chrs.append(ocr_str[0])
             else:
                 pass
+
         name = ''.join(name_chrs)
 
         if name:
-            return cv2.boundingRect(contour), ''.join(name_chrs)
+            return box_position, name
         else:
             return None, None
 
     def getClasses(self, img, hsv_img, contour):
+        box_position, class_name, masked_img = None, None, None
         if contour is None:
-            return None, None, None
+            return box_position, class_name, masked_img
 
-        res_box_position = cv2.boundingRect(contour)
-        x, y, w, h = res_box_position
-        padding = 10
-        roi = img[y-padding:y+h+padding, x-padding:x+w+padding]
-        hsv_roi = hsv_img[y-padding:y+h+padding, x-padding:x+w+padding]
+        box_position = cv2.boundingRect(contour)
+        x, y, w, h = box_position
+        roi = img[y:y+h, x:x+w]
+        hsv_roi = hsv_img[y:y+h, x:x+w]
 
-        # contours, masked_img = self.getMaskedContours(
-        #     img=roi, hsv_img=hsv_roi, morph='erode', kind='classes', sort=False)
         contours, masked_img = self.getMaskedContours(
-            img=roi, hsv_img=hsv_roi, kmeans=True, kind='classes', sort=False)
+            img=roi, hsv_img=hsv_roi, kmeans=True, kind='classes')
 
         classes_n = 0
         for contour in contours:
@@ -91,9 +92,13 @@ class NavyServiceUniformChecker():
                 classes_n += 1
 
         if 1 <= classes_n <= 4:
-            return res_box_position, Classes.dic[classes_n], masked_img
-        else:
-            return None, None, masked_img
+            class_name = Classes.dic[classes_n]
+
+        return box_position, class_name, masked_img
+
+    def isInShirt(self, contour):
+        # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
+        return 3 <= getVertexCnt(contour) <= 10 and cv2.contourArea(contour) > 300
 
     def checkUniform(self, org_img):
         img = org_img
@@ -106,37 +111,38 @@ class NavyServiceUniformChecker():
 
         # 샘당 filter
         contours, hierarchy, masked_img_dic['shirt'] = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind='uniform')
+            img=img, hsv_img=hsv_img, kind='uniform', sort=True)
 
         # 이름표 OCR
         ocr_list = OCR(img)
 
         # 이름표, 계급장 체크
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
+            if component_dic.get('name_tag') and component_dic.get('class_tag'):
+                break
+
             cur_node, next_node, prev_node, first_child, parent = lev
             if i == 0:  # 셈브레이
                 shirt_node = cur_node
                 continue
 
-            # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
             # 이름표 또는 계급장
-            if (not component_dic.get('name_tag') or not component_dic.get('class_tag')) and \
-                    parent == shirt_node and \
-                    3 <= getVertexCnt(contour) <= 10 and \
-                    cv2.contourArea(contour) > 300:
-
+            if parent == shirt_node and self.isInShirt(contour):
+                box_position = cv2.boundingRect(contour)
                 center_p = getContourCenterPosition(contour)
 
                 # 이름표 체크
                 if center_p[0] < (w//2) and not component_dic.get('name_tag'):
-                    box_position_dic['name_tag'], component_dic['name_tag'] = self.getName(
-                        contour, ocr_list)
+                    box_position, component = self.getName(contour, ocr_list)
+                    box_position_dic['name_tag'] = box_position
+                    component_dic['name_tag'] = component
 
                 # 계급장 체크
                 elif center_p[0] > (w//2) and not component_dic.get('class_tag'):
-                    box_position_dic['class_tag'], component_dic['class_tag'], masked_img_dic['class_tag'] = self.getClasses(
+                    box_position, component, masked_img = self.getClasses(
                         img, hsv_img, contour)
+                    box_position_dic['class_tag'] = box_position
+                    component_dic['class_tag'] = component
+                    masked_img_dic['class_tag'] = masked_img
 
-        # half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
-        # cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
         return component_dic, box_position_dic, masked_img_dic
