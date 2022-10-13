@@ -23,10 +23,10 @@ class NavyServiceUniformChecker(UniformChecker):
         super().__init__(filter, 'navy_service_uniform')
 
 
-    def isNameTag(contour, position, kind):
+    def isNameTag(self, contour, position, kind):
         return position == 'left' and kind == 'name_tag'
 
-    def isClassTag(contour, position, kind):
+    def isClassTag(self, contour, position, kind):
         return position == 'right' and kind == 'class_tag'
 
     def isInShirt(self, contour):
