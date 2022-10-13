@@ -1,7 +1,6 @@
 import sqlalchemy.exc
 from sqlalchemy.orm import Session
 from app.core.security import get_password_hash, verify_password
-from app.models.role import Role
 from app.models.user import User
 from app.schemas.user import UserCreate, UserFilter, UserUpdateInformation, UserUpdatePassword, UserUpdateRole, UserResponse
 
@@ -108,8 +107,4 @@ def authenticate(db: Session, *, username: str, password: str):
 
 
 def is_active(db: Session, user: User):
-    try:
-        role = db.query(Role).filter_by(role_id=user.role).first()
-        return role.role != "inactive"
-    except Exception:
-        return None
+    return user.role != "inactive"
