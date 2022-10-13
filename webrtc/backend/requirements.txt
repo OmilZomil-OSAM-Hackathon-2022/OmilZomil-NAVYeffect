@@ -10,3 +10,6 @@ pymysql
 mysqlclient
 pytest
 requests
+
+numpy
+opencv-python

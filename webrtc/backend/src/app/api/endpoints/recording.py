@@ -63,3 +63,24 @@ async def websocket_endpoint(websocket: WebSocket):
             
     except WebSocketDisconnect:
         socket_mng.disconnect('single')
+
+
+@router.websocket("/json")
+async def websocket_endpoint(websocket: WebSocket):
+    await socket_mng.connect('single', websocket)
+
+    logger.warn("connected")
+    try:
+        while True:
+            data = await websocket.receive_text()
+            time.sleep(3)
+            result = {
+                "img" : data,
+                "id" : 2134,
+            }
+            await websocket.send_json(data)
+            logger.warn("end")
+
+            
+    except WebSocketDisconnect:
+        socket_mng.disconnect('single')
