@@ -76,7 +76,7 @@ class NavyServiceUniformChecker(UniformChecker):
                 position = 'left' if center_p[0] < (w//2) else 'right'
 
                 # 이름표 체크
-                if not is_name_tag and self.isNameTag(contour):
+                if not is_name_tag and self.isNameTag(contour, position, kind):
                     # 이름표 OCR
                     if self.name_cache:
                         box_position = cv2.boundingRect(contour)
@@ -91,7 +91,7 @@ class NavyServiceUniformChecker(UniformChecker):
                     component_dic['name_tag'] = component
 
                 # 계급장 체크
-                elif not is_class_tag and self.isClassTag(contour):
+                elif not is_class_tag and self.isClassTag(contour, position, kind):
                     box_position, component, masked_img = self.getClasses(
                         img, hsv_img, contour)
 
