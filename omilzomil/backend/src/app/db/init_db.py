@@ -16,10 +16,10 @@ from app.crud import uniform as uniform_crud
 
 def init_db(db: Session):
     rank_model.metadata.create_all(bind=engine)
-    rank_crud.create_rank(db, "이병")
-    rank_crud.create_rank(db, "일병")
-    rank_crud.create_rank(db, "상병")
-    rank_crud.create_rank(db, "병장")
+    rank_crud.create_rank(db, 1, "이병")
+    rank_crud.create_rank(db, 2, "일병")
+    rank_crud.create_rank(db, 3, "상병")
+    rank_crud.create_rank(db, 4, "병장")
 
     affiliation_model.metadata.create_all(bind=engine)
     affiliation_crud.create_affiliation(db, "육군")
