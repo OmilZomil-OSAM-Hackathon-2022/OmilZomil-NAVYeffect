@@ -15,7 +15,7 @@ async def create_user(user: schema.UserCreate = Body(), db: Session = Depends(de
 
 
 @router.get("/", response_model=List[schema.UserRead])
-def get_user(
+def get_users(
     full_name: Optional[str] = None,
     affiliation: Optional[str] = None,
     military_unit: Optional[str] = None,
@@ -24,7 +24,12 @@ def get_user(
     db: Session = Depends(deps.get_db),
 ):
     flt = schema.UserFilter(full_name=full_name, affiliation=affiliation, military_unit=military_unit, rank=rank, is_active=is_active)
-    return crud.get_user(db, flt)
+    return crud.get_users(db, flt)
+
+
+@router.get("/{user_id}", response_model=schema.UserReadResponse)
+def get_user(user_id: int, db: Session = Depends(deps.get_db)):
+    return crud.get_user(db, user_id)
 
 
 @router.put("/information/{user_id}", response_model=schema.UserResponse)
