@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 class AccessLogBase(BaseModel):
     military_base: str = Field(None, description="military base")
     access_time: datetime = Field(None, description="access time")
-    image: bytes = Field(None, description="base64 encoded image")
+    image_path: bytes = Field(None, description="image path")
 
 
 class AccessLogCreate(AccessLogBase):
@@ -18,7 +18,7 @@ class AccessLogRead(AccessLogBase):
             "example": {
                 "military_base": "계룡대 1정문",
                 "access_time": datetime.now(),
-                "image": b"base64_encoded_image",
+                "image_path": "image path",
             }
         }
         orm_mode = True
