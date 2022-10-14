@@ -49,6 +49,7 @@ class UserFilter(UserBase):
 class UserRead(UserBase):
     user_id: int = Field(None, description="primary key")
     role: int = Field(None, description="role")
+    is_active: bool = Field(None, description="is active")
 
     class Config:
         schema_extra = {
@@ -61,6 +62,7 @@ class UserRead(UserBase):
                 "rank": 4,
                 "username": "21-71007011",
                 "role": 3,
+                "is_active": True,
             }
         }
         orm_mode = True
@@ -126,6 +128,17 @@ class UserUpdateRole(BaseModel):
         schema_extra = {
             "example": {
                 "role": 2,
+            }
+        }
+
+
+class UserUpdateActivity(BaseModel):
+    is_active: bool = Field(None, description="is active")
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "is_active": True,
             }
         }
 
