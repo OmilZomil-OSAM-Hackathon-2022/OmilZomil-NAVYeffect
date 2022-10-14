@@ -48,6 +48,8 @@ class OmilZomil:
                         parts_dir = os.path.join(parts_dir, msg)
                     os.makedirs(parts_dir, exist_ok=True)
                     dst_path = os.path.join(parts_dir, str(self.frame_cnt) + '.jpg')
+
+                    os.makedirs(dst_path)
                     cv2.imwrite(dst_path, img)
 
     def boxImage(self, org_img, box_position_dic):
@@ -82,7 +84,6 @@ class OmilZomil:
         face_img = box2img(person_img, face_box)
 
         self.debug({'face':face_img}, msg='roi')
-        
         # 셔츠인식
         w, h = person_img.shape[:2]
         max_y = face_box[1][0]
@@ -123,7 +124,7 @@ class OmilZomil:
         # 최종 debug 여부 확인
         if self.debug_list:
             boxed_img, roi_dic = self.boxImage(input_img, box_position_dic)
-            plt_imshow(['boxed'], [boxed_img])
+            # plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic, msg="roi")
             self.debug(masked_img_dic, msg="masked")
             
