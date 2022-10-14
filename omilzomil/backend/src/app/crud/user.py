@@ -52,7 +52,7 @@ def get_users(db: Session, flt: UserFilter):
 def get_user(db: Session, user_id: int):
     user = db.query(User).get(user_id)
     if not user:
-        return UserReadResponse(success=False, message="user not found")
+        return UserReadResponse(success=False, message="entry not found")
 
     user = UserReadResponse(
         success=True,
