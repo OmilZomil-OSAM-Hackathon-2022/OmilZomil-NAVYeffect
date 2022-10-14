@@ -37,9 +37,9 @@ def init_db(db: Session):
     military_unit_model.metadata.create_all(bind=engine)
 
     uniform_model.metadata.create_all(bind=engine)
-    uniform_crud.create_uniform(db, "샘당")
-    uniform_crud.create_uniform(db, "정복")
-    uniform_crud.create_uniform(db, "군복")
+    uniform_crud.create_uniform(db, 1, "샘당")
+    uniform_crud.create_uniform(db, 2, "정복")
+    uniform_crud.create_uniform(db, 3, "군복")
 
     access_log_model.metadata.create_all(bind=engine)
     inspection_log_model.metadata.create_all(bind=engine)
