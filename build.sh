@@ -75,6 +75,7 @@ sudo docker-compose --env-file .env.lock run --rm web python src/initial_data.py
 # docker 빌드 캐쉬 제거
 echo [+] remove build cache
 sudo docker builder prune -f
+sudo docker volume prune -f
 
 sudo docker-compose --env-file .env.lock rm -f
 
