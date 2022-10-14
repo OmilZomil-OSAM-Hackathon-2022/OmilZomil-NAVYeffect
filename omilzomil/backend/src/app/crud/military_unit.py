@@ -19,20 +19,20 @@ def get_military_unit(db: Session):
     return db.query(MilitaryUnit).all()
 
 
-def update_military_unit(db: Session, old_unit: str, new_unit: str):
-    unit = db.query(MilitaryUnit).filter_by(unit=old_unit)
-    if not unit.count():
+def update_military_unit(db: Session, unit_id: int, new_unit: str):
+    old_unit = db.query(MilitaryUnit).filter_by(unit_id=unit_id)
+    if not old_unit.count():
         return MilitaryUnitResponse(success=False, message="entry not found")
     try:
-        unit.update({"unit": new_unit})
+        old_unit.update({"unit": new_unit})
         db.commit()
         return MilitaryUnitResponse(success=True, message="success")
     except sqlalchemy.exc.IntegrityError:
         return MilitaryUnitResponse(success=False, message="unique key constraint fail")
 
 
-def delete_military_unit(db: Session, unit: str):
-    unit = db.query(MilitaryUnit).filter_by(unit=unit)
+def delete_military_unit(db: Session, unit_id: int):
+    unit = db.query(MilitaryUnit).filter_by(unit_id=unit_id)
     if not unit.count():
         return MilitaryUnitResponse(success=False, message="entry not found")
     else:
