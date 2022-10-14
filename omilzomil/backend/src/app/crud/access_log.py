@@ -8,7 +8,7 @@ def get_access_log_by_id(db: Session, access_id: int):
 
 
 def create_access_log(db: Session, access: AccessLogCreate):
-    access_log = AccessLog(military_base=access.military_base, access_time=access.access_time, image=access.image)
+    access_log = AccessLog(military_base=access.military_base, access_time=access.access_time, image_path=access.image)
     db.add(access_log)
     db.commit()
     db.refresh(access_log)
