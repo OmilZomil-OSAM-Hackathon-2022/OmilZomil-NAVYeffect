@@ -22,6 +22,7 @@ class NavyServiceUniformChecker(UniformChecker):
 
         super().__init__(filter, 'navy_service_uniform')
         self.name_cache = None
+        self.debug_cnt = 0
 
 
     def isNameTag(self, contour, position, kind):
@@ -82,6 +83,7 @@ class NavyServiceUniformChecker(UniformChecker):
                         component = 'cached ' + self.name_cache
                     else:
                         ocr_list = OCR(img)
+                        self.debug_cnt += 1
                         box_position, component = self.getName(contour, ocr_list)
                         self.name_cache = component
 
@@ -99,4 +101,5 @@ class NavyServiceUniformChecker(UniformChecker):
                     component_dic['class_tag'] = component
                     masked_img_dic['class_tag'] = masked_img
 
+        print('debug cnt : ', self.debug_cnt)
         return component_dic, box_position_dic, masked_img_dic
