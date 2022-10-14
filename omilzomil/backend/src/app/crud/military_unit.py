@@ -1,7 +1,7 @@
 import sqlalchemy.exc
 from sqlalchemy.orm import Session
 from app.models.military_unit import MilitaryUnit
-from app.schemas.military_unit import MilitaryUnitResponse, MilitaryUnitReadResponse
+from app.schemas.military_unit import MilitaryUnitResponse
 
 
 def create_military_unit(db: Session, unit: str):
@@ -10,28 +10,14 @@ def create_military_unit(db: Session, unit: str):
         db.add(unit)
         db.commit()
         db.refresh(unit)
-        return MilitaryUnitResponse(success=True, message="success")
+        return MilitaryUnitResponse(success=True, message=unit.unit_id)
     except sqlalchemy.exc.IntegrityError:
         return MilitaryUnitResponse(success=False, message="unique key constraint fail")
 
 
-def get_military_units(db: Session):
-    return db.query(MilitaryUnit).all()
-
-
-def get_military_unit(db: Session, unit: str):
-    unit = db.query(MilitaryUnit).filter(MilitaryUnit.unit.like(f"%{unit}%"))
-    if not unit.count():
-        return MilitaryUnitReadResponse(success=False, message="entry not found")
-
-    unit = unit.first()
-    unit = MilitaryUnitReadResponse(
-        success=True,
-        message="success",
-        unit_id=unit.unit_id,
-        unit=unit.unit,
-    )
-    return unit
+def get_military_units(db: Session, unit: str):
+    unit = unit and f"%{unit}%" or "%"
+    return db.query(MilitaryUnit).filter(MilitaryUnit.unit.like(unit)).all()
 
 
 def update_military_unit(db: Session, unit_id: int, new_unit: str):
@@ -41,7 +27,7 @@ def update_military_unit(db: Session, unit_id: int, new_unit: str):
     try:
         old_unit.update({"unit": new_unit})
         db.commit()
-        return MilitaryUnitResponse(success=True, message="success")
+        return MilitaryUnitResponse(success=True, message=unit_id)
     except sqlalchemy.exc.IntegrityError:
         return MilitaryUnitResponse(success=False, message="unique key constraint fail")
 
@@ -53,4 +39,4 @@ def delete_military_unit(db: Session, unit_id: int):
     else:
         unit.delete()
         db.commit()
-        return MilitaryUnitResponse(success=True, message="success")
+        return MilitaryUnitResponse(success=True, message=unit_id)
