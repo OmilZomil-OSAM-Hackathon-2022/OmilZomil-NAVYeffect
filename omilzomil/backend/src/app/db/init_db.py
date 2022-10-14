@@ -22,10 +22,10 @@ def init_db(db: Session):
     rank_crud.create_rank(db, "병장")
 
     affiliation_model.metadata.create_all(bind=engine)
-    affiliation_crud.create_affiliation(db, "육군")
-    affiliation_crud.create_affiliation(db, "해군")
-    affiliation_crud.create_affiliation(db, "공군")
-    affiliation_crud.create_affiliation(db, "해병대")
+    affiliation_crud.create_affiliation(db, 1, "육군")
+    affiliation_crud.create_affiliation(db, 2, "해군")
+    affiliation_crud.create_affiliation(db, 3, "공군")
+    affiliation_crud.create_affiliation(db, 4, "해병대")
 
     role_model.metadata.create_all(bind=engine)
     role_crud.create_role(db, "super")
