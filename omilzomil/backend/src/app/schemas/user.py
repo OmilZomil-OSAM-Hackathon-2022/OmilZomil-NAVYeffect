@@ -66,6 +66,27 @@ class UserRead(UserBase):
         orm_mode = True
 
 
+class UserReadResponse(UserRead, metaclass=AllOptional):
+    success: Optional[bool] = Field(None, description="result")
+    message: Optional[str] = Field(None, description="message")
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "success": True,
+                "message": "success",
+                "user_id": 1,
+                "full_name": "정의철",
+                "dog_number": "21-71007011",
+                "affiliation": "해군",
+                "military_unit": "계룡대 근무지원단 본부대대",
+                "rank": "병장",
+                "username": "21-71007011",
+                "role": "super",
+            }
+        }
+
+
 class UserUpdateInformation(BaseModel):
     full_name: str = Field(None, description="real user name")
     dog_number: str = Field(None, description="dog number")
@@ -111,24 +132,3 @@ class UserUpdateRole(BaseModel):
 
 class UserResponse(Response):
     pass
-
-
-class UserReadResponse(UserRead, metaclass=AllOptional):
-    success: Optional[bool] = Field(None, description="result")
-    message: Optional[str] = Field(None, description="message")
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "success": True,
-                "message": "success",
-                "user_id": 1,
-                "full_name": "정의철",
-                "dog_number": "21-71007011",
-                "affiliation": "해군",
-                "military_unit": "계룡대 근무지원단 본부대대",
-                "rank": "병장",
-                "username": "21-71007011",
-                "role": "super",
-            }
-        }
