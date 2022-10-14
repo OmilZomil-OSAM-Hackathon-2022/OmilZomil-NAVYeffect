@@ -104,5 +104,5 @@ class FeatureExtractor:
         x = np.array(rgb)
         x = np.expand_dims(x, axis=0)
         x = preprocess_input(x)
-        feature = self.model.predict(x)[0]
+        feature = self.model.predict(x, verbose=0)[0]
         return feature / np.linalg.norm(feature)
