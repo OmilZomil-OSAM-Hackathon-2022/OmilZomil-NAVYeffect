@@ -27,7 +27,7 @@ def get_current_user(db: Session = Depends(get_db), token: str = Depends(reusabl
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[security.ALGORITHM])
         user_id = payload["sub"]
     except (jwt.JWTError, ValidationError):
-        return UserReadResponse(success=False, message="could not validate credentials")
+        return UserReadResponse(success=False, message="invalid credentials")
     return crud.get_user(db, user_id=user_id)
 
 
