@@ -9,6 +9,7 @@ from app.models.uniform import Base as uniform_model
 from app.models.access_log import Base as access_log_model
 from app.models.inspection_log import Base as inspection_log_model
 from app.models.appearance import Base as appearance_model
+from app.models.inspection_detail import Base as inspection_detail_model
 from app.crud import rank as rank_crud
 from app.crud import affiliation as affiliation_crud
 from app.crud import role as role_crud
@@ -50,3 +51,5 @@ def init_db(db: Session):
     appearance_crud.create_appearance(db, 1, "샘당")
     appearance_crud.create_appearance(db, 2, "정복")
     appearance_crud.create_appearance(db, 3, "군복")
+
+    inspection_detail_model.metadata.create_all(bind=engine)
