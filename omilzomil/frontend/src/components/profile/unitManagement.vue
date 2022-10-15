@@ -13,6 +13,7 @@
           <th w>
             부대이름
           </th>
+          <th>위병소 관리</th>
           <th>변경</th>
           <th>삭제</th>
         </tr>
@@ -20,6 +21,11 @@
       <tbody>
         <tr>
           <td>계룡대 본부대대</td>
+          <td>
+            <div class="tcenter">
+              <a>관리</a>
+            </div>
+          </td>
           <td>
             <div class="tcenter">
               <a>변경</a>
