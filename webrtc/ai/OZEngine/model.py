@@ -30,7 +30,8 @@ class OmilZomil:
     def demo(self, img):
         morphed_edge, ret = self.morph_engine.detect_edge(img)
         hed_edge = self.HED_engine.detect_edge(img, 500, 500)
-        plt_imshow(['morphed', 'hed'], [morphed_edge, hed_edge])
+        self.debug({'demo':morphed_edge}, msg='morphed')
+        self.debug({'demo':hed_edge}, msg='hed')
 
     def debug(self, debug_img, msg=""):
         pairs = [(f'{msg} - {name}', img)
@@ -127,6 +128,9 @@ class OmilZomil:
             # plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic, msg="roi")
             self.debug(masked_img_dic, msg="masked")
+            self.debug({"result":boxed_img}, msg="res")
+            self.demo(shirt_img)
+            
             
             
         self.frame_cnt += 1
