@@ -43,7 +43,23 @@ def get_fail_from_unit(db: Session = Depends(deps.get_db), current_user: UserRea
 
     ret = {"success": True, "message": "success"}
     types = {"이름표": 2, "계급장": 3, "태극기": 4, "모자": 5}
+
     for appearance_type in types.items():
         ret[appearance_type[0]] = crud.get_monthly_detailed_stats(db, military_unit=current_user.military_unit, appearance_type=appearance_type[1], status=True)
+
+    return ret
+
+
+@router.get("/unit/pass/")
+def get_pass_from_unit(db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
+    if not current_user.success:
+        return {"success": False, "message": current_user.message}
+
+    ret = {"success": True, "message": "success"}
+
+    cur = datetime.now()
+    for i in range(0, 12):
+        date = cur - relativedelta(months=i)
+        ret[date.strftime("%Y-%m")] = crud.get_monthly_overall_stats(db, military_unit=current_user.military_unit, date=date, status=True)
 
     return ret
