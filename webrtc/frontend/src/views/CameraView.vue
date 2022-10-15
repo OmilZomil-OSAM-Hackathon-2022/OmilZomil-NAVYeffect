@@ -1,36 +1,251 @@
 <template>
   <div class="home">
-    <button id="camera--trigger" @click="capture">capture</button>
-    <video ref="video" id="camera--view" autoplay width="300"></video>
-    <canvas ref="canvas" style="display:none;" width="300" height="225"></canvas>
-    <img ref="image" style="object-fit: contain;">
-    <img ref="back" style="object-fit: contain;">
-    <button @click="connect">Connect</button>
-    <button @click="disconnect">Disconnect</button>
-    <button @click="send">Send</button>
+    <div>
+      <button @click="test1">test1</button>
+      <button @click="test2">test2</button>
+      <button @click="test3">test3</button>
+      <button @click="reset">reset</button>
+    </div>
+    <div class="left">
+      <img class="video" src="@/assets/images/test.svg" />
+      <!-- <video ref="video" id="camera--view" autoplay width="300"></video>
+      <canvas ref="canvas" style="display:none;" width="300" height="225"></canvas> -->
+    </div>
+    <div class="right" v-if="this.data['imgview']">
+      <img ref="back" class="back" src="@/assets/images/test.svg">
+      <div class="result">
+        <div class="content" v-if="data['kind']==='blue'">
+          <div class="kind">
+            <div class="res-left">
+              복장 종류:
+            </div>
+            <div class="res-right" style="color: #4471FB;">
+              <img class="kind-img" src="@/assets/icons/blue.svg" />
+              해군 샘당
+            </div>
+          </div>
+          <div class="hair">
+            <div class="res-left">
+              두발:
+            </div>
+            <div class="res-right">
+              <img v-if="data['hair']" src="@/assets/icons/pass.svg" />
+              <img v-else src="@/assets/icons/fail.svg" />
+            </div>
+          </div>
+          <div class="level">
+            <div class="res-left">
+              계급장:
+            </div>
+            <div class="res-right">
+              <img v-if="data['level']" src="@/assets/icons/pass.svg" />
+              <img v-else src="@/assets/icons/fail.svg" />
+            </div>
+          </div>
+          <div class="nametag">
+            <div class="res-left">
+              이름표:
+            </div>
+            <div class="res-right">
+              <img v-if="data['nametag']" src="@/assets/icons/pass.svg" />
+              <img v-else src="@/assets/icons/fail.svg" />
+            </div>
+          </div>
+        </div>
+        <div class="content" v-if="data['kind']==='green'">
+          <div class="kind">
+            <div class="res-left">
+              복장 종류:
+            </div>
+            <div class="res-right" style="color: #1DCB9D;">
+              <img class="kind-img" src="@/assets/icons/green.svg" />
+              해군 전투복
+            </div>
+          </div>
+          <div class="hair">
+            <div class="res-left">
+              두발:
+            </div>
+            <div class="res-right">
+              <img v-if="data['hair']" src="@/assets/icons/pass.svg" />
+              <img v-else src="@/assets/icons/fail.svg" />
+            </div>
+          </div>
+          <div class="level">
+            <div class="res-left">
+              계급장:
+            </div>
+            <div class="res-right">
+              <img v-if="data['level']" src="@/assets/icons/pass.svg" />
+              <img v-else src="@/assets/icons/fail.svg" />
+            </div>
+          </div>
+          <div class="nametag">
+            <div class="res-left">
+              이름표:
+            </div>
+            <div class="res-right">
+              <img v-if="data['nametag']" src="@/assets/icons/pass.svg" />
+              <img v-else src="@/assets/icons/fail.svg" />
+            </div>
+          </div>
+          <div class="flag">
+            <div class="res-left">
+              태극기:
+            </div>
+            <div class="res-right">
+              <img v-if="data['flag']" src="@/assets/icons/pass.svg" />
+              <img v-else src="@/assets/icons/fail.svg" />
+            </div>
+          </div>
+        </div>
+        <div class="content" v-if="data['kind']==='black'">
+          <div class="kind">
+            <div class="res-left">
+              복장 종류:
+            </div>
+            <div class="res-right" style="color: #585767;">
+              <img class="kind-img" src="@/assets/icons/black.svg" />
+              해군 동정복
+            </div>
+          </div>
+          <div class="hair">
+            <div class="res-left">
+              두발:
+            </div>
+            <div class="res-right">
+              <img v-if="data['hair']" src="@/assets/icons/pass.svg" />
+              <img v-else src="@/assets/icons/fail.svg" />
+            </div>
+          </div>
+          <div class="level">
+            <div class="res-left">
+              계급장:
+            </div>
+            <div class="res-right">
+              <img v-if="data['level']" src="@/assets/icons/pass.svg" />
+              <img v-else src="@/assets/icons/fail.svg" />
+            </div>
+          </div>
+          <div class="nametag">
+            <div class="res-left">
+              이름표:
+            </div>
+            <div class="res-right">
+              <img v-if="data['nametag']" src="@/assets/icons/pass.svg" />
+              <img v-else src="@/assets/icons/fail.svg" />
+            </div>
+          </div>
+          <div class="ma">
+            <div class="res-left">
+              마후라:
+            </div>
+            <div class="res-right">
+              <img v-if="data['ma']" src="@/assets/icons/pass.svg" />
+              <img v-else src="@/assets/icons/fail.svg" />
+            </div>
+          </div>
+          <div class="neck">
+            <div class="res-left">
+              네카치프 & 링:
+            </div>
+            <div class="res-right">
+              <img v-if="data['neck']" src="@/assets/icons/pass.svg" />
+              <img v-else src="@/assets/icons/fail.svg" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else class="right">
+      <img class="loading" src="@/assets/icons/loading.svg"  />
+    </div>
   </div>
 </template>
 
 <script>
+// class man1{
+//     constructor(){
+//         this.kind = "blue";
+//         this.hair = true;
+//         this.nametag = true;
+//         this.level = true;
+//     }
+// }
+// class man2{
+//     constructor(){
+//         this.kind = "green";
+//         this.hair = true;
+//         this.flag = true;
+//         this.nametag = true;
+//         this.level = true;
+//     }
+// }
+// class man3{
+//     constructor(){
+//         this.kind = "black";
+//         this.hair = true;
+//         this.ma = true;
+//         this.nametag = true;
+//         this.neck = false;
+//         this.level = true;
+//     }
+// }
 export default {
   name: 'Capture',
   data() {
       return {
+        data:{
+          "imgview" : false,
+          "kind" : null,
+          "hair" : null,
+          "nametag" : null,
+          "level" : null,
+          "ma" : null,
+          "neck" : null,
+          "flag" : null
+        },
         socket : null,
         url : `wss://117.17.110.220:7778/v1/ws2`,
         img : null,
         setI : null,
-        // kind: '해군 동정복',
-        // one:["태극기",true],
-        // two:["이름표",false],
-        // three:["계급장",true],
-        // four:["두발",true],
-        // five:null,
-        // resive:false,
-        // capturing:false,
       }
     },
   methods: {
+    test1(){
+      this.data["imgview"]=true;
+      this.data["kind"]="blue";
+      this.data["hair"]=true;
+      this.data["nametag"]=false;
+      this.data["level"]=true;
+    },
+    test2(){
+      this.data["imgview"]=true;
+      this.data["kind"]="green";
+      this.data["hair"]=true;
+      this.data["nametag"]=true;
+      this.data["level"]=false;
+      this.data["flag"]=true;
+    },
+    test3(){
+      this.data["imgview"]=true;
+      this.data["kind"]="black";
+      this.data["hair"]=true;
+      this.data["nametag"]=true;
+      this.data["level"]=false;
+      this.data["ma"]=true;
+      this.data["neck"]=true;
+    },
+    reset(){
+      this.data["imgview"]=false;
+      this.data["kind"]=null;
+      this.data["hair"]=null;
+      this.data["nametag"]=null;
+      this.data["level"]=null;
+      this.data["flag"]=null;
+      this.data["ma"]=null;
+      this.data["neck"]=null;
+    },
     stop(){
       console.log('stop')
       clearInterval(this.setI)
@@ -77,3 +292,133 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  @keyframes load {
+    0% {transform:rotate(0deg);}
+    100% {transform: rotate(360deg);}
+  }
+  .home{
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    height:100vh;
+  }
+  .left{
+    display:flex;
+    align-content: center;
+    justify-content: center;
+    width:40%;
+    height:100%;
+  }
+  .video{
+    width:600px;
+  }
+  .right{
+    display:flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    gap: 60px;
+    width:60%;
+    height:100%;
+  }
+  .back{
+    width:300px;
+  }
+  .result{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width:300px;
+  }
+  .content{
+    position:relative;
+    width:370px;
+    height:380px;
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+    justify-content: space-between;
+  }
+  .kind{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    height: 39.96px;
+  }
+  .hair{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    height: 39.96px;
+  }
+  .level{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    height: 39.96px;
+  }
+  .nametag{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    height: 39.96px;
+  }
+  .flag{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    height: 39.96px;
+  }
+  .ma{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    height: 39.96px;
+  }
+  .neck{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    height: 39.96px;
+  }
+  .res-left{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height:28px;
+  }
+  .res-right{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 28px;
+    letter-spacing: 0.373762px;
+  }
+  .kind-img{
+    width: 24px;
+    height: 24px;
+  }
+  .loading{
+    width:50px;
+    animation: load 0.7s linear infinite;
+  }
+  @media (max-width: 1200px) {
+  .home{
+    flex-direction: column;
+  }
+  .left{
+    width:100%;
+  }
+  .right{
+    width:100%;
+  }
+}
+</style>
