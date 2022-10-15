@@ -47,8 +47,10 @@ class UniformChecker:
         name_chrs = []
 
         if ocr_list:
-            for ocr_res in ocr_list:
+            sorted_orc_list = sorted(ocr_list, key=lambda ocr_res: ocr_res['boxes'][0][0])
+            for ocr_res in sorted_orc_list:
                 ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
+                ocr_str = self.name_tag_filter(ocr_str)
                 ocr_center_xy = getRectCenterPosition(ocr_box)
                 if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
                     box_position = cv2.boundingRect(contour)
