@@ -46,6 +46,12 @@ class FullDressUniformChecker():
     def isClassTag(self, contour, position, kind):
         return position == 'left' and kind == 'class_tag'
 
+    def isAnchor(self, contour, position, kind):
+        return kind == 'anchor' and cv2.contourArea(contour) > 100
+
+    def isMahura(self, contour, position, kind):
+        return kind == 'mahura'
+
     def isInShirt(self, contour):
         # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
         return 3 <= getVertexCnt(contour) <= 10 and cv2.contourArea(contour) > 300
@@ -108,14 +114,10 @@ class FullDressUniformChecker():
             img=img, hsv_img=hsv_img, kind=name)
         
         for contour in contours:
-            if cv2.contourArea(contour) > 100:
+            if self.isAnchor(contour):
                 center_p = getContourCenterPosition(contour)
-                box_position = cv2.boundingRect(contour)
-                component = True
-                break
-
-        box_position_dic[name] = box_position
-        component_dic[name] = component
+                box_position_dic[name] = cv2.boundingRect(contour)
+                component_dic[name] = True
 
         # 계급장 체크
         box_position, component = None, None
