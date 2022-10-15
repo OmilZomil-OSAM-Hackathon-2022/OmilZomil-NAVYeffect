@@ -25,8 +25,8 @@ def get_rate_from_unit(category: Optional[str] = None, db: Session = Depends(dep
     cur = datetime.now()
     prev = cur - relativedelta(months=1)
 
-    cur = crud.get_monthly_unit_stats(db, unit=current_user.military_unit, date=cur, category=category, status=status)
-    prev = crud.get_monthly_unit_stats(db, unit=current_user.military_unit, date=prev, category=category, status=status)
+    cur = crud.get_monthly_overall_stats(db, unit=current_user.military_unit, date=cur, category=category, status=status)
+    prev = crud.get_monthly_overall_stats(db, unit=current_user.military_unit, date=prev, category=category, status=status)
 
     if prev != 0:
         increase_rate = ((cur / prev) - 1) * 100
