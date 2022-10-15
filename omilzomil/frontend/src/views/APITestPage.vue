@@ -21,10 +21,9 @@ export default {
     }
   },
   methods: {
-    
     getAPI() {
       this.$axios
-        .get("http://117.17.110.220:7717/user/read")
+        .get("https://localhost:8888")
         .then((response) => {
           console.log(response);
           this.res = response;
