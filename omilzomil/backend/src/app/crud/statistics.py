@@ -6,7 +6,7 @@ from app.models.inspection_log import InspectionLog
 from app.models.inspection_detail import InspectionDetail
 
 
-def get_monthly_unit_stats(db: Session, unit: int, date: datetime = None, category: str = None, status: bool = None):
+def get_monthly_overall_stats(db: Session, military_unit: int = None, date: datetime = None, category: str = None, status: bool = None):
     if date is None:
         date = datetime.now()
 
@@ -14,10 +14,11 @@ def get_monthly_unit_stats(db: Session, unit: int, date: datetime = None, catego
         db.query(InspectionLog)
         .join(AccessLog, AccessLog.access_id == InspectionLog.access_id)
         .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
-        .filter(or_(AccessLog.military_unit == unit, AccessLog.military_unit == 0))
         .filter(AccessLog.access_time.like(date.strftime("%Y-%m-%%")))
     )
 
+    if military_unit is not None:
+        log = log.filter(or_(AccessLog.military_unit == military_unit, AccessLog.military_unit == 0))
     if category == "hair":
         log = log.filter(InspectionDetail.appearance_type == 1)
     elif category == "appearance":
