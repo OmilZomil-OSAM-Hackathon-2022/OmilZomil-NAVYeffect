@@ -23,7 +23,7 @@ export default {
   methods: {
     getAPI() {
       this.$axios
-        .get("https://localhost:8888")
+        .get("/unit/")
         .then((response) => {
           console.log(response);
           this.res = response;
