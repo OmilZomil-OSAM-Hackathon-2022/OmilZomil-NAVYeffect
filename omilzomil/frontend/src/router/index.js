@@ -106,7 +106,12 @@ const routes = [
     ]
     // component: () => import('../views/ListUpPage.vue'),
   },
-  
+  {
+    path: "/api",
+    name: "api",
+
+    component: () => import('../views/APITestPage.vue'),
+  }
 ];
 
 const router = createRouter({
