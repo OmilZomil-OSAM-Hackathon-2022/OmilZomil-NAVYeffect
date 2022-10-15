@@ -78,30 +78,39 @@ const routes = [
     children:[
       {
         path:'',
-        name:'editProfile',
+        name:'EditProfile',
         meta:{
           enterClass: "animate__animated animate__fadeInLeft",
           leaveClass: "animate__animated animate__fadeOutRight",
         },
-        component:()=>import('../components/profile/editProfile.vue'),
+        component:()=>import('../components/profile/EditProfile.vue'),
       },
       {
         path:'userManagement',
-        name:'userManagement',
+        name:'UserManagement',
         meta:{
           enterClass: "animate__animated animate__fadeInLeft",
           leaveClass: "animate__animated animate__fadeOutRight",
         },
-        component:()=>import('../components/profile/userManagement.vue'),
+        component:()=>import('../components/profile/UserManagement.vue'),
       },
       {
         path:'unitManagement',
-        name:'unitManagement',
+        name:'UnitManagement',
         meta:{
           enterClass: "animate__animated animate__fadeInLeft",
           leaveClass: "animate__animated animate__fadeOutRight",
         },
-        component:()=>import('../components/profile/unitManagement.vue'),
+        component:()=>import('../components/profile/UnitManagement.vue'),
+      },
+      {
+        path:'guardroomManagement',
+        name:'GuardroomManagement',
+        meta:{
+          enterClass: "animate__animated animate__fadeInLeft",
+          leaveClass: "animate__animated animate__fadeOutRight",
+        },
+        component:()=>import('../components/profile/GuardroomManagement.vue'),
       }
     ]
     // component: () => import('../views/ListUpPage.vue'),
