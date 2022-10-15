@@ -78,18 +78,26 @@
               >
                 프로필 수정
               </router-link>
-              <router-link
-                to="/profile/userManagement"
-                @click="closeUserMenu"
-              >
-                사용자 관리
-              </router-link>
-              <router-link
-                to="/profile/unitManageMent"
-                @click="closeUserMenu"
-              >
-                부대 관리
-              </router-link>
+              <div class="admin">
+                <router-link
+                  to="/profile/userManagement"
+                  @click="closeUserMenu"
+                >
+                  사용자 관리
+                </router-link>
+                <router-link
+                  to="/profile/unitManageMent"
+                  @click="closeUserMenu"
+                >
+                  부대 관리
+                </router-link>
+                <router-link
+                  to="/profile/unitManageMent"
+                  @click="closeUserMenu"
+                >
+                  위병소 관리
+                </router-link>
+              </div>
               <router-link
                 to="/"
                 @click="closeUserMenu"
@@ -418,6 +426,13 @@ button{
   /* right:20px; */
   margin-right:20px;
   gap:5px;
+}
+.admin{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:5px;
+
 }
 .userMenu a{
   box-sizing:border-box;

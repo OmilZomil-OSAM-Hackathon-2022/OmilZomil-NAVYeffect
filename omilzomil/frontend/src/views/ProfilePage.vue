@@ -11,6 +11,9 @@
         <router-link to="/profile/unitManagement">
           부대 관리
         </router-link>
+        <router-link to="/profile/GuardroomManagement">
+          위병소 관리
+        </router-link>
       </div>
       <router-view v-slot="{Component, route}">
         <transition
