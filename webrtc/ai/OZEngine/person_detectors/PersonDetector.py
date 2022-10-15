@@ -68,6 +68,7 @@ class PersonDetector():
                 else:
                     x, y, w, h = box
                     break
-        x = max(0, x)
-        y = max(0, y)  
+        if x is not None and y is not None:
+            x = max(0, x)
+            y = max(0, y)
         return ((y,x), (y+h, x+w))
