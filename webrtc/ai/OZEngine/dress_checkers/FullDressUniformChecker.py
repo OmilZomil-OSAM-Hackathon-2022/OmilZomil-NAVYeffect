@@ -13,12 +13,24 @@ from OZEngine.lib.utils import plt_imshow
 class FullDressUniformChecker():
     def __init__(self):
         # hyperparameter
-        self.uniform_filter = {'lower': (12, 0, 0), 'upper': (197, 255, 116)}
-        self.anchor_filter = {'lower': (20, 100, 100), 'upper': (30, 255, 255)}
-        self.classes_filter = {
-            'lower': (140, 120, 50), 'upper': (190, 255, 255)}
-        self.mahura_filter = {
-            'lower': (140, 120, 50), 'upper': (190, 255, 255)}
+        filter = {
+            'uniform': {
+                'lower': (12, 0, 0),
+                'upper': (197, 255, 116)
+            },
+            'class_tag': {
+                'lower': (140, 120, 50),
+                'upper': (190, 255, 255)
+            },
+            'anchor': {
+                'lower': (20, 100, 100),
+                'upper': (30, 255, 255)
+            },
+            'mahura': {
+                'lower': (140, 120, 50), 
+                'upper': (190, 255, 255)
+            }
+        }
 
         self.name_tag_pattern = re.compile('[가-힣]+')
 
