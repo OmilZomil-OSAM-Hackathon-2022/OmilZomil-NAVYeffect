@@ -19,8 +19,7 @@ export default {
         socket : null,
         url : `wss://117.17.110.220:7778/v1/ws2`,
         img : null,
-        backimg: null,
-        // setI : null,
+        setI : null,
         // kind: '해군 동정복',
         // one:["태극기",true],
         // two:["이름표",false],
@@ -32,14 +31,16 @@ export default {
       }
     },
   methods: {
-    send() {
-      this.socket.send(this.img);
+    stop(){
+      console.log('stop')
+      clearInterval(this.setI)
     },
     connect() {
       console.log("start")
       this.socket = new WebSocket(this.url)
       this.socket.onopen = () => {
         console.log({ type: 'INFO', msg: 'CONNECTED' })
+        this.setI=setInterval(this.capture,1000);
       }
       this.socket.onerror = () => {
         console.log({ type: 'ERROR', msg: 'ERROR:' })
@@ -47,6 +48,7 @@ export default {
       this.socket.onmessage = ({ data }) => {
         console.log({ type: 'RECV', msg: 'RECV:' + data })
         this.$refs.back.src=data;
+        this.stop()
       }
       this.socket.onclose = (msg) => {
         console.log({ type: 'ERROR', msg: 'Closed (Code: ' + msg.code + ', Message: ' + msg.reason + ')' })
@@ -60,6 +62,7 @@ export default {
       ctx.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
       this.img = canvas.toDataURL('image/webp');
       image.src = this.img;
+      this.socket.send(this.img)
     }
   },
   mounted() {
