@@ -10,3 +10,4 @@ from OZEngine.lib import utils
 
 from .FullDressUniformChecker import FullDressUniformChecker
 from .NavyServiceUniformChecker import NavyServiceUniformChecker
+from .UniformChecker import UniformChecker

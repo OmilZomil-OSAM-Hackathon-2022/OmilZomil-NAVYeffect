@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from fastapi import APIRouter, Depends, Body
 from sqlalchemy.orm import Session
 from app.crud import military_unit as crud
@@ -15,15 +15,15 @@ async def create_military_unit(unit: schema.MilitaryUnitCreate = Body(), db: Ses
 
 
 @router.get("/", response_model=List[schema.MilitaryUnitRead])
-def get_military_unit(db: Session = Depends(deps.get_db)):
-    return crud.get_military_unit(db)
+def get_military_units(unit: Optional[str] = None, db: Session = Depends(deps.get_db)):
+    return crud.get_military_units(db, unit)
 
 
-@router.put("/{unit}", response_model=schema.MilitaryUnitResponse)
-async def update_military_unit(unit: int, new_unit: schema.MilitaryUnitUpdate = Body(), db: Session = Depends(deps.get_db)):
-    return crud.update_military_unit(db, unit, new_unit.unit)
+@router.put("/{unit_id}", response_model=schema.MilitaryUnitResponse)
+async def update_military_unit(unit_id: int, new_unit: schema.MilitaryUnitUpdate = Body(), db: Session = Depends(deps.get_db)):
+    return crud.update_military_unit(db, unit_id, new_unit.unit)
 
 
-@router.delete("/{unit}", response_model=schema.MilitaryUnitResponse)
-def delete_military_unit(unit: int, db: Session = Depends(deps.get_db)):
-    return crud.delete_military_unit(db, unit)
+@router.delete("/{unit_id}", response_model=schema.MilitaryUnitResponse)
+def delete_military_unit(unit_id: int, db: Session = Depends(deps.get_db)):
+    return crud.delete_military_unit(db, unit_id)
