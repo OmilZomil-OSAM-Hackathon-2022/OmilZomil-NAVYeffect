@@ -48,8 +48,12 @@ def init_db(db: Session):
     inspection_log_model.metadata.create_all(bind=engine)
 
     appearance_model.metadata.create_all(bind=engine)
-    appearance_crud.create_appearance(db, 1, "샘당")
-    appearance_crud.create_appearance(db, 2, "정복")
-    appearance_crud.create_appearance(db, 3, "군복")
+    appearance_crud.create_appearance(db, 1, "두발")
+    appearance_crud.create_appearance(db, 2, "이름표")
+    appearance_crud.create_appearance(db, 3, "계급장")
+    appearance_crud.create_appearance(db, 4, "태극기")
+    appearance_crud.create_appearance(db, 5, "모자")
+    appearance_crud.create_appearance(db, 6, "네커치프")
+    appearance_crud.create_appearance(db, 7, "머플러")
 
     inspection_detail_model.metadata.create_all(bind=engine)
