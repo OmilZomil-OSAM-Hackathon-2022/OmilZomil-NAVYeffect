@@ -33,3 +33,25 @@ def get_monthly_overall_stats(db: Session, military_unit: int = None, date: date
         count = total
 
     return count
+
+
+def get_monthly_detailed_stats(db: Session, appearance_type: int, military_unit: int = None, date: datetime = None, status: bool = None):
+    if date is None:
+        date = datetime.now()
+
+    log = (
+        db.query(InspectionLog)
+        .join(AccessLog, AccessLog.access_id == InspectionLog.access_id)
+        .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
+        .filter(AccessLog.access_time.like(date.strftime("%Y-%m-%%")))
+        .filter(InspectionDetail.appearance_type == appearance_type)
+    )
+
+    if military_unit is not None:
+        log = log.filter(or_(AccessLog.military_unit == military_unit, AccessLog.military_unit == 0))
+    if status is not None:
+        count = log.filter(InspectionDetail.status == status).count()
+    else:
+        count = log.count()
+
+    return count
