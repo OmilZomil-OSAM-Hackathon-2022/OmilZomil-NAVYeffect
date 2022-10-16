@@ -41,7 +41,7 @@ class FullDressUniformChecker():
         return res_string
 
     def isNameTag(self, contour, position, kind):
-        return position == 'left' and kind == 'name_tag'
+        return position == 'left' and kind == 'name_tag' and cv2.contourArea(contour) > 100
 
     def isClassTag(self, contour, position, kind):
         return position == 'left' and kind == 'class_tag'
@@ -65,14 +65,15 @@ class FullDressUniformChecker():
         masked_img_dic = {}
 
         # 이름표 체크
-        box_position, component = None, None
         name = 'name'
-        contours, sorted_hierarchy, masked_img_dic[name] = self.getMaskedContours(
+        contours, sorted_hierarchy, masked_img_dic['shirt'] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='uniform', sort=True)
         box_position, component, masked_img = self.getName(
             img, contours, sorted_hierarchy)
+            
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
             if i == 0:  # 옷
+                cur_node, next_node, prev_node, first_child, parent = lev
                 shirt_node = cur_node
                 continue
 
@@ -102,42 +103,34 @@ class FullDressUniformChecker():
                     component_dic[name] = component
                     break
 
-
-        box_position_dic['shirt'] = box_position
         box_position_dic[name] = component
         component_dic[name] = masked_img
 
         # 네카치프 / 네카치프링 체크
-        box_position, component = None, None
         name = 'anchor'
         contours, masked_img_dic[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name)
         
         for contour in contours:
-            if self.isAnchor(contour):
-                center_p = getContourCenterPosition(contour)
+            center_p = getContourCenterPosition(contour)
+            position = 'left' if center_p[0] < (W//2) else 'right'
+            if self.isAnchor(contour, position, kind):
                 box_position_dic[name] = cv2.boundingRect(contour)
                 component_dic[name] = True
+                break
 
         # 계급장 체크
-        box_position, component = None, None
         name = 'class_tag'
         contours, masked_img_dic[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name)
 
-        position = 'left' if center_p[0] < (W//2) else 'right'
-        if not is_name_tag and self.isNameTag(contour, position, kind):
-            box_position, component, masked_img = self.getClasses(
-                img, contours, None)
-            for contour in contours:
-                if cv2.contourArea(contour) > 100:
-                    center_p = getContourCenterPosition(contour)
-                    box_position = cv2.boundingRect(contour)
-                    component = True
-                    break
-
-            box_position_dic[name] = box_position
-            component_dic[name] = component
+        for contour in contours:
+            center_p = getContourCenterPosition(contour)
+            position = 'left' if center_p[0] < (W//2) else 'right'
+            if self.isNameTag(contour, position, kind):
+                box_position_dic[name] = cv2.boundingRect(contour)
+                component_dic[name] = True
+                break
 
         # 마후라 체크
         # name = 'mahura'
