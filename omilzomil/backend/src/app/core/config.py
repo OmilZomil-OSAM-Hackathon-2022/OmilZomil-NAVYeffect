@@ -1,8 +1,8 @@
 import os
 import secrets
 import urllib.parse
-from typing import List, Union
-from pydantic import BaseSettings, AnyHttpUrl, validator
+from typing import List
+from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
