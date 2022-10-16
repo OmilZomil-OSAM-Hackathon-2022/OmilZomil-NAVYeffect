@@ -1,11 +1,15 @@
 const USER_INFO_KEY = "user_info"
 
-export const getUser = () => {
-  return window.localStorage.getItem(USER_INFO_KEY)
+export const getUserInfo = () => {
+  const userString = window.localStorage.getItem(USER_INFO_KEY);
+  if(userString !== null){
+    return JSON.parse(userString);
+  }
+  return userString;
 }
 
-export const saveUser = token => {
-  window.localStorage.setItem(USER_INFO_KEY, token)
+export const saveUser = user => {
+  window.localStorage.setItem(USER_INFO_KEY, JSON.stringify(user))
 }
 
 export const destroyUser = () => {
@@ -13,7 +17,7 @@ export const destroyUser = () => {
 }
 
 export default {
-  getUser,
+  getUserInfo,
   saveUser,
   destroyUser,
 }
