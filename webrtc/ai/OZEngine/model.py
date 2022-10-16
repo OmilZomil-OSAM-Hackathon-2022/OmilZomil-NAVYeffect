@@ -13,8 +13,10 @@ class OmilZomil:
     def __init__(self, resize=None, img_norm_type=None, uniform_type=None, debug_list=[], save_path=None, train_mode=False):
         self.HED_engine = HED()
         self.morph_engine = Morph()
-        self.full_dress_uniform_checker = FullDressUniformChecker(train_mode)
-        self.navy_service_uniform_checker = NavyServiceUniformChecker(train_mode)
+        if uniform_type == 'FULL_DRESS':
+            self.full_dress_uniform_checker = FullDressUniformChecker(train_mode)
+        elif uniform_type == 'NAVY_SERVICE':
+            self.navy_service_uniform_checker = NavyServiceUniformChecker(train_mode)
         self.person_detector = PersonDetector()
         self.face_detector = FaceDetector()
         print('init!')
