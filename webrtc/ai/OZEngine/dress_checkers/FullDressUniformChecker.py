@@ -102,9 +102,6 @@ class FullDressUniformChecker(UniformChecker):
                     component_dic[name] = component
                     break
 
-        box_position_dic[name] = component
-        component_dic[name] = masked_img
-
         # 네카치프 / 네카치프링 체크
         name = 'anchor'
         contours, masked_img_dic[name] = self.getMaskedContours(
