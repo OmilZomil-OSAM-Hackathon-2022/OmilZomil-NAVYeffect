@@ -12,7 +12,7 @@ from OZEngine.lib.utils import plt_imshow
 
 
 class FullDressUniformChecker(UniformChecker):
-    def __init__(self):
+    def __init__(self, train_mode):
         # hyperparameter
         filter = {
             'uniform': {
@@ -32,7 +32,7 @@ class FullDressUniformChecker(UniformChecker):
                 'upper': (190, 255, 255)
             }
         }
-        super().__init__(filter, 'full_dress_uniform')
+        super().__init__(filter, 'full_dress_uniform', train_mode)
         self.name_tag_pattern = re.compile('[가-힣]+')
 
     def name_tag_filter(self, string):
@@ -69,10 +69,8 @@ class FullDressUniformChecker(UniformChecker):
         name = 'name'
         contours, sorted_hierarchy, masked_img_dic['shirt'] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='uniform', sort=True)
-        box_position, component, masked_img = self.getName(
-            img, contours, sorted_hierarchy)
             
-        for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
+        for i, (contour, lev) in enumerate(zip(contours, sorted_hierarchy)):
             if i == 0:  # 옷
                 cur_node, next_node, prev_node, first_child, parent = lev
                 shirt_node = cur_node
