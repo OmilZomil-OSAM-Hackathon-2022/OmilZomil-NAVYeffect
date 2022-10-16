@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
 
     LOGURU_SETTINGS = {}
+    IMAGE_PATH = "/omil_image"
 
 
     MYSQL_HOST: str = os.environ["MYSQL_HOST"]
