@@ -11,6 +11,11 @@ from app.crud import statistics as crud
 router = APIRouter()
 
 
+@router.post("/test-case")
+def create_test_case(db: Session = Depends(deps.get_db)):
+    return crud.create_test_case(db)
+
+
 @router.get("/unit/rate/")
 def get_rate_from_unit(category: Optional[str] = None, db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
     if not current_user.success:
@@ -60,7 +65,7 @@ def get_pass_from_unit(db: Session = Depends(deps.get_db), current_user: UserRea
     cur = datetime.now()
     for i in range(0, 12):
         date = cur - relativedelta(months=i)
-        ret[date.strftime("%Y-%m")] = crud.get_monthly_overall_stats(db, military_unit=current_user.military_unit, date=date, status=True)
+        _, ret[date.strftime("%Y-%m")] = crud.get_monthly_overall_stats(db, military_unit=current_user.military_unit, date=date, status=True)
 
     return ret
 
