@@ -1,15 +1,16 @@
 <template>
   <div class="home">
-    <div>
+    <div >
       <button @click="test1">test1</button>
       <button @click="test2">test2</button>
       <button @click="test3">test3</button>
       <button @click="reset">reset</button>
+      <button @click="connect">connect</button>
     </div>
     <div class="left">
-      <img class="video" src="@/assets/images/test.svg" />
-      <!-- <video ref="video" id="camera--view" autoplay width="300"></video>
-      <canvas ref="canvas" style="display:none;" width="300" height="225"></canvas> -->
+      <!-- <img class="video" src="@/assets/images/test.svg" /> -->
+      <video ref="video" class="video" id="camera--view" autoplay></video>
+      <canvas ref="canvas" class="video" style="display:none;"></canvas>
     </div>
     <div class="right" v-if="this.data['imgview']">
       <img ref="back" class="back" src="@/assets/images/test.svg">
@@ -164,33 +165,6 @@
 </template>
 
 <script>
-// class man1{
-//     constructor(){
-//         this.kind = "blue";
-//         this.hair = true;
-//         this.nametag = true;
-//         this.level = true;
-//     }
-// }
-// class man2{
-//     constructor(){
-//         this.kind = "green";
-//         this.hair = true;
-//         this.flag = true;
-//         this.nametag = true;
-//         this.level = true;
-//     }
-// }
-// class man3{
-//     constructor(){
-//         this.kind = "black";
-//         this.hair = true;
-//         this.ma = true;
-//         this.nametag = true;
-//         this.neck = false;
-//         this.level = true;
-//     }
-// }
 export default {
   name: 'Capture',
   data() {
@@ -262,8 +236,9 @@ export default {
       }
       this.socket.onmessage = ({ data }) => {
         console.log({ type: 'RECV', msg: 'RECV:' + data })
-        this.$refs.back.src=data;
+        this.$refs.back.src=data;    //받은 데이터 처리
         this.stop()
+        this.socket.close()
       }
       this.socket.onclose = (msg) => {
         console.log({ type: 'ERROR', msg: 'Closed (Code: ' + msg.code + ', Message: ' + msg.reason + ')' })
@@ -301,8 +276,10 @@ export default {
   .home{
     display:flex;
     flex-direction: row;
+    justify-content: space-between;
     width:100%;
-    height:100vh;
+    gap:0;
+    height:90vh;
   }
   .left{
     display:flex;
@@ -312,30 +289,30 @@ export default {
     height:100%;
   }
   .video{
-    width:600px;
+    width:490px;
   }
   .right{
     display:flex;
     flex-direction: row;
     align-content: center;
     justify-content: center;
-    gap: 60px;
+    /* gap: 60px; */
     width:60%;
     height:100%;
   }
   .back{
-    width:300px;
+    width:160px;
   }
   .result{
     display:flex;
     justify-content: center;
     align-items: center;
-    width:300px;
+    width:240px;
   }
   .content{
     position:relative;
-    width:370px;
-    height:380px;
+    width:220px;
+    height:220px;
     display: flex;
     flex-direction: column;
     gap:16px;
@@ -416,9 +393,11 @@ export default {
   }
   .left{
     width:100%;
+    height:50%;
   }
   .right{
     width:100%;
+    height:50%;
   }
 }
 </style>
