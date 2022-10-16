@@ -5,6 +5,7 @@ sklearn
 opencv-python
 torch
 dlib
+loguru
 
 fastapi
 uvicorn[standard]
