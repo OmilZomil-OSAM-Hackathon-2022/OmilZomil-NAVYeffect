@@ -1,8 +1,9 @@
 import cv2
 from datetime import datetime
 from app.core.config import settings
+import socket
 
-
+IP, PORT = settings.WORKER_SERVER
 class Manager:
     SAVE_PATH = f"{settings.IMAGE_PATH}/queue/"
 
@@ -16,6 +17,9 @@ class Manager:
         self.send_task(name)
 
     def send_task(self, msg):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.connect((IP, PORT))
+            sock.sendall(bytes(msg, 'ascii'))
         pass
 
     def save_img(self, img, name):

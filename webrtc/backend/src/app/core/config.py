@@ -10,6 +10,7 @@ class Settings(BaseSettings):
 
     LOGURU_SETTINGS = {}
     IMAGE_PATH = "/omil_image"
+    WORKER_SERVER = ('worker', 7777)
 
 
     MYSQL_HOST: str = os.environ["MYSQL_HOST"]
