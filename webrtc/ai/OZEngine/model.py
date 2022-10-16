@@ -78,13 +78,13 @@ class OmilZomil:
         person_base_point = person_box[0]
         person_img = box2img(img, person_box)
         if person_img is None:
-            return None
+            return None, None
         
         # 얼굴인식
         face_box = self.face_detector.detect(person_img)
         if face_box is None:
-            return None
-            
+            return None, None
+
         face_img = box2img(person_img, face_box)
 
         self.debug({'face':face_img}, msg='roi')
