@@ -89,7 +89,7 @@ class OmilZomil:
 
         self.debug({'face':face_img}, msg='roi')
         # 셔츠인식
-        w, h = person_img.shape[:2]
+        h, w = person_img.shape[:2]
         max_y = face_box[1][0]
         shirt_box = ((max_y, 0), (h, w))
         shirt_base_point = shirt_box[0]
