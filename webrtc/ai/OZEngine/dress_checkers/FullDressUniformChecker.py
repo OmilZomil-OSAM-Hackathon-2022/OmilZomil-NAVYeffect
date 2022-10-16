@@ -16,8 +16,8 @@ class FullDressUniformChecker(UniformChecker):
         # hyperparameter
         filter = {
             'uniform': {
-                'lower': (12, 0, 0),
-                'upper': (197, 255, 116)
+                'lower': (0, 0, 0),
+                'upper': (255, 255, 50)
             },
             'class_tag': {
                 'lower': (140, 120, 50),
@@ -34,7 +34,7 @@ class FullDressUniformChecker(UniformChecker):
         }
         super().__init__(filter, 'full_dress_uniform', train_mode)
         self.name_tag_pattern = re.compile('[가-힣]+')
-
+ 
     def name_tag_filter(self, string):
         print('str', string)
         filtered_list = self.name_tag_pattern.findall(string)
