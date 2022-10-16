@@ -1,16 +1,17 @@
 <template>
   <div class="home">
-    <div >
-      <button @click="test1">test1</button>
-      <button @click="test2">test2</button>
-      <button @click="test3">test3</button>
-      <button @click="reset">reset</button>
-      <button @click="connect">connect</button>
-    </div>
     <div class="left">
-      <!-- <img class="video" src="@/assets/images/test.svg" /> -->
       <video ref="video" class="video" id="camera--view" autoplay></video>
       <canvas ref="canvas" class="video" style="display:none;"></canvas>
+      <div style="display:flex; flex-direction:row height:5vh;">
+        <button @click="connect">connect</button>
+
+        <button @click="start">start</button>
+        <button @click="test1">test1</button>
+        <button @click="test2">test2</button>
+        <button @click="test3">test3</button>
+        <button @click="reset">reset</button>
+      </div>
     </div>
     <div class="right" v-if="this.data['imgview']">
       <img ref="back" class="back" src="@/assets/images/test.svg">
@@ -179,10 +180,12 @@ export default {
           "neck" : null,
           "flag" : null
         },
+        list:["1정문","2정문","3정문"],
         socket : null,
-        url : `wss://117.17.110.220:7778/v1/ws2`,
+        url : `wss://117.17.110.220:7778/v1/test`,
         img : null,
         setI : null,
+        name : null,
       }
     },
   methods: {
@@ -220,29 +223,41 @@ export default {
       this.data["ma"]=null;
       this.data["neck"]=null;
     },
-    stop(){
-      console.log('stop')
-      clearInterval(this.setI)
-    },
     connect() {
       console.log("start")
       this.socket = new WebSocket(this.url)
       this.socket.onopen = () => {
         console.log({ type: 'INFO', msg: 'CONNECTED' })
-        this.setI=setInterval(this.capture,1000);
       }
       this.socket.onerror = () => {
-        console.log({ type: 'ERROR', msg: 'ERROR:' })
+        console.log({ type: 'ERROR', msg: 'ERROR:'})
       }
       this.socket.onmessage = ({ data }) => {
         console.log({ type: 'RECV', msg: 'RECV:' + data })
-        this.$refs.back.src=data;    //받은 데이터 처리
-        this.stop()
-        this.socket.close()
+        var msg = JSON.parse(data)
+        switch(msg.type) {
+          case "list":{
+            this.list=msg.list;
+          }
+          case "result":{
+            this.$refs.back.src=msg.photo;
+            this.data["kind"]=msg.kind;
+            this.data["hair"]=msg.hair;
+            this.data["nametag"]=msg.nametag;
+            this.data["level"]=msg.leveltag;
+            this.data["ma"]=msg.muffler;
+            this.data["neck"]=msg.neck;
+            this.data["flag"]=msg.flag;
+            this.data["imgview"]=true;
+          }        
+        }
       }
       this.socket.onclose = (msg) => {
         console.log({ type: 'ERROR', msg: 'Closed (Code: ' + msg.code + ', Message: ' + msg.reason + ')' })
       }
+    },
+    start(){
+      this.setI=setInterval(this.capture,1000);
     },
     capture() {
       const video = this.$refs.video
@@ -252,7 +267,11 @@ export default {
       ctx.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
       this.img = canvas.toDataURL('image/webp');
       image.src = this.img;
-      this.socket.send(this.img)
+      var msg = {
+        name:this.name,
+        photo:this.img
+      }
+      this.socket.send(JSON.stringify(msg))
     }
   },
   mounted() {
@@ -276,20 +295,22 @@ export default {
   .home{
     display:flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     width:100%;
-    gap:0;
     height:90vh;
   }
   .left{
     display:flex;
-    align-content: center;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     width:40%;
     height:100%;
   }
   .video{
+    /* transform: rotateY(180deg); */
     width:490px;
+    height:45vh;
   }
   .right{
     display:flex;
@@ -315,7 +336,7 @@ export default {
     height:220px;
     display: flex;
     flex-direction: column;
-    gap:16px;
+    /* gap:16px; */
     justify-content: space-between;
   }
   .kind{
@@ -392,12 +413,13 @@ export default {
     flex-direction: column;
   }
   .left{
+    background-color: aqua;
     width:100%;
-    height:50%;
+    height:50vh;
   }
   .right{
     width:100%;
-    height:50%;
+    height:50vh;
   }
 }
 </style>
