@@ -98,15 +98,12 @@ export default {
         }
         try{
             const {data} = await this.$axios.get(url);
-            this.cout = data.count;
+            this.count = data.count;
             this.percent = data.increase_rate;
         }catch(err){
             console.log(err);
         }
     },
-    methods: {
-        
-    }
 }
 </script>
 

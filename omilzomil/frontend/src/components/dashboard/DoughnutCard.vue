@@ -11,9 +11,13 @@
     <div class="content">
       <div class="back-circle" />
       <div class="front-circle" />
-      <div class="canvas-wrap">
-        <canvas
-          ref="doughnutChart"
+      <div class="chart">
+        <apexchart
+          style="margin-top:10px;"
+          :width="310"
+          type="donut"
+          :options="options"
+          :series="series"
         />
       </div>
       <div>
@@ -25,7 +29,7 @@
             />
             이름표(<number
               :from="0"
-              :to="55"
+              :to="nameTag"
               :duration="2"
             />%)
           </div>
@@ -36,7 +40,7 @@
             />
             계급장(<number
               :from="0"
-              :to="21"
+              :to="classTag"
               :duration="2"
             />%)
           </div>
@@ -49,7 +53,7 @@
             />
             태극기(<number
               :from="0"
-              :to="14"
+              :to="flag"
               :duration="2"
             />%)
           </div>
@@ -60,7 +64,7 @@
             />
             모자(<number
               :from="0"
-              :to="10"
+              :to="hat"
               :duration="2"
             />%)
           </div>
@@ -71,48 +75,68 @@
 </template>
 
 <script>
-import { Chart } from 'chart.js'
 import CardHead from '../CardHead.vue';
+
 export default {
     components: { CardHead },
     data() {
         return {
-            doughnutChart: null
+            doughnutChart: null,
+            nameTag:10,
+            classTag:40,
+            flag:20,
+            hat:30,
+            options:{
+                  chart: {
+                    type:'donut',
+                    id: 'unit-donut-chart',
+                    animations:{
+                      speed:1000,
+                    },
+                    toolbar:{
+                        show:false,
+                    },
+                  },
+                  labels: ['이름표', '계급장', '태극기', '모자'],
+                  colors:["#9155EB","#B98EFA","#D4B7FF","#ECDFFF"],
+                  dataLabels:{
+                      enabled:false,
+                  },
+                  legend:{
+                      show:false,
+                  },
+
+                  stroke: {
+                      show: false,    
+                  },
+                  plotOptions: {
+                    pie: {
+                        donut:{
+                            size:'70%'
+                        }
+                    }
+                 },
+              },
         };
     },
-    mounted() {
-        this.start();
+    computed:{
+      series(){
+        return [this.nameTag,this.classTag,this.flag,this.hat];
+      }
     },
-    methods: {
-        start() {
-            const ctx = this.$refs.doughnutChart.getContext("2d");
-            this.doughnutChart = new Chart(ctx, {
-                type: "doughnut",
-                data: {
-                    labels: ["이름표", "계급장", "태극기", "모자"],
-                    datasets: [
-                        {
-                            backgroundColor: ["#9155EB", "#BD91FF", "#EDE2FF", "#F5EEFF"],
-                            borderWidth:0,
-                            data: [40, 20, 12, 10],
-                        }
-                    ]
-                },
-                options: {
-                    animation: {
-                        duration: 1500,
-                    },
-                    cutout:75,
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display:false
-                        },
-                    },
-                }
-            });
-        }
-    }
+    async mounted() {
+      try{
+        const {data} = await this.$axios.get("/stats/unit/fail/");
+        const total = (data.이름표 + data.계급장 + data.태극기 + data.모자);
+        console.log(total)
+        this.nameTag = Math.round(data.이름표*100/total);
+        this.classTag = Math.round(data.계급장*100/total);
+        this.flag = Math.round(data.태극기*100/total);
+        this.hat = Math.round(data.모자*100/total);
+      }catch(err){
+        console.log(err);
+      }
+    },
 }
 </script>
 
@@ -155,7 +179,7 @@ export default {
   background:var(--color-state-card);
   border-radius:100%;
   z-index:1;
-  top:35px;
+  top:40px;
 }
 .front-circle{
   position:absolute;
@@ -164,13 +188,16 @@ export default {
   background:var(--color-card);
   border-radius:100%;
   z-index:1;
-  top:105px;
+  top:110px;
 }
-.canvas-wrap{
+.chart{
   z-index:100;
   width:220px;
   height:220px;
   margin:90px 0px;
+  display:flex;
+  justify-content:center;
+  align-items: center;
 }
 .point{
   width:14px;
