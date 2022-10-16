@@ -1,12 +1,33 @@
 import { createWebHistory, createRouter } from "vue-router";
+import store from "@/stores";
+
+const beforeAuth = allowAdmin => (from, to, next) => {
+  const isAuthenticated = store.getters["isAuthenticated"]
+  if (isAuthenticated) {
+    if(allowAdmin){
+      const isAdmin = store.getters["getUser"].role > 2;
+      if(isAdmin){
+        return next()
+      }else{
+        alert("권한이 부족합니다!")
+        next("/")
+      }
+    }else{
+      return next()
+    }
+  } else {
+    // 홈 화면으로 이동
+    alert("로그인을 해주세요!")
+    next("/")
+  }
+}
+
 
 const routes = [
   {
     path: "/",
     name: "Home",
     component: () => import('../views/LandingPage.vue'),
-    // component: () => import('../views/DashBoardPage.vue'),
-    // redirect: '/login',
     meta:{
       isLanding:true,
     },
@@ -42,28 +63,24 @@ const routes = [
     path: "/ranking",
     name: "Ranking",
     component: () => import('../views/RankingPage.vue'),
-    // component: () => import('../views/ListUpPage.vue'),
   },
   {
     path: "/dashboard",
     name: "Dashboard",
-
+    beforeEnter:beforeAuth(false),
     component: () => import('../views/DashBoardPage.vue'),
-    // component: () => import('../views/ListUpPage.vue'),
   },
   {
     path: "/totalDashboard",
     name: "TotalDashboard",
 
     component: () => import('../views/TotalDashBoardPage.vue'),
-    // component: () => import('../views/ListUpPage.vue'),
   },
   {
     path: "/vacation",
     name: "Vacation",
 
     component: () => import('../views/RegistVacationPage.vue'),
-    // component: () => import('../views/RegistVacationPage.vue'),
   },
   {
     path:"/unregister",
@@ -88,6 +105,7 @@ const routes = [
       {
         path:'userManagement',
         name:'UserManagement',
+        beforeEnter:beforeAuth(true),
         meta:{
           enterClass: "animate__animated animate__fadeInLeft",
           leaveClass: "animate__animated animate__fadeOutRight",
@@ -97,6 +115,7 @@ const routes = [
       {
         path:'unitManagement',
         name:'UnitManagement',
+        beforeEnter:beforeAuth(true),
         meta:{
           enterClass: "animate__animated animate__fadeInLeft",
           leaveClass: "animate__animated animate__fadeOutRight",
@@ -106,6 +125,7 @@ const routes = [
       {
         path:'guardroomManagement',
         name:'GuardroomManagement',
+        beforeEnter:beforeAuth(true),
         meta:{
           enterClass: "animate__animated animate__fadeInLeft",
           leaveClass: "animate__animated animate__fadeOutRight",
@@ -113,7 +133,6 @@ const routes = [
         component:()=>import('../components/profile/GuardroomManagement.vue'),
       }
     ]
-    // component: () => import('../views/ListUpPage.vue'),
   },
   {
     path: "/api",
