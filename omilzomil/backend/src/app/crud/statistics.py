@@ -117,7 +117,7 @@ def get_monthly_best_stats(db: Session, military_unit: int, category: str):
         InspectionLogAlias = aliased(InspectionLog)
 
         res = (
-            db.query(AccessLog.access_id, InspectionLogAlias.name, AccessLog.image_path)
+            db.query(AccessLog.access_id, InspectionLogAlias.name, InspectionLogAlias.image_path)
             .select_from(InspectionLogAlias)
             .join(AccessLog, AccessLog.access_id == InspectionLogAlias.access_id)
             .filter(AccessLog.access_id.in_(subquery))
