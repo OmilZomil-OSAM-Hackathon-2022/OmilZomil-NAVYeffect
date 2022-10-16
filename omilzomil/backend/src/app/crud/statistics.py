@@ -11,7 +11,6 @@ def create_test_case(db: Session):
     from string import ascii_letters
     from random import randrange, choice
     from datetime import timedelta
-    from dateutil.relativedelta import relativedelta
 
     ids = [unit.unit_id for unit in get_military_units(db)]
     if not ids:
