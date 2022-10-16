@@ -6,9 +6,10 @@ from OZEngine.dress_classifier import classification2
 from OZEngine.parts_classifier import PartsClassifier
 
 class UniformChecker:
-    def __init__(self, filter, dress_kind):
+    def __init__(self, filter, dress_kind, train_mode=False):
         self.filter = filter
-        self.parts_classifier = PartsClassifier(dress_kind)
+        if train_mode is False:
+            self.parts_classifier = PartsClassifier(dress_kind)
 
     def getMaskedContours(self, img=None, hsv_img=None, kmeans=None, morph=None, kind=None, sort=False):
         lower, upper = self.filter[kind]['lower'], self.filter[kind]['upper']
