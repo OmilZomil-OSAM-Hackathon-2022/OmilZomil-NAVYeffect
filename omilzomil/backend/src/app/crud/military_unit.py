@@ -15,9 +15,13 @@ def create_military_unit(db: Session, unit: str):
         return MilitaryUnitResponse(success=False, message="unique key constraint fail")
 
 
-def get_military_units(db: Session, unit: str):
+def get_military_units(db: Session, unit: str = None):
     unit = unit and f"%{unit}%" or "%"
     return db.query(MilitaryUnit).filter(MilitaryUnit.unit.like(unit)).all()
+
+
+def get_military_unit(db: Session, unit_id: int):
+    return db.query(MilitaryUnit).get(unit_id)
 
 
 def update_military_unit(db: Session, unit_id: int, new_unit: str):
