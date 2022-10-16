@@ -35,11 +35,7 @@ class FullDressUniformChecker(UniformChecker):
         super().__init__(filter, 'full_dress_uniform', train_mode)
         self.name_tag_pattern = re.compile('[가-힣]+')
  
-    def name_tag_filter(self, string):
-        print('str', string)
-        filtered_list = self.name_tag_pattern.findall(string)
-        res_string = ''.join(filtered_list)
-        return res_string
+    
 
     def isNameTag(self, contour, position, kind):
         return position == 'left' and kind == 'name_tag' and cv2.contourArea(contour) > 100

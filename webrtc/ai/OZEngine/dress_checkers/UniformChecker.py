@@ -12,6 +12,12 @@ class UniformChecker:
         if train_mode is False:
             self.parts_classifier = PartsClassifier(dress_kind)
 
+    def name_tag_filter(self, string):
+        print('str', string)
+        filtered_list = self.name_tag_pattern.findall(string)
+        res_string = ''.join(filtered_list)
+        return res_string
+
     def getMaskedContours(self, img=None, hsv_img=None, kmeans=None, morph=None, kind=None, sort=False):
         lower, upper = self.filter[kind]['lower'], self.filter[kind]['upper']
         mask = cv2.inRange(hsv_img, lower, upper)
