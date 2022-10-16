@@ -34,27 +34,17 @@ import PercentTag from '../common/PercentTag.vue';
 export default {
     components: { PercentTag },
     props: {
-        title: {
-            type: String,
-            default: null,
-        },
-        count: {
-            type: Number,
-            default: 0,
-        },
-        percent: {
-            type: Number,
-            default: 0,
-        },
         partsType: {
             type: Number,
             default: 0,
         }
     },
-    data() {
-        return {
-            number: 0,
-        };
+    data(){
+        return{
+            title:'',
+            count:0,
+            percent:0,
+        }
     },
     computed: {
         getColor() {
@@ -95,7 +85,28 @@ export default {
                 return require("@/assets/icons/equal.svg");
         }
     },
-    methods: {}
+    async mounted(){
+        let url = '/stats/unit/rate/';
+        if(this.partsType == 0){
+            url += '?category=hair';
+            this.title = "두발 양호 인원"
+        }else if(this.partsType == 1){
+            url += '?category=appearance';
+            this.title = "복장 양호 인원";
+        }else{
+            this.title = "출입 인원";
+        }
+        try{
+            const {data} = await this.$axios.get(url);
+            this.cout = data.count;
+            this.percent = data.increase_rate;
+        }catch(err){
+            console.log(err);
+        }
+    },
+    methods: {
+        
+    }
 }
 </script>
 
