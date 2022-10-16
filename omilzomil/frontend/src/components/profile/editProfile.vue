@@ -195,13 +195,17 @@ export default {
       this.armyUnit.data = this.initUser.military_unit;
       this.uClass.data = this.initUser.rank;
 
-      const unitList = await this.$axios.get('/unit/');
-      const divisionList = await this.$axios.get('/affiliation/');
-      const classList = await this.$axios.get('/rank/');
+      try{
+        const unitList = await this.$axios.get('/unit/');
+        const divisionList = await this.$axios.get('/affiliation/');
+        const classList = await this.$axios.get('/rank/');
 
-      this.unitList = unitList.data;
-      this.divisionList = divisionList.data;
-      this.classList = classList.data;
+        this.unitList = unitList.data;
+        this.divisionList = divisionList.data;
+        this.classList = classList.data;
+      }catch(err){
+        console.log(err);
+      }
     },
     methods:{
       updateUser(){
