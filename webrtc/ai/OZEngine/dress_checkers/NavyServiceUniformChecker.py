@@ -7,7 +7,7 @@ from OZEngine.dress_classifier import classification2
 
 # 샘브레이 검사
 class NavyServiceUniformChecker(UniformChecker):
-    def __init__(self):
+    def __init__(self, train_mode):
         # hyperparameter
         filter = {
             'uniform': {
@@ -20,7 +20,7 @@ class NavyServiceUniformChecker(UniformChecker):
             }
         }
 
-        super().__init__(filter, 'navy_service_uniform')
+        super().__init__(filter, 'navy_service_uniform', train_mode)
         self.name_cache = None
         self.debug_cnt = 0
 

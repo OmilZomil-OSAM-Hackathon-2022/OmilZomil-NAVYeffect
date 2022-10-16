@@ -8,3 +8,7 @@ def create_uniform(db: Session, uniform_id: int, uniform: str):
     db.commit()
     db.refresh(uniform)
     return uniform
+
+
+def get_uniforms(db: Session):
+    return db.query(Uniform).all()
