@@ -1,20 +1,17 @@
 import sys
 
 sys.path.append("/ai/OZEngine/.")
+import socketserver
 
-print(sys.path)
+from worker.manager import Manager
+from worker.server import TaskHandler
+# 통신 정보 설정
+HOST, PORT = "0.0.0.0", 7777
 
-import cv2
-import os
-from OZEngine.person_detectors.PersonDetector import PersonDetector
-from OZEngine.model import OmilZomil
-    
-person_detect = PersonDetector()
-omil = OmilZomil(uniform_type='FULL_DRESS')
+manager = Manager()
+# 서버를 생성합니다. 호스트는 localhost, 포트 번호는 3000
+server = socketserver.TCPServer((HOST, PORT), TaskHandler)
 
-print("hello")
-path = f"./webrtc_image.jpg"
-img = cv2.imread(path)
-# result = person_detect.detect(img)
-result = omil.detect(img)
-print(result)
+print(f"run server")
+# Ctrl - C 로 종료하기 전까지는 서버는 멈추지 않고 작동
+server.serve_forever()
