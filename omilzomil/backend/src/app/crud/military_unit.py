@@ -4,9 +4,12 @@ from app.models.military_unit import MilitaryUnit
 from app.schemas.military_unit import MilitaryUnitResponse
 
 
-def create_military_unit(db: Session, unit: str):
+def create_military_unit(db: Session, unit: str, unit_id: int = None):
     try:
-        unit = MilitaryUnit(unit=unit)
+        if unit_id is None:
+            unit = MilitaryUnit(unit=unit)
+        else:
+            unit = MilitaryUnit(unit_id=unit_id, unit=unit)
         db.add(unit)
         db.commit()
         db.refresh(unit)
@@ -17,7 +20,7 @@ def create_military_unit(db: Session, unit: str):
 
 def get_military_units(db: Session, unit: str = None):
     unit = unit and f"%{unit}%" or "%"
-    return db.query(MilitaryUnit).filter(MilitaryUnit.unit.like(unit)).all()
+    return db.query(MilitaryUnit).filter(MilitaryUnit.unit_id != 1).filter(MilitaryUnit.unit.like(unit)).all()
 
 
 def get_military_unit(db: Session, unit_id: int):
