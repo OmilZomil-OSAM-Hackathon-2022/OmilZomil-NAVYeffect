@@ -8,3 +8,4 @@ pymysql
 mysqlclient
 pytest
 requests
+python-dateutil

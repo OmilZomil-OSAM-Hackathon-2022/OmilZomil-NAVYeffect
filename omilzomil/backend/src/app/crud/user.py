@@ -2,7 +2,16 @@ import sqlalchemy.exc
 from sqlalchemy.orm import Session
 from app.core.security import get_password_hash, verify_password
 from app.models.user import User
-from app.schemas.user import UserCreate, UserFilter, UserUpdateInformation, UserUpdatePassword, UserUpdateRole, UserResponse
+from app.schemas.user import (
+    UserCreate,
+    UserFilter,
+    UserUpdateInformation,
+    UserUpdatePassword,
+    UserUpdateRole,
+    UserUpdateActivity,
+    UserResponse,
+    UserReadResponse,
+)
 
 
 def create_user(db: Session, user: UserCreate):
@@ -19,38 +28,51 @@ def create_user(db: Session, user: UserCreate):
         db.add(user)
         db.commit()
         db.refresh(user)
-        return UserResponse(success=True, message="success")
+        return UserResponse(success=True, message=user.user_id)
     except sqlalchemy.exc.IntegrityError as e:
-        if "foreign key constraint fail" in e.orig.args[1]:
+        msg = e.orig.args[1]
+        if "foreign key constraint fail" in msg:
             return UserResponse(success=False, message="foreign key constraint fail")
-        elif "Duplicate entry" in e.orig.args[1]:
-            return UserResponse(success=False, message="unique key constraint fail")
+        elif "Duplicate entry" in msg:
+            msg = msg.split("'")[3].split(".")[1]
+            if "dog_number" == msg or "username" == msg:
+                return UserResponse(success=False, message=f"unique key constraint fail in {msg}")
         raise e
 
 
-def get_user(db: Session, flt: UserFilter):
-    is_active = flt.is_active
-    flt = {x: (y is None and "%" or f"%{y}%") for x, y in flt.dict().items() if x != "is_active"}
-
-    user = (
-        db.query(User)
-        .filter(User.full_name.like(flt["full_name"]))
-        .filter(User.affiliation.like(flt["affiliation"]))
-        .filter(User.military_unit.like(flt["military_unit"]))
-        .filter(User.rank.like(flt["rank"]))
-    )
-
-    if is_active is not None:
-        if is_active:
-            user = user.filter(User.role != "inactive")
-        else:
-            user = user.filter(User.role == "inactive")
-
+def get_users(db: Session, flt: UserFilter):
+    user = db.query(User)
+    if flt.full_name is not None:
+        user = user.filter(User.full_name.like(f"%{flt.full_name}%"))
+    if flt.affiliation is not None:
+        user = user.filter_by(affiliation=flt.affiliation)
+    if flt.military_unit is not None:
+        user = user.filter_by(military_unit=flt.military_unit)
+    if flt.rank is not None:
+        user = user.filter_by(rank=flt.rank)
+    if flt.is_active is not None:
+        user = user.filter_by(is_active=flt.is_active)
     return user.all()
 
 
 def get_user_by_id(db: Session, user_id: int):
-    return db.query(User).get(user_id)
+    user = db.query(User).get(user_id)
+    if not user:
+        return UserReadResponse(success=False, message="entry not found")
+
+    user = UserReadResponse(
+        success=True,
+        message=user.user_id,
+        user_id=user.user_id,
+        full_name=user.full_name,
+        dog_number=user.dog_number,
+        affiliation=user.affiliation,
+        military_unit=user.military_unit,
+        rank=user.rank,
+        username=user.username,
+        role=user.role,
+    )
+    return user
 
 
 def update_user_information(db: Session, user_id: int, information: UserUpdateInformation):
@@ -60,7 +82,7 @@ def update_user_information(db: Session, user_id: int, information: UserUpdateIn
     try:
         user.update(information.dict())
         db.commit()
-        return UserResponse(success=True, message="success")
+        return UserResponse(success=True, message=user_id)
     except sqlalchemy.exc.IntegrityError as e:
         if "foreign key constraint fail" in e.orig.args[1]:
             return UserResponse(success=False, message="foreign key constraint fail")
@@ -79,7 +101,7 @@ def update_user_password(db: Session, user_id: int, password: UserUpdatePassword
 
     user.update({"password": get_password_hash(password.new_password)})
     db.commit()
-    return UserResponse(success=True, message="success")
+    return UserResponse(success=True, message=user_id)
 
 
 def update_user_role(db: Session, user_id: int, role: UserUpdateRole):
@@ -89,7 +111,19 @@ def update_user_role(db: Session, user_id: int, role: UserUpdateRole):
     try:
         user.update(role.dict())
         db.commit()
-        return UserResponse(success=True, message="success")
+        return UserResponse(success=True, message=user_id)
+    except sqlalchemy.exc.IntegrityError:
+        return UserResponse(success=False, message="foreign key constraint fail")
+
+
+def update_user_activity(db: Session, user_id: int, is_active: UserUpdateActivity):
+    user = db.query(User).filter_by(user_id=user_id)
+    if not user.count():
+        return UserResponse(success=False, message="entry not found")
+    try:
+        user.update(is_active.dict())
+        db.commit()
+        return UserResponse(success=True, message=user_id)
     except sqlalchemy.exc.IntegrityError:
         return UserResponse(success=False, message="foreign key constraint fail")
 

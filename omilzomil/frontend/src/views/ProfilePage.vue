@@ -5,11 +5,23 @@
         <router-link to="/profile">
           프로필 수정
         </router-link>
-        <router-link to="/profile/userManagement">
+        <router-link
+          v-if="user.role > 2"
+          to="/profile/userManagement"
+        >
           사용자 관리
         </router-link>
-        <router-link to="/profile/unitManagement">
+        <router-link
+          v-if="user.role > 2"
+          to="/profile/unitManagement"
+        >
           부대 관리
+        </router-link>
+        <router-link
+          v-if="user.role > 2"
+          to="/profile/GuardroomManagement"
+        >
+          위병소 관리
         </router-link>
       </div>
       <router-view v-slot="{Component, route}">
@@ -27,7 +39,11 @@
 <script>
 import 'animate.css'; 
 export default {
-
+  computed:{
+    user(){
+        return this.$store.getters.getUser;
+    }
+  }
 }
 </script>
 
