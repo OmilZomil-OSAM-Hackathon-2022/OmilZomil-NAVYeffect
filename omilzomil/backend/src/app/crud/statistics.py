@@ -19,7 +19,7 @@ def get_monthly_overall_stats(db: Session, military_unit: int = None, date: date
     )
 
     if military_unit is not None:
-        query = query.filter(or_(AccessLog.military_unit == military_unit, AccessLog.military_unit == 0))
+        query = query.filter(or_(AccessLog.military_unit == military_unit))
     if category == "hair":
         query = query.filter(InspectionDetail.appearance_type == 1)
     elif category == "appearance":
@@ -49,7 +49,7 @@ def get_monthly_detailed_stats(db: Session, appearance_type: int, military_unit:
     )
 
     if military_unit is not None:
-        query = query.filter(or_(AccessLog.military_unit == military_unit, AccessLog.military_unit == 0))
+        query = query.filter(or_(AccessLog.military_unit == military_unit))
     if status is not None:
         count = query.filter(InspectionDetail.status == status).count()
     else:
