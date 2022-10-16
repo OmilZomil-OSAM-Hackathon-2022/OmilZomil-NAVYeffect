@@ -38,6 +38,8 @@ services:
     volumes:
       - ${WEBRTC_DIR_PATH:-webrtc_back}:/backend
       - webrtc_volume:/backend/src/app/static
+      - omil_image:/omil_image
+
 
     depends_on:
       db:

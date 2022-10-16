@@ -1,4 +1,10 @@
-
+numpy
+matplotlib
+imutils
+sklearn
+opencv-python
+torch
+dlib
 
 fastapi
 uvicorn[standard]
