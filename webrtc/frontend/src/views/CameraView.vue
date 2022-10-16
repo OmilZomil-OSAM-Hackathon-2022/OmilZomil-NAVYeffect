@@ -180,7 +180,7 @@ export default {
           "flag" : null
         },
         socket : null,
-        url : `wss://117.17.110.220:7778/v1/test`,
+        url : `wss://117.17.110.220:7778/v1/ws`,
         img : null,
         setI : null,
       }
@@ -251,7 +251,7 @@ export default {
       const ctx = canvas.getContext('2d')
       ctx.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
       this.img = canvas.toDataURL('image/webp');
-      image.src = this.img;
+      //image.src = this.img;
       this.socket.send(this.img)
     }
   },
