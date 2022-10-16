@@ -95,12 +95,14 @@ export default {
           .catch(() => {
             this.loginFail = true;
           });
-      this.$axios.post('/login/test-token/').then((response)=>{
-        if(response.data.success){
-          this.$store.commit('setUser',response.data);
-          this.$router.push('/')
-        }
-      });
+      if(!this.loginFail){
+        this.$axios.post('/login/test-token/').then((response)=>{
+          if(response.data.success){
+            this.$store.commit('setUser',response.data);
+            this.$router.push('/')
+          }
+        });
+      }
     }
   }
 };
