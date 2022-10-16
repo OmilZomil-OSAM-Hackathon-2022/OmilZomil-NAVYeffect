@@ -6,9 +6,9 @@ from app.db.base_schema import Response, AllOptional
 class UserBase(BaseModel):
     full_name: str = Field(None, description="real user name")
     dog_number: str = Field(None, description="dog number")
-    affiliation: str = Field(None, description="affiliation")
-    military_unit: str = Field(None, description="military unit")
-    rank: str = Field(None, description="rank")
+    affiliation: int = Field(None, description="affiliation")
+    military_unit: int = Field(None, description="military unit")
+    rank: int = Field(None, description="rank")
     username: str = Field(None, description="username")
 
 
@@ -20,9 +20,9 @@ class UserCreate(UserBase):
             "example": {
                 "full_name": "정의철",
                 "dog_number": "21-71007011",
-                "affiliation": "해군",
-                "military_unit": "계룡대 근무지원단 본부대대",
-                "rank": "병장",
+                "affiliation": 2,
+                "military_unit": 1,
+                "rank": 4,
                 "username": "user",
                 "password": "pass",
             }
@@ -31,16 +31,16 @@ class UserCreate(UserBase):
 
 class UserFilter(UserBase):
     full_name: Optional[str] = Field(None, description="full name")
-    affiliation: Optional[str] = Field(None, description="affiliation")
-    military_unit: Optional[str] = Field(None, description="military unit")
-    rank: Optional[str] = Field(None, description="rank")
+    affiliation: Optional[int] = Field(None, description="affiliation")
+    military_unit: Optional[int] = Field(None, description="military unit")
+    rank: Optional[int] = Field(None, description="rank")
     is_active: Optional[bool] = Field(None, description="is active")
 
     class Config:
         schema_extra = {
             "example": {
                 "full_name": "정의철",
-                "rank": "병장",
+                "rank": 4,
                 "is_active": True,
             }
         }
@@ -48,7 +48,8 @@ class UserFilter(UserBase):
 
 class UserRead(UserBase):
     user_id: int = Field(None, description="primary key")
-    role: str = Field(None, description="role")
+    role: int = Field(None, description="role")
+    is_active: bool = Field(None, description="is active")
 
     class Config:
         schema_extra = {
@@ -56,31 +57,53 @@ class UserRead(UserBase):
                 "user_id": 1,
                 "full_name": "정의철",
                 "dog_number": "21-71007011",
-                "affiliation": "해군",
-                "military_unit": "계룡대 근무지원단 본부대대",
-                "rank": "병장",
+                "affiliation": 2,
+                "military_unit": 1,
+                "rank": 4,
                 "username": "21-71007011",
-                "role": "super",
+                "role": 3,
+                "is_active": True,
             }
         }
         orm_mode = True
 
 
+class UserReadResponse(UserRead, metaclass=AllOptional):
+    success: Optional[bool] = Field(None, description="result")
+    message: Optional[str] = Field(None, description="message")
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "success": True,
+                "message": "success",
+                "user_id": 1,
+                "full_name": "정의철",
+                "dog_number": "21-71007011",
+                "affiliation": 2,
+                "military_unit": 1,
+                "rank": 4,
+                "username": "21-71007011",
+                "role": 3,
+            }
+        }
+
+
 class UserUpdateInformation(BaseModel):
     full_name: str = Field(None, description="real user name")
     dog_number: str = Field(None, description="dog number")
-    affiliation: str = Field(None, description="affiliation")
-    military_unit: str = Field(None, description="military unit")
-    rank: str = Field(None, description="rank")
+    affiliation: int = Field(None, description="affiliation")
+    military_unit: int = Field(None, description="military unit")
+    rank: int = Field(None, description="rank")
 
     class Config:
         schema_extra = {
             "example": {
                 "full_name": "정의철",
                 "dog_number": "21-71007011",
-                "affiliation": "해군",
-                "military_unit": "계룡대 근무지원단 본부대대",
-                "rank": "병장",
+                "affiliation": 2,
+                "military_unit": 1,
+                "rank": 4,
             }
         }
 
@@ -99,36 +122,26 @@ class UserUpdatePassword(BaseModel):
 
 
 class UserUpdateRole(BaseModel):
-    role: str = Field(None, description="role")
+    role: int = Field(None, description="role")
 
     class Config:
         schema_extra = {
             "example": {
-                "role": "admin",
+                "role": 2,
+            }
+        }
+
+
+class UserUpdateActivity(BaseModel):
+    is_active: bool = Field(None, description="is active")
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "is_active": True,
             }
         }
 
 
 class UserResponse(Response):
     pass
-
-
-class UserReadResponse(UserRead, metaclass=AllOptional):
-    success: Optional[bool] = Field(None, description="result")
-    message: Optional[str] = Field(None, description="message")
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "success": True,
-                "message": "success",
-                "user_id": 1,
-                "full_name": "정의철",
-                "dog_number": "21-71007011",
-                "affiliation": "해군",
-                "military_unit": "계룡대 근무지원단 본부대대",
-                "rank": "병장",
-                "username": "21-71007011",
-                "role": "super",
-            }
-        }

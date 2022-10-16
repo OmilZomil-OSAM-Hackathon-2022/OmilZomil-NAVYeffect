@@ -27,24 +27,8 @@ def get_current_user(db: Session = Depends(get_db), token: str = Depends(reusabl
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[security.ALGORITHM])
         user_id = payload["sub"]
     except (jwt.JWTError, ValidationError):
-        return UserReadResponse(success=False, message="could not validate credentials")
-    user = crud.get_user_by_id(db, user_id=user_id)
-    if not user:
-        return UserReadResponse(success=False, message="user not found")
-
-    user = UserReadResponse(
-        success=True,
-        message="success",
-        user_id=user.user_id,
-        full_name=user.full_name,
-        dog_number=user.dog_number,
-        affiliation=user.affiliation,
-        military_unit=user.military_unit,
-        rank=user.rank,
-        username=user.username,
-        role=user.role,
-    )
-    return user
+        return UserReadResponse(success=False, message="invalid credentials")
+    return crud.get_user_by_id(db, user_id=user_id)
 
 
 def get_current_active_user(current_user: UserReadResponse = Depends(get_current_user)):

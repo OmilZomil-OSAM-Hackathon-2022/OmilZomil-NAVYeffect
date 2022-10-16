@@ -58,18 +58,19 @@
             <div class="input-label">
               <h3>군번</h3>
               <div
-                v-show="dogTag.check == 2"
+                v-show="dogTag.check == 2 || dogTag.check == 3"
                 class="input-warning"
               >
-                군번을 입력해주세요.
+                {{ dogTag.check == 2 ? '군번을 입력해주세요.':'이미 가입된 군번입니다.' }}
               </div>
             </div>
             <input
+              ref="dogTag"
               v-model="dogTag.data"
               placeholder="군번"
               :class="{
                 success: dogTag.check == 1,
-                error: dogTag.check == 2,
+                error: dogTag.check == 2 || dogTag.check == 3,
               }"
               @change="checkDogTag"
             >
@@ -91,20 +92,12 @@
               >
                 소속을 선택하세요.
               </option>
-              <option value="육군">
-                육군
-              </option>
-              <option value="해군">
-                해군
-              </option>
-              <option value="공군">
-                공군
-              </option>
-              <option value="해병대">
-                해병대
-              </option>
-              <option value="국방부직속">
-                국방부직속
+              <option
+                v-for="dvs in divisionList"
+                :key="dvs.affiliation_id"
+                :value="dvs.affiliation_id"
+              >
+                {{ dvs.affiliation }}
               </option>
             </select>
 
@@ -127,20 +120,12 @@
                 부대를 선택하세요.
               </option>
 
-              <option value="계룡대 근무지원단">
-                계룡대 근무지원단
-              </option>
-              <option value="1함대">
-                1함대
-              </option>
-              <option value="2함대">
-                2함대
-              </option>
-              <option value="3함대">
-                3함대
-              </option>
-              <option value="작전사">
-                작전사
+              <option
+                v-for="u in unitList"
+                :key="u.unit_id"
+                :value="u.unit_id"
+              >
+                {{ u.unit }}
               </option>
             </select>
 
@@ -162,40 +147,29 @@
                 계급을 선택하세요.
               </option>
 
-              <option value="이병">
-                이병
-              </option>
-              <option value="일병">
-                일병
-              </option>
-              <option value="상병">
-                상병
-              </option>
-              <option value="병장">
-                병장
+              <option
+                v-for="cl in classList"
+                :key="cl.rank_id"
+                :value="cl.rank_id"
+              >
+                {{ cl.rank }}
               </option>
             </select>
 
             <div class="input-label">
               <h3>아이디</h3>
               <div
-                v-show="uid.check != 2"
-                class="input-comment"
+                :class="[uid.check == 1 || uid.check == 0 ? 'input-comment':'input-warning']"
               >
-                아이디를 6자 이상 입력해주세요.
-              </div>
-              <div
-                v-show="uid.check == 2"
-                class="input-warning"
-              >
-                아이디를 6자 이상 입력해주세요.
+                {{ uid.check == 3 ? '이미 가입된 아이디입니다.':'아이디를 6자 이상 입력해주세요.' }}
               </div>
             </div>
             <input
+              ref="username"
               v-model="uid.data"
               :class="{
                 success: uid.check == 1,
-                error: uid.check == 2,
+                error: uid.check == 2 || uid.check == 3,
               }"
               placeholder="아이디"
               @change="checkID"
@@ -254,9 +228,6 @@
               확인
             </button>
           </form>
-          <h1 id="console">
-            {{ text }}
-          </h1>
         </div>
       </div>
     </div>
@@ -276,7 +247,6 @@ class inputData {
 export default {
   data() {
     return {
-      text: "",
       name: new inputData(),
       dogTag: new inputData(),
       division: new inputData(),
@@ -285,7 +255,19 @@ export default {
       uid: new inputData(),
       password: new inputData(),
       passwordConfirm: new inputData(),
+      unitList: [],
+      classList:[],
+      divisionList:[],
     };
+  },
+  async mounted(){
+    const unitList = await this.$axios.get('/unit/');
+    const divisionList = await this.$axios.get('/affiliation/');
+    const classList = await this.$axios.get('/rank/');
+
+    this.unitList = unitList.data;
+    this.divisionList = divisionList.data;
+    this.classList = classList.data;
   },
   methods: {
     submitForm() {
@@ -300,29 +282,31 @@ export default {
         this.passwordConfirm.check == 1
       ) {
         this.$axios
-          .post("/user/create/", {
-            name: this.name.data,
-            uid: this.uid.data,
-            password: this.password.data,
-            dog_num: this.dogTag.data,
-            army: this.division.data,
-            unit: this.armyUnit.data,
+          .post("/user/", {
+            full_name: this.name.data,
+            dog_number: this.dogTag.data,
+            affiliation: this.division.data,
+            military_unit: this.armyUnit.data,
             rank: this.uClass.data,
+            username: this.uid.data,
+            password: this.password.data,
           })
           .then((response) => {
-            console.log(response);
-            this.text = response;
+            if(response.data.success){
+              this.$router.push('/')
+            }else{
+              if(response.data.message.includes('dog_number')){
+                this.dogTag.check = 3;
+                this.$refs.dogTag.focus();
+              }else if(response.data.message.includes('username')){
+                this.uid.check = 3;
+                this.$refs.username.focus();
+              }
+            }
           })
           .catch((error) => {
             console.log(error);
-            this.text = error;
           });
-        // .finally(function () {
-        //   this.text = "adsffdsaadsf";
-        // });
-        this.text += "um";
-      } else {
-        this.text = "fail";
       }
     },
     checkName(event) {

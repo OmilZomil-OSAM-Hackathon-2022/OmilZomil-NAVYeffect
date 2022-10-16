@@ -1,8 +1,8 @@
 import enum
 import cv2
 import numpy as np
-from lib.utils import *
-from lib.defines import Color
+from OZEngine.lib.utils import *
+from OZEngine.lib.defines import Color
 import os
 
 if __file__:
@@ -68,6 +68,10 @@ class PersonDetector():
                 else:
                     x, y, w, h = box
                     break
-        x = max(0, x)
-        y = max(0, y)  
-        return ((y,x), (y+h, x+w))
+        if x is None or y is None:
+            return None
+            
+        else:
+            x = max(0, x)
+            y = max(0, y)
+            return ((y,x), (y+h, x+w))
