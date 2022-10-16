@@ -14,7 +14,6 @@ class UniformChecker:
             self.parts_classifier = PartsClassifier(dress_kind)
 
     def name_tag_filter(self, string):
-        print('str', string)
         filtered_list = self.name_tag_pattern.findall(string)
         res_string = ''.join(filtered_list)
         return res_string
@@ -56,9 +55,6 @@ class UniformChecker:
 
         box_position, name = None, None
         name_chrs = []
-
-
-        print('contours max_xy, min_xy : ',max_xy, min_xy)
         if ocr_list:
             sorted_orc_list = sorted(ocr_list, key=lambda ocr_res: ocr_res['boxes'][0][0])
             for ocr_res in sorted_orc_list:
@@ -69,8 +65,6 @@ class UniformChecker:
                     ocr_str = ''
                 ocr_str = self.name_tag_filter(ocr_str)
                 ocr_center_xy = getRectCenterPosition(ocr_box)
-
-                print(ocr_center_xy)
                 if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
                     box_position = cv2.boundingRect(contour)
                     name_chrs.append(ocr_str)
