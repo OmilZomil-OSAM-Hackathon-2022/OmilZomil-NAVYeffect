@@ -8,3 +8,7 @@ def create_affiliation(db: Session, affiliation_id: int, affiliation: str):
     db.commit()
     db.refresh(affiliation)
     return affiliation
+
+
+def get_affiliations(db: Session):
+    return db.query(Affiliation).all()
