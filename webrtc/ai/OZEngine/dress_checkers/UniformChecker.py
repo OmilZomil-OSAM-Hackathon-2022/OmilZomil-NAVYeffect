@@ -9,6 +9,7 @@ class UniformChecker:
     def __init__(self, filter, dress_kind, train_mode=False):
         self.filter = filter
         self.train_mode = train_mode
+        self.name_tag_pattern = re.compile('[가-힣]+')
         if train_mode is False:
             self.parts_classifier = PartsClassifier(dress_kind)
 
@@ -39,6 +40,8 @@ class UniformChecker:
         if sort:
             contours, hierarchy = cv2.findContours(
                 mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+            if hierarchy is None:
+                return None, None, None
             sorted_contours, sorted_hierarchy = sortContoursByArea(
                 contours, hierarchy)
             return sorted_contours, sorted_hierarchy, mask
@@ -54,15 +57,23 @@ class UniformChecker:
         box_position, name = None, None
         name_chrs = []
 
+
+        print('contours max_xy, min_xy : ',max_xy, min_xy)
         if ocr_list:
             sorted_orc_list = sorted(ocr_list, key=lambda ocr_res: ocr_res['boxes'][0][0])
             for ocr_res in sorted_orc_list:
-                ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
+                ocr_str_list, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
+                if ocr_str_list:
+                    ocr_str = ocr_str_list[0]
+                else:
+                    ocr_str = ''
                 ocr_str = self.name_tag_filter(ocr_str)
                 ocr_center_xy = getRectCenterPosition(ocr_box)
+
+                print(ocr_center_xy)
                 if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
                     box_position = cv2.boundingRect(contour)
-                    name_chrs.append(ocr_str[0])
+                    name_chrs.append(ocr_str)
                 else:
                     pass
 
@@ -81,7 +92,7 @@ class UniformChecker:
         hsv_roi = hsv_img[y:y+h, x:x+w]
 
         contours, masked_img = self.getMaskedContours(
-            img=roi, hsv_img=hsv_roi, kmeans=True, kind='class_tag')
+            img=roi, hsv_img=hsv_roi, kind='class_tag')
 
         classes_n = 0
         for contour in contours:
