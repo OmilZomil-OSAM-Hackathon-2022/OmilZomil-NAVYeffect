@@ -91,19 +91,19 @@
               >
                 소속을 선택하세요.
               </option>
-              <option value="육군">
+              <option value="1">
                 육군
               </option>
-              <option value="해군">
+              <option value="2">
                 해군
               </option>
-              <option value="공군">
+              <option value="3">
                 공군
               </option>
-              <option value="해병대">
+              <option value="4">
                 해병대
               </option>
-              <option value="국방부직속">
+              <option value="5">
                 국방부직속
               </option>
             </select>
@@ -127,20 +127,12 @@
                 부대를 선택하세요.
               </option>
 
-              <option value="계룡대 근무지원단">
-                계룡대 근무지원단
-              </option>
-              <option value="1함대">
-                1함대
-              </option>
-              <option value="2함대">
-                2함대
-              </option>
-              <option value="3함대">
-                3함대
-              </option>
-              <option value="작전사">
-                작전사
+              <option
+                v-for="u in unitList"
+                :key="u.unit_id"
+                :value="u.unit_id"
+              >
+                {{ u.unit }}
               </option>
             </select>
 
@@ -162,16 +154,16 @@
                 계급을 선택하세요.
               </option>
 
-              <option value="이병">
+              <option value="1">
                 이병
               </option>
-              <option value="일병">
+              <option value="2">
                 일병
               </option>
-              <option value="상병">
+              <option value="3">
                 상병
               </option>
-              <option value="병장">
+              <option value="4">
                 병장
               </option>
             </select>
@@ -254,9 +246,6 @@
               확인
             </button>
           </form>
-          <h1 id="console">
-            {{ text }}
-          </h1>
         </div>
       </div>
     </div>
@@ -276,7 +265,6 @@ class inputData {
 export default {
   data() {
     return {
-      text: "",
       name: new inputData(),
       dogTag: new inputData(),
       division: new inputData(),
@@ -285,7 +273,12 @@ export default {
       uid: new inputData(),
       password: new inputData(),
       passwordConfirm: new inputData(),
+      unitList: [],
     };
+  },
+  async mounted(){
+    const {data} = await this.$axios.get('/unit/');
+    this.unitList = data;
   },
   methods: {
     submitForm() {
@@ -300,29 +293,23 @@ export default {
         this.passwordConfirm.check == 1
       ) {
         this.$axios
-          .post("/user/create/", {
-            name: this.name.data,
-            uid: this.uid.data,
-            password: this.password.data,
-            dog_num: this.dogTag.data,
-            army: this.division.data,
-            unit: this.armyUnit.data,
+          .post("/user/", {
+            full_name: this.name.data,
+            dog_number: this.dogTag.data,
+            affiliation: this.division.data,
+            military_unit: this.armyUnit.data,
             rank: this.uClass.data,
+            username: this.uid.data,
+            password: this.password.data,
           })
           .then((response) => {
-            console.log(response);
-            this.text = response;
+            if(response.data.success){
+              this.$router.push('/')
+            }
           })
           .catch((error) => {
             console.log(error);
-            this.text = error;
           });
-        // .finally(function () {
-        //   this.text = "adsffdsaadsf";
-        // });
-        this.text += "um";
-      } else {
-        this.text = "fail";
       }
     },
     checkName(event) {

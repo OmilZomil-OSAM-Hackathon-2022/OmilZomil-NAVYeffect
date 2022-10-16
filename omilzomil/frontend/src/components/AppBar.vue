@@ -211,7 +211,7 @@ export default {
     data(){
       return {
         userName: "김민섭",
-        isLogin:true,
+        isLogin:false,
         userMenu:false,
       }
     },

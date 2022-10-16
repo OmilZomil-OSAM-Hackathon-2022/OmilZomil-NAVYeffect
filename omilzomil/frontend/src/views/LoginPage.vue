@@ -36,10 +36,12 @@
       <div class="right-wrap">
         <form @submit.prevent="buttonClick">
           <input
+            v-model="username"
             class="user"
             placeholder="아이디"
           >
           <input
+            v-model="password"
             class="password"
             type="password"
             placeholder="비밀번호"
@@ -69,15 +71,32 @@
 </template>
 
 <script>
+import qs from 'qs';
 export default {
   data(){
     return{
       loginFail:false,
+      username:'',
+      password:'',
     }
   },
   methods:{
     buttonClick(){
-      this.loginFail = true;
+      this.$axios.post('/login/access-token/',qs.stringify({
+        username:this.username,
+        password:this.password,
+      })).then((response) => {
+            if(response.data.success){
+              // response.data.access_token
+              this.$router.push('/')
+            }else{
+              this.loginFail = true;
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            this.loginFail = true;
+          });
     }
   }
 };
