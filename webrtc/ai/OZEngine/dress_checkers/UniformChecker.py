@@ -6,9 +6,11 @@ from OZEngine.dress_classifier import classification2
 from OZEngine.parts_classifier import PartsClassifier
 
 class UniformChecker:
-    def __init__(self, filter, dress_kind):
+    def __init__(self, filter, dress_kind, train_mode=False):
         self.filter = filter
-        self.parts_classifier = PartsClassifier(dress_kind)
+        self.train_mode = train_mode
+        if train_mode is False:
+            self.parts_classifier = PartsClassifier(dress_kind)
 
     def getMaskedContours(self, img=None, hsv_img=None, kmeans=None, morph=None, kind=None, sort=False):
         lower, upper = self.filter[kind]['lower'], self.filter[kind]['upper']
@@ -47,8 +49,10 @@ class UniformChecker:
         name_chrs = []
 
         if ocr_list:
-            for ocr_res in ocr_list:
+            sorted_orc_list = sorted(ocr_list, key=lambda ocr_res: ocr_res['boxes'][0][0])
+            for ocr_res in sorted_orc_list:
                 ocr_str, ocr_box = ocr_res['recognition_words'], ocr_res['boxes']
+                ocr_str = self.name_tag_filter(ocr_str)
                 ocr_center_xy = getRectCenterPosition(ocr_box)
                 if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
                     box_position = cv2.boundingRect(contour)

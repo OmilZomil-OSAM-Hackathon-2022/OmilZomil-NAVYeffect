@@ -30,10 +30,13 @@ def create_user(db: Session, user: UserCreate):
         db.refresh(user)
         return UserResponse(success=True, message=user.user_id)
     except sqlalchemy.exc.IntegrityError as e:
-        if "foreign key constraint fail" in e.orig.args[1]:
+        msg = e.orig.args[1]
+        if "foreign key constraint fail" in msg:
             return UserResponse(success=False, message="foreign key constraint fail")
-        elif "Duplicate entry" in e.orig.args[1]:
-            return UserResponse(success=False, message="unique key constraint fail")
+        elif "Duplicate entry" in msg:
+            msg = msg.split("'")[3].split(".")[1]
+            if "dog_number" == msg or "username" == msg:
+                return UserResponse(success=False, message=f"unique key constraint fail in {msg}")
         raise e
 
 

@@ -10,7 +10,7 @@ class PartsClassifier(FeatureExtractor):
         project_path = '/config/workspace/WEB_CLOUD_OmilZomil_NAVYeffect/webrtc/ai/OZEngine/parts_classifier'
         if dress_kind == 'navy_service_uniform':
             base_url = os.path.join(project_path, 'NavyServiceUniform')
-        elif dress_kind == 'full_navy_uniform':
+        elif dress_kind == 'full_dress_uniform':
             base_url = os.path.join(project_path, 'FullNavyUniform')
         super().__init__(base_url)
 
