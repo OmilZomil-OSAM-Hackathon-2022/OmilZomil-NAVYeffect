@@ -10,11 +10,11 @@ from .lib.utils import plt_imshow, histNorm, box2img
 
 
 class OmilZomil:
-    def __init__(self, resize=None, img_norm_type=None, uniform_type=None, debug_list=[], save_path=None):
+    def __init__(self, resize=None, img_norm_type=None, uniform_type=None, debug_list=[], save_path=None, train_mode=False):
         self.HED_engine = HED()
         self.morph_engine = Morph()
-        self.full_dress_uniform_checker = FullDressUniformChecker()
-        self.navy_service_uniform_checker = NavyServiceUniformChecker()
+        self.full_dress_uniform_checker = FullDressUniformChecker(train_mode)
+        self.navy_service_uniform_checker = NavyServiceUniformChecker(train_mode)
         self.person_detector = PersonDetector()
         self.face_detector = FaceDetector()
         print('init!')
