@@ -8,6 +8,7 @@ from OZEngine.parts_classifier import PartsClassifier
 class UniformChecker:
     def __init__(self, filter, dress_kind, train_mode=False):
         self.filter = filter
+        self.train_mode = train_mode
         if train_mode is False:
             self.parts_classifier = PartsClassifier(dress_kind)
 

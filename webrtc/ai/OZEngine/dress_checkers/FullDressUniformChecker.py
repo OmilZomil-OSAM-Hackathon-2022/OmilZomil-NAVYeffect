@@ -60,6 +60,7 @@ class FullDressUniformChecker(UniformChecker):
     def checkUniform(self, org_img):
         img = org_img
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        H, W = img.shape[: 2]
 
         box_position_dic = {}
         component_dic = {}
@@ -83,7 +84,10 @@ class FullDressUniformChecker(UniformChecker):
                 x,y,w,h = cv2.boundingRect(contour)
                 parts_img = img[y:y+h, x:x+w]
 
-                kind = self.parts_classifier.predict(parts_img)[1]
+                if self.train_mode:
+                    kind = name
+                else:
+                    kind = self.parts_classifier.predict(parts_img)[1]
 
                 position = 'left' if center_p[0] < (W//2) else 'right'
                 if not is_name_tag and self.isNameTag(contour, position, kind):
@@ -110,6 +114,14 @@ class FullDressUniformChecker(UniformChecker):
         for contour in contours:
             center_p = getContourCenterPosition(contour)
             position = 'left' if center_p[0] < (W//2) else 'right'
+
+            x,y,w,h = cv2.boundingRect(contour)
+            parts_img = img[y:y+h, x:x+w]
+
+            if self.train_mode:
+                kind = name
+            else:
+                kind = self.parts_classifier.predict(parts_img)[1]
             if self.isAnchor(contour, position, kind):
                 box_position_dic[name] = cv2.boundingRect(contour)
                 component_dic[name] = True
@@ -123,6 +135,14 @@ class FullDressUniformChecker(UniformChecker):
         for contour in contours:
             center_p = getContourCenterPosition(contour)
             position = 'left' if center_p[0] < (W//2) else 'right'
+
+            x,y,w,h = cv2.boundingRect(contour)
+            parts_img = img[y:y+h, x:x+w]
+
+            if self.train_mode:
+                kind = name
+            else:
+                kind = self.parts_classifier.predict(parts_img)[1]
             if self.isNameTag(contour, position, kind):
                 box_position_dic[name] = cv2.boundingRect(contour)
                 component_dic[name] = True
