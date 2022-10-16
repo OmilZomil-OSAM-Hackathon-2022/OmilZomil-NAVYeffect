@@ -10,11 +10,11 @@ from .lib.utils import plt_imshow, histNorm, box2img
 
 
 class OmilZomil:
-    def __init__(self, resize=None, img_norm_type=None, uniform_type=None, debug_list=[], save_path=None):
+    def __init__(self, resize=None, img_norm_type=None, uniform_type=None, debug_list=[], save_path=None, train_mode=False):
         self.HED_engine = HED()
         self.morph_engine = Morph()
-        self.full_dress_uniform_checker = FullDressUniformChecker()
-        self.navy_service_uniform_checker = NavyServiceUniformChecker()
+        self.full_dress_uniform_checker = FullDressUniformChecker(train_mode)
+        self.navy_service_uniform_checker = NavyServiceUniformChecker(train_mode)
         self.person_detector = PersonDetector()
         self.face_detector = FaceDetector()
         print('init!')
@@ -30,7 +30,8 @@ class OmilZomil:
     def demo(self, img):
         morphed_edge, ret = self.morph_engine.detect_edge(img)
         hed_edge = self.HED_engine.detect_edge(img, 500, 500)
-        plt_imshow(['morphed', 'hed'], [morphed_edge, hed_edge])
+        self.debug({'demo':morphed_edge}, msg='morphed')
+        self.debug({'demo':hed_edge}, msg='hed')
 
     def debug(self, debug_img, msg=""):
         pairs = [(f'{msg} - {name}', img)
@@ -127,6 +128,9 @@ class OmilZomil:
             # plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic, msg="roi")
             self.debug(masked_img_dic, msg="masked")
+            self.debug({"result":boxed_img}, msg="res")
+            self.demo(shirt_img)
+            
             
             
         self.frame_cnt += 1
