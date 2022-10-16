@@ -32,7 +32,7 @@ class FullDressUniformChecker(UniformChecker):
                 'upper': (190, 255, 255)
             }
         }
-
+        super().__init__(filter, 'full_dress_uniform')
         self.name_tag_pattern = re.compile('[가-힣]+')
 
     def name_tag_filter(self, string):
