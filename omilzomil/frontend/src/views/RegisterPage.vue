@@ -58,18 +58,19 @@
             <div class="input-label">
               <h3>군번</h3>
               <div
-                v-show="dogTag.check == 2"
+                v-show="dogTag.check == 2 || dogTag.check == 3"
                 class="input-warning"
               >
-                군번을 입력해주세요.
+                {{ dogTag.check == 2 ? '군번을 입력해주세요.':'이미 가입된 군번입니다.' }}
               </div>
             </div>
             <input
+              ref="dogTag"
               v-model="dogTag.data"
               placeholder="군번"
               :class="{
                 success: dogTag.check == 1,
-                error: dogTag.check == 2,
+                error: dogTag.check == 2 || dogTag.check == 3,
               }"
               @change="checkDogTag"
             >
@@ -91,20 +92,12 @@
               >
                 소속을 선택하세요.
               </option>
-              <option value="1">
-                육군
-              </option>
-              <option value="2">
-                해군
-              </option>
-              <option value="3">
-                공군
-              </option>
-              <option value="4">
-                해병대
-              </option>
-              <option value="5">
-                국방부직속
+              <option
+                v-for="dvs in divisionList"
+                :key="dvs.affiliation_id"
+                :value="dvs.affiliation_id"
+              >
+                {{ dvs.affiliation }}
               </option>
             </select>
 
@@ -154,40 +147,29 @@
                 계급을 선택하세요.
               </option>
 
-              <option value="1">
-                이병
-              </option>
-              <option value="2">
-                일병
-              </option>
-              <option value="3">
-                상병
-              </option>
-              <option value="4">
-                병장
+              <option
+                v-for="cl in classList"
+                :key="cl.rank_id"
+                :value="cl.rank_id"
+              >
+                {{ cl.rank }}
               </option>
             </select>
 
             <div class="input-label">
               <h3>아이디</h3>
               <div
-                v-show="uid.check != 2"
-                class="input-comment"
+                :class="[uid.check == 1 || uid.check == 0 ? 'input-comment':'input-warning']"
               >
-                아이디를 6자 이상 입력해주세요.
-              </div>
-              <div
-                v-show="uid.check == 2"
-                class="input-warning"
-              >
-                아이디를 6자 이상 입력해주세요.
+                {{ uid.check == 3 ? '이미 가입된 아이디입니다.':'아이디를 6자 이상 입력해주세요.' }}
               </div>
             </div>
             <input
+              ref="username"
               v-model="uid.data"
               :class="{
                 success: uid.check == 1,
-                error: uid.check == 2,
+                error: uid.check == 2 || uid.check == 3,
               }"
               placeholder="아이디"
               @change="checkID"
@@ -274,11 +256,18 @@ export default {
       password: new inputData(),
       passwordConfirm: new inputData(),
       unitList: [],
+      classList:[],
+      divisionList:[],
     };
   },
   async mounted(){
-    const {data} = await this.$axios.get('/unit/');
-    this.unitList = data;
+    const unitList = await this.$axios.get('/unit/');
+    const divisionList = await this.$axios.get('/affiliation/');
+    const classList = await this.$axios.get('/rank/');
+
+    this.unitList = unitList.data;
+    this.divisionList = divisionList.data;
+    this.classList = classList.data;
   },
   methods: {
     submitForm() {
@@ -305,6 +294,14 @@ export default {
           .then((response) => {
             if(response.data.success){
               this.$router.push('/')
+            }else{
+              if(response.data.message.includes('dog_number')){
+                this.dogTag.check = 3;
+                this.$refs.dogTag.focus();
+              }else if(response.data.message.includes('username')){
+                this.uid.check = 3;
+                this.$refs.username.focus();
+              }
             }
           })
           .catch((error) => {

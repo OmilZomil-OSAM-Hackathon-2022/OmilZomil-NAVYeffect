@@ -5,11 +5,11 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     darkMode:false,
-    toekn:{
+    token:{
       accessToken:jwt.getToken(),
     },
     isAuthenticated: !!jwt.getToken(),
-    userInfo:userInfo.getUser(),
+    user:userInfo.getUserInfo(),
   },
   getters: {
     getAccessToken(state) {
@@ -18,8 +18,8 @@ export default createStore({
     isAuthenticated(state) {
       return state.isAuthenticated
     },
-    getUserInfo(state){
-      return state.userInfo;
+    getUser(state){
+      return state.user;
     },
     getDarkMode(state){
         return state.darkMode;
@@ -29,19 +29,20 @@ export default createStore({
     setDarkMode(state){
         state.darkMode = !state.darkMode;
     },
-    logout: function (state) {
+    logout(state) {
       state.token.accessToken = "";
       state.isAuthenticated = false;
       jwt.destroyToken();
       userInfo.destroyUser();
     },
-    login: function (state, payload = {}) {
+    login(state, payload = {}) {
       state.token.accessToken = payload.accessToken;
       state.isAuthenticated = true;
       jwt.saveToken(payload.accessToken);
     },
+    setUser(state, payload = {}){
+      state.user = payload;
+      userInfo.saveUser(payload);
+    }
   },
-  actions:{
-    
-  }
 });

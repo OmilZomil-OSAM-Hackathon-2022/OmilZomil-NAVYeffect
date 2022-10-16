@@ -87,16 +87,20 @@ export default {
         password:this.password,
       })).then((response) => {
             if(response.data.success){
-              // response.data.access_token
-              this.$router.push('/')
+              this.$store.commit('login',{accessToken:response.data.access_token});
             }else{
               this.loginFail = true;
             }
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
             this.loginFail = true;
           });
+      this.$axios.post('/login/test-token/').then((response)=>{
+        if(response.data.success){
+          this.$store.commit('setUser',response.data);
+          this.$router.push('/')
+        }
+      });
     }
   }
 };

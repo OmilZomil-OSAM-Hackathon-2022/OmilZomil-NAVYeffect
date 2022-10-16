@@ -10,7 +10,7 @@ http.interceptors.request.use(
     config => {
       const isAuthenticated = stores.getters["isAuthenticated"]
       if (isAuthenticated) {
-        config.headers.common["Authorization"] = stores.getters["getAccessToken"]
+        config.headers.common["Authorization"] = `Bearer ${stores.getters["getAccessToken"]}`
       }
       return config
     },
