@@ -18,7 +18,7 @@ def create_test_case(db: Session):
         return {"success": False, "message": "military unit not found"}
 
     for i in range(0, 10000):
-        access_time = datetime.now() - relativedelta(months=randrange(0, 12)) + timedelta(days=randrange(-15, 15))
+        access_time = datetime.now() - timedelta(days=randrange(0, 365))
 
         base = AccessLog(military_unit=ids[randrange(0, len(ids))], access_time=access_time)
         db.add(base)
