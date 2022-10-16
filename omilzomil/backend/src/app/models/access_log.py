@@ -10,4 +10,3 @@ class AccessLog(Base):
     access_id = Column(Integer, primary_key=True, index=True)
     military_unit = Column(Integer, ForeignKey(MilitaryUnit.unit_id), nullable=False)
     access_time = Column(Date, default=datetime.now())
-    image_path = Column(String(128), unique=True, nullable=False)
