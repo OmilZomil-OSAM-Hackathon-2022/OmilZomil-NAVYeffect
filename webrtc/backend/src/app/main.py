@@ -1,3 +1,9 @@
+import sys
+sys.path.append("./app/ai/.")
+sys.path.append("./app/ai/OZEngine/.")
+
+
+
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
