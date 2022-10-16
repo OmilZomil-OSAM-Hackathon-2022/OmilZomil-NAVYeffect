@@ -70,7 +70,7 @@ class FullDressUniformChecker(UniformChecker):
         name = 'name_tag'
         contours, masked_img_dic[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='name_tag')
-            
+
         for contour in contours:
             center_p = getContourCenterPosition(contour)
             position = 'left' if center_p[0] < (W//2) else 'right'
@@ -85,8 +85,6 @@ class FullDressUniformChecker(UniformChecker):
 
             if self.isNameTag(contour, position, kind):
                 # 이름표 OCR
-                cv2.boundingRect(contour)
-                cv2.rectangle(img2, (x,y), (x+w, y+h), Color.RED, 2)
                 if self.name_cache:
                     box_position = cv2.boundingRect(contour)
                     component = 'cached ' + self.name_cache
@@ -98,7 +96,7 @@ class FullDressUniformChecker(UniformChecker):
 
                 box_position_dic[name] = box_position
                 component_dic[name] = component
-        plt_imshow('img2', img2)
+                break
         
 
         # 네카치프 / 네카치프링 체크
@@ -138,8 +136,6 @@ class FullDressUniformChecker(UniformChecker):
                 kind = name
             else:
                 kind = self.parts_classifier.predict(parts_img)[1]
-
-                print('계급장 kind : ', kind)
             if self.isClassTag(contour, position, kind):
                 box_position_dic[name] = cv2.boundingRect(contour)
                 component_dic[name] = True
