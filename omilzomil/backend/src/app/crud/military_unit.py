@@ -4,9 +4,12 @@ from app.models.military_unit import MilitaryUnit
 from app.schemas.military_unit import MilitaryUnitResponse
 
 
-def create_military_unit(db: Session, unit: str):
+def create_military_unit(db: Session, unit: str, unit_id: int = None):
     try:
-        unit = MilitaryUnit(unit=unit)
+        if unit_id is None:
+            unit = MilitaryUnit(unit=unit)
+        else:
+            unit = MilitaryUnit(unit_id=unit_id, unit=unit)
         db.add(unit)
         db.commit()
         db.refresh(unit)
