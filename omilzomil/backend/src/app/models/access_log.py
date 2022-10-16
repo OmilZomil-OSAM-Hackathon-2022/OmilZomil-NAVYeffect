@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, Date, String, ForeignKey
+from sqlalchemy import Column, Integer, Date, ForeignKey
 from app.db.base_schema import Base
 from app.models.military_unit import MilitaryUnit
 
