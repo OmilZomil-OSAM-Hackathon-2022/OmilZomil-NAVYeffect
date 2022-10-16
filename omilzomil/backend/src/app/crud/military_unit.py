@@ -20,6 +20,10 @@ def get_military_units(db: Session, unit: str = None):
     return db.query(MilitaryUnit).filter(MilitaryUnit.unit.like(unit)).all()
 
 
+def get_military_unit(db: Session, unit_id: int):
+    return db.query(MilitaryUnit).get(unit_id)
+
+
 def update_military_unit(db: Session, unit_id: int, new_unit: str):
     old_unit = db.query(MilitaryUnit).filter_by(unit_id=unit_id)
     if not old_unit.count():
