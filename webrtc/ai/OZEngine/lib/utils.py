@@ -99,7 +99,10 @@ def drawPoint(org_img, position, color, thick):
 
 def getContourCenterPosition(contour):
     moments = cv2.moments(contour)
-    return (int(moments["m10"] / moments["m00"]), int(moments["m01"] / moments["m00"]))
+    if moments["m00"] != 0:
+        return (int(moments["m10"] / moments["m00"]), int(moments["m01"] / moments["m00"]))
+    else:
+        return 0, 0
 
 def sortContoursByArea(contours, hierarchy=[]):
     if len(hierarchy):
