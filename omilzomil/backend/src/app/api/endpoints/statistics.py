@@ -61,7 +61,28 @@ def get_affiliation_fail_rate(db: Session = Depends(deps.get_db)):
     return ret
 
 
-@router.get("/rate/year/fail/")
+@router.get("/rate/fail/detail/")
+def get_detailed_fail_rate(db: Session = Depends(deps.get_db)):
+    ret = {"success": True, "message": "success"}
+    types = {"두발": 1, "이름표": 2, "계급장": 3, "태극기": 4, "모자": 5}
+
+    for appearance_type in types.items():
+        total, count = crud.get_overall_stats(
+            db,
+            date=Date.now(day=False),
+            appearance_type=appearance_type[1],
+            status=False,
+        )
+
+        if total != 0:
+            ret[appearance_type[0]] = round(count / total * 100)
+        else:
+            ret[appearance_type[0]] = 0
+
+    return ret
+
+
+@router.get("/rate/fail/year/")
 def get_yearly_fail_rate(db: Session = Depends(deps.get_db)):
     ret = {"success": True, "message": "success"}
 
@@ -111,7 +132,14 @@ def get_fail_from_unit(db: Session = Depends(deps.get_db), current_user: UserRea
     types = {"이름표": 2, "계급장": 3, "태극기": 4, "모자": 5}
 
     for appearance_type in types.items():
-        ret[appearance_type[0]] = crud.get_monthly_detailed_stats(db, military_unit=current_user.military_unit, appearance_type=appearance_type[1], status=True)
+        _, count = crud.get_overall_stats(
+            db,
+            date=Date.now(day=False),
+            military_unit=current_user.military_unit,
+            appearance_type=appearance_type[1],
+            status=False,
+        )
+        ret[appearance_type[0]] = count
 
     return ret
 
