@@ -150,7 +150,8 @@ class FullDressUniformChecker(UniformChecker):
                 kind = self.parts_classifier.predict(parts_img)[1]
             if self.isClassTag(contour, position, kind):
                 box_position_dic[name] = cv2.boundingRect(contour)
-                component_dic[name] = Classes.dic.get(kind.split('+')[1])
+                class_n = kind.split('+')[1]
+                component_dic[name] = Classes.dic.get(int(class_n))
                 break
 
         print('debug cnt ', self.debug_cnt)
