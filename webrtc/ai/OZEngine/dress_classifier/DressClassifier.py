@@ -18,8 +18,3 @@ class DressClassifier(FeatureExtractor):
             return (dist, kind, id)
         else:
             return (None, None, None)
-
-if __name__ == '__main__':
-    pc = PartsClassifier('navy_service_uniform')
-    res = pc.evaluate()
-    print(res)
