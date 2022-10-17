@@ -12,3 +12,10 @@ class Date(datetime):
 
     def __str__(self):
         return self.strftime(self.day and "%Y-%m-%d" or "%Y-%m")
+
+    @classmethod
+    def now(cls, tz=None, day=True):
+        cls = super().now(tz)
+        if not day:
+            cls.day = None
+        return cls
