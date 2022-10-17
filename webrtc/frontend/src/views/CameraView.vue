@@ -185,7 +185,7 @@ export default {
         url : `wss://117.17.110.220:7778/v1/test`,
         img : null,
         setI : null,
-        name : null,
+        name : "1정문",
       }
     },
   methods: {
@@ -413,7 +413,6 @@ export default {
     flex-direction: column;
   }
   .left{
-    background-color: aqua;
     width:100%;
     height:50vh;
   }
