@@ -21,8 +21,8 @@ class FeatureExtractor:
         self.model_set_path = os.path.join(base_path, 'model')
         try:
             self.getFeatures()
-        except:
-            pass
+        except Exception as e:
+            print('Feature Load 실패!', e)
 
 
     def getFeatures(self):
