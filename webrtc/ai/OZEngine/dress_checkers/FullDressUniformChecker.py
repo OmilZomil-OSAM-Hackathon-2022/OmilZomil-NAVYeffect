@@ -45,7 +45,7 @@ class FullDressUniformChecker(UniformChecker):
         return position == 'left' and kind == 'name_tag' and cv2.contourArea(contour) > 100
 
     def isClassTag(self, contour, position, kind):
-        return position == 'left' and kind == 'class_tag'
+        return position == 'left' and kind.find('class_tag') != -1
 
     def isAnchor(self, contour, position, kind):
         return kind == 'anchor' and cv2.contourArea(contour) > 100
@@ -91,8 +91,6 @@ class FullDressUniformChecker(UniformChecker):
             else:
                 kind = self.parts_classifier.predict(parts_img)[1]
 
-                plt_imshow(kind, parts_img)
-
             if not is_name_tag and self.isNameTag(contour, position, kind):
                 # 이름표 OCR
                 if self.name_cache:
@@ -136,9 +134,9 @@ class FullDressUniformChecker(UniformChecker):
 
         # 계급장 체크
         name = 'class_tag'
-        contours, masked_img_dic[name] = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind=name)
-
+        contours, _, masked_img_dic[name] = self.getMaskedContours(
+            img=img, hsv_img=hsv_img, kind=name, sort=True)
+            
         for contour in contours:
             center_p = getContourCenterPosition(contour)
             position = 'left' if center_p[0] < (W//2) else 'right'
@@ -152,15 +150,9 @@ class FullDressUniformChecker(UniformChecker):
                 kind = self.parts_classifier.predict(parts_img)[1]
             if self.isClassTag(contour, position, kind):
                 box_position_dic[name] = cv2.boundingRect(contour)
-                component_dic[name] = True
+                class_n = kind.split('+')[1]
+                component_dic[name] = Classes.dic.get(int(class_n))
                 break
-
-        # 마후라 체크
-        # name = 'mahura'
-        # contours = self.getMaskedContours(
-        #     img=img, hsv_img=hsv_img, kind=name, sort=False)
-        # box_position_dic[name], component_dic[name] = self.getMahura(
-        #     img, contours, None)
 
         print('debug cnt ', self.debug_cnt)
 

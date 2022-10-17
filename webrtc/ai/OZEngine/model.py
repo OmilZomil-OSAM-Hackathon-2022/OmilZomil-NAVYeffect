@@ -1,7 +1,7 @@
 import cv2, os
 
 from .dress_checkers import FullDressUniformChecker, NavyServiceUniformChecker
-from .dress_classifier import classificate, classification2
+from .dress_classifier import DressClassifier
 from .edge_detectors import HED, Morph, RCF
 from .person_detectors import PersonDetector
 from .face_detectors import FaceDetector
@@ -10,20 +10,19 @@ from .lib.utils import plt_imshow, histNorm, box2img
 
 
 class OmilZomil:
-    def __init__(self, resize=None, img_norm_type=None, uniform_type=None, debug_list=[], save_path=None, train_mode=False):
+    def __init__(self, resize=None, img_norm_type=None, debug_list=[], save_path=None, train_mode=False):
         self.HED_engine = HED()
         self.morph_engine = Morph()
-        if uniform_type == 'FULL_DRESS':
-            self.full_dress_uniform_checker = FullDressUniformChecker(train_mode)
-        elif uniform_type == 'NAVY_SERVICE':
-            self.navy_service_uniform_checker = NavyServiceUniformChecker(train_mode)
+        self.full_dress_uniform_checker = FullDressUniformChecker(train_mode)
+        self.navy_service_uniform_checker = NavyServiceUniformChecker(train_mode)
+        self.dress_classifier = DressClassifier()
         self.person_detector = PersonDetector()
         self.face_detector = FaceDetector()
         print('init!')
 
         self.resize = resize
         self.img_norm_type = img_norm_type
-        self.uniform_type = UniformType.dic[uniform_type]
+        self.uniform_type = None
         self.debug_list = debug_list
         self.save_path = save_path
         
@@ -65,7 +64,7 @@ class OmilZomil:
                 roi = org_img[y:y+h, x:x+w]
                 cv2.rectangle(img, (x, y), (x+w, y+h), Color.PURPLE, 5)
                 font = cv2.FONT_HERSHEY_SIMPLEX
-                cv2.putText(img, name, (x, y), font, 3, Color.PURPLE, 5)
+                cv2.putText(img, name, (x, y), font, 2, Color.PURPLE, 3)
                 roi_dic[name] = roi
 
         return img, roi_dic
@@ -108,7 +107,8 @@ class OmilZomil:
                 input_img = histed_img
 
         if self.uniform_type is None:
-            self.uniform_type = classificate(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
+            self.uniform_type = self.dress_classifier.predict(shirt_img)[1]  # 복장종류인식 (전투복, 동정복, 샘당)
+            print(self.uniform_type)
 
         # 옷 종류별로 분기를 나눔
         if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
@@ -118,6 +118,8 @@ class OmilZomil:
         elif self.uniform_type == UniformType.dic['FULL_DRESS']:
             component_dic, box_position_dic, masked_img_dic = self.full_dress_uniform_checker.checkUniform(
                 shirt_img)
+        else:
+            return None, None, None
 
         base_point = (person_base_point[0] + shirt_base_point[0]), (person_base_point[1] + shirt_base_point[1])
         for name, pos in box_position_dic.items():
