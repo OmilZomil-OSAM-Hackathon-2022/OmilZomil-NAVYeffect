@@ -39,7 +39,6 @@ def get_fail_rate(db: Session = Depends(deps.get_db)):
 
 @router.get("/rate/fail/affiliation/")
 def get_affiliation_fail_rate(db: Session = Depends(deps.get_db)):
-
     counts = list()
     for i in range(2, 6):
         _, count = crud.get_overall_stats(db, date=Date.now(day=False), affiliation=i, status=False)
@@ -58,6 +57,22 @@ def get_affiliation_fail_rate(db: Session = Depends(deps.get_db)):
 
         ret = {affiliations[i]: counts[i] for i in range(0, len(affiliations))}
         ret.update({"success": True, "message": "success"})
+
+    return ret
+
+
+@router.get("/rate/year/fail/")
+def get_yearly_fail_rate(db: Session = Depends(deps.get_db)):
+    ret = {"success": True, "message": "success"}
+
+    cur = Date.now(day=False)
+    for i in range(0, 12):
+        date = cur - relativedelta(months=i)
+        total, count = crud.get_overall_stats(db, date=date, status=False)
+        if total != 0:
+            ret[str(date)] = round(count / total * 100)
+        else:
+            ret[str(date)] = 0
 
     return ret
 
@@ -111,7 +126,11 @@ def get_pass_from_unit(db: Session = Depends(deps.get_db), current_user: UserRea
     cur = Date.now(day=False)
     for i in range(0, 12):
         date = cur - relativedelta(months=i)
-        _, ret[date.strftime("%Y-%m")] = crud.get_overall_stats(db, date=date, military_unit=current_user.military_unit, status=True)
+        total, count = crud.get_overall_stats(db, date=date, military_unit=current_user.military_unit, status=True)
+        if total != 0:
+            ret[str(date)] = round(count / total * 100)
+        else:
+            ret[str(date)] = 0
 
     return ret
 
