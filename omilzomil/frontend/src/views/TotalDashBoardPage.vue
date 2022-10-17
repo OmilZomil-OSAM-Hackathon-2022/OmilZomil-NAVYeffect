@@ -22,7 +22,7 @@
         <HeatMapCard class="f1" />
         <RadarCard class="f1" />
       </div>
-      <div class="f1 card" />
+      <LineCard class="f1" />
     </div>
   </div>
 </template>
@@ -35,8 +35,9 @@ import UnitCard from '@/components/totaldash/UnitCard.vue';
 import TodayCard from '@/components/totaldash/TodayCard.vue';
 import HeatMapCard from '@/components/totaldash/HeatMapCard.vue';
 import RadarCard from '@/components/totaldash/RadarCard.vue';
+import LineCard from '@/components/totaldash/LineCard.vue';
 export default {
-    components: { TotalScoreCard, WeekCard, MonthCard, UnitCard, TodayCard, HeatMapCard, RadarCard }
+    components: { TotalScoreCard, WeekCard, MonthCard, UnitCard, TodayCard, HeatMapCard, RadarCard, LineCard }
 }
 </script>
 

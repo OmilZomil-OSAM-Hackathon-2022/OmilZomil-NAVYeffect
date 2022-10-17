@@ -18,6 +18,12 @@
     flex-direction: column;
     align-items: center;
 }
+a{
+  cursor:pointer;
+}
+
+
+
 
 @media(max-width:1200px){
     .wrap{
