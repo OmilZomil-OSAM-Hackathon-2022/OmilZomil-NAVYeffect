@@ -50,7 +50,7 @@
           >
           <div>
             <a
-              v-if="isLogin"
+              v-if="isAuth"
               class="profile"
               to="/"
               @click="openUserMenu"
@@ -60,7 +60,7 @@
                 src="@/assets/icons/mdi_account-circle.svg"
               >
               <div class="user-name">
-                {{ userName }}님
+                {{ getUser.full_name }}님
               </div>
             </a>
             <div
@@ -78,21 +78,32 @@
               >
                 프로필 수정
               </router-link>
-              <router-link
-                to="/profile/userManagement"
-                @click="closeUserMenu"
+              <div
+                v-if="getUser.role > 2"
+                class="admin"
               >
-                사용자 관리
-              </router-link>
-              <router-link
-                to="/profile/unitManageMent"
-                @click="closeUserMenu"
-              >
-                부대 관리
-              </router-link>
+                <router-link
+                  to="/profile/userManagement"
+                  @click="closeUserMenu"
+                >
+                  사용자 관리
+                </router-link>
+                <router-link
+                  to="/profile/unitManageMent"
+                  @click="closeUserMenu"
+                >
+                  부대 관리
+                </router-link>
+                <router-link
+                  to="/profile/unitManageMent"
+                  @click="closeUserMenu"
+                >
+                  위병소 관리
+                </router-link>
+              </div>
               <router-link
                 to="/"
-                @click="closeUserMenu"
+                @click="logout"
               >
                 로그아웃
               </router-link>
@@ -105,7 +116,7 @@
             </div>
           </div>
           <router-link
-            v-if="!isLogin"
+            v-if="!isAuth"
             to="/login"
           >
             <div class="login">
@@ -202,15 +213,19 @@ export default {
     components:{ IconBase, DashboardIcon, TrophyIcon, HomeIcon, GroupIcon, BookAccount, ChartBox },
     data(){
       return {
-        userName: "김민섭",
-        isLogin:true,
         userMenu:false,
       }
     },
     computed: {
       getDarkMode () {
         return this.$store.getters.getDarkMode;
-      }
+      },
+      isAuth () {
+        return this.$store.getters.isAuthenticated;
+      },
+      getUser () {
+        return this.$store.getters.getUser;
+      },
     },
     methods:{
       setDarkMode(){
@@ -223,6 +238,11 @@ export default {
       closeUserMenu(){
         this.userMenu = false;
       },
+      logout(){
+        this.closeUserMenu();
+        this.$store.commit('logout');
+        this.$router.push('/')
+      }
     },
 }
 </script>
@@ -418,6 +438,13 @@ button{
   /* right:20px; */
   margin-right:20px;
   gap:5px;
+}
+.admin{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:5px;
+
 }
 .userMenu a{
   box-sizing:border-box;

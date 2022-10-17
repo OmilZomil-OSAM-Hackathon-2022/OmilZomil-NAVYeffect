@@ -11,6 +11,21 @@
           <div>{{ user.dogTag }}</div>
         </div>
         <div class="term">
+          <div class="gaurdroom">
+            위병소
+            <div :class="['dropdown',{'active':gaurdroomList.length > 0}]">
+              <input placeholder="위병소 이름">
+              <div class="dropdown-list">
+                <div
+                  v-for="(item,idx) in gaurdroomList"
+                  :key="idx"
+                  class="ditem"
+                >
+                  {{ item }}
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="datepicker-wrap">
             시작일
             <Datepicker
@@ -111,8 +126,9 @@ class Vacation{
                   new Vacation(),
                   new Vacation(),
               ],
-
-          user:new User(),
+              gaurdroomList:['test','test'],
+              g:false,
+              user:new User(),
           }
       },
       computed:{
@@ -145,7 +161,7 @@ class Vacation{
   }
 
   .search-card{
-    height:130px;
+    height:183px;
     flex-direction: column;
     justify-content: flex-start;
   }
@@ -155,8 +171,10 @@ class Vacation{
     height:100%;
     padding:0px 54px;
     display:flex;
-    align-items: center;
-    justify-content:space-between;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content:center;
+    gap:33px;
   }
 
   .datepicker-wrap{
@@ -179,6 +197,8 @@ class Vacation{
   .term{
     display:flex;
     align-items:center;
+    width:100%;
+    justify-content: flex-end;
   }
 
   .regist{
@@ -291,6 +311,71 @@ class Vacation{
     /* identical to box height */
 
     letter-spacing: 0.15px;
+}
+.gaurdroom{
+  margin-right:26px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+.gaurdroom .dropdown{
+  border: 1px solid var(--color-input-border);
+  border-radius: 4px;
+  width:224px;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position:relative;
+}
+.gaurdroom .dropdown input{
+  border:none;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  width:100%;
+  height:28px;
+
+  padding:6px 10px;
+  box-sizing:border-box;
+  background:var(--color-input);
+}
+.gaurdroom .dropdown input:focus{
+  outline:none;
+}
+
+.gaurdroom .dropdown .ditem{
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  width:100%;
+  height:28px;
+  padding:6px 10px;
+  box-sizing:border-box;
+  background:var(--color-input);
+  border-bottom:1px solid var(--color-input-border);
+  display:flex;
+  justify-content: flex-start;
+}
+.gaurdroom .active{
+  border-bottom-left-radius:0px;
+  border-bottom-right-radius:0px;
+  border-bottom:none !important;
+}
+.gaurdroom .dropdown .ditem:hover{
+  background:var(--color-state-card);
+}
+.dropdown-list{
+  width:100%;
+  position:absolute;
+  top:28px;
+  border: 1px solid var(--color-input-border);
+  border-bottom-left-radius:4px;
+  border-bottom-right-radius:4px;
+  left:-1px;
+  border-bottom:none;
 }
   </style>
 

@@ -9,6 +9,7 @@
           <h1>쉽게 복장, 두발 불량을 찾아냅니다.</h1>
         </div>
         <img
+          width="708"
           class="dashboard-image"
           src="@/assets/images/dashboard.png"
         >
