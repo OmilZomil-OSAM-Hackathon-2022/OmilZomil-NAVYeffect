@@ -5,7 +5,7 @@ from OZEngine.FeatureExtractor import FeatureExtractor
 
 class DressClassifier(FeatureExtractor):
     def __init__(self):
-        project_path = '/config/workspace/WEB_CLOUD_OmilZomil_NAVYeffect/webrtc/ai/OZEngine/dress_classifier/Dress'
+        project_path = '/config/workspace/WEB_CLOUD_OmilZomil_NAVYeffect/webrtc/ai/OZEngine/dress_classifier'
         base_url = os.path.join(project_path, 'Dress')
         super().__init__(base_url)
 
@@ -15,6 +15,7 @@ class DressClassifier(FeatureExtractor):
         id = np.argsort(dists)[0]
         dist = dists[id]
         kind = self.classes[id]
+        kind = kind.upper()
         if dist < 1:
             return (dist, kind, id)
         else:
