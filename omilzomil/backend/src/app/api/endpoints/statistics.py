@@ -37,6 +37,31 @@ def get_fail_rate(db: Session = Depends(deps.get_db)):
     return {"success": True, "message": "success", "count": cur, "fail_rate": fail_rate, "increase_rate": increase_rate}
 
 
+@router.get("/rate/fail/affiliation/")
+def get_affiliation_fail_rate(db: Session = Depends(deps.get_db)):
+
+    counts = list()
+    for i in range(2, 6):
+        _, count = crud.get_overall_stats(db, date=Date.now(day=False), affiliation=i, status=False)
+        counts.append(count)
+
+    total = sum(counts)
+    affiliations = ["육군", "해군", "공군", "해병대"]
+
+    if total == 0:
+        ret = {affiliations[i]: 0 for i in range(0, len(affiliations))}
+        ret.update({"success": False, "message": "failure entry not found"})
+    else:
+        counts = [round(counts[i] / total * 100) for i in range(0, len(counts))]
+        if sum(counts) != 100:
+            counts[3] += 100 - sum(counts)
+
+        ret = {affiliations[i]: counts[i] for i in range(0, len(affiliations))}
+        ret.update({"success": True, "message": "success"})
+
+    return ret
+
+
 @router.get("/unit/rate/")
 def get_rate_from_unit(category: Optional[str] = None, db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
     if not current_user.success:
