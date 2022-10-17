@@ -128,7 +128,7 @@ export default {
       try{
         const {data} = await this.$axios.get("/stats/unit/fail/");
         const total = (data.이름표 + data.계급장 + data.태극기 + data.모자);
-        console.log(total)
+        // console.log(total);
         this.nameTag = Math.round(data.이름표*100/total);
         this.classTag = Math.round(data.계급장*100/total);
         this.flag = Math.round(data.태극기*100/total);
