@@ -54,15 +54,37 @@ def get_daily_fail_hitmap(count: int, db: Session = Depends(deps.get_db)):
 def get_weekly_fail(db: Session = Depends(deps.get_db)):
     ret = {"success": True, "message": "success"}
 
+    totals = list()
+    fails = list()
     now = Date.now()
-    for i in range(7, 0, -1):
+
+    for i in range(14, 0, -1):
         date = now - relativedelta(days=i - 1)
         total, count = crud.get_overall_stats(db, date=date, status=False)
+        fails.append(count)
+        if i > 7:
+            continue
 
+        totals.append(total)
         if total != 0:
             ret[str(date)] = round(count / total * 100)
         else:
             ret[str(date)] = 0
+
+    prev = sum(fails[:7])
+    cur = sum(fails[7:])
+    total = sum(totals)
+
+    ret["count"] = cur
+    if total != 0:
+        ret["fail_rate"] = round((cur / total) * 100)
+    else:
+        ret["fail_rate"] = 0
+
+    if prev != 0:
+        ret["increase_rate"] = round(((cur / prev) - 1) * 100)
+    else:
+        ret["increase_rate"] = 0
 
     return ret
 
