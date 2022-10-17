@@ -1,5 +1,4 @@
 from datetime import datetime
-from sqlalchemy import or_
 from sqlalchemy.orm import Session, aliased
 from app.models.access_log import AccessLog
 from app.models.inspection_log import InspectionLog
@@ -58,7 +57,7 @@ def create_test_case(db: Session):
             db.refresh(log)
 
 
-def get_overall_stats(db: Session, date: Date, military_unit: int = None, category: str = None, status: bool = None):
+def get_overall_stats(db: Session, date: Date, affiliation: int = None, military_unit: int = None, category: str = None, status: bool = None):
     query = (
         db.query(InspectionLog)
         .join(AccessLog, AccessLog.access_id == InspectionLog.access_id)
@@ -66,8 +65,10 @@ def get_overall_stats(db: Session, date: Date, military_unit: int = None, catego
         .filter(AccessLog.access_time.like(str(date) + "%"))
     )
 
+    if affiliation is not None:
+        query = query.filter(InspectionLog.affiliation == affiliation)
     if military_unit is not None:
-        query = query.filter(or_(AccessLog.military_unit == military_unit))
+        query = query.filter(AccessLog.military_unit == military_unit)
     if category == "hair":
         query = query.filter(InspectionDetail.appearance_type == 1)
     elif category == "appearance":
@@ -97,7 +98,7 @@ def get_monthly_detailed_stats(db: Session, appearance_type: int, military_unit:
     )
 
     if military_unit is not None:
-        query = query.filter(or_(AccessLog.military_unit == military_unit))
+        query = query.filter(AccessLog.military_unit == military_unit)
     if status is not None:
         count = query.filter(InspectionDetail.status == status).count()
     else:
