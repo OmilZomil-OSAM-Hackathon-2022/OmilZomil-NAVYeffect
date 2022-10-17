@@ -251,7 +251,7 @@ export default {
             this.list=msg.list;
           }
           case "result":{
-            this.$refs.back.src=msg.photo;
+            this.data["imgview"]=true;
             this.data["kind"]=msg.kind;
             this.data["hair"]=msg.hair;
             this.data["nametag"]=msg.nametag;
@@ -259,7 +259,7 @@ export default {
             this.data["ma"]=msg.muffler;
             this.data["neck"]=msg.neck;
             this.data["flag"]=msg.flag;
-            this.data["imgview"]=true;
+            this.$refs.back.src=msg.photo;
           }        
         }
       }
