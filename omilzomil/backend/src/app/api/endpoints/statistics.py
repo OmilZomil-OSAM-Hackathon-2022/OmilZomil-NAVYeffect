@@ -242,36 +242,3 @@ def get_detailed_monthly_fail_from_unit(db: Session = Depends(deps.get_db), curr
         ret.update({"success": True, "message": "success"})
 
     return ret
-
-
-@router.get("/test/")
-def test(db: Session = Depends(deps.get_db)):
-    ret = {"success": True, "message": "success"}
-    types = {"이름표": 2, "계급장": 3, "태극기": 4, "모자": 5}
-
-    counts = list()
-    for appearance_type in types.items():
-        _, count = crud.get_overall_stats(
-            db,
-            date=Date.now(day=False),
-            military_unit=2,
-            appearance_type=appearance_type[1],
-            status=False,
-        )
-        counts.append(count)
-
-    total = sum(counts)
-    types = list(types.keys())
-
-    if total == 0:
-        ret = {key: 0 for key in types}
-        ret.update({"success": False, "message": "failure entry not found"})
-    else:
-        counts = [round(counts[i] / total * 100) for i in range(0, len(counts))]
-        if sum(counts) != 100:
-            counts[randrange(0, len(types))] += 100 - sum(counts)
-
-        ret = {types[i]: counts[i] for i in range(0, len(types))}
-        ret.update({"success": True, "message": "success"})
-
-    return ret
