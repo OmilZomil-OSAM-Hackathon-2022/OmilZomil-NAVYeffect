@@ -21,9 +21,7 @@ class Manager:
         print("run task")
         print(self.task_queue)
         
-        # 작업이 없는 경우는 종료
-        if not self.task_queue:
-            return True
         
         # 작업이 없을때까지 반복
-        self.run_task()
+        while not self.task_queue:
+            self.run_task()
