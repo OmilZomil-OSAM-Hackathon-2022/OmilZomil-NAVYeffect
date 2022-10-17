@@ -6,4 +6,4 @@ class Affiliation(Base):
     __tablename__ = "affiliation"
 
     affiliation_id = Column(Integer, primary_key=True, index=True)
-    affiliation = Column(String(8), unique=True, nullable=False)
+    affiliation = Column(String(6), unique=True, nullable=False)

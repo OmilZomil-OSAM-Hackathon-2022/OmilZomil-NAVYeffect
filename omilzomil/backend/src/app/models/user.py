@@ -10,7 +10,7 @@ class User(Base):
     __tablename__ = "user"
 
     user_id = Column(Integer, primary_key=True, index=True)
-    full_name = Column(String(12), nullable=False)
+    full_name = Column(String(8), nullable=False)
     dog_number = Column(String(16), unique=True, nullable=False)
     affiliation = Column(Integer, ForeignKey(Affiliation.affiliation_id), nullable=False)
     military_unit = Column(Integer, ForeignKey(MilitaryUnit.unit_id), nullable=False)
