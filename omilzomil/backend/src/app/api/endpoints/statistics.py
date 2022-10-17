@@ -184,15 +184,15 @@ def get_monthly_pass_from_unit(db: Session = Depends(deps.get_db), current_user:
     ret = {"success": True, "message": "success"}
 
     now = Date.now(day=False)
-    for i in range(0, 12):
-        date = now - relativedelta(months=i)
+    for i in range(12, 0, -1):
+        date = now - relativedelta(months=i - 1)
         total, count = crud.get_overall_stats(db, date=date, military_unit=current_user.military_unit, status=True)
         if total != 0:
             ret[str(date)] = round(count / total * 100)
         else:
             ret[str(date)] = 0
 
-    return ret.reverse()
+    return ret
 
 
 @router.get("/month/unit/best/{category}")
