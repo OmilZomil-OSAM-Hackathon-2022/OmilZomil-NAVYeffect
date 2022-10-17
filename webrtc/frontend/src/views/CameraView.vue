@@ -5,7 +5,9 @@
       <canvas ref="canvas" class="video" style="display:none;"></canvas>
       <div style="display:flex; flex-direction:row height:5vh;">
         <button @click="connect">connect</button>
-
+        <select v-model="name">
+                  <option v-for="item in list" :key="item">{{item}}</option>
+        </select>
         <button @click="start">start</button>
         <button @click="test1">test1</button>
         <button @click="test2">test2</button>
