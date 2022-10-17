@@ -11,7 +11,7 @@ from loguru import logger
 
 
 from app.api.websocket.connections import ConnectionManager
-from app.api.websocket.camera import Camera
+from app.api.websocket.broker import Broker
 
 # 관리 객체
 socket_mng = ConnectionManager()
@@ -27,14 +27,14 @@ async def debug_websocket(websocket: WebSocket):
     print("connected") 
     # await websocket.send_json("위병소")
     
-    camera = Camera(ws=websocket)
+    broker = Broker(ws=websocket, id=1)
     # 소캣 연결 유지
     try:
         while True:
             data = await websocket.receive_json()
             # print(f"받음 : {data}")
             print(f"받음 ")
-            result = await camera.capture(data=data['img'])
+            result = await broker.give_task(data=data['img'])
             print(f"처리 완료 {result}")   
             await websocket.send_json(result)
     except WebSocketDisconnect:
