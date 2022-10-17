@@ -1,3 +1,4 @@
+from random import randrange
 from dateutil.relativedelta import relativedelta
 from typing import Optional
 from fastapi import APIRouter, Depends
@@ -34,17 +35,17 @@ def get_daily_fail(db: Session = Depends(deps.get_db)):
 
 @router.get("/day/fail/hitmap/{count}")
 def get_daily_fail_hitmap(count: int, db: Session = Depends(deps.get_db)):
-    ret = list()
+    ret = {"success": True, "message": "success"}
 
     now = Date.now()
-    for i in range(0, count):
-        date = now - relativedelta(days=i)
+    for i in range(count, 0, -1):
+        date = now - relativedelta(days=i - 1)
         total, count = crud.get_overall_stats(db, date=date, status=False)
 
         if total != 0:
-            ret.append(round(count / total * 100))
+            ret[str(date)] = round(count / total * 100)
         else:
-            ret.append(0)
+            ret[str(date)] = 0
 
     return ret
 
@@ -54,24 +55,32 @@ def get_weekly_fail(db: Session = Depends(deps.get_db)):
     ret = {"success": True, "message": "success"}
 
     totals = list()
+    fails = list()
     now = Date.now()
 
-    for i in range(0, 14):
-        date = now - relativedelta(days=i)
+    for i in range(14, 0, -1):
+        date = now - relativedelta(days=i - 1)
         total, count = crud.get_overall_stats(db, date=date, status=False)
-        totals.append(total)
-
-        if i >= 7:
+        fails.append(count)
+        if i > 7:
             continue
+
+        totals.append(total)
         if total != 0:
             ret[str(date)] = round(count / total * 100)
         else:
             ret[str(date)] = 0
 
-    cur = sum(totals[:7])
-    prev = sum(totals[7:])
+    prev = sum(fails[:7])
+    cur = sum(fails[7:])
+    total = sum(totals)
 
     ret["count"] = cur
+    if total != 0:
+        ret["fail_rate"] = round((cur / total) * 100)
+    else:
+        ret["fail_rate"] = 0
+
     if prev != 0:
         ret["increase_rate"] = round(((cur / prev) - 1) * 100)
     else:
@@ -117,7 +126,7 @@ def get_afiiliation_monthly_fail(db: Session = Depends(deps.get_db)):
     else:
         counts = [round(counts[i] / total * 100) for i in range(0, len(counts))]
         if sum(counts) != 100:
-            counts[3] += 100 - sum(counts)
+            counts[randrange(0, len(affiliations))] += 100 - sum(counts)
 
         ret = {affiliations[i]: counts[i] for i in range(0, len(affiliations))}
         ret.update({"success": True, "message": "success"})
@@ -151,8 +160,8 @@ def get_yearly_fail(db: Session = Depends(deps.get_db)):
     ret = {"success": True, "message": "success"}
 
     now = Date.now(day=False)
-    for i in range(0, 12):
-        date = now - relativedelta(months=i)
+    for i in range(12, 0, -1):
+        date = now - relativedelta(months=i - 1)
         total, count = crud.get_overall_stats(db, date=date, status=False)
         if total != 0:
             ret[str(date)] = round(count / total * 100)
@@ -197,8 +206,8 @@ def get_monthly_pass_from_unit(db: Session = Depends(deps.get_db), current_user:
     ret = {"success": True, "message": "success"}
 
     now = Date.now(day=False)
-    for i in range(0, 12):
-        date = now - relativedelta(months=i)
+    for i in range(12, 0, -1):
+        date = now - relativedelta(months=i - 1)
         total, count = crud.get_overall_stats(db, date=date, military_unit=current_user.military_unit, status=True)
         if total != 0:
             ret[str(date)] = round(count / total * 100)
@@ -229,6 +238,7 @@ def get_detailed_monthly_fail_from_unit(db: Session = Depends(deps.get_db), curr
     ret = {"success": True, "message": "success"}
     types = {"이름표": 2, "계급장": 3, "태극기": 4, "모자": 5}
 
+    counts = list()
     for appearance_type in types.items():
         _, count = crud.get_overall_stats(
             db,
@@ -237,6 +247,20 @@ def get_detailed_monthly_fail_from_unit(db: Session = Depends(deps.get_db), curr
             appearance_type=appearance_type[1],
             status=False,
         )
-        ret[appearance_type[0]] = count
+        counts.append(count)
+
+    total = sum(counts)
+    types = list(types.keys())
+
+    if total == 0:
+        ret = {key: 0 for key in types}
+        ret.update({"success": False, "message": "failure entry not found"})
+    else:
+        counts = [round(counts[i] / total * 100) for i in range(0, len(counts))]
+        if sum(counts) != 100:
+            counts[randrange(0, len(types))] += 100 - sum(counts)
+
+        ret = {types[i]: counts[i] for i in range(0, len(types))}
+        ret.update({"success": True, "message": "success"})
 
     return ret
