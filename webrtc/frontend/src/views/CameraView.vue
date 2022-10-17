@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="right" v-if="this.data['imgview']">
-      <img ref="back" class="back" src="@/assets/images/test.svg">
+      <img ref="back" class="back" >
       <div class="result">
         <div class="content" v-if="data['kind']==='blue'">
           <div class="kind">
@@ -197,6 +197,7 @@ export default {
     },
     test1(){
       this.data["imgview"]=true;
+      this.$refs.back.src=this.img
       this.data["kind"]="blue";
       this.data["hair"]=true;
       this.data["nametag"]=false;
@@ -204,6 +205,7 @@ export default {
     },
     test2(){
       this.data["imgview"]=true;
+      this.$refs.back.src=this.img
       this.data["kind"]="green";
       this.data["hair"]=true;
       this.data["nametag"]=true;
@@ -212,6 +214,7 @@ export default {
     },
     test3(){
       this.data["imgview"]=true;
+      this.$refs.back.src=this.img
       this.data["kind"]="black";
       this.data["hair"]=true;
       this.data["nametag"]=true;
@@ -272,7 +275,11 @@ export default {
       const canvas = this.$refs.canvas
       const image = this.$refs.image
       const ctx = canvas.getContext('2d')
-      ctx.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
+      let canvas_width=video.videoWidth;
+      let canvas_height=video.videoHeight;
+      canvas.width=canvas_width;
+      canvas.height=canvas_height;
+      ctx.drawImage(video, 0, 0, canvas_width, canvas_height);
       this.img = canvas.toDataURL('image/webp')
       var msg = {
         name:this.name,
@@ -329,7 +336,8 @@ export default {
     height:100%;
   }
   .back{
-    width:160px;
+    object-fit: contain;
+    width:400px;
   }
   .result{
     display:flex;
@@ -426,6 +434,9 @@ export default {
   .right{
     width:100%;
     height:50vh;
+  }
+  .back{
+    width: 160px;
   }
 }
 </style>
