@@ -5,6 +5,7 @@
       <canvas ref="canvas" class="video" style="display:none;"></canvas>
       <div style="display:flex; flex-direction:row height:5vh;">
         <button @click="connect">connect</button>
+        <button @click="listtest">listtest</button>
         <select v-model="name">
                   <option v-for="item in list" :key="item">{{item}}</option>
         </select>
@@ -182,15 +183,18 @@ export default {
           "neck" : null,
           "flag" : null
         },
-        list:["1정문","2정문","3정문"],
+        list:[],
         socket : null,
         url : `wss://117.17.110.220:7778/v1/test`,
         img : null,
         setI : null,
-        name : "1정문",
+        name : null,
       }
     },
   methods: {
+    listtest(){
+      this.list=["1정문","2정문","3정문"]
+    },
     test1(){
       this.data["imgview"]=true;
       this.data["kind"]="blue";
@@ -224,6 +228,8 @@ export default {
       this.data["flag"]=null;
       this.data["ma"]=null;
       this.data["neck"]=null;
+      this.list=[];
+      this.name=null;
     },
     connect() {
       console.log("start")
