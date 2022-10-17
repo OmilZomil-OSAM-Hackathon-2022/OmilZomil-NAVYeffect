@@ -138,15 +138,15 @@ def get_yearly_fail(db: Session = Depends(deps.get_db)):
     ret = {"success": True, "message": "success"}
 
     now = Date.now(day=False)
-    for i in range(0, 12):
-        date = now - relativedelta(months=i)
+    for i in range(12, 0, -1):
+        date = now - relativedelta(months=i - 1)
         total, count = crud.get_overall_stats(db, date=date, status=False)
         if total != 0:
             ret[str(date)] = round(count / total * 100)
         else:
             ret[str(date)] = 0
 
-    return ret.reverse()
+    return ret
 
 
 @router.get("/month/unit/")
