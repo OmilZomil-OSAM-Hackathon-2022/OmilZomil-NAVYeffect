@@ -6,6 +6,7 @@ from OZEngine.FeatureExtractor import FeatureExtractor
 class DressClassifier(FeatureExtractor):
     def __init__(self):
         project_path = '/config/workspace/WEB_CLOUD_OmilZomil_NAVYeffect/webrtc/ai/OZEngine/dress_classifier/Dress'
+        base_url = os.path.join(project_path, 'Dress')
         super().__init__(base_url)
 
     def predict(self, img):
