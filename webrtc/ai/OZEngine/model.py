@@ -1,7 +1,7 @@
 import cv2, os
 
 from .dress_checkers import FullDressUniformChecker, NavyServiceUniformChecker
-from .dress_classifier import classificate, classification2
+from .dress_classifier import DressClassifier
 from .edge_detectors import HED, Morph, RCF
 from .person_detectors import PersonDetector
 from .face_detectors import FaceDetector
@@ -17,6 +17,7 @@ class OmilZomil:
             self.full_dress_uniform_checker = FullDressUniformChecker(train_mode)
         elif uniform_type == 'NAVY_SERVICE':
             self.navy_service_uniform_checker = NavyServiceUniformChecker(train_mode)
+        self.dress_classifier = DressClassifier()
         self.person_detector = PersonDetector()
         self.face_detector = FaceDetector()
         print('init!')
@@ -108,7 +109,7 @@ class OmilZomil:
                 input_img = histed_img
 
         if self.uniform_type is None:
-            self.uniform_type = classificate(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
+            self.uniform_type = self.dress_classifier.detect(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
 
         # 옷 종류별로 분기를 나눔
         if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
