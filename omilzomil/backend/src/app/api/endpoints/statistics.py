@@ -17,7 +17,7 @@ def create_test_case(db: Session = Depends(deps.get_db)):
 
 
 @router.get("/month/fail/")
-def get_fail_rate(db: Session = Depends(deps.get_db)):
+def get_monthly_fail(db: Session = Depends(deps.get_db)):
     cur = Date.now(day=False)
     prev = cur - relativedelta(months=1)
 
@@ -38,7 +38,7 @@ def get_fail_rate(db: Session = Depends(deps.get_db)):
 
 
 @router.get("/month/fail/affiliation/")
-def get_affiliation_fail_rate(db: Session = Depends(deps.get_db)):
+def get_afiiliation_monthly_fail(db: Session = Depends(deps.get_db)):
     counts = list()
     for i in range(2, 6):
         _, count = crud.get_overall_stats(db, date=Date.now(day=False), affiliation=i, status=False)
@@ -62,7 +62,7 @@ def get_affiliation_fail_rate(db: Session = Depends(deps.get_db)):
 
 
 @router.get("/month/fail/detail/")
-def get_detailed_fail_rate(db: Session = Depends(deps.get_db)):
+def get_detailed_monthly_fail(db: Session = Depends(deps.get_db)):
     ret = {"success": True, "message": "success"}
     types = {"두발": 1, "이름표": 2, "계급장": 3, "태극기": 4, "모자": 5}
 
@@ -83,7 +83,7 @@ def get_detailed_fail_rate(db: Session = Depends(deps.get_db)):
 
 
 @router.get("/year/fail/")
-def get_yearly_fail_rate(db: Session = Depends(deps.get_db)):
+def get_yearly_fail(db: Session = Depends(deps.get_db)):
     ret = {"success": True, "message": "success"}
 
     cur = Date.now(day=False)
@@ -99,7 +99,9 @@ def get_yearly_fail_rate(db: Session = Depends(deps.get_db)):
 
 
 @router.get("/month/unit/")
-def get_rate_from_unit(category: Optional[str] = None, db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
+def get_monthly_data_from_unit(
+    category: Optional[str] = None, db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)
+):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
 
@@ -124,7 +126,7 @@ def get_rate_from_unit(category: Optional[str] = None, db: Session = Depends(dep
 
 
 @router.get("/month/unit/fail/detail/")
-def get_fail_from_unit(db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
+def get_detailed_monthly_fail_from_unit(db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
 
@@ -145,7 +147,7 @@ def get_fail_from_unit(db: Session = Depends(deps.get_db), current_user: UserRea
 
 
 @router.get("/month/unit/pass/")
-def get_pass_from_unit(db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
+def get_monthly_pass_from_unit(db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
 
@@ -164,7 +166,7 @@ def get_pass_from_unit(db: Session = Depends(deps.get_db), current_user: UserRea
 
 
 @router.get("/month/unit/best/{category}")
-def get_best_from_unit(category: str, db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
+def get_monthly_best_from_unit(category: str, db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
 
