@@ -32,6 +32,23 @@ def get_daily_fail(db: Session = Depends(deps.get_db)):
     return {"success": True, "message": "success", "count": cur, "increase_rate": increase_rate}
 
 
+@router.get("/day/fail/hitmap/{count}")
+def get_daily_fail_hitmap(count: int, db: Session = Depends(deps.get_db)):
+    ret = list()
+
+    now = Date.now()
+    for i in range(0, count):
+        date = now - relativedelta(days=i)
+        total, count = crud.get_overall_stats(db, date=date, status=False)
+
+        if total != 0:
+            ret.append(round(count / total * 100))
+        else:
+            ret.append(0)
+
+    return ret
+
+
 @router.get("/week/fail/")
 def get_weekly_fail(db: Session = Depends(deps.get_db)):
     ret = {"success": True, "message": "success"}
