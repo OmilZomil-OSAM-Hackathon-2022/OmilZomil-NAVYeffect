@@ -3,9 +3,12 @@ import time
 import os
 
 
-def video2image(video):
+
+def video2image(video_path):
     frame_n = 0
-    os.makedirs(f'../image/video_frame/1', exist_ok=True)
+    video = cv2.VideoCapture(video_path)
+    name = video_path.split('/')[-1].split('.')[0]
+    os.makedirs(f'../image/video_frame/{name}', exist_ok=True)
     while True:
         ret, frame = video.read()
         if ret:
@@ -20,13 +23,13 @@ def video2image(video):
                 #     h, w), interpolation=cv2.INTER_AREA)
                 # frame = tr1
             frame = cv2.rotate(frame, cv2.ROTATE_180)
-            cv2.imwrite(f'../image/video_frame/1/{frame_n}.jpg', frame)
+            cv2.imwrite(f'../image/video_frame/{name}/{frame_n}.jpg', frame)
             frame_n += 1
         else:
             break
 
 
-video = cv2.VideoCapture('../video/1.mp4')
+
 # print('fps', video.get(cv2.CAP_PROP_FPS))
 # width = video.get(cv2.CAP_PROP_FRAME_WIDTH)
 # height = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
@@ -35,5 +38,5 @@ video = cv2.VideoCapture('../video/1.mp4')
 # video.set(cv2.CAP_PROP_FRAME_WIDTH, height)
 # video.set(cv2.CAP_PROP_FRAME_HEIGHT, width)
 # print('original size: %d, %d' % (width, height))
-
-video2image(video)
+video_path = '../video/fd_01.mp4'
+video2image(video_path)
