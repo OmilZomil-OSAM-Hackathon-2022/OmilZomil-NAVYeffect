@@ -13,10 +13,8 @@ class OmilZomil:
     def __init__(self, resize=None, img_norm_type=None, uniform_type=None, debug_list=[], save_path=None, train_mode=False):
         self.HED_engine = HED()
         self.morph_engine = Morph()
-        if uniform_type == 'FULL_DRESS':
-            self.full_dress_uniform_checker = FullDressUniformChecker(train_mode)
-        elif uniform_type == 'NAVY_SERVICE':
-            self.navy_service_uniform_checker = NavyServiceUniformChecker(train_mode)
+        self.full_dress_uniform_checker = FullDressUniformChecker(train_mode)
+        self.navy_service_uniform_checker = NavyServiceUniformChecker(train_mode)
         self.person_detector = PersonDetector()
         self.face_detector = FaceDetector()
         print('init!')
@@ -80,18 +78,15 @@ class OmilZomil:
         person_base_point = person_box[0]
         person_img = box2img(img, person_box)
         if person_img is None:
-            return None, None
+            raise Exception("인식가능한 사람이 없습니다!")
         
         # 얼굴인식
         face_box = self.face_detector.detect(person_img)
-        if face_box is None:
-            return None, None
-
         face_img = box2img(person_img, face_box)
 
         self.debug({'face':face_img}, msg='roi')
         # 셔츠인식
-        h, w = person_img.shape[:2]
+        w, h = person_img.shape[:2]
         max_y = face_box[1][0]
         shirt_box = ((max_y, 0), (h, w))
         shirt_base_point = shirt_box[0]

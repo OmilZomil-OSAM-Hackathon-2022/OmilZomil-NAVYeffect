@@ -11,4 +11,4 @@ def create_role(db: Session, role_id: int, role: str):
 
 
 def get_roles(db: Session):
-    return db.query(Role).filter(Role.role_id != 3).order_by(Role.role_id).all()
+    return db.query(Role).all()

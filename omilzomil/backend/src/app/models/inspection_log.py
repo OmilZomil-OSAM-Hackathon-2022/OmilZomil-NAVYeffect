@@ -15,5 +15,4 @@ class InspectionLog(Base):
     rank = Column(Integer, ForeignKey(Rank.rank_id), nullable=False)
     name = Column(String(5), nullable=False)
     uniform = Column(Integer, ForeignKey(Uniform.uniform_id), nullable=False)
-    image_path = Column(String(128), unique=True, nullable=False)
     checked = Column(Boolean, default=False)
