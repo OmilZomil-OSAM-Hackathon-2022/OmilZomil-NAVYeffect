@@ -16,6 +16,22 @@ def create_test_case(db: Session = Depends(deps.get_db)):
     return crud.create_test_case(db)
 
 
+@router.get("/day/fail/")
+def get_daily_fail(db: Session = Depends(deps.get_db)):
+    cur = Date.now()
+    prev = cur - relativedelta(days=1)
+
+    _, cur = crud.get_overall_stats(db, date=cur, status=False)
+    _, prev = crud.get_overall_stats(db, date=prev, status=False)
+
+    if prev != 0:
+        increase_rate = round(((cur / prev) - 1) * 100)
+    else:
+        increase_rate = 0
+
+    return {"success": True, "message": "success", "count": cur, "increase_rate": increase_rate}
+
+
 @router.get("/month/fail/")
 def get_monthly_fail(db: Session = Depends(deps.get_db)):
     cur = Date.now(day=False)
@@ -125,27 +141,6 @@ def get_monthly_data_from_unit(
     return {"success": True, "message": "success", "count": cur, "increase_rate": increase_rate}
 
 
-@router.get("/month/unit/fail/detail/")
-def get_detailed_monthly_fail_from_unit(db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
-    if not current_user.success:
-        return {"success": False, "message": current_user.message}
-
-    ret = {"success": True, "message": "success"}
-    types = {"이름표": 2, "계급장": 3, "태극기": 4, "모자": 5}
-
-    for appearance_type in types.items():
-        _, count = crud.get_overall_stats(
-            db,
-            date=Date.now(day=False),
-            military_unit=current_user.military_unit,
-            appearance_type=appearance_type[1],
-            status=False,
-        )
-        ret[appearance_type[0]] = count
-
-    return ret
-
-
 @router.get("/month/unit/pass/")
 def get_monthly_pass_from_unit(db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
     if not current_user.success:
@@ -175,4 +170,25 @@ def get_monthly_best_from_unit(category: str, db: Session = Depends(deps.get_db)
 
     ret = {"success": True, "message": "success"}
     ret.update(crud.get_monthly_best_stats(db, military_unit=current_user.military_unit, category=category))
+    return ret
+
+
+@router.get("/month/unit/fail/detail/")
+def get_detailed_monthly_fail_from_unit(db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
+    if not current_user.success:
+        return {"success": False, "message": current_user.message}
+
+    ret = {"success": True, "message": "success"}
+    types = {"이름표": 2, "계급장": 3, "태극기": 4, "모자": 5}
+
+    for appearance_type in types.items():
+        _, count = crud.get_overall_stats(
+            db,
+            date=Date.now(day=False),
+            military_unit=current_user.military_unit,
+            appearance_type=appearance_type[1],
+            status=False,
+        )
+        ret[appearance_type[0]] = count
+
     return ret
