@@ -1,6 +1,9 @@
 <template>
   <div class="card title-card">
-    <div class="title-wrap">
+    <div
+      v-if="isReady"
+      class="title-wrap"
+    >
       <div class="title">
         필승! <h1>{{ title }}</h1> 입니다
       </div>
@@ -17,10 +20,24 @@
 
 <script>
 export default {
-  props:{
-    title:{
-      type:String,
-      default:null,
+  data(){
+    return{
+      title:'',
+      isReady:false,
+    }
+  },
+  computed:{
+    getUser () {
+        return this.$store.getters.getUser;
+      },
+  },
+  async mounted(){
+    try{
+      const {data} = await this.$axios.get(`/unit/${this.getUser.military_unit}`);
+      this.title = data.unit;
+      this.isReady = true;
+    }catch(err){
+      console.log(err);
     }
   }
 }
