@@ -11,7 +11,7 @@
           />명
         </div>
         <div class="before">
-          지난 주 대비
+          지난 달 대비
         </div>
         <PercentTag
 

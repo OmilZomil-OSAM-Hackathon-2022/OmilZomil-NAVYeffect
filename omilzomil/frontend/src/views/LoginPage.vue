@@ -17,7 +17,7 @@
         <h2>오밀조밀<br>복장과 두발을 검사하다</h2>
         <div class="title">
           <img
-            width="52px"
+            width="65px"
             src="@/assets/logo.svg"
           >
           <h1>OMIL-ZOMIL</h1>
@@ -148,7 +148,7 @@ export default {
   align-items: center;
 }
 .wrap-title .title img {
-  margin-right: 10px;
+  /* margin-right: 10px; */
 }
 .wrap-title .title h1 {
   margin: 0px;

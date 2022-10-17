@@ -10,7 +10,7 @@
     </div>
     <img
       class="thumb"
-      src="@/assets/images/Thumb_up.svg"
+      src="@/assets/images/Thumb_up.png"
     >
   </div>
 </template>

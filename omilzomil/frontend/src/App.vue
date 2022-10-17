@@ -1,6 +1,11 @@
 <template>
-  <div :class="[getDarkMode ? 'dark-mode' : '', 'main']">
-    <AppBar v-if="!$route.meta.hideAppBar" />
+  <div
+    :class="[getDarkMode ? 'dark-mode' : '', 'main']"
+  >
+    <AppBar
+      v-if="!$route.meta.hideAppBar"
+      :style="{'margin-bottom':$route.meta.isLanding ? '0px':''}"
+    />
     <router-view />
   </div>
   <!-- <login-page /> -->
@@ -30,6 +35,7 @@ export default {
 } */
 :root {
   color:#585767;
+  --color:#585767;
   --color-background: #f4f5fa;
   --color-appbar: #ffffff;
   --color-card: #ffffff;
@@ -45,6 +51,7 @@ export default {
   --color-input-border: #78798D;
   --color-state-card:#2C2845;
   color: white;
+  --color:white;
 }
 html,
 body,
@@ -68,5 +75,10 @@ body,
 
   background: var(--color-background);
   width: 100%;
+}
+
+
+a{
+  text-decoration:none;
 }
 </style>
