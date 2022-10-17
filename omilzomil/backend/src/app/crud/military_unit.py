@@ -20,7 +20,7 @@ def create_military_unit(db: Session, unit: str, unit_id: int = None):
 
 def get_military_units(db: Session, unit: str = None):
     unit = unit and f"%{unit}%" or "%"
-    return db.query(MilitaryUnit).filter(MilitaryUnit.unit_id != 1).filter(MilitaryUnit.unit.like(unit)).order_by(MilitaryUnit.unit).all()
+    return db.query(MilitaryUnit).filter(MilitaryUnit.unit_id != 1).filter(MilitaryUnit.unit.like(unit)).all()
 
 
 def get_military_unit(db: Session, unit_id: int):

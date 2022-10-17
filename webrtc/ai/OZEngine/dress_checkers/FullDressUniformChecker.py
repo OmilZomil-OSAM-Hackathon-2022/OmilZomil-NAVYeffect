@@ -15,16 +15,12 @@ class FullDressUniformChecker(UniformChecker):
     def __init__(self, train_mode):
         # hyperparameter
         filter = {
-            'name_tag': {
-                'lower': (25, 0, 210), 
-                'upper': (255, 15, 255)
-            },
             'uniform': {
-                'lower': (0, 0, 0),
-                'upper': (255, 255, 50)
+                'lower': (12, 0, 0),
+                'upper': (197, 255, 116)
             },
             'class_tag': {
-                'lower': (140, 60, 60),
+                'lower': (140, 120, 50),
                 'upper': (190, 255, 255)
             },
             'anchor': {
@@ -37,9 +33,13 @@ class FullDressUniformChecker(UniformChecker):
             }
         }
         super().__init__(filter, 'full_dress_uniform', train_mode)
-        self.name_cache = None
-        self.debug_cnt = 0
-    
+        self.name_tag_pattern = re.compile('[가-힣]+')
+
+    def name_tag_filter(self, string):
+        print('str', string)
+        filtered_list = self.name_tag_pattern.findall(string)
+        res_string = ''.join(filtered_list)
+        return res_string
 
     def isNameTag(self, contour, position, kind):
         return position == 'left' and kind == 'name_tag' and cv2.contourArea(contour) > 100
@@ -50,7 +50,7 @@ class FullDressUniformChecker(UniformChecker):
     def isAnchor(self, contour, position, kind):
         return kind == 'anchor' and cv2.contourArea(contour) > 100
 
-    def isMahura(self, kind):
+    def isMahura(self, contour, position, kind):
         return kind == 'mahura'
 
     def isInShirt(self, contour):
@@ -67,51 +67,44 @@ class FullDressUniformChecker(UniformChecker):
         masked_img_dic = {}
 
         # 이름표 체크
-        name = 'name_tag'
-        contours, _,  masked_img_dic[name] = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind='name_tag', sort=True)
-
-        for contour in contours:
-            is_name_tag = component_dic.get('name_tag')
-            is_mahura = component_dic.get('mahura')
-
-            if is_name_tag and is_mahura:
-                break
-
-            center_p = getContourCenterPosition(contour)
-            position = 'left' if center_p[0] < (W//2) else 'right'
-
-            x,y,w,h = cv2.boundingRect(contour)
-            parts_img = img[y:y+h, x:x+w]
-
-
-
-            if self.train_mode:
-                kind = name
-            else:
-                kind = self.parts_classifier.predict(parts_img)[1]
-
-                plt_imshow(kind, parts_img)
-
-            if not is_name_tag and self.isNameTag(contour, position, kind):
-                # 이름표 OCR
-                if self.name_cache:
-                    box_position = cv2.boundingRect(contour)
-                    component = 'cached ' + self.name_cache
-                else:
-                    ocr_list = OCR(img)
-                    self.debug_cnt += 1
-                    box_position, component = self.getName(contour, ocr_list)
-                    self.name_cache = component
-
-                box_position_dic['name_tag'] = box_position
-                component_dic['name_tag'] = component
+        name = 'name'
+        contours, sorted_hierarchy, masked_img_dic['shirt'] = self.getMaskedContours(
+            img=img, hsv_img=hsv_img, kind='uniform', sort=True)
             
-            elif not is_mahura and self.isMahura(kind):
+        for i, (contour, lev) in enumerate(zip(contours, sorted_hierarchy)):
+            if i == 0:  # 옷
+                cur_node, next_node, prev_node, first_child, parent = lev
+                shirt_node = cur_node
+                continue
+
+            if parent == shirt_node and self.isInShirt(contour):
                 box_position = cv2.boundingRect(contour)
-                box_position_dic['mahura'] = box_position
-                component_dic['mahura'] = True
-        
+                center_p = getContourCenterPosition(contour)
+
+                x,y,w,h = cv2.boundingRect(contour)
+                parts_img = img[y:y+h, x:x+w]
+
+                if self.train_mode:
+                    kind = name
+                else:
+                    kind = self.parts_classifier.predict(parts_img)[1]
+
+                position = 'left' if center_p[0] < (W//2) else 'right'
+                if not is_name_tag and self.isNameTag(contour, position, kind):
+                    # 이름표 OCR
+                    if self.name_cache:
+                        box_position = cv2.boundingRect(contour)
+                        component = 'cached ' + self.name_cache
+                    else:
+                        ocr_list = OCR(img)
+                        self.debug_cnt += 1
+                        box_position, component = self.getName(contour, ocr_list)
+                        self.name_cache = component
+
+                    # return값에 반영
+                    box_position_dic[name] = box_position
+                    component_dic[name] = component
+                    break
 
         # 네카치프 / 네카치프링 체크
         name = 'anchor'
@@ -150,7 +143,7 @@ class FullDressUniformChecker(UniformChecker):
                 kind = name
             else:
                 kind = self.parts_classifier.predict(parts_img)[1]
-            if self.isClassTag(contour, position, kind):
+            if self.isNameTag(contour, position, kind):
                 box_position_dic[name] = cv2.boundingRect(contour)
                 component_dic[name] = True
                 break
@@ -161,7 +154,5 @@ class FullDressUniformChecker(UniformChecker):
         #     img=img, hsv_img=hsv_img, kind=name, sort=False)
         # box_position_dic[name], component_dic[name] = self.getMahura(
         #     img, contours, None)
-
-        print('debug cnt ', self.debug_cnt)
 
         return component_dic, box_position_dic, masked_img_dic
