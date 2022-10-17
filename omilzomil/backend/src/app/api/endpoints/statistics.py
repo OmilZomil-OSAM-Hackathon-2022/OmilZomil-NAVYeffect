@@ -47,7 +47,7 @@ def get_daily_fail_hitmap(count: int, db: Session = Depends(deps.get_db)):
         else:
             ret.append(0)
 
-    return ret.reverse()
+    return ret
 
 
 @router.get("/week/fail/")
