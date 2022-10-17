@@ -50,7 +50,7 @@ class FullDressUniformChecker(UniformChecker):
     def isAnchor(self, contour, position, kind):
         return kind == 'anchor' and cv2.contourArea(contour) > 100
 
-    def isMahura(self, contour, position, kind):
+    def isMahura(self, kind):
         return kind == 'mahura'
 
     def isInShirt(self, contour):
@@ -68,22 +68,32 @@ class FullDressUniformChecker(UniformChecker):
 
         # 이름표 체크
         name = 'name_tag'
-        contours, masked_img_dic[name] = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind='name_tag')
+        contours, _,  masked_img_dic[name] = self.getMaskedContours(
+            img=img, hsv_img=hsv_img, kind='name_tag', sort=True)
 
         for contour in contours:
+            is_name_tag = component_dic.get('name_tag')
+            is_mahura = component_dic.get('mahura')
+
+            if is_name_tag and is_mahura:
+                break
+
             center_p = getContourCenterPosition(contour)
             position = 'left' if center_p[0] < (W//2) else 'right'
 
             x,y,w,h = cv2.boundingRect(contour)
             parts_img = img[y:y+h, x:x+w]
 
+
+
             if self.train_mode:
                 kind = name
             else:
                 kind = self.parts_classifier.predict(parts_img)[1]
 
-            if self.isNameTag(contour, position, kind):
+                plt_imshow(kind, parts_img)
+
+            if not is_name_tag and self.isNameTag(contour, position, kind):
                 # 이름표 OCR
                 if self.name_cache:
                     box_position = cv2.boundingRect(contour)
@@ -94,9 +104,13 @@ class FullDressUniformChecker(UniformChecker):
                     box_position, component = self.getName(contour, ocr_list)
                     self.name_cache = component
 
-                box_position_dic[name] = box_position
-                component_dic[name] = component
-                break
+                box_position_dic['name_tag'] = box_position
+                component_dic['name_tag'] = component
+            
+            elif not is_mahura and self.isMahura(kind):
+                box_position = cv2.boundingRect(contour)
+                box_position_dic['mahura'] = box_position
+                component_dic['mahura'] = True
         
 
         # 네카치프 / 네카치프링 체크
