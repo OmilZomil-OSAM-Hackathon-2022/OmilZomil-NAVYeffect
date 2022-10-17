@@ -273,8 +273,7 @@ export default {
       const image = this.$refs.image
       const ctx = canvas.getContext('2d')
       ctx.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
-      this.img = canvas.toDataURL('image/webp');
-      image.src = this.img;
+      this.img = canvas.toDataURL('image/webp')
       var msg = {
         name:this.name,
         photo:this.img
