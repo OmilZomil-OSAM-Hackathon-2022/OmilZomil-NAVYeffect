@@ -37,3 +37,6 @@ def check_human(img):
             "human": False,
             "data" : result,
         }
+
+def check_omil(img):
+    return omil_detector.detect(img)
