@@ -11,7 +11,7 @@ class Date(datetime):
         return "%s(%s)" % (self.__class__.__qualname__, ", ".join(map(str, L)))
 
     def __str__(self):
-        return self.strftime(self.day and "%Y-%m-%d" or "%Y-%m")
+        return self.strftime(self._day and "%Y-%m-%d" or "%Y-%m")
 
     def __add__(self, other):
         ret = super().__add__(other)
