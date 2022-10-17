@@ -13,10 +13,8 @@ class OmilZomil:
     def __init__(self, resize=None, img_norm_type=None, uniform_type=None, debug_list=[], save_path=None, train_mode=False):
         self.HED_engine = HED()
         self.morph_engine = Morph()
-        if uniform_type == 'FULL_DRESS':
-            self.full_dress_uniform_checker = FullDressUniformChecker(train_mode)
-        elif uniform_type == 'NAVY_SERVICE':
-            self.navy_service_uniform_checker = NavyServiceUniformChecker(train_mode)
+        self.full_dress_uniform_checker = FullDressUniformChecker(train_mode)
+        self.navy_service_uniform_checker = NavyServiceUniformChecker(train_mode)
         self.dress_classifier = DressClassifier()
         self.person_detector = PersonDetector()
         self.face_detector = FaceDetector()
@@ -24,7 +22,10 @@ class OmilZomil:
 
         self.resize = resize
         self.img_norm_type = img_norm_type
-        self.uniform_type = UniformType.dic[uniform_type]
+        if uniform_type:
+            self.uniform_type = UniformType.dic[uniform_type]
+        else:
+            self.uniform_type = None
         self.debug_list = debug_list
         self.save_path = save_path
         
@@ -109,7 +110,8 @@ class OmilZomil:
                 input_img = histed_img
 
         if self.uniform_type is None:
-            self.uniform_type = self.dress_classifier.detect(self.org)  # 복장종류인식 (전투복, 동정복, 샘당)
+            self.uniform_type = self.dress_classifier.predict(shirt_img)  # 복장종류인식 (전투복, 동정복, 샘당)
+            print(self.uniform_type)
 
         # 옷 종류별로 분기를 나눔
         if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
