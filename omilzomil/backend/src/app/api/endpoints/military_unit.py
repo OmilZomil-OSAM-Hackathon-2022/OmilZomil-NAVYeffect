@@ -19,6 +19,11 @@ def get_military_units(unit: Optional[str] = None, db: Session = Depends(deps.ge
     return crud.get_military_units(db, unit)
 
 
+@router.get("/{unit_id}", response_model=schema.MilitaryUnitReadResponse)
+def get_military_unit(unit_id: int, db: Session = Depends(deps.get_db)):
+    return crud.get_military_unit(db, unit_id)
+
+
 @router.put("/{unit_id}", response_model=schema.MilitaryUnitResponse)
 async def update_military_unit(unit_id: int, new_unit: schema.MilitaryUnitUpdate = Body(), db: Session = Depends(deps.get_db)):
     return crud.update_military_unit(db, unit_id, new_unit.unit)

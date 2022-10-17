@@ -11,7 +11,7 @@ class PartsClassifier(FeatureExtractor):
         if dress_kind == 'navy_service_uniform':
             base_url = os.path.join(project_path, 'NavyServiceUniform')
         elif dress_kind == 'full_dress_uniform':
-            base_url = os.path.join(project_path, 'FullDressUniform')
+            base_url = os.path.join(project_path, 'FullNavyUniform')
         super().__init__(base_url)
 
     def predict(self, img):

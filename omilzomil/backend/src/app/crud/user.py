@@ -70,7 +70,7 @@ def get_users(db: Session, flt: UserFilter):
         user = user.filter_by(rank=flt.rank)
     if flt.is_active is not None:
         user = user.filter_by(is_active=flt.is_active)
-    return user.order_by(User.full_name).all()
+    return user.all()
 
 
 def get_user_by_id(db: Session, user_id: int):
