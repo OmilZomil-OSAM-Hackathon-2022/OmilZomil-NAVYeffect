@@ -1,10 +1,10 @@
-from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from typing import Optional
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.api import deps
 from app.schemas.user import UserReadResponse
+from app.schemas.statistics import Date
 from app.crud import statistics as crud
 
 
@@ -14,6 +14,27 @@ router = APIRouter()
 @router.post("/test-case")
 def create_test_case(db: Session = Depends(deps.get_db)):
     return crud.create_test_case(db)
+
+
+@router.get("/rate/fail/")
+def get_fail_rate(db: Session = Depends(deps.get_db)):
+    cur = Date.now(day=False)
+    prev = cur - relativedelta(months=1)
+
+    total, cur = crud.get_overall_stats(db, date=cur, status=False)
+    _, prev = crud.get_overall_stats(db, date=prev, status=False)
+
+    if cur != 0:
+        fail_rate = round((cur / total) * 100)
+    else:
+        fail_rate = 0
+
+    if prev != 0:
+        increase_rate = round(((cur / prev) - 1) * 100)
+    else:
+        increase_rate = 0
+
+    return {"success": True, "message": "success", "count": cur, "fail_rate": fail_rate, "increase_rate": increase_rate}
 
 
 @router.get("/unit/rate/")
@@ -27,11 +48,11 @@ def get_rate_from_unit(category: Optional[str] = None, db: Session = Depends(dep
     elif category is not None:
         return {"success": False, "message": "invalid category"}
 
-    cur = datetime.now()
+    cur = Date.now(day=False)
     prev = cur - relativedelta(months=1)
 
-    _, cur = crud.get_monthly_overall_stats(db, military_unit=current_user.military_unit, category=category, status=status)
-    _, prev = crud.get_monthly_overall_stats(db, military_unit=current_user.military_unit, date=prev, category=category, status=status)
+    _, cur = crud.get_overall_stats(db, date=cur, military_unit=current_user.military_unit, category=category, status=status)
+    _, prev = crud.get_overall_stats(db, date=prev, military_unit=current_user.military_unit, category=category, status=status)
 
     if prev != 0:
         increase_rate = round(((cur / prev) - 1) * 100)
@@ -62,10 +83,10 @@ def get_pass_from_unit(db: Session = Depends(deps.get_db), current_user: UserRea
 
     ret = {"success": True, "message": "success"}
 
-    cur = datetime.now()
+    cur = Date.now(day=False)
     for i in range(0, 12):
         date = cur - relativedelta(months=i)
-        _, ret[date.strftime("%Y-%m")] = crud.get_monthly_overall_stats(db, military_unit=current_user.military_unit, date=date, status=True)
+        _, ret[date.strftime("%Y-%m")] = crud.get_overall_stats(db, date=date, military_unit=current_user.military_unit, status=True)
 
     return ret
 

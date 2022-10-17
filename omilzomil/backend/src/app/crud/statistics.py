@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session, aliased
 from app.models.access_log import AccessLog
 from app.models.inspection_log import InspectionLog
 from app.models.inspection_detail import InspectionDetail
+from app.schemas.statistics import Date
 from app.crud.military_unit import get_military_unit, get_military_units
 
 
@@ -57,15 +58,12 @@ def create_test_case(db: Session):
             db.refresh(log)
 
 
-def get_monthly_overall_stats(db: Session, military_unit: int = None, date: datetime = None, category: str = None, status: bool = None):
-    if date is None:
-        date = datetime.now()
-
+def get_overall_stats(db: Session, date: Date, military_unit: int = None, category: str = None, status: bool = None):
     query = (
         db.query(InspectionLog)
         .join(AccessLog, AccessLog.access_id == InspectionLog.access_id)
         .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
-        .filter(AccessLog.access_time.like(date.strftime("%Y-%m-%%")))
+        .filter(AccessLog.access_time.like(str(date) + "%"))
     )
 
     if military_unit is not None:
@@ -115,7 +113,7 @@ def take_fourth(elem):
 def get_monthly_unit_ranks(db: Session):
     entries = list()
     for unit in get_military_units(db):
-        total, count = get_monthly_overall_stats(db, military_unit=unit.unit_id, status=True)
+        total, count = get_overall_stats(db, date=Date.now(day=False), military_unit=unit.unit_id, status=True)
         if total == 0:
             rate = 0
         else:
