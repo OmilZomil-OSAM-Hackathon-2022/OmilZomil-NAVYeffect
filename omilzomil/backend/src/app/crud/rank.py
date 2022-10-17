@@ -11,4 +11,4 @@ def create_rank(db: Session, rank_id: int, rank: str):
 
 
 def get_ranks(db: Session):
-    return db.query(Rank).all()
+    return db.query(Rank).filter(Rank.rank_id != 1).order_by(Rank.rank_id).all()

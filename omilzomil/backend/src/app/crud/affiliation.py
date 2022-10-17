@@ -11,4 +11,4 @@ def create_affiliation(db: Session, affiliation_id: int, affiliation: str):
 
 
 def get_affiliations(db: Session):
-    return db.query(Affiliation).all()
+    return db.query(Affiliation).filter(Affiliation.affiliation_id != 1).order_by(Affiliation.affiliation_id).all()

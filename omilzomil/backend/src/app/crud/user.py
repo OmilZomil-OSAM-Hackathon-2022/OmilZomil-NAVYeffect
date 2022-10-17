@@ -14,6 +14,24 @@ from app.schemas.user import (
 )
 
 
+def create_super_admin(db: Session, username: str, password: str):
+    user = User(
+        full_name="super admin",
+        dog_number="super admin",
+        affiliation=1,
+        military_unit=1,
+        rank=1,
+        username=username,
+        password=get_password_hash(password),
+        role=3,
+        is_active=True,
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return UserResponse(success=True, message=user.user_id)
+
+
 def create_user(db: Session, user: UserCreate):
     try:
         user = User(
@@ -52,7 +70,7 @@ def get_users(db: Session, flt: UserFilter):
         user = user.filter_by(rank=flt.rank)
     if flt.is_active is not None:
         user = user.filter_by(is_active=flt.is_active)
-    return user.all()
+    return user.order_by(User.full_name).all()
 
 
 def get_user_by_id(db: Session, user_id: int):
