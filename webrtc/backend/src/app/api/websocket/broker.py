@@ -14,8 +14,6 @@ class Broker:
     def __init__(self, ws, id):
         self.id = id
         self.ws = ws
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.connect((IP, PORT))
 
     async def give_task(self, data):
         # 사진 분석
@@ -37,7 +35,6 @@ class Broker:
         # task 전송
         msg = path
         print(result)
-        result['omil'] = check_omil(img)
         result['task'] = self.send_task(msg=msg)
         return result
 
@@ -49,3 +46,29 @@ class Broker:
         print(path)
         cv2.imwrite(path, img)
         print(f"저징 완료 {path}")
+
+
+class SingleBroker(Broker):
+    def __init__(self, ws, id):
+        super().__init__(ws, id)
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.connect((IP, PORT))
+    
+    def send_task(self, msg):
+        # self.socket.sendall(bytes(msg, 'ascii'))
+        path = msg
+        img = cv2.imread(path)
+        print(img)
+        return check_omil(img)
+        pass
+
+class SocketBroker(Broker):
+    def __init__(self, ws, id):
+        super().__init__(ws, id)
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.connect((IP, PORT))
+    
+    def send_task(self, msg):
+        self.socket.sendall(bytes(msg, 'ascii'))
+        # return check_omil(img)
+        pass
