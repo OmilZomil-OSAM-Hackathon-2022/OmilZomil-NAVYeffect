@@ -45,7 +45,7 @@ class FullDressUniformChecker(UniformChecker):
         return position == 'left' and kind == 'name_tag' and cv2.contourArea(contour) > 100
 
     def isClassTag(self, contour, position, kind):
-        return position == 'left' and kind == 'class_tag'
+        return position == 'left' and kind.find('class_tag') != -1
 
     def isAnchor(self, contour, position, kind):
         return kind == 'anchor' and cv2.contourArea(contour) > 100
@@ -150,7 +150,7 @@ class FullDressUniformChecker(UniformChecker):
                 kind = self.parts_classifier.predict(parts_img)[1]
             if self.isClassTag(contour, position, kind):
                 box_position_dic[name] = cv2.boundingRect(contour)
-                component_dic[name] = True
+                component_dic[name] = Classes.dic.get(kind.split('+')[1])
                 break
 
         print('debug cnt ', self.debug_cnt)
