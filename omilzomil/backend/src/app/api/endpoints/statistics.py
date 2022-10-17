@@ -32,6 +32,37 @@ def get_daily_fail(db: Session = Depends(deps.get_db)):
     return {"success": True, "message": "success", "count": cur, "increase_rate": increase_rate}
 
 
+@router.get("/week/fail/")
+def get_weekly_fail(db: Session = Depends(deps.get_db)):
+    ret = {"success": True, "message": "success"}
+
+    totals = list()
+    now = Date.now()
+
+    for i in range(0, 14):
+        date = now - relativedelta(days=i)
+        total, count = crud.get_overall_stats(db, date=date, status=False)
+        totals.append(total)
+
+        if i >= 7:
+            continue
+        if total != 0:
+            ret[str(date)] = round(count / total * 100)
+        else:
+            ret[str(date)] = 0
+
+    cur = sum(totals[:7])
+    prev = sum(totals[7:])
+
+    ret["count"] = cur
+    if prev != 0:
+        ret["increase_rate"] = round(((cur / prev) - 1) * 100)
+    else:
+        ret["increase_rate"] = 0
+
+    return ret
+
+
 @router.get("/month/fail/")
 def get_monthly_fail(db: Session = Depends(deps.get_db)):
     cur = Date.now(day=False)
@@ -102,9 +133,9 @@ def get_detailed_monthly_fail(db: Session = Depends(deps.get_db)):
 def get_yearly_fail(db: Session = Depends(deps.get_db)):
     ret = {"success": True, "message": "success"}
 
-    cur = Date.now(day=False)
+    now = Date.now(day=False)
     for i in range(0, 12):
-        date = cur - relativedelta(months=i)
+        date = now - relativedelta(months=i)
         total, count = crud.get_overall_stats(db, date=date, status=False)
         if total != 0:
             ret[str(date)] = round(count / total * 100)
@@ -148,9 +179,9 @@ def get_monthly_pass_from_unit(db: Session = Depends(deps.get_db), current_user:
 
     ret = {"success": True, "message": "success"}
 
-    cur = Date.now(day=False)
+    now = Date.now(day=False)
     for i in range(0, 12):
-        date = cur - relativedelta(months=i)
+        date = now - relativedelta(months=i)
         total, count = crud.get_overall_stats(db, date=date, military_unit=current_user.military_unit, status=True)
         if total != 0:
             ret[str(date)] = round(count / total * 100)
