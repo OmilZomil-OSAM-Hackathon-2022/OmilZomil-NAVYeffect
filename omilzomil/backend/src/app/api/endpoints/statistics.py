@@ -46,38 +46,24 @@ def get_daily_fail_hitmap(count: int, db: Session = Depends(deps.get_db)):
         else:
             ret.append(0)
 
-    return ret
+    return ret.reverse()
 
 
 @router.get("/week/fail/")
 def get_weekly_fail(db: Session = Depends(deps.get_db)):
     ret = {"success": True, "message": "success"}
 
-    totals = list()
     now = Date.now()
-
-    for i in range(0, 14):
+    for i in range(0, 7):
         date = now - relativedelta(days=i)
         total, count = crud.get_overall_stats(db, date=date, status=False)
-        totals.append(total)
 
-        if i >= 7:
-            continue
         if total != 0:
             ret[str(date)] = round(count / total * 100)
         else:
             ret[str(date)] = 0
 
-    cur = sum(totals[:7])
-    prev = sum(totals[7:])
-
-    ret["count"] = cur
-    if prev != 0:
-        ret["increase_rate"] = round(((cur / prev) - 1) * 100)
-    else:
-        ret["increase_rate"] = 0
-
-    return ret
+    return ret.reverse()
 
 
 @router.get("/month/fail/")
@@ -159,7 +145,7 @@ def get_yearly_fail(db: Session = Depends(deps.get_db)):
         else:
             ret[str(date)] = 0
 
-    return ret
+    return ret.reverse()
 
 
 @router.get("/month/unit/")
@@ -205,7 +191,7 @@ def get_monthly_pass_from_unit(db: Session = Depends(deps.get_db), current_user:
         else:
             ret[str(date)] = 0
 
-    return ret
+    return ret.reverse()
 
 
 @router.get("/month/unit/best/{category}")
@@ -230,13 +216,17 @@ def get_detailed_monthly_fail_from_unit(db: Session = Depends(deps.get_db), curr
     types = {"이름표": 2, "계급장": 3, "태극기": 4, "모자": 5}
 
     for appearance_type in types.items():
-        _, count = crud.get_overall_stats(
+        total, count = crud.get_overall_stats(
             db,
             date=Date.now(day=False),
             military_unit=current_user.military_unit,
             appearance_type=appearance_type[1],
             status=False,
         )
-        ret[appearance_type[0]] = count
+
+        if total != 0:
+            ret[appearance_type[0]] = round(count / total * 100)
+        else:
+            ret[appearance_type[0]] = 0
 
     return ret
