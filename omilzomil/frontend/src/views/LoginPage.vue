@@ -88,6 +88,12 @@ export default {
       })).then((response) => {
             if(response.data.success){
               this.$store.commit('login',{accessToken:response.data.access_token});
+              this.$axios.post('/login/test-token/').then((response)=>{
+                if(response.data.success){
+                  this.$store.commit('setUser',response.data);
+                  this.$router.push('/');
+                }
+              });
             }else{
               this.loginFail = true;
             }
@@ -95,14 +101,6 @@ export default {
           .catch(() => {
             this.loginFail = true;
           });
-      if(!this.loginFail){
-        this.$axios.post('/login/test-token/').then((response)=>{
-          if(response.data.success){
-            this.$store.commit('setUser',response.data);
-            this.$router.push('/')
-          }
-        });
-      }
     }
   }
 };

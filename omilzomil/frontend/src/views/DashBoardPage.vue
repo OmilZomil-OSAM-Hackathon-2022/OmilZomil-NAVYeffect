@@ -13,9 +13,6 @@
               style="flex:1"
             >
               <PartsCard
-                title="두발 양호 인원"
-                :count="126"
-                :percent="12"
                 :parts-type="0"
               />
             </div>
@@ -23,9 +20,6 @@
               style="flex:1"
             >
               <PartsCard
-                title="복장 양호 인원"
-                :count="96"
-                :percent="-4"
                 :parts-type="1"
               />
             </div>
@@ -33,9 +27,6 @@
               style="flex:1"
             >
               <PartsCard
-                title="출입 인원"
-                :count="53"
-                :percent="0"
                 :parts-type="2"
               />
             </div>

@@ -11,4 +11,4 @@ class InspectionDetail(Base):
     inspection_id = Column(Integer, ForeignKey(InspectionLog.inspection_id), nullable=False)
     appearance_type = Column(Integer, ForeignKey(Appearance.appearance_id), nullable=False)
     status = Column(Boolean, nullable=False)
-    image_path = Column(String(128), unique=True, nullable=False)
+    image_path = Column(String(128), nullable=False)

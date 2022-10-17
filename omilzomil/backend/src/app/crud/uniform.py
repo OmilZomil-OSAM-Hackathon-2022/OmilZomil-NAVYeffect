@@ -11,4 +11,4 @@ def create_uniform(db: Session, uniform_id: int, uniform: str):
 
 
 def get_uniforms(db: Session):
-    return db.query(Uniform).all()
+    return db.query(Uniform).filter(Uniform.uniform_id != 1).all()
