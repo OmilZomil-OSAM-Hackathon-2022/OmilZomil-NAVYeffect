@@ -16,6 +16,27 @@ def create_test_case(db: Session = Depends(deps.get_db)):
     return crud.create_test_case(db)
 
 
+@router.get("/rate/fail/")
+def get_fail_rate(db: Session = Depends(deps.get_db)):
+    cur = Date.now(day=False)
+    prev = cur - relativedelta(months=1)
+
+    total, cur = crud.get_overall_stats(db, date=cur, status=False)
+    _, prev = crud.get_overall_stats(db, date=prev, status=False)
+
+    if cur != 0:
+        fail_rate = round((cur / total) * 100)
+    else:
+        fail_rate = 0
+
+    if prev != 0:
+        increase_rate = round(((cur / prev) - 1) * 100)
+    else:
+        increase_rate = 0
+
+    return {"success": True, "message": "success", "count": cur, "fail_rate": fail_rate, "increase_rate": increase_rate}
+
+
 @router.get("/unit/rate/")
 def get_rate_from_unit(category: Optional[str] = None, db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
     if not current_user.success:
