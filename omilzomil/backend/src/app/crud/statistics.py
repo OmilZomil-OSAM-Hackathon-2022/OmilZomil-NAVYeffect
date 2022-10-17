@@ -1,29 +1,82 @@
 from datetime import datetime
-from sqlalchemy import or_
 from sqlalchemy.orm import Session, aliased
 from app.models.access_log import AccessLog
 from app.models.inspection_log import InspectionLog
 from app.models.inspection_detail import InspectionDetail
+from app.schemas.statistics import Date
 from app.crud.military_unit import get_military_unit, get_military_units
 
 
-def get_monthly_overall_stats(db: Session, military_unit: int = None, date: datetime = None, category: str = None, status: bool = None):
-    if date is None:
-        date = datetime.now()
+def create_test_case(db: Session):
+    from string import ascii_letters
+    from random import randrange, choice
+    from datetime import timedelta
 
+    ids = [unit.unit_id for unit in get_military_units(db)]
+    if not ids:
+        return {"success": False, "message": "military unit not found"}
+
+    for i in range(0, 10000):
+        access_time = datetime.now() - timedelta(days=randrange(0, 365))
+
+        base = AccessLog(military_unit=ids[randrange(0, len(ids))], access_time=access_time)
+        db.add(base)
+        db.commit()
+        db.refresh(base)
+
+        base = InspectionLog(
+            access_id=base.access_id,
+            affiliation=randrange(1, 6),
+            rank=randrange(1, 6),
+            name="".join(choice(ascii_letters) for i in range(4)),
+            uniform=randrange(1, 5),
+            image_path=f"path{i}",
+        )
+        db.add(base)
+        db.commit()
+        db.refresh(base)
+
+        appearance = randrange(0, 10) < 7
+        for j in range(0, 7):
+            if j == 0:
+                status = randrange(0, 10) < 7
+            else:
+                if appearance:
+                    status = True
+                else:
+                    status = bool(randrange(0, 2))
+
+            log = InspectionDetail(
+                inspection_id=base.inspection_id,
+                appearance_type=j + 1,
+                status=status,
+                image_path=f"path{i}",
+            )
+            db.add(log)
+            db.commit()
+            db.refresh(log)
+
+
+def get_overall_stats(
+    db: Session, date: Date, affiliation: int = None, military_unit: int = None, category: str = None, appearance_type: int = None, status: bool = None
+):
     query = (
         db.query(InspectionLog)
         .join(AccessLog, AccessLog.access_id == InspectionLog.access_id)
         .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
-        .filter(AccessLog.access_time.like(date.strftime("%Y-%m-%%")))
+        .filter(AccessLog.access_time.like(str(date) + "%"))
     )
 
+    if affiliation is not None:
+        query = query.filter(InspectionLog.affiliation == affiliation)
     if military_unit is not None:
-        query = query.filter(or_(AccessLog.military_unit == military_unit, AccessLog.military_unit == 0))
+        query = query.filter(AccessLog.military_unit == military_unit)
     if category == "hair":
         query = query.filter(InspectionDetail.appearance_type == 1)
     elif category == "appearance":
         query = query.filter(InspectionDetail.appearance_type > 1)
+    if appearance_type is not None:
+        query = query.filter(InspectionDetail.appearance_type == appearance_type)
 
     total = query.group_by(InspectionLog.inspection_id).count()
     if status is not None:
@@ -36,28 +89,6 @@ def get_monthly_overall_stats(db: Session, military_unit: int = None, date: date
     return (total, count)
 
 
-def get_monthly_detailed_stats(db: Session, appearance_type: int, military_unit: int = None, date: datetime = None, status: bool = None):
-    if date is None:
-        date = datetime.now()
-
-    query = (
-        db.query(InspectionLog)
-        .join(AccessLog, AccessLog.access_id == InspectionLog.access_id)
-        .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
-        .filter(AccessLog.access_time.like(date.strftime("%Y-%m-%%")))
-        .filter(InspectionDetail.appearance_type == appearance_type)
-    )
-
-    if military_unit is not None:
-        query = query.filter(or_(AccessLog.military_unit == military_unit, AccessLog.military_unit == 0))
-    if status is not None:
-        count = query.filter(InspectionDetail.status == status).count()
-    else:
-        count = query.count()
-
-    return count
-
-
 def take_fourth(elem):
     return elem[3]
 
@@ -65,7 +96,7 @@ def take_fourth(elem):
 def get_monthly_unit_ranks(db: Session):
     entries = list()
     for unit in get_military_units(db):
-        total, count = get_monthly_overall_stats(db, military_unit=unit.unit_id, status=True)
+        total, count = get_overall_stats(db, date=Date.now(day=False), military_unit=unit.unit_id, status=True)
         if total == 0:
             rate = 0
         else:
@@ -117,7 +148,7 @@ def get_monthly_best_stats(db: Session, military_unit: int, category: str):
         InspectionLogAlias = aliased(InspectionLog)
 
         res = (
-            db.query(AccessLog.access_id, InspectionLogAlias.name, AccessLog.image_path)
+            db.query(AccessLog.access_id, InspectionLogAlias.name, InspectionLogAlias.image_path)
             .select_from(InspectionLogAlias)
             .join(AccessLog, AccessLog.access_id == InspectionLogAlias.access_id)
             .filter(AccessLog.access_id.in_(subquery))
