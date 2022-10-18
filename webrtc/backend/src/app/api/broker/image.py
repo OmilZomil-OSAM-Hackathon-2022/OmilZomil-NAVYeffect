@@ -8,8 +8,7 @@ import time
 from app.api.broker.broker import SimpleBroker
 from app.util.memory import memory_usage
 from app.core.config import settings
-
-
+from app.api.worker.random_ai import RandomAI
 IP, PORT = settings.WORKER_SERVER
 
 class ImageBroker(SimpleBroker):
@@ -20,35 +19,23 @@ class ImageBroker(SimpleBroker):
   
 
     def execute_task(self, photo, work_start):
-
-        # 사진 분석
-        img = self.photo_2_img(photo)
-        person_result = self.person_detector.detect(img)
-
-        # 사람이 아니면 처리 X
-        if not person_result:
-            return {
-                "photo": photo,
-                "person": person_result,
-            }
-
-        # 이미지 저장
+        # 파일 경로 지정
         name = datetime.now().strftime("%H-%m-%s")
         path = f'{self.SAVE_PATH}/{self.id}_{name}.jpg'
-        self.save_img(img, path)
+
+        person_result = self.capture_human(photo=photo, path=path)
 
         # 이미지 읽기
-        result_photo = self.read_img(path)
-        memory_usage()
-        
-        if os.path.isfile(path):
-            os.remove(path)
-            print("이미지 읽은후 삭제 완료")
-        else:
-            print("이미지 삭제 실패")
-            raise Exception
+        if not person_result:
+            print(person_result)
+            result_photo = self.read_img(path)
+            memory_usage()
             
-
+            # 삭제
+            self.delete_img(path)
+        else:
+            print(person_result)
+            result_photo = photo
         # 처리 결과 반환
         result_msg = {
             "photo": result_photo,
@@ -57,6 +44,21 @@ class ImageBroker(SimpleBroker):
         }
 
         return result_msg
+
+    def capture_human(self, photo, path):
+        
+        # 사진 분석
+        img = self.photo_2_img(photo)
+        person_result = self.person_detector.detect(img)
+
+        # 사람이 아니면 처리 X
+        if not person_result:
+            return person_result
+
+        # 이미지 저장
+        self.save_img(img, path)
+        return person_result
+
     def save_img(self, img, path):
         cv2.imwrite(path, img)
         print(f"저징 완료 {path}")
@@ -66,11 +68,16 @@ class ImageBroker(SimpleBroker):
         photo = self.img_2_photo(img)
         return photo
 
+    def delete_img(self, path):
+        if os.path.isfile(path):
+            os.remove(path)
+            print("이미지 읽은후 삭제 완료")
+        else:
+            print("이미지 삭제 실패")
+            raise Exception
 
-
-    def delete_img():
-        pass
 """
+
 
 
 class SingleBroker(Broker):
