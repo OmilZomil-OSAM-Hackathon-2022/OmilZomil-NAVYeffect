@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session, aliased
 from app.models.access_log import AccessLog
 from app.models.inspection_log import InspectionLog
 from app.models.inspection_detail import InspectionDetail
-from app.schemas.statistics import Date
+from app.schemas.Date import Date
 from app.crud.military_unit import get_military_unit, get_military_units
 
 
