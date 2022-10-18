@@ -1,11 +1,12 @@
+import cv2
+import base64
+import numpy as np
+
 
 from app.core.config import settings
 
-
-from app.api.websocket.camera import capture
 # from app.ai.OZEngine.model import OmilZomil
 from app.ai.OZEngine.person_detectors.PersonDetector import PersonDetector
-
 
 
 class BrokerBase:
@@ -20,6 +21,10 @@ class BrokerBase:
         return {
             "photo": img,
         }
+    def capture(self, photo):
+        img = cv2.imdecode(np.fromstring(base64.b64decode(photo.split(',')[1]), np.uint8), cv2.IMREAD_COLOR)
+        return img
+    
 
 class SimpleBroker(BrokerBase):
     """
@@ -36,7 +41,7 @@ class SimpleBroker(BrokerBase):
 
 
     def execute_task(self, photo, work_start):
-        img = capture(photo)
+        img = self.capture(photo)
         person_result = self.person_detector.detect(img)
         return {
             "photo": photo,
