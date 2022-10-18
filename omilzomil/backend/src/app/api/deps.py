@@ -28,7 +28,7 @@ def get_current_user(db: Session = Depends(get_db), token: str = Depends(reusabl
         user_id = payload["sub"]
     except (jwt.JWTError, ValidationError):
         return UserReadResponse(success=False, message="invalid credentials")
-    return crud.get_user_by_id(db, user_id=user_id)
+    return crud.get_user(db, user_id=user_id)
 
 
 def get_current_active_user(current_user: UserReadResponse = Depends(get_current_user)):
