@@ -2,8 +2,6 @@
   <div class="wrap df-col">
     <div class="row df">
       <TotalScoreCard
-        :total-count="30678"
-        :percent="7"
         class="f1"
       />
       <div class="f1 df-col">
