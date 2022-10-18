@@ -73,7 +73,7 @@ def get_users(db: Session, flt: UserFilter):
     return user.order_by(User.full_name).all()
 
 
-def get_user_by_id(db: Session, user_id: int):
+def get_user(db: Session, user_id: int):
     user = db.query(User).get(user_id)
     if not user:
         return UserReadResponse(success=False, message="entry not found")
@@ -98,7 +98,8 @@ def update_user_information(db: Session, user_id: int, information: UserUpdateIn
     if not user.count():
         return UserResponse(success=False, message="entry not found")
     try:
-        user.update(information.dict())
+        information = {x: y for x, y in information.dict().items() if y is not None}
+        user.update(information)
         db.commit()
         return UserResponse(success=True, message=user_id)
     except sqlalchemy.exc.IntegrityError as e:
