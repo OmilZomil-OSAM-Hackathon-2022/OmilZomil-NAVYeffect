@@ -45,3 +45,8 @@ async def update_user_role(user_id: int, role: schema.UserUpdateRole = Body(), d
 @router.put("/activity/{user_id}", response_model=schema.UserResponse)
 async def update_user_activity(user_id: int, is_active: schema.UserUpdateActivity = Body(), db: Session = Depends(deps.get_db)):
     return crud.update_user_activity(db, user_id, is_active)
+
+
+@router.delete("/{user_id}", response_model=schema.UserResponse)
+def delete_user(user_id: int, password: schema.UserDelete = Body(), db: Session = Depends(deps.get_db)):
+    return crud.delete_user(db, user_id, password)
