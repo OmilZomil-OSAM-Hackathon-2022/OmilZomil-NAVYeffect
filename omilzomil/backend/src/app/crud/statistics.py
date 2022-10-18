@@ -1,60 +1,8 @@
-from datetime import datetime
 from sqlalchemy.orm import Session, aliased
-from app.models.access_log import AccessLog
 from app.models.inspection_log import InspectionLog
 from app.models.inspection_detail import InspectionDetail
 from app.schemas.Date import Date
 from app.crud.military_unit import get_military_unit, get_military_units
-
-
-def create_test_case(db: Session):
-    from string import ascii_letters
-    from random import randrange, choice
-    from datetime import timedelta
-
-    ids = [unit.unit_id for unit in get_military_units(db)]
-    if not ids:
-        return {"success": False, "message": "military unit not found"}
-
-    for i in range(0, 10000):
-        access_time = datetime.now() - timedelta(days=randrange(0, 365))
-
-        base = AccessLog(military_unit=ids[randrange(0, len(ids))], access_time=access_time)
-        db.add(base)
-        db.commit()
-        db.refresh(base)
-
-        base = InspectionLog(
-            access_id=base.access_id,
-            affiliation=randrange(1, 6),
-            rank=randrange(1, 6),
-            name="".join(choice(ascii_letters) for i in range(4)),
-            uniform=randrange(1, 5),
-            image_path=f"path{i}",
-        )
-        db.add(base)
-        db.commit()
-        db.refresh(base)
-
-        appearance = randrange(0, 10) < 7
-        for j in range(0, 7):
-            if j == 0:
-                status = randrange(0, 10) < 7
-            else:
-                if appearance:
-                    status = True
-                else:
-                    status = bool(randrange(0, 2))
-
-            log = InspectionDetail(
-                inspection_id=base.inspection_id,
-                appearance_type=j + 1,
-                status=status,
-                image_path=f"path{i}",
-            )
-            db.add(log)
-            db.commit()
-            db.refresh(log)
 
 
 def get_overall_stats(
