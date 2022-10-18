@@ -67,12 +67,12 @@ class InspectionLogUpdateInformation(BaseModel, metaclass=AllOptional):
 
 
 class InspectionLogUpdateCheck(BaseModel):
-    checked: bool = Field(None, description="checked")
+    is_checked: bool = Field(None, description="is_checked")
 
     class Config:
         schema_extra = {
             "example": {
-                "checked": True,
+                "is_checked": True,
             }
         }
 
