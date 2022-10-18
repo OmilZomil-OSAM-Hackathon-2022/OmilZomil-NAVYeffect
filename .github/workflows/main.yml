@@ -19,4 +19,3 @@ jobs:
           port: ${{ secrets.DEV_SERVER_PORT }}
           script: |
             sh run_github_action.sh
-
