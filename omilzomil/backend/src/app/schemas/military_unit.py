@@ -50,9 +50,5 @@ class MilitaryUnitUpdate(MilitaryUnitBase):
     pass
 
 
-class MilitaryUnitDelete(MilitaryUnitBase):
-    pass
-
-
 class MilitaryUnitResponse(Response):
     pass
