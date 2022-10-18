@@ -25,53 +25,6 @@ socket_mng = ConnectionManager()
 
 router = APIRouter()
 
-@router.websocket("/ws")
-async def debug_websocket(websocket: WebSocket):
-    connect_start_time = datetime.now()
-    socker_id = 1
-    await websocket.accept()
-    # await socket_mng.connect(f'{socker_id}', websocket)
-    print("connected") 
-    # await websocket.send_json("위병소")
-    
-    broker = SingleBroker(ws=websocket, id=1)
-    # 소캣 연결 유지
-    try:
-        while True:
-            data = await websocket.receive_json()
-            work_start = datetime.now()
-            # print(f"받음 : {data}")
-            print(f"받음 ")
-            result = await broker.give_task(data=data['img'])
-            print(f"처리 완료 {result} - {datetime.now()-work_start}")   
-            await websocket.send_json(result)
-    except WebSocketDisconnect:
-        # socket_mng.disconnect(f'{socker_id}')
-        pass
-
-
-
-
-# @router.websocket("/test")
-# async def websocket_endpoint(websocket: WebSocket):
-#     await websocket.accept()
-#     print('connect test')
-#     try:
-#         while True:
-#             data = await websocket.receive_json()   
-#             print("test 데이터 수신")
-#             # 데이터 수신
-#             img = data['photo']
-#             # 메세지 전송
-#             msg = {
-#                 'type' : "result",
-#                 'photo' : img,
-#             }
-#             await websocket.send_json(msg)
-    
-#     except WebSocketDisconnect:
-#         print("연결 종료")
-#         pass
     
 @router.websocket("/{url}")
 async def websocket_endpoint(url, websocket: WebSocket):
