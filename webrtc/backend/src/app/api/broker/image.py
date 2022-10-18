@@ -1,5 +1,5 @@
 
-class Broker(BrokerBase):
+class ImageBroker(BrokerBase):
     """
     이미지 저장 
     """
