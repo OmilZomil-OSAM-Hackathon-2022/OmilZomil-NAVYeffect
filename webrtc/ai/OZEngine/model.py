@@ -115,7 +115,7 @@ class OmilZomil:
                 return None, None, None
 
         # 옷 종류별로 분기를 나눔
-        result_dic = self.uniform_checker(shirt_img)
+        result_dic = self.uniform_checker.checkUniform(shirt_img)
 
         base_point = (person_base_point[0] + shirt_base_point[0]), (person_base_point[1] + shirt_base_point[1])
         for name, pos in box_position_dic.items():
