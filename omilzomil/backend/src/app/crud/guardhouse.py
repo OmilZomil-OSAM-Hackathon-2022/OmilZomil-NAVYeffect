@@ -4,12 +4,9 @@ from app.models.guardhouse import Guardhouse
 from app.schemas.guardhouse import GuardhouseResponse, GuardhouseReadResponse
 
 
-def create_guardhouse(db: Session, house: str, house_id: int = None):
+def create_guardhouse(db: Session, house: str):
     try:
-        if house_id is None:
-            house = Guardhouse(house=house)
-        else:
-            house = Guardhouse(house_id=house_id, house=house)
+        house = Guardhouse(house=house)
         db.add(house)
         db.commit()
         db.refresh(house)
