@@ -23,3 +23,18 @@ def create_vacation(db: Session, user_id: int, vacation: VacationCreate):
         return VacationResponse(success=True, message=vacation.vacation_id)
     except sqlalchemy.exc.IntegrityError:
         return VacationResponse(success=False, message="foreign key constraint fail")
+
+
+def get_vacations(db: Session, user_id: int):
+    ret = list()
+    for entry in db.query(Vacation).filter_by(user=user_id).order_by(Vacation.start_date).all():
+        ret.append(
+            VacationRead(
+                vacation_id=entry.vacation_id,
+                start_date=entry.start_date,
+                end_date=entry.end_date,
+                is_active=date.today() < entry.start_date,
+                confirmed=entry.confirmed,
+            )
+        )
+    return ret
