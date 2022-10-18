@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session, aliased
 from app.models.access_log import AccessLog
 from app.models.inspection_log import InspectionLog
 from app.models.inspection_detail import InspectionDetail
-from app.schemas.statistics import Date
+from app.schemas.Date import Date
 from app.crud.military_unit import get_military_unit, get_military_units
 
 
@@ -129,17 +129,13 @@ def get_monthly_best_stats(db: Session, military_unit: int, category: str):
                 ret = {"unit": unit.unit, "rank": res[i]["rank"]}
                 break
     elif category == "person":
-        query = (
-            db.query(AccessLog.access_id)
-            .filter(AccessLog.access_time.like(datetime.now().strftime("%Y-%m-%%")))
-            .filter(AccessLog.military_unit == military_unit)
-        )
+        query = db.query(AccessLog.access_id).filter(AccessLog.access_time.like(str(Date.now(day=False)))).filter(AccessLog.military_unit == military_unit)
 
         subquery = (
             db.query(AccessLog.access_id)
             .join(InspectionLog, AccessLog.access_id == InspectionLog.access_id)
             .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
-            .filter(AccessLog.access_time.like(datetime.now().strftime("%Y-%m-%%")))
+            .filter(AccessLog.access_time.like(str(Date.now(day=False))))
             .filter(AccessLog.military_unit == military_unit)
             .filter(InspectionDetail.status == False)
         )

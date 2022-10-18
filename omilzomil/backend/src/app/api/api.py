@@ -7,6 +7,9 @@ from app.api.endpoints import appearance
 from app.api.endpoints import military_unit
 from app.api.endpoints import user
 from app.api.endpoints import login
+from app.api.endpoints import vacation
+from app.api.endpoints import guardhouse
+from app.api.endpoints import unit_house_relation
 from app.api.endpoints import statistics
 from app.api.endpoints import ranking
 
@@ -20,5 +23,8 @@ api_router.include_router(appearance.router, prefix="/appearance", tags=["외형
 api_router.include_router(military_unit.router, prefix="/unit", tags=["부대 관리"])
 api_router.include_router(user.router, prefix="/user", tags=["유저 관리"])
 api_router.include_router(login.router, prefix="/login", tags=["로그인 기능"])
+api_router.include_router(vacation.router, prefix="/vacation", tags=["휴가 관리"])
+api_router.include_router(guardhouse.router, prefix="/house", tags=["위병소 관리"])
+api_router.include_router(unit_house_relation.router, prefix="/unit/relation", tags=["위병소 연결"])
 api_router.include_router(statistics.router, prefix="/stats", tags=["통계 기능"])
 api_router.include_router(ranking.router, prefix="/ranking", tags=["랭킹 기능"])

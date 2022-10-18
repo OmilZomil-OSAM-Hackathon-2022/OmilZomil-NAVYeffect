@@ -20,9 +20,9 @@ class UserCreate(UserBase):
             "example": {
                 "full_name": "정의철",
                 "dog_number": "21-71007011",
-                "affiliation": 2,
-                "military_unit": 1,
-                "rank": 4,
+                "affiliation": 3,
+                "military_unit": 2,
+                "rank": 5,
                 "username": "user",
                 "password": "pass",
             }
@@ -40,7 +40,7 @@ class UserFilter(UserBase):
         schema_extra = {
             "example": {
                 "full_name": "정의철",
-                "rank": 4,
+                "rank": 5,
                 "is_active": True,
             }
         }
@@ -57,9 +57,9 @@ class UserRead(UserBase):
                 "user_id": 1,
                 "full_name": "정의철",
                 "dog_number": "21-71007011",
-                "affiliation": 2,
-                "military_unit": 1,
-                "rank": 4,
+                "affiliation": 3,
+                "military_unit": 2,
+                "rank": 5,
                 "username": "21-71007011",
                 "role": 3,
                 "is_active": True,
@@ -80,9 +80,9 @@ class UserReadResponse(UserRead, metaclass=AllOptional):
                 "user_id": 1,
                 "full_name": "정의철",
                 "dog_number": "21-71007011",
-                "affiliation": 2,
-                "military_unit": 1,
-                "rank": 4,
+                "affiliation": 3,
+                "military_unit": 2,
+                "rank": 5,
                 "username": "21-71007011",
                 "role": 3,
             }
@@ -101,9 +101,9 @@ class UserUpdateInformation(BaseModel):
             "example": {
                 "full_name": "정의철",
                 "dog_number": "21-71007011",
-                "affiliation": 2,
-                "military_unit": 1,
-                "rank": 4,
+                "affiliation": 3,
+                "military_unit": 2,
+                "rank": 5,
             }
         }
 

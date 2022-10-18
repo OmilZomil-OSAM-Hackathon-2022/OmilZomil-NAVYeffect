@@ -3,35 +3,35 @@ from typing import Optional
 from app.db.base_schema import Response, AllOptional
 
 
-class MilitaryUnitBase(BaseModel):
-    unit: str = Field(None, description="unit name")
+class GuardhouseBase(BaseModel):
+    house: str = Field(None, description="house name")
 
     class Config:
         schema_extra = {
             "example": {
-                "unit": "계룡대 근무지원단 본부대대",
+                "house": "계룡대 1정문",
             }
         }
 
 
-class MilitaryUnitCreate(MilitaryUnitBase):
+class GuardhouseCreate(GuardhouseBase):
     pass
 
 
-class MilitaryUnitRead(MilitaryUnitBase):
-    unit_id: int = Field(None, description="unit id")
+class GuardhouseRead(GuardhouseBase):
+    house_id: int = Field(None, description="house id")
 
     class Config:
         schema_extra = {
             "example": {
-                "unit_id": 1,
-                "unit": "계룡대 근무지원단 본부대대",
+                "house_id": 1,
+                "house": "계룡대 1정문",
             }
         }
         orm_mode = True
 
 
-class MilitaryUnitReadResponse(MilitaryUnitRead, metaclass=AllOptional):
+class GuardhouseReadResponse(GuardhouseRead, metaclass=AllOptional):
     success: Optional[bool] = Field(None, description="result")
     message: Optional[str] = Field(None, description="message")
 
@@ -40,15 +40,19 @@ class MilitaryUnitReadResponse(MilitaryUnitRead, metaclass=AllOptional):
             "example": {
                 "success": True,
                 "message": "success",
-                "unit_id": 1,
-                "unit": "계룡대 근무지원단 본부대대",
+                "house_id": 1,
+                "house": "계룡대 1정문",
             }
         }
 
 
-class MilitaryUnitUpdate(MilitaryUnitBase):
+class GuardhouseUpdate(GuardhouseBase):
     pass
 
 
-class MilitaryUnitResponse(Response):
+class GuardhouseDelete(GuardhouseBase):
+    pass
+
+
+class GuardhouseResponse(Response):
     pass
