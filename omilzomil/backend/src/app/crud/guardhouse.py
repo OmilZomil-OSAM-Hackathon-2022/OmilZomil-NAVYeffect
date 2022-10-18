@@ -17,7 +17,7 @@ def create_guardhouse(db: Session, house: str):
 
 def get_guardhouses(db: Session, house: str = None):
     house = house and f"%{house}%" or "%"
-    return db.query(Guardhouse).filter(Guardhouse.house_id != 1).filter(Guardhouse.house.like(house)).order_by(Guardhouse.house).all()
+    return db.query(Guardhouse).filter(Guardhouse.house.like(house)).order_by(Guardhouse.house).all()
 
 
 def get_guardhouse(db: Session, house_id: int):
