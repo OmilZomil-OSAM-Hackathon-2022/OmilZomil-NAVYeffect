@@ -3,7 +3,7 @@ name: 117 서버에 배포
 
 on: 
   push:            
-    branches: [ "main" , "dev/cicd", "development"]
+    branches: [ "main" , "devops/hotfix", "development"]
 
 jobs:
   Build-ssh-action:
@@ -19,3 +19,4 @@ jobs:
           port: ${{ secrets.DEV_SERVER_PORT }}
           script: |
             sh run_github_action.sh
+

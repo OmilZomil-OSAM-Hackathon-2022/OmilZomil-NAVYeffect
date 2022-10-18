@@ -1,7 +1,10 @@
 <template>
   <div class="card">
     <CardHead title="월별 파츠별 불량 비율" />
-    <div class="char-wrap">
+    <div
+      v-if="!isLoading"
+      class="char-wrap"
+    >
       <apexchart
         type="radar"
         :options="getOption"
@@ -18,10 +21,8 @@ export default {
     components: { CardHead },
     data(){
       return {
-        series: [{
-            name: 'Series 1',
-            data: [40,82,50,64,87],
-          }],
+        isLoading:true,
+        series: [],
       }
     },
     computed:{
@@ -66,6 +67,21 @@ export default {
             }
         }
     },
+    async mounted(){
+      try{
+        const {data} = await this.$axios.get('/stats/month/fail/detail/');
+        // console.log(data);
+        
+        this.series = [{
+            name: '파츠',
+            data: [data.이름표,data.계급장,data.태극기,data.모자,data.두발],
+          }]
+        // console.log()
+      }catch(err){
+        console.log(err);
+      }
+      this.isLoading = false;
+    }
 }
 </script>
 

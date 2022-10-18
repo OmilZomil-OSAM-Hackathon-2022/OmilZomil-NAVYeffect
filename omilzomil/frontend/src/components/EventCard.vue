@@ -109,7 +109,7 @@
       >
         <img
           class="photoback"
-          src="@/assets/images/photoback.svg"
+          :src="photo"
         >
         <img
           class="photo"
@@ -148,7 +148,7 @@ export default {
           default:null
         }
     },
-    emits: ["closeCard"]
+    emits: ["closeCard"],
 }
 </script>
 
@@ -357,13 +357,14 @@ export default {
     }
     .card .textbox{
         display:flex;
-        width: 256px;
+        width:100%;
         gap:5px;
         z-index: 1;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-
+        padding:0px 10px;
+        box-sizing:border-box;
     }
     .card .textbox .text1{
         font-family: 'Roboto';
@@ -372,8 +373,9 @@ export default {
         font-size: 24px;
         line-height: 28px;
         text-align: center;
-
+        word-break: normal;
         color: #F9F9FB;
+        width:100%;
     }
     .card .textbox .text2{
         font-family: 'Roboto';
@@ -383,8 +385,9 @@ export default {
         line-height: 23px;
         text-align: center;
         letter-spacing: -0.055em;
-
         color: #F9F9FB;
+        white-space:nowrap
+        /* word-break:normal; */
     }
     .card .image{
         position:relative;

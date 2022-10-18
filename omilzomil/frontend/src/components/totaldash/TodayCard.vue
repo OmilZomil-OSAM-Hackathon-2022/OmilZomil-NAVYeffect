@@ -44,9 +44,18 @@ export default {
     components: { CardHead,PercentTag },
     data(){
         return {
-            percent:-10,
-            count:24,
+            percent:0,
+            count:0,
         }
+    },
+    async mounted(){
+      try{
+        const {data} = await this.$axios.get('/stats/day/fail/');
+        this.percent = data.increase_rate;
+        this.count = data.count;
+      }catch(err){
+        console.log(err);
+      }
     }
 }
 </script>

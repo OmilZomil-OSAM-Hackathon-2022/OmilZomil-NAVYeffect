@@ -31,6 +31,8 @@ pnpm-debug.log*
 # docker 개발용 파일
 dev_docker.sh
 get-docker.sh
+run_devops.sh
+remove_devops.sh
 
 # 프론트 빌드
 
