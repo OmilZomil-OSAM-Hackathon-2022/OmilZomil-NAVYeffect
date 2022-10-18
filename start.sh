@@ -30,7 +30,7 @@ if [ "$input" = "--build" ]; then
 
 elif [ "$input" = "--server" ]; then
     echo [+] run web camera 서버환경
-    sudo docker-compose --env-file .env.private up web camera
+    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.private up web camera -d 
 
 elif [ "$input" = "--dev-back" ]; then
     # 백앤드 개발용 코드 - 라이브러리 재설치 및 apt install 에 따른 build가 필요한 경우 사용
