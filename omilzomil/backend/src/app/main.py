@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from app.api.api import api_router
 from app.core.config import settings
+from app.core.SPAStaticFiles import SPAStaticFiles
 
 
 app = FastAPI()
@@ -17,4 +17,4 @@ if settings.BACKEND_CORS_ORIGINS:
     )
 
 app.include_router(api_router)
-app.mount("/", StaticFiles(directory="/backend/src/app/static", html=True), name="static")
+app.mount("/", SPAStaticFiles(directory="/backend/src/app/static", html=True), name="static")
