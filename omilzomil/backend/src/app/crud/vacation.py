@@ -38,3 +38,13 @@ def get_vacations(db: Session, user_id: int):
             )
         )
     return ret
+
+
+def update_vacation_confirmation(db: Session, vacation_id: int, confirmed: VacationUpdateConfirmation):
+    vacation = db.query(Vacation).filter_by(vacation_id=vacation_id)
+    if not vacation.count():
+        return VacationResponse(success=False, message="entry not found")
+    else:
+        vacation.update(confirmed.dict())
+        db.commit()
+        return VacationResponse(success=True, message=vacation_id)
