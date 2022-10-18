@@ -6,6 +6,7 @@ opencv-python
 torch
 dlib
 loguru
+tensorflow
 
 fastapi
 uvicorn[standard]
