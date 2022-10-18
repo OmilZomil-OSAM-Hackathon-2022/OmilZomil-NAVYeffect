@@ -32,6 +32,8 @@ pnpm-debug.log*
 dev_docker.sh
 get-docker.sh
 run_devops.sh
+remove_devops.sh
+
 # 프론트 빌드
 
 dist/
