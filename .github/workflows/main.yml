@@ -20,4 +20,3 @@ jobs:
           script: |
             sh run_github_action.sh
 
-
