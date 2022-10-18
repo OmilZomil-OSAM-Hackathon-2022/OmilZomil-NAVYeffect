@@ -1,16 +1,11 @@
-import cv2
-from datetime import datetime
-from app.core.config import settings
-import socket
 
-from app.api.websocket.camera import capture, check_human, check_omil
+from app.core.config import settings
+
+
+from app.api.websocket.camera import capture
 # from app.ai.OZEngine.model import OmilZomil
 from app.ai.OZEngine.person_detectors.PersonDetector import PersonDetector
 
-
-
-
-IP, PORT = settings.WORKER_SERVER
 
 
 class BrokerBase:
