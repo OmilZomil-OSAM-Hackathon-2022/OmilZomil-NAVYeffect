@@ -65,6 +65,7 @@ class FullDressUniformChecker(UniformChecker):
         box_position_dic = {}
         component_dic = {}
         masked_img_dic = {}
+        probability_dic = {}
 
         # 이름표 체크
         name = 'name_tag'
@@ -87,9 +88,10 @@ class FullDressUniformChecker(UniformChecker):
 
 
             if self.train_mode:
-                kind = name
+                probability, kind = 0, name
             else:
-                kind = self.parts_classifier.predict(parts_img)[1]
+                probability, kind = self.parts_classifier.predict(parts_img)[:2]
+                probability = round(1 - probability, 2)
 
             if not is_name_tag and self.isNameTag(contour, position, kind):
                 # 이름표 OCR
@@ -104,11 +106,12 @@ class FullDressUniformChecker(UniformChecker):
 
                 box_position_dic['name_tag'] = box_position
                 component_dic['name_tag'] = component
+                probability_dic['name_tag'] = probability
             
             elif not is_mahura and self.isMahura(kind):
-                box_position = cv2.boundingRect(contour)
-                box_position_dic['mahura'] = box_position
+                box_position_dic['mahura'] = cv2.boundingRect(contour)
                 component_dic['mahura'] = True
+                probability_dic['mahura'] = probability
         
 
         # 네카치프 / 네카치프링 체크
@@ -130,6 +133,7 @@ class FullDressUniformChecker(UniformChecker):
             if self.isAnchor(contour, position, kind):
                 box_position_dic[name] = cv2.boundingRect(contour)
                 component_dic[name] = True
+                probability_dic[name] = probability
                 break
 
         # 계급장 체크
@@ -152,8 +156,9 @@ class FullDressUniformChecker(UniformChecker):
                 box_position_dic[name] = cv2.boundingRect(contour)
                 class_n = kind.split('+')[1]
                 component_dic[name] = Classes.dic.get(int(class_n))
+                probability_dic[name] = probability
                 break
 
         print('debug cnt ', self.debug_cnt)
 
-        return component_dic, box_position_dic, masked_img_dic
+        return {'component':component_dic, 'box_position':box_position_dic, 'masked_img':masked_img_dic, 'probability':probability_dic}
