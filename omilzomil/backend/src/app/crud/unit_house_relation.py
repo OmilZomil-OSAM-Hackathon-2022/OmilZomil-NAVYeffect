@@ -34,14 +34,6 @@ def get_unit_house_relations(db: Session, unit_id: int, house: str = None):
     )
 
 
-def get_unit_house_relation(db: Session, unit_id: int):
-    unit = db.query(UnitHouseRelation).get(unit_id)
-    if unit is None:
-        return UnitHouseRelationReadResponse(success=False, message="entry not found")
-    else:
-        return UnitHouseRelationReadResponse(success=True, message="success", unit_id=unit.unit_id, unit=unit.unit)
-
-
 def delete_unit_house_relation(db: Session, unit_id: int, house_id: int):
     relation = db.query(UnitHouseRelation).filter_by(military_unit=unit_id).filter_by(guardhouse=house_id)
     if not relation.count():
