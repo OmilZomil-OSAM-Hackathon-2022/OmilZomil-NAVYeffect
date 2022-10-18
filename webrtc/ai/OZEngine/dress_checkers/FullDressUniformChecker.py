@@ -96,7 +96,7 @@ class FullDressUniformChecker(UniformChecker):
                 # 이름표 OCR
                 if self.name_cache:
                     box_position = cv2.boundingRect(contour)
-                    component = 'cached ' + self.name_cache
+                    component = self.name_cache
                 else:
                     ocr_list = OCR(img)
                     self.debug_cnt += 1
