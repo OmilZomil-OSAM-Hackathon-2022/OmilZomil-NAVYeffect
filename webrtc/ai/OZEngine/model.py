@@ -118,21 +118,21 @@ class OmilZomil:
         result_dic = self.uniform_checker.checkUniform(shirt_img)
 
         base_point = (person_base_point[0] + shirt_base_point[0]), (person_base_point[1] + shirt_base_point[1])
-        for name, pos in box_position_dic.items():
+        for name, pos in result_dic['box_position'].items():
             if pos:
                 x, y, w, h = pos
                 x += base_point[1]
                 y += base_point[0]
-                result_dic['position_dic'][name] = (x, y, w, h)
+                result_dic['box_position'][name] = (x, y, w, h)
             
         # 최종 debug 여부 확인
         if self.debug_list:
-            boxed_img, roi_dic = self.boxImage(input_img, box_position_dic)
+            boxed_img, roi_dic = self.boxImage(input_img, result_dic['box_position'])
             # plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic, msg="roi")
-            self.debug(masked_img_dic, msg="masked")
+            self.debug(result_dic['masked_img'], msg="masked")
             self.debug({"result":boxed_img}, msg="res")
-            self.demo(shirt_img)
+            # self.demo(shirt_img)
             
         self.frame_cnt += 1
-        return component_dic, box_position_dic
+        return {'component':result_dic['component'], 'box_position': result_dic['box_position']}
