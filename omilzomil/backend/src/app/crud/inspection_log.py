@@ -1,32 +1,53 @@
+import sqlalchemy.exc
 from sqlalchemy.orm import Session
 from app.models.inspection_log import InspectionLog
-from app.schemas.inspection_log import InspectionLogCreate, InspectionLogUpdate
-
-
-def get_inspection_log_by_id(db: Session, log_id: int):
-    return db.query(InspectionLog).get(log_id)
+from app.schemas.inspection_log import InspectionLogCreate, InspectionLogUpdateInformation, InspectionLogUpdateCheck, InspectionLogResponse
 
 
 def create_inspection_log(db: Session, log: InspectionLogCreate):
-    log = InspectionLog(
-        access_id=log.access_id,
-        affiliation=log.affiliation,
-        name=log.name,
-        rank=log.rank,
-        uniform=log.uniform,
-        has_name=log.has_name,
-        has_rank=log.has_rank,
-        has_neckerchief=log.has_neckerchief,
-        has_muffler=log.has_muffler,
-        has_flag=log.has_flag,
-    )
-    db.add(log)
-    db.commit()
-    db.refresh(log)
-    return log
+    try:
+        log = InspectionLog(
+            access_id=log.access_id,
+            affiliation=log.affiliation,
+            rank=log.rank,
+            name=log.name,
+            uniform=log.uniform,
+            image_path=log.image_path,
+        )
+        db.add(log)
+        db.commit()
+        db.refresh(log)
+        return InspectionLogResponse(success=True, message=log.inspection_id)
+    except sqlalchemy.exc.IntegrityError as e:
+        if "foreign key constraint fail" in e.orig.args[1]:
+            return InspectionLogResponse(success=False, message="foreign key constraint fail")
+        elif "Duplicate entry" in e.orig.args[1]:
+            return InspectionLogResponse(success=False, message="unique key constraint fail")
+        raise e
 
 
-def update_inspection_log(db: Session, log_id: int, log: InspectionLogUpdate):
-    log = {x: y for x, y in log.dict().items() if y is not None}
-    db.query(InspectionLog).filter_by(inspection_id=log_id).update(log)
+def update_inspection_log_information(db: Session, log_id: int, information: InspectionLogUpdateInformation):
+    log = db.query(InspectionLog).filter_by(inspection_id=log_id)
+    if not log.count():
+        return InspectionLogResponse(success=False, message="entry not found")
+    try:
+        information = {x: y for x, y in information.dict().items() if y is not None}
+        log.update(information)
+        db.commit()
+        return InspectionLogResponse(success=True, message=log_id)
+    except sqlalchemy.exc.IntegrityError as e:
+        if "foreign key constraint fail" in e.orig.args[1]:
+            return InspectionLogResponse(success=False, message="foreign key constraint fail")
+        elif "Duplicate entry" in e.orig.args[1]:
+            return InspectionLogResponse(success=False, message="unique key constraint fail")
+        raise e
+
+
+def update_inspection_log_check(db: Session, log_id: int, checked: InspectionLogUpdateCheck):
+    log = db.query(InspectionLog).filter_by(inspection_id=log_id)
+    if not log.count():
+        return InspectionLogResponse(success=False, message="entry not found")
+
+    log.update(checked.dict())
     db.commit()
+    return InspectionLogResponse(success=True, message=log_id)
