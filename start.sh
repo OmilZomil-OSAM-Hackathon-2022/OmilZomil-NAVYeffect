@@ -6,6 +6,8 @@
 # --build - 프론트만 다시 빌드 - 백앤드와는 연관이 없도록 작성
 # --server - 서버 배포용 - host의 폴더와 상관없이 동작하도록 구성 bind 항목을 제거
 # =-dev-back - 백앤드 개발용 - 백앤드 빌드와 실행을 동시에 동작, 프론트는 영향 없음
+args_2=$2
+PROJECT_NAME=${args_2:-omil}
 
 DIR_PATH=`pwd`
 
@@ -35,9 +37,15 @@ elif [ "$input" = "--dev-back" ]; then
     echo [+] run web camera 백앤드 개발환경
     sudo docker-compose --env-file .env.lock up --build web camera    
 
+elif [ "$input" = "--name" ]; then
+    # 백앤드 개발용 코드 - 라이브러리 재설치 및 apt install 에 따른 build가 필요한 경우 사용
+    echo [+] run web camera 플젝명 직접 지정 ${PROJECT_NAME}
+    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up web camera
+
 else
-    echo [+] run web camera 개발환경
-    sudo docker-compose --env-file .env.lock up web camera
+    echo [+] run web camera 개발환경 ${PROJECT_NAME}
+
+    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up web camera
 
 fi
 

@@ -4,7 +4,6 @@ version: "3.9"
 
 services:
   db:
-    container_name: omil_db
     image: mysql
     restart: always
     env_file: .env.lock
@@ -16,7 +15,6 @@ services:
       retries: 100
 
   web_vue:
-    container_name: web_vue
     build:
       context: omilzomil
       dockerfile: frontend.Dockerfile
@@ -25,7 +23,6 @@ services:
       - omil_volume:/frontend/dist
 
   camera_vue:
-    container_name: camera_vue
     build:
       context: webrtc
       dockerfile: frontend.Dockerfile
@@ -34,7 +31,6 @@ services:
       - webrtc_volume:/frontend/dist
 
   camera:
-    container_name: omil_camera
     build:
       context: webrtc
       dockerfile: backend.Dockerfile
@@ -50,7 +46,6 @@ services:
       - "${CAMERA_PORT}:80"
 
   web:
-    container_name: omil_web
     build:
       context: omilzomil
       dockerfile: backend.Dockerfile
