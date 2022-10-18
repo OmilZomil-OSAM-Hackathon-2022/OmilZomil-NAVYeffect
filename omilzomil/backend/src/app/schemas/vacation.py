@@ -22,8 +22,7 @@ class VacationRead(BaseModel):
     vacation_id: int = Field(None, description="primary key")
     start_date: date = Field(None, description="start date")
     end_date: date = Field(None, description="end date")
-    is_active: bool = Field(None, description="is_active")
-    confirmed: bool = Field(None, description="confirmed")
+    is_approved: bool = Field(None, description="is_approved")
 
     class Config:
         omit_fields = {"user"}
@@ -32,20 +31,19 @@ class VacationRead(BaseModel):
                 "vacation_id": 1,
                 "start_date": date.today(),
                 "end_date": date.today() + timedelta(days=13),
-                "is_active": True,
-                "confirmed": False,
+                "is_approved": None,
             }
         }
         orm_mode = True
 
 
-class VacationUpdateConfirmation(BaseModel):
-    confirmed: bool = Field(None, description="confirmed")
+class VacationUpdateApproval(BaseModel):
+    is_approved: bool = Field(None, description="is_approved")
 
     class Config:
         schema_extra = {
             "example": {
-                "confirmed": True,
+                "is_approved": True,
             }
         }
 
