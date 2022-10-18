@@ -1,7 +1,7 @@
 import sqlalchemy.exc
 from sqlalchemy.orm import Session
 from app.models.military_unit import MilitaryUnit
-from app.schemas.military_unit import MilitaryUnitResponse
+from app.schemas.military_unit import MilitaryUnitResponse, MilitaryUnitReadResponse
 
 
 def create_military_unit(db: Session, unit: str, unit_id: int = None):
@@ -20,11 +20,15 @@ def create_military_unit(db: Session, unit: str, unit_id: int = None):
 
 def get_military_units(db: Session, unit: str = None):
     unit = unit and f"%{unit}%" or "%"
-    return db.query(MilitaryUnit).filter(MilitaryUnit.unit_id != 1).filter(MilitaryUnit.unit.like(unit)).all()
+    return db.query(MilitaryUnit).filter(MilitaryUnit.unit_id != 1).filter(MilitaryUnit.unit.like(unit)).order_by(MilitaryUnit.unit).all()
 
 
 def get_military_unit(db: Session, unit_id: int):
-    return db.query(MilitaryUnit).get(unit_id)
+    unit = db.query(MilitaryUnit).get(unit_id)
+    if unit is None:
+        return MilitaryUnitReadResponse(success=False, message="entry not found")
+    else:
+        return MilitaryUnitReadResponse(success=True, message="success", unit_id=unit.unit_id, unit=unit.unit)
 
 
 def update_military_unit(db: Session, unit_id: int, new_unit: str):

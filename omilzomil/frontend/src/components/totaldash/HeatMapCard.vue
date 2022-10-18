@@ -1,7 +1,10 @@
 <template>
   <div class="card">
     <CardHead title="월별 불량률" />
-    <div class="char-wrap">
+    <div
+      v-if="!isLoading"
+      class="char-wrap"
+    >
       <apexchart
         type="heatmap"
         :options="getOption"
@@ -15,60 +18,13 @@
 <script>
 import CardHead from '../CardHead.vue';
 
-const days = ["월","화","수","목","금","토","일"];
+const days = ["일","월","화","수","목","금","토"];
 export default {
     components: { CardHead },
     data(){
       return {
-        series: [{
-            name: '1',
-            data: this.generateData(7, {
-              min: 5,
-              max: 90
-            })
-          },
-          {
-            name: '2',
-            data: this.generateData(7, {
-              min: 5,
-              max: 90
-            })
-          },
-          {
-            name: '3',
-            data: this.generateData(7, {
-              min: 5,
-              max: 90
-            })
-          },
-          {
-            name: '4',
-            data: this.generateData(7, {
-              min: 5,
-              max: 90
-            })
-          },
-          {
-            name: '5',
-            data: this.generateData(7, {
-              min: 5,
-              max: 90
-            })
-          },
-          {
-            name: '6',
-            data: this.generateData(7, {
-              min: 5,
-              max: 90
-            })
-          },
-          {
-            name: '7',
-            data: this.generateData(7, {
-              min: 5,
-              max: 90
-            })
-          }],
+        isLoading:true,
+        series: [],
       }
     },
   computed:{
@@ -122,22 +78,43 @@ export default {
               }
     }
   },
-    methods: {
-    generateData(count, yrange) {
-      var i = 0;
-      var series = [];
-      while (i < count) {
-        var x = days[i];
-        // (i + 1).toString();
-        var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-        series.push({
-          x: x,
-          y: y
-        });
-        i++;
+  async mounted(){
+      try{
+        const {data} = await this.$axios.get('/stats/day/fail/hitmap/49');
+        // console.log(data);
+        var count = 0;
+        var tmp = [];
+        for(var key in data){
+          if(key == 'success' || key == 'message') continue;
+          count++;
+          tmp.push({
+            x:days[new Date(key).getDay()],
+            y:data[key]
+          });
+          if(count%7 == 0){
+            this.series.push(
+              {
+                name: Number(count/7).toString(),
+                data: [...tmp]
+              }
+            )
+            tmp = [];
+          }
+        }
+        if(tmp.length != 0)
+        this.series.push(
+              {
+                name: Math.ceil(count/7).toString(),
+                data: [...tmp]
+              }
+            )
+      }catch(err){
+        console.log(err);
       }
-      return series;
-    }
+      this.isLoading = false;
+    },
+    methods: {
+    
   }
 }
 </script>
