@@ -24,3 +24,8 @@ async def update_vacation_confirmation(
     user_id: int, vacation_id: int, confirmed: schema.VacationUpdateConfirmation = Body(), db: Session = Depends(deps.get_db)
 ):
     return crud.update_vacation_confirmation(db, vacation_id, confirmed)
+
+
+@router.delete("/{user_id}/{vacation_id}", response_model=schema.VacationResponse)
+def delete_vacation(user_id: int, vacation_id: int, db: Session = Depends(deps.get_db)):
+    return crud.delete_vacation(db, vacation_id)

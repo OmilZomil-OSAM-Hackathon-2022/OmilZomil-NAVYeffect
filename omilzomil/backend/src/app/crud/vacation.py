@@ -48,3 +48,13 @@ def update_vacation_confirmation(db: Session, vacation_id: int, confirmed: Vacat
         vacation.update(confirmed.dict())
         db.commit()
         return VacationResponse(success=True, message=vacation_id)
+
+
+def delete_vacation(db: Session, vacation_id: int):
+    vacation = db.query(Vacation).filter_by(vacation_id=vacation_id)
+    if not vacation.count():
+        return VacationResponse(success=False, message="entry not found")
+    else:
+        vacation.delete()
+        db.commit()
+        return VacationResponse(success=True, message=vacation_id)
