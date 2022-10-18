@@ -13,8 +13,7 @@ class OmilZomil:
     def __init__(self, resize=None, img_norm_type=None, debug_list=[], save_path=None, train_mode=False):
         self.HED_engine = HED()
         self.morph_engine = Morph()
-        self.full_dress_uniform_checker = FullDressUniformChecker(train_mode)
-        self.navy_service_uniform_checker = NavyServiceUniformChecker(train_mode)
+        self.uniform_checker = None
         self.dress_classifier = DressClassifier()
         self.person_detector = PersonDetector()
         self.face_detector = FaceDetector()
@@ -108,18 +107,15 @@ class OmilZomil:
 
         if self.uniform_type is None:
             self.uniform_type = self.dress_classifier.predict(shirt_img)[1]  # 복장종류인식 (전투복, 동정복, 샘당)
-            print(self.uniform_type)
+            if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
+                self.uniform_checker = NavyServiceUniformChecker(self.train_mode)
+            elif self.uniform_type == UniformType.dic['FULL_DRESS']:
+                self.uniform_checker = FullDressUniformChecker(self.train_mode)
+            else:
+                return None, None, None
 
         # 옷 종류별로 분기를 나눔
-        if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
-            component_dic, box_position_dic, masked_img_dic = self.navy_service_uniform_checker.checkUniform(
-                shirt_img)
-
-        elif self.uniform_type == UniformType.dic['FULL_DRESS']:
-            component_dic, box_position_dic, masked_img_dic = self.full_dress_uniform_checker.checkUniform(
-                shirt_img)
-        else:
-            return None, None, None
+        component_dic, box_position_dic, masked_img_dic = self.uniform_checker(shirt_img)
 
         base_point = (person_base_point[0] + shirt_base_point[0]), (person_base_point[1] + shirt_base_point[1])
         for name, pos in box_position_dic.items():
@@ -137,8 +133,6 @@ class OmilZomil:
             self.debug(masked_img_dic, msg="masked")
             self.debug({"result":boxed_img}, msg="res")
             self.demo(shirt_img)
-            
-            
             
         self.frame_cnt += 1
         return component_dic, box_position_dic
