@@ -24,7 +24,7 @@ class OmilZomil:
         self.uniform_type = None
         self.debug_list = debug_list
         self.save_path = save_path
-        
+        self.train_mode = train_mode
         self.frame_cnt = 0
 
     def demo(self, img):
@@ -95,7 +95,7 @@ class OmilZomil:
         shirt_base_point = shirt_box[0]
         shirt_img = box2img(person_img, shirt_box)
         
-        self.debug({'shirt':shirt_img}, msg='roi')
+        self.debug({'shirt':2}, msg='roi')
         
         # 히스토그램 평활화 여부 확인 후 적용
         if self.img_norm_type:
@@ -115,7 +115,7 @@ class OmilZomil:
                 return None, None, None
 
         # 옷 종류별로 분기를 나눔
-        component_dic, box_position_dic, masked_img_dic = self.uniform_checker(shirt_img)
+        result_dic = self.uniform_checker(shirt_img)
 
         base_point = (person_base_point[0] + shirt_base_point[0]), (person_base_point[1] + shirt_base_point[1])
         for name, pos in box_position_dic.items():
@@ -123,7 +123,7 @@ class OmilZomil:
                 x, y, w, h = pos
                 x += base_point[1]
                 y += base_point[0]
-                box_position_dic[name] = (x, y, w, h)
+                result_dic['position_dic'][name] = (x, y, w, h)
             
         # 최종 debug 여부 확인
         if self.debug_list:
