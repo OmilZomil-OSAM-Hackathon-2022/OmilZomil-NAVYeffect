@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.api import deps
 from app.schemas.user import UserReadResponse
-from app.schemas.statistics import Date
+from app.schemas.Date import Date
 from app.crud import statistics as crud
 
 
