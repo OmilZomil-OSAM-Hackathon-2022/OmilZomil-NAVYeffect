@@ -26,10 +26,14 @@ class BrokerBase:
             "muffler" : bool(random.getrandbits(1)),
             "neck" : bool(random.getrandbits(1)),
         }
-    def capture(self, photo):
-        img = cv2.imdecode(np.fromstring(base64.b64decode(photo.split(',')[1]), np.uint8), cv2.IMREAD_COLOR)
+    def photo_2_img(self, photo):
+        img = cv2.imdecode(np.fromstring(base64.b64decode(photo.split(',')[1]), np.uint8), cv2.IMREAD_COLOR)        
         return img
     
+    def img_2_photo(self, img):
+        photo = cv2.imencode('.jpg', img)[1]
+        photo_as_text = base64.b64encode(photo)
+        return "data:image/jpeg;base64," + photo_as_text.decode('utf-8')
 
 class SimpleBroker(BrokerBase):
     """
@@ -46,8 +50,12 @@ class SimpleBroker(BrokerBase):
 
 
     def execute_task(self, photo, work_start):
+
+        # 사진 분석
         img = self.capture(photo)
         person_result = self.person_detector.detect(img)
+
+        # 처리 결과 반환
         return {
             "photo": photo,
             "person": person_result,
