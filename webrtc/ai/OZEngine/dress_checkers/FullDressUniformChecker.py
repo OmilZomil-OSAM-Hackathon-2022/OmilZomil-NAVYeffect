@@ -91,7 +91,6 @@ class FullDressUniformChecker(UniformChecker):
                 probability, kind = 0, name
             else:
                 probability, kind = self.parts_classifier.predict(parts_img)[:2]
-                probability = round(1 - probability, 2)
 
             if not is_name_tag and self.isNameTag(contour, position, kind):
                 # 이름표 OCR
@@ -129,7 +128,7 @@ class FullDressUniformChecker(UniformChecker):
             if self.train_mode:
                 kind = name
             else:
-                kind = self.parts_classifier.predict(parts_img)[1]
+                probability, kind = self.parts_classifier.predict(parts_img)[:2]
             if self.isAnchor(contour, position, kind):
                 box_position_dic[name] = cv2.boundingRect(contour)
                 component_dic[name] = True
@@ -151,7 +150,7 @@ class FullDressUniformChecker(UniformChecker):
             if self.train_mode:
                 kind = name
             else:
-                kind = self.parts_classifier.predict(parts_img)[1]
+                probability, kind = self.parts_classifier.predict(parts_img)[:2]
             if self.isClassTag(contour, position, kind):
                 box_position_dic[name] = cv2.boundingRect(contour)
                 class_n = kind.split('+')[1]
