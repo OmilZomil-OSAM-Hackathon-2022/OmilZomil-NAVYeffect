@@ -10,4 +10,4 @@ class Vacation(Base):
     user = Column(Integer, ForeignKey(User.user_id), nullable=False)
     start_date = Column(Date, nullable=False)
     end_date = Column(Date, nullable=False)
-    confirmed = Column(Boolean, default=False)
+    is_approved = Column(Boolean, default=None)
