@@ -43,11 +43,11 @@ def update_inspection_log_information(db: Session, log_id: int, information: Ins
         raise e
 
 
-def update_inspection_log_check(db: Session, log_id: int, checked: InspectionLogUpdateCheck):
+def update_inspection_log_check(db: Session, log_id: int, is_checked: InspectionLogUpdateCheck):
     log = db.query(InspectionLog).filter_by(inspection_id=log_id)
     if not log.count():
         return InspectionLogResponse(success=False, message="entry not found")
 
-    log.update(checked.dict())
+    log.update(is_checked.dict())
     db.commit()
     return InspectionLogResponse(success=True, message=log_id)
