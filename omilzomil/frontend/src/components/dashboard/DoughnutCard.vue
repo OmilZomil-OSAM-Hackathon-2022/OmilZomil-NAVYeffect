@@ -82,10 +82,10 @@ export default {
     data() {
         return {
             doughnutChart: null,
-            nameTag:10,
-            classTag:40,
-            flag:20,
-            hat:30,
+            nameTag:25,
+            classTag:25,
+            flag:25,
+            hat:25,
             options:{
                   chart: {
                     type:'donut',
@@ -126,13 +126,13 @@ export default {
     },
     async mounted() {
       try{
-        const {data} = await this.$axios.get("/stats/unit/fail/");
-        const total = (data.이름표 + data.계급장 + data.태극기 + data.모자);
+        const {data} = await this.$axios.get("/stats/month/unit/fail/detail/");
+        // const total = (data.이름표 + data.계급장 + data.태극기 + data.모자);
         // console.log(total);
-        this.nameTag = Math.round(data.이름표*100/total);
-        this.classTag = Math.round(data.계급장*100/total);
-        this.flag = Math.round(data.태극기*100/total);
-        this.hat = Math.round(data.모자*100/total);
+        this.nameTag = data.이름표;
+        this.classTag = data.계급장;
+        this.flag = data.태극기;
+        this.hat = data.모자;
       }catch(err){
         console.log(err);
       }
