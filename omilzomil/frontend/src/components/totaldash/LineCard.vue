@@ -1,11 +1,17 @@
 <template>
   <div class="card">
     <CardHead title="월별 불량률" />
-    <div class="char-wrap">
+    <div
+      v-if="!isLoading"
+      class="char-wrap"
+    >
       <apexchart
         type="line"
         :options="getOption"
-        :series="series"
+        :series="[{
+          name: '월별 불량비율',
+          data: data
+        }]"
 
         height="300"
         width="520"
@@ -21,10 +27,9 @@ export default {
     components: { CardHead },
     data() {
         return {
-            series: [{
-              name: "월별 불량비율",
-              data: [10, 41, 35, 51, 49, 62, 69, 91, 100,49, 62, 69]
-            }]
+            data:[],
+            labels:[],
+            isLoading:true,
         };
     },
     computed:{
@@ -48,14 +53,8 @@ export default {
               curve: 'straight',
               width:3,
             },
-            // grid: {
-            //   row: {
-            //     colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-            //     opacity: 0.5
-            //   },
-            // },
             xaxis: {
-              categories: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+              categories: this.labels,
               axisBorder: {
                   // show: false,
                   // tickAmount:10,
@@ -64,23 +63,14 @@ export default {
                   show: false
               },
             },
-            // grid:{
-            //   show:true,
-            //   // strokeDashArray: [5],
-            //   xaxis: {
-            //     lines: {
-            //       show: true
-            //     }
-            //   },  
-            // },
 
             // 마지막 데이터 꼭 넣어주기 => 그래프 마지막에 마크찍는 코드
             annotations:{
               points:[
                 {
-                  x:'12월',
+                  x:this.labels[this.labels.length-1],
 
-                  y:69,
+                  y:this.data[this.data.length-1],
                   label: {
                     borderWidth:0,
                     style: {
@@ -89,7 +79,7 @@ export default {
                       fontWeight:900,
                       fontSize:'15px',
                     },
-                    text: '69%',
+                    text: this.data[this.data.length-1].toString()+'%',
                   },
                   marker:{
                     fillColor: "#9155EB",
@@ -102,7 +92,21 @@ export default {
             }
           }
       }
-    }
+    },
+    async mounted(){
+      try{
+        const {data} = await this.$axios.get('/stats/year/fail/');
+        const keys = Object.keys(data);
+        for(var i=0;i<keys.length;i++){
+          if(keys[i] == 'success' ||keys[i] == 'message') continue;
+          this.labels.push(keys[i].split('-')[1]+'월');
+          this.data.push(data[keys[i]]);
+        }
+      }catch(err){
+        console.log(err);
+      }
+      this.isLoading = false;
+    },
 }
 </script>
 
