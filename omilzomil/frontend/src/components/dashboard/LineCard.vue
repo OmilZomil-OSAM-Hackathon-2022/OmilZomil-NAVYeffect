@@ -3,10 +3,11 @@
     <CardHead title="월간 두발 및 복장 양호빈도" />
     <div class="chart-wrap">
       <apexchart
+        v-if="isEnd"
         type="area"
         :options="getOption"
-        :series="getSeries"
 
+        :series="getSeries"
         height="320"
         width="680"
       />
@@ -22,6 +23,7 @@ export default {
         return {
             data:[],
             labels:[],
+            isEnd:false,
         };
     },
     computed:{
@@ -109,17 +111,17 @@ export default {
     },
     async mounted() {
         try{
-            const {data} = await this.$axios.get('/stats/unit/pass/');
+            const {data} = await this.$axios.get('/stats/month/unit/pass/');
             var keys = Object.keys(data);
             for(var i=0;i<keys.length;i++){
                 if(keys[i] == 'success' || keys[i] == 'message') continue;
                 this.data.push(data[keys[i]]);
                 this.labels.push(Number(keys[i].split('-')[1]).toString()+'월');
             }
-            console.log(this.labels);
         }catch(err){
             console.log(err);
         }
+        this.isEnd = true;
     }
 }
 </script>
