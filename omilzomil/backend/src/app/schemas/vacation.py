@@ -1,26 +1,28 @@
-from datetime import datetime, timedelta
+from datetime import date, timedelta
 from pydantic import BaseModel, Field
-from app.db.base_schema import Response, Omit
+from app.db.base_schema import Response
 
 
 class VacationBase(BaseModel):
-    start_date: datetime = Field(None, description="start date")
-    end_date: datetime = Field(None, description="end date")
+    start_date: date = Field(None, description="start date")
+    end_date: date = Field(None, description="end date")
 
 
 class VacationCreate(VacationBase):
     class Config:
         schema_extra = {
             "example": {
-                "start_date": datetime.now(),
-                "end_date": datetime.now() + timedelta(days=13),
+                "start_date": date.today(),
+                "end_date": date.today() + timedelta(days=13),
             }
         }
 
 
-class VacationRead(VacationBase, metaclass=Omit):
+class VacationRead(BaseModel):
     vacation_id: int = Field(None, description="primary key")
-    status: bool = Field(None, description="status")
+    start_date: date = Field(None, description="start date")
+    end_date: date = Field(None, description="end date")
+    is_active: bool = Field(None, description="is_active")
     confirmed: bool = Field(None, description="confirmed")
 
     class Config:
@@ -28,9 +30,9 @@ class VacationRead(VacationBase, metaclass=Omit):
         schema_extra = {
             "example": {
                 "vacation_id": 1,
-                "start_date": datetime.now(),
-                "end_date": datetime.now() + timedelta(days=13),
-                "status": True,
+                "start_date": date.today(),
+                "end_date": date.today() + timedelta(days=13),
+                "is_active": True,
                 "confirmed": False,
             }
         }
