@@ -1,8 +1,7 @@
 import cv2
 import base64
 import numpy as np
-
-
+import random
 from app.core.config import settings
 
 # from app.ai.OZEngine.model import OmilZomil
@@ -17,9 +16,15 @@ class BrokerBase:
         self.id = id
         self.ws = ws
 
-    def execute_task(self, img, work_start):
+    def execute_task(self, photo, work_start):
         return {
-            "photo": img,
+            "photo": photo,   # 이미지는 단순 전달
+            "kind" : random.choice(["black", 'blue', 'green']),
+            "hair" : True,
+            "nametag" : False,
+            "leveltag" : bool(random.getrandbits(1)),
+            "muffler" : bool(random.getrandbits(1)),
+            "neck" : bool(random.getrandbits(1)),
         }
     def capture(self, photo):
         img = cv2.imdecode(np.fromstring(base64.b64decode(photo.split(',')[1]), np.uint8), cv2.IMREAD_COLOR)
@@ -47,6 +52,4 @@ class SimpleBroker(BrokerBase):
             "photo": photo,
             "person": person_result,
         }
-
-    pass
 
