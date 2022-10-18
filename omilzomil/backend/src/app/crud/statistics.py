@@ -10,15 +10,14 @@ def get_overall_stats(
 ):
     query = (
         db.query(InspectionLog)
-        .join(AccessLog, AccessLog.access_id == InspectionLog.access_id)
         .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
-        .filter(AccessLog.access_time.like(str(date) + "%"))
+        .filter(InspectionLog.access_time.like(str(date) + "%"))
     )
 
     if affiliation is not None:
         query = query.filter(InspectionLog.affiliation == affiliation)
     if military_unit is not None:
-        query = query.filter(AccessLog.military_unit == military_unit)
+        query = query.filter(InspectionLog.military_unit == military_unit)
     if category == "hair":
         query = query.filter(InspectionDetail.appearance_type == 1)
     elif category == "appearance":
@@ -77,28 +76,24 @@ def get_monthly_best_stats(db: Session, military_unit: int, category: str):
                 ret = {"unit": unit.unit, "rank": res[i]["rank"]}
                 break
     elif category == "person":
-        query = db.query(AccessLog.access_id).filter(AccessLog.access_time.like(str(Date.now(day=False)))).filter(AccessLog.military_unit == military_unit)
+        query = (
+            db.query(InspectionLog.inspection_id)
+            .filter(InspectionLog.access_time.like(str(Date.now(day=False))))
+            .filter(InspectionLog.military_unit == military_unit)
+        )
 
         subquery = (
-            db.query(AccessLog.access_id)
-            .join(InspectionLog, AccessLog.access_id == InspectionLog.access_id)
+            db.query(InspectionLog.inspection_id)
             .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
-            .filter(AccessLog.access_time.like(str(Date.now(day=False))))
-            .filter(AccessLog.military_unit == military_unit)
+            .filter(InspectionLog.access_time.like(str(Date.now(day=False))))
+            .filter(InspectionLog.military_unit == military_unit)
             .filter(InspectionDetail.status == False)
         )
 
         subquery = query.filter(InspectionLog.inspection_id.not_in(subquery))
         InspectionLogAlias = aliased(InspectionLog)
 
-        res = (
-            db.query(AccessLog.access_id, InspectionLogAlias.name, InspectionLogAlias.image_path)
-            .select_from(InspectionLogAlias)
-            .join(AccessLog, AccessLog.access_id == InspectionLogAlias.access_id)
-            .filter(AccessLog.access_id.in_(subquery))
-            .first()
-        )
-
+        res = db.query(InspectionLogAlias.name, InspectionLogAlias.image_path).filter(InspectionLogAlias.access_id.in_(subquery)).first()
         return {"name": res.name, "image_path": res.image_path}
 
     return ret
