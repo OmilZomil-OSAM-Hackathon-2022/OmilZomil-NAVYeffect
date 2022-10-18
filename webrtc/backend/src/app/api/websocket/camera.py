@@ -5,10 +5,10 @@ import numpy as np
 
 
 from app.ai.OZEngine.person_detectors.PersonDetector import PersonDetector
-from app.ai.OZEngine.model import OmilZomil
+# from app.ai.OZEngine.model import OmilZomil
 
 
-omil_detector = OmilZomil(uniform_type='FULL_DRESS')
+# omil_detector = OmilZomil(uniform_type='FULL_DRESS')
 person_detector = PersonDetector()
 
 
