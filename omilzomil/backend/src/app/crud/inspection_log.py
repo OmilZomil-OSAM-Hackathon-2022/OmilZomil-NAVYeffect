@@ -7,7 +7,7 @@ from app.schemas.inspection_log import InspectionLogCreate, InspectionLogUpdateI
 def create_inspection_log(db: Session, log: InspectionLogCreate):
     try:
         log = InspectionLog(
-            access_id=log.access_id,
+            guardhouse=log.guardhouse,
             affiliation=log.affiliation,
             rank=log.rank,
             name=log.name,
