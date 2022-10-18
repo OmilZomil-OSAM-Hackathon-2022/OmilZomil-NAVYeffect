@@ -12,3 +12,8 @@ router = APIRouter()
 @router.post("/{user_id}", response_model=schema.VacationResponse)
 async def create_vacation(user_id: int, vacation: schema.VacationCreate = Body(), db: Session = Depends(deps.get_db)):
     return crud.create_vacation(db, user_id, vacation)
+
+
+@router.get("/{user_id}", response_model=List[schema.VacationRead])
+def get_vacations(user_id: int, db: Session = Depends(deps.get_db)):
+    return crud.get_vacations(db, user_id)
