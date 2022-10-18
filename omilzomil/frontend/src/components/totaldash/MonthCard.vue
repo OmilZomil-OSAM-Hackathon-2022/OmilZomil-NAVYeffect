@@ -104,7 +104,7 @@
       },
       async mounted(){
         try{
-          const {data} = await this.$axios.get('stats/month/fail/');
+          const {data} = await this.$axios.get('stats/week/fail/');
           this.count = data.count;
           this.before = data.increase_rate;
           this.percent = data.fail_rate;

@@ -16,7 +16,6 @@ export default createStore({
       return state.token.accessToken;
     },
     isAuthenticated(state) {
-      console.log(jwt.getToken());
       return state.isAuthenticated
     },
     getUser(state){
