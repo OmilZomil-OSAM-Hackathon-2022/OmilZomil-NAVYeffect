@@ -59,13 +59,13 @@ async def websocket_endpoint(websocket: WebSocket):
     print('connect')
     # try:
     while True:
-        data = await websocket.receive_text()   
+        data = await websocket.receive_json()   
         print("receive")
         msg = {
-            'type' : "test",
-            'msg' : data,
+            'type' : "result",
+            'photo' : data['photo'],
         }
-        await websocket.send_json(data)
+        await websocket.send_json(msg)
         pass
     # except WebSocketDisconnect:
     #     pass
