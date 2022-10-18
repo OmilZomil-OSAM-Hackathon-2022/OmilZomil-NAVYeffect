@@ -53,17 +53,27 @@ class OmilZomil:
                     os.makedirs(parts_dir, exist_ok=True)
                     cv2.imwrite(dst_path, img)
 
-    def boxImage(self, org_img, box_position_dic):
+    def boxImage(self, org_img, info_dic):
         img = org_img.copy()
         roi_dic = {}
         
-        for name, box_position in box_position_dic.items():
+        for name, box_position in info_dic['box_position'].items():
             if name != 'shirt' and box_position is not None:
                 x, y, w, h = box_position
                 roi = org_img[y:y+h, x:x+w]
                 cv2.rectangle(img, (x, y), (x+w, y+h), Color.PURPLE, 5)
                 font = cv2.FONT_HERSHEY_SIMPLEX
-                cv2.putText(img, name, (x, y), font, 2, Color.PURPLE, 3)
+                margin = 30
+                if name == 'mahura':
+                    y -= (10 + margin)
+                else:
+                    y += h+margin
+
+                cv2.putText(img, name, (x, y), font, 1, Color.PURPLE, 3)
+                if info_dic.get('probability'):
+                    print(type(info_dic['probability'][name]), info_dic['probability'][name])
+                    cv2.putText(img, str(info_dic['probability'][name]), (x, y+30), font, 1, Color.PURPLE, 3)
+                
                 roi_dic[name] = roi
 
         return img, roi_dic
@@ -127,7 +137,7 @@ class OmilZomil:
             
         # 최종 debug 여부 확인
         if self.debug_list:
-            boxed_img, roi_dic = self.boxImage(input_img, result_dic['box_position'])
+            boxed_img, roi_dic = self.boxImage(input_img, result_dic)
             # plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic, msg="roi")
             self.debug(result_dic['masked_img'], msg="masked")
