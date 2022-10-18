@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from app.api.endpoints import test
 from app.api.endpoints import affiliation
 from app.api.endpoints import rank
 from app.api.endpoints import role
@@ -15,6 +16,7 @@ from app.api.endpoints import ranking
 
 
 api_router = APIRouter()
+api_router.include_router(test.router, prefix="/test", tags=["테스트 케이스 생성"])
 api_router.include_router(affiliation.router, prefix="/affiliation", tags=["소속 관리"])
 api_router.include_router(rank.router, prefix="/rank", tags=["계급 관리"])
 api_router.include_router(role.router, prefix="/role", tags=["권한 관리"])
