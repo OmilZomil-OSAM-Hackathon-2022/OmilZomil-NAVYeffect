@@ -129,17 +129,13 @@ def get_monthly_best_stats(db: Session, military_unit: int, category: str):
                 ret = {"unit": unit.unit, "rank": res[i]["rank"]}
                 break
     elif category == "person":
-        query = (
-            db.query(AccessLog.access_id)
-            .filter(AccessLog.access_time.like(datetime.now().strftime("%Y-%m-%%")))
-            .filter(AccessLog.military_unit == military_unit)
-        )
+        query = db.query(AccessLog.access_id).filter(AccessLog.access_time.like(str(Date.now(day=False)))).filter(AccessLog.military_unit == military_unit)
 
         subquery = (
             db.query(AccessLog.access_id)
             .join(InspectionLog, AccessLog.access_id == InspectionLog.access_id)
             .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
-            .filter(AccessLog.access_time.like(datetime.now().strftime("%Y-%m-%%")))
+            .filter(AccessLog.access_time.like(str(Date.now(day=False))))
             .filter(AccessLog.military_unit == military_unit)
             .filter(InspectionDetail.status == False)
         )
