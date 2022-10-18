@@ -1,9 +1,10 @@
+from datetime import datetime
 from pydantic import BaseModel, Field
 from app.db.base_schema import Response, AllOptional
 
 
 class InspectionLogBase(BaseModel):
-    access_id: int = Field(None, description="access id")
+    guardhouse: int = Field(None, description="guardhouse")
     affiliation: int = Field(None, description="affiliation")
     rank: int = Field(None, description="rank")
     name: str = Field(None, description="name")
@@ -13,7 +14,7 @@ class InspectionLogBase(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "access_id": 1,
+                "guardhouse": 1,
                 "affiliation": 3,
                 "rank": 5,
                 "name": "정의철",
@@ -29,6 +30,7 @@ class InspectionLogCreate(InspectionLogBase):
 
 class InspectionLogRead(InspectionLogBase):
     inspection_id: int = Field(None, description="primary key")
+    access_time: datetime = Field(None, description="access time")
     military_unit: int = Field(None, description="military unit")
     is_checked: bool = Field(None, description="is_checked")
 
@@ -36,7 +38,8 @@ class InspectionLogRead(InspectionLogBase):
         schema_extra = {
             "example": {
                 "inspection_id": 1,
-                "access_id": 1,
+                "guardhouse": 1,
+                "access_time": datetime.now(),
                 "affiliation": 3,
                 "military_unit": 1,
                 "rank": 5,
