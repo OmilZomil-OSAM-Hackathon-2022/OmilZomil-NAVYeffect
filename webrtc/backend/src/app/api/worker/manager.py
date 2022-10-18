@@ -5,26 +5,37 @@
 사람 유무 상태 관리
 
 """
-from multiprocessing import Pool
 
 MAX_PROCESS = 10
 
 class Master:
+    process_list = []
+    task_list = []
+
+
+    def create_worker():
+        pass
+
     
-    person_list = {}
-    pool = Pool(MAX_PROCESS)
 
-    def capture(self, img):
 
-        # 사람이야?
 
-        # if
-            # person 객체가 없으면 생성
-            # 없으면 camera id 로 person 객체를 가져옴
-            # worker 생성
-        # else:
-        # return False
+
+    def add_task(self, path, ai=None):
+        
+        self.task_list.append({
+            'path':path, 'ai':ai
+            })
+        order
+
+    def order(self, path, ai=None):
+        print(f"오더 - {path}")
+        self.pool.apply_async(working, (path, ai))
         pass
 
-    def order(self):
-        pass
+def working(img, ai):
+    print(f"img:{img} - {ai}")
+    pass
+
+
+worker_master = Master()

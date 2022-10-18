@@ -8,7 +8,7 @@ dlib
 loguru
 tensorflow
 mtcnn
-psutil=5.9.2
+psutil==5.9.2
 
 fastapi
 uvicorn[standard]

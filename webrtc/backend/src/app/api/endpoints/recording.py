@@ -51,15 +51,18 @@ async def websocket_endpoint(url, websocket: WebSocket):
             result = broker.execute_task(
                 photo=data['photo'], work_start=work_start
             )
-
-            # 메세지 전송
-            msg = {
-                'type' : "result",
-            }
-            msg.update(result)
+            # worker가 없는 경우
+            if result:
+                # 메세지 전송
+                msg = {
+                    'type' : "result",
+                }
+                msg.update(result)
+                await websocket.send_json(msg)
+            # 1차 처리 로그 출력
             print(f'테스크 1차 처리 완료: {url} - {camera_id} : {datetime.now() - work_start}')
-            await websocket.send_json(msg)
-    
+
+
     except WebSocketDisconnect:
         print(f'연결 종료: {url} - {camera_id}')
         pass
