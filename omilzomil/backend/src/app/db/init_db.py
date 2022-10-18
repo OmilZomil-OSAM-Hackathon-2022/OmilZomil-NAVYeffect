@@ -5,6 +5,7 @@ from app.models.military_unit import Base as military_unit_model
 from app.models.rank import Base as rank_model
 from app.models.role import Base as role_model
 from app.models.user import Base as user_model
+from app.models.guardhouse import Base as guardhouse_model
 from app.models.access_log import Base as access_log_model
 from app.models.uniform import Base as uniform_model
 from app.models.inspection_log import Base as inspection_log_model
@@ -45,6 +46,7 @@ def init_db(db: Session):
     user_model.metadata.create_all(bind=engine)
     user_crud.create_super_admin(db, "super", "super")
 
+    guardhouse_model.metadata.create_all(bind=engine)
     access_log_model.metadata.create_all(bind=engine)
 
     uniform_model.metadata.create_all(bind=engine)
