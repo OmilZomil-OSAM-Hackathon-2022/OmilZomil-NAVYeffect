@@ -1,19 +1,10 @@
-import cv2
-from datetime import datetime
-from app.core.config import settings
-import socket
 
-from app.api.websocket.camera import capture, check_human, check_omil
-
-
-IP, PORT = settings.WORKER_SERVER
-
-class Broker:
+class Broker(BrokerBase):
+    """
+    이미지 저장 
+    """
     SAVE_PATH = f"{settings.IMAGE_PATH}/queue"
-
-    def __init__(self, ws, id):
-        self.id = id
-        self.ws = ws
+  
 
     async def give_task(self, data):
         # 사진 분석
@@ -48,6 +39,7 @@ class Broker:
         print(f"저징 완료 {path}")
 
 
+
 class SingleBroker(Broker):
     def __init__(self, ws, id):
         super().__init__(ws, id)
@@ -63,6 +55,7 @@ class SingleBroker(Broker):
         pass
 
 class SocketBroker(Broker):
+    
     def __init__(self, ws, id):
         super().__init__(ws, id)
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
