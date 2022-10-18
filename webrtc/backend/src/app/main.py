@@ -13,7 +13,7 @@ app = FastAPI(
 
 @app.get("/aaaaa")
 def read_root():
-    return {'hello': 'world5'}
+    return {'hello': 'world10'}
 
 
 app.include_router(api_router)
