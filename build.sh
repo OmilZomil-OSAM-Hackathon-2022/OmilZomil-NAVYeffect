@@ -4,6 +4,9 @@
 
 
 # ============== 기타 필요한 파일 생성 
+args_1=$1
+PROJECT_NAME=${args_1:-omil}
+
 # .env 파일이 있는지 검증
 if [ ! -e ".env.private" ]; then
 	echo ".env.private 파일이 없습니다."
@@ -36,22 +39,22 @@ fi
 
 # 기존 컨테이너 지우기
 echo [+] remove container
-sudo docker-compose --env-file .env.lock down --remove-orphans
+sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock down --remove-orphans
 
 # ============== docker 재 build
 
 # docker 빌드
 echo [+] docker build
-sudo docker-compose --env-file .env.lock build
+sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock build
 
 # 프론트 빌드
 echo [+] frontend build
-sudo docker-compose --env-file .env.lock up web_vue
-sudo docker-compose --env-file .env.lock up camera_vue
+sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up web_vue
+sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up camera_vue
 
 echo [+] frontend build 대기
 
-while sudo docker-compose --env-file .env.lock ps --services --filter status=running | grep -q 'vue'; do
+while sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock ps --services --filter status=running | grep -q 'vue'; do
     echo `sudo docker-compose --env-file .env.lock ps --services --filter status=running`
     wait_time=`date +%T`
     echo frontend $wait_time
@@ -62,11 +65,11 @@ done;
 
 # DB 실행
 echo [+] make db
-sudo docker-compose --env-file .env.lock up -d db
+sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up -d db
 
 # DB 테이블 만들기 - omilzomil backend 참조
 echo [+] make db tables
-sudo docker-compose --env-file .env.lock run --rm web python src/initial_data.py
+sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock run --rm web python src/initial_data.py
 
 
 # ============== 기타 잔여 파일 컨테이너 캐쉬 삭제
@@ -76,7 +79,8 @@ sudo docker-compose --env-file .env.lock run --rm web python src/initial_data.py
 echo [+] remove build cache
 sudo docker builder prune -f
 sudo docker volume prune -f
+sudo docker image prune -f
 
-sudo docker-compose --env-file .env.lock rm -f
+sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock rm -f
 
 echo [+] Done
