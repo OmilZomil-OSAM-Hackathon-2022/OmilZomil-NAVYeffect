@@ -2,13 +2,16 @@
   <div class="card">
     <CardHead title="소속별 위반 비율" />
     <!-- <div class="chart-wrap"> -->
-    <div style="display:flex;width:100%;">
+    <div
+      v-if="!isLoading" 
+      style="display:flex;width:100%;"
+    >
       <apexchart
         style="margin-top:10px;"
         :width="170"
         type="donut"
         :options="options"
-        :series="series"
+        :series="[army,navy,air,marin]"
       />
       <div class="legend">
         <div class="item">
@@ -24,7 +27,7 @@
           <div>
             <number
               :from="0"
-              :to="40"
+              :to="army"
               :duration="1"
             />%
           </div>
@@ -42,7 +45,7 @@
           <div>
             <number
               :from="0"
-              :to="30"
+              :to="navy"
               :duration="1"
             />%
           </div>
@@ -60,7 +63,7 @@
           <div>
             <number
               :from="0"
-              :to="20"
+              :to="air"
               :duration="1"
             />%
           </div>
@@ -78,7 +81,7 @@
           <div>
             <number
               :from="0"
-              :to="10"
+              :to="marin"
               :duration="1"
             />%
           </div>
@@ -99,7 +102,11 @@
       // }
       data(){
           return{
-              series: [40,30,20,10],
+              isLoading:true,
+              army:0,
+              navy:0,
+              air:0,
+              marin:0,
               options:{
                   chart: {
                     type:'donut',
@@ -130,6 +137,19 @@
               },
           }
       },
+      async mounted(){
+        try{
+          const {data} = await this.$axios.get('/stats/month/fail/affiliation/');
+          // console.log(data);
+          this.army = data.육군;
+          this.navy = data.해군;
+          this.air = data.공군;
+          this.marin = data.해병대;
+        }catch(err){
+          console.log(err);
+        }
+        this.isLoading = false;
+      }
   }
   </script>
   
