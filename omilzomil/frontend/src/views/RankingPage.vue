@@ -15,42 +15,42 @@
         </thead>
         <tbody>
           <tr
-            v-for="(user,index) in pageList[page-1]"
+            v-for="(unit,index) in unitList"
             :key="index"
           >
             <td class="rank">
               <img
-                v-if="(page-1)*10+index===0"
+                v-if="unit.rank==1"
                 src="@/assets/icons/first.svg"
               >
               <img
-                v-else-if="(page-1)*10+index===1"
+                v-else-if="unit.rank==2"
                 src="@/assets/icons/second.svg"
               >
               <img
-                v-else-if="(page-1)*10+index===2"
+                v-else-if="unit.rank==3"
                 src="@/assets/icons/third.svg"
               >
               <div v-else>
-                {{ (page-1)*10+index+1 }}
+                {{ unit.rank }}
               </div> 
             </td>
             <td class="name">
-              {{ user.name }}
+              {{ unit.unit }}
             </td>
             <td class="number">
-              {{ user.goodNumber }}명
+              {{ unit.pass }}명
             </td>
             <td class="number">
-              {{ user.badNumber }}명
+              {{ unit.fail }}명
             </td>
             <td class="percent">
-              {{ user.percent }}%
+              {{ unit.pass_rate }}%
             </td>
           </tr>
         </tbody>
       </table>
-      <div class="foot">
+      <!-- <div class="foot">
         <tr>
           <td class="choose">
             <div class="choosebox">
@@ -91,79 +91,36 @@
             >
           </td>
         </tr>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
-class User{
-    constructor(){
-        this.name = "계룡대 본부대대";
-        this.goodNumber = "269";
-        this.badNumber = "269";
-        this.percent = "1";
-    }
-}
-class User2{
-  constructor(){
-        this.name = "계룡대 군경대대";
-        this.goodNumber = "250";
-        this.badNumber = "250";
-        this.percent = "2";
-    }
-}
-class User3{
-  constructor(){
-        this.name = "계룡대 수송대대";
-        this.goodNumber = "230";
-        this.badNumber = "230";
-        this.percent = "3";
-    }
-}
+// class User{
+//     constructor(){
+//         this.name = "계룡대 본부대대";
+//         this.goodNumber = "269";
+//         this.badNumber = "269";
+//         this.percent = "1";
+//     }
+// }
 
 export default {
     data(){
         return{
             page:1,
-            pageList:[
-              [
-                new User(),
-                new User(),
-                new User(),
-                new User(),
-                new User(),
-                new User(),
-                new User(),
-                new User(),
-                new User(),
-                new User(),
-              ],
-              [
-                new User2(),
-                new User2(),
-                new User2(),
-                new User2(),
-                new User2(),
-                new User2(),
-                new User2(),
-                new User2(),
-                new User2(),
-                new User2(),
-              ],
-              [
-                new User3(),
-                new User3(),
-                new User3(),
-                new User3(),
-                new User3(),
-                new User3(),
-                new User3(),
-                new User3(),
-                new User3(),
-              ]
-            ]
+            unitList:[]
         }
+    },
+    async mounted(){
+      try{
+        const {data} = await this.$axios.get('/ranking/');
+        this.unitList = data;
+        console.log(data);
+      }catch(err){
+        console.log(err);
+      }
     },
     methods:{
     }

@@ -109,7 +109,7 @@
       >
         <img
           class="photoback"
-          :src="getImage"
+          :src="photo"
         >
         <img
           class="photo"
@@ -149,19 +149,6 @@ export default {
         }
     },
     emits: ["closeCard"],
-    computed:{
-      getImage(){
-        if(this.photo === null) return require("@/assets/images/photoback.svg");
-        else{
-          try{
-            const image = require(this.photo);
-            return image;
-          }catch(err){
-            return require("@/assets/images/photoback.svg");
-          }
-        }
-      }
-    }
 }
 </script>
 

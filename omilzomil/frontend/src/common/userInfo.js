@@ -4,10 +4,10 @@ const USER_INFO_KEY = "user_info"
 
 export const getUserInfo = () => {
   const userString = VueCookies.get(USER_INFO_KEY);
-  if(userString !== null){
+  // if(userString !== null){
     // console.log(userString);
     // return JSON.parse(userString);
-  }
+  // }
   return userString;
   // const userString = window.localStorage.getItem(USER_INFO_KEY);
   // if(userString !== null){
@@ -17,7 +17,7 @@ export const getUserInfo = () => {
 }
 
 export const saveUser = user => {
-  VueCookies.set(USER_INFO_KEY, JSON.stringify(user),'1h');
+  VueCookies.set(USER_INFO_KEY, JSON.stringify(user),'2h');
   // window.localStorage.setItem(USER_INFO_KEY, JSON.stringify(user))
 }
 
