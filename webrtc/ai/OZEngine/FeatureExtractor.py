@@ -19,7 +19,10 @@ class FeatureExtractor:
         self.train_set_path = os.path.join(base_path, 'dataset', 'train_set')
         self.validation_set_path = os.path.join(base_path, 'dataset', 'validation_set')
         self.model_set_path = os.path.join(base_path, 'model')
-        self.getFeatures()
+        try:
+            self.getFeatures()
+        except Exception as e:
+            print('Feature Load 실패!', e)
 
 
     def getFeatures(self):

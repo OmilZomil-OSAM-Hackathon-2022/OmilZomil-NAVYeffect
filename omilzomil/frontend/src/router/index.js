@@ -18,7 +18,7 @@ const beforeAuth = allowAdmin => (from, to, next) => {
   } else {
     // 홈 화면으로 이동
     alert("로그인을 해주세요!")
-    next("/")
+    next("/login")
   }
 }
 
@@ -79,6 +79,7 @@ const routes = [
   {
     path: "/vacation",
     name: "Vacation",
+    beforeEnter:beforeAuth(false),
 
     component: () => import('../views/RegistVacationPage.vue'),
   },
