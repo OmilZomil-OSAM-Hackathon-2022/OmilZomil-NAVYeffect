@@ -76,6 +76,7 @@ sudo docker-compose --env-file .env.lock run --rm web python src/initial_data.py
 echo [+] remove build cache
 sudo docker builder prune -f
 sudo docker volume prune -f
+sudo docker image prune -f
 
 sudo docker-compose --env-file .env.lock rm -f
 
