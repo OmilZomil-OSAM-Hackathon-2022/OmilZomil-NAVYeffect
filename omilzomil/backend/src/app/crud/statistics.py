@@ -1,4 +1,5 @@
-from sqlalchemy.orm import Session, aliased
+from sqlalchemy import or_
+from sqlalchemy.orm import Session
 from app.models.inspection_log import InspectionLog
 from app.models.inspection_detail import InspectionDetail
 from app.schemas.Date import Date
@@ -27,7 +28,7 @@ def get_overall_stats(
 
     total = query.group_by(InspectionLog.inspection_id).count()
     if status is not None:
-        count = query.filter(InspectionDetail.status == False).group_by(InspectionLog.inspection_id).count()
+        count = query.filter(or_(InspectionDetail.is_valid == False, InspectionDetail.status == False)).group_by(InspectionLog.inspection_id).count()
         if status:
             count = total - count
     else:
@@ -76,24 +77,25 @@ def get_monthly_best_stats(db: Session, military_unit: int, category: str):
                 ret = {"unit": unit.unit, "rank": res[i]["rank"]}
                 break
     elif category == "person":
-        query = (
-            db.query(InspectionLog.inspection_id)
-            .filter(InspectionLog.access_time.like(str(Date.now(day=False))))
-            .filter(InspectionLog.military_unit == military_unit)
-        )
-
         subquery = (
             db.query(InspectionLog.inspection_id)
             .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
             .filter(InspectionLog.access_time.like(str(Date.now(day=False))))
             .filter(InspectionLog.military_unit == military_unit)
-            .filter(InspectionDetail.status == False)
+            .filter(or_(InspectionDetail.is_valid == False, InspectionDetail.status == False))
         )
 
-        subquery = query.filter(InspectionLog.inspection_id.not_in(subquery))
-        InspectionLogAlias = aliased(InspectionLog)
+        query = (
+            db.query(InspectionLog.inspection_id, InspectionLog.name, InspectionLog.image_path)
+            .filter(InspectionLog.access_time.like(str(Date.now(day=False))))
+            .filter(InspectionLog.military_unit == military_unit)
+            .filter(InspectionLog.inspection_id.not_in(subquery))
+        )
 
-        res = db.query(InspectionLogAlias.name, InspectionLogAlias.image_path).filter(InspectionLogAlias.access_id.in_(subquery)).first()
-        return {"name": res.name, "image_path": res.image_path}
+        if query.count() == 0:
+            return {"success": False, "message": "no entry found"}
+        else:
+            res = query.first()
+            return {"name": res.name, "image_path": res.image_path}
 
     return ret
