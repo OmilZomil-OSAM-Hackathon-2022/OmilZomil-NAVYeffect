@@ -9,6 +9,7 @@ from app.schemas.user import (
     UserUpdatePassword,
     UserUpdateRole,
     UserUpdateActivity,
+    UserDelete,
     UserResponse,
     UserReadResponse,
 )
@@ -59,7 +60,7 @@ def create_user(db: Session, user: UserCreate):
 
 
 def get_users(db: Session, flt: UserFilter):
-    user = db.query(User)
+    user = db.query(User).filter(User.user_id != 1)
     if flt.full_name is not None:
         user = user.filter(User.full_name.like(f"%{flt.full_name}%"))
     if flt.affiliation is not None:
@@ -73,7 +74,7 @@ def get_users(db: Session, flt: UserFilter):
     return user.order_by(User.full_name).all()
 
 
-def get_user_by_id(db: Session, user_id: int):
+def get_user(db: Session, user_id: int):
     user = db.query(User).get(user_id)
     if not user:
         return UserReadResponse(success=False, message="entry not found")
@@ -98,7 +99,8 @@ def update_user_information(db: Session, user_id: int, information: UserUpdateIn
     if not user.count():
         return UserResponse(success=False, message="entry not found")
     try:
-        user.update(information.dict())
+        information = {x: y for x, y in information.dict().items() if y is not None}
+        user.update(information)
         db.commit()
         return UserResponse(success=True, message=user_id)
     except sqlalchemy.exc.IntegrityError as e:
@@ -144,6 +146,19 @@ def update_user_activity(db: Session, user_id: int, is_active: UserUpdateActivit
         return UserResponse(success=True, message=user_id)
     except sqlalchemy.exc.IntegrityError:
         return UserResponse(success=False, message="foreign key constraint fail")
+
+
+def delete_user(db: Session, user_id: int, password: UserDelete):
+    user = db.query(User).filter_by(user_id=user_id)
+    if not user.count():
+        return UserResponse(success=False, message="entry not found")
+
+    if not verify_password(password.password, user.first().password):
+        return UserResponse(success=False, message="invalid password")
+
+    user.delete()
+    db.commit()
+    return UserResponse(success=True, message=user_id)
 
 
 def authenticate(db: Session, *, username: str, password: str):

@@ -1,4 +1,14 @@
-
+numpy
+matplotlib
+imutils
+sklearn
+opencv-python
+torch
+dlib
+loguru
+tensorflow
+mtcnn
+psutil==5.9.2
 
 fastapi
 uvicorn[standard]
@@ -10,3 +20,6 @@ pymysql
 mysqlclient
 pytest
 requests
+
+numpy
+opencv-python

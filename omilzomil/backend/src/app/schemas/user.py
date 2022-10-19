@@ -143,5 +143,16 @@ class UserUpdateActivity(BaseModel):
         }
 
 
+class UserDelete(BaseModel):
+    password: str = Field(None, description="password")
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "password": "pass",
+            }
+        }
+
+
 class UserResponse(Response):
     pass

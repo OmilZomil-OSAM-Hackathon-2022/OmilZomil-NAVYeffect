@@ -12,11 +12,6 @@ from app.crud import statistics as crud
 router = APIRouter()
 
 
-@router.post("/test-case")
-def create_test_case(db: Session = Depends(deps.get_db)):
-    return crud.create_test_case(db)
-
-
 @router.get("/day/fail/")
 def get_daily_fail(db: Session = Depends(deps.get_db)):
     cur = Date.now()
