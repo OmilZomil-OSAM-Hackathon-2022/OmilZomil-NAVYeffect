@@ -8,16 +8,11 @@ def create_broker(name, ws, id):
         "test" : BrokerBase,
         "simple" : SimpleBroker,
         "image" : ImageBroker,
-        "random" : RandomWorkBroker,
+        #"random" : RandomWorkBroker,
+        "test" : SimpleBroker,
+
         # "test" : RandomWorkBroker,
 
     }
     return brocker_list[name](ws, id)
 
-def create_await_broker(name, ws, id):
-    brocker_list = {
-        "test" : SimpleBroker,
-        #"test" : RandomSingleBroker,
-
-    }
-    return brocker_list[name](ws, id)
