@@ -52,8 +52,8 @@ services:
 
   webrtc:
     build:
-      context: webrtc
-      dockerfile: backend.Dockerfile
+      context: .
+      dockerfile: webrtc/backend.Dockerfile
     env_file: .env.lock
     volumes:
       - ${WEBRTC_DIR_PATH:-webrtc_back}:/backend

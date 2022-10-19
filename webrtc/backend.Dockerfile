@@ -4,9 +4,12 @@ ENV PYTHONUNBUFFERED=1
 
 # 작업 폴더 설정
 WORKDIR /backend
-COPY ./backend /backend
-COPY ./ai /backend/src/app/ai
+COPY ./webrtc/backend /backend
+COPY ./webrtc/ai /backend/src/app/ai
+COPY ./omilzomil/backend/src/app  /backend/src/app/omil
+
 RUN mkdir -p /omil_image/queue
+
 
 # 가중치 파일 다운로드
 RUN wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights 
