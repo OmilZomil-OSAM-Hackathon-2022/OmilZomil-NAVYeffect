@@ -13,17 +13,12 @@
           계급을 선택하세요.
         </option>
 
-        <option value="이병">
-          이병
-        </option>
-        <option value="일병">
-          일병
-        </option>
-        <option value="상병">
-          상병
-        </option>
-        <option value="병장">
-          병장
+        <option
+          v-for="rank in ranks"
+          :key="rank.rank_id"
+          :value="rank.rank_id"
+        >
+          {{ rank.rank }}
         </option>
       </select>
       <select v-model="divisionFilter">
@@ -34,20 +29,12 @@
         >
           소속을 선택하세요.
         </option>
-        <option value="육군">
-          육군
-        </option>
-        <option value="해군">
-          해군
-        </option>
-        <option value="공군">
-          공군
-        </option>
-        <option value="해병대">
-          해병대
-        </option>
-        <option value="국방부직속">
-          국방부직속
+        <option
+          v-for="affiliation in affiliations"
+          :key="affiliation.affiliation_id"
+          :value="affiliation.affiliation_id"
+        >
+          {{ affiliation.affiliation }}
         </option>
       </select>
       <select v-model="unitFilter">
@@ -59,20 +46,12 @@
           부대를 선택하세요.
         </option>
 
-        <option value="계룡대 근무지원단">
-          계룡대 근무지원단
-        </option>
-        <option value="1함대">
-          1함대
-        </option>
-        <option value="2함대">
-          2함대
-        </option>
-        <option value="3함대">
-          3함대
-        </option>
-        <option value="작전사">
-          작전사
+        <option
+          v-for="unit in units"
+          :key="unit.unit_id"
+          :value="unit.unit_id"
+        >
+          {{ unit.unit }}
         </option>
       </select>
       <select v-model="unitFilter">
@@ -108,23 +87,37 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>김민섭</td>
-          <td>해군</td>
-          <td>계룡대 근무지원단</td>
-          <td>일병</td>
-          <td>22-71005164</td>
+        <tr
+          v-for="user in users"
+          :key="user.user_id"
+        >
+          <td>{{ user.full_name }}</td>
+          <td>{{ user.affiliation_title }}</td>
+          <td>{{ user.unit_title }}</td>
+          <td>{{ user.rank_title }}</td>
+          <td>{{ user.dog_number }}</td>
           <td>
-            <select>
-              <option>미승인 사용자</option>
-              <option>일반 사용자</option>
-              <option>관리자</option>
-              <option>루트 관리자</option>
+            <select
+              v-model="user.role"
+              @change="changeRole(user.user_id,user.role)"
+            >
+              <option value="0">
+                미승인 사용자
+              </option>
+              <option value="1">
+                일반 사용자
+              </option>
+              <option value="2">
+                관리자
+              </option>
+              <option value="3">
+                루트 관리자
+              </option>
             </select>
           </td>
           <td>
             <div style="display:flex; justify-content:center">
-              <CheckTag :is-check="true" />
+              <CheckTag :is-check="user.is_active" />
             </div>
           </td>
         </tr>
@@ -142,12 +135,60 @@ export default {
       return{
         classFilter:'',
         divisionFilter:'',
-        unitFilter:''
+        unitFilter:'',
+        units:[],
+        affiliations:[],
+        ranks:[],
+        users:[],
+        roles:[],
       }
+    },
+    async mounted(){
+      this.getUsers();
     },
     methods:{
         search(text){
             text;
+        },
+        async changeRole(user_id,role){
+          console.log(role);
+          try{
+            if(role == 0){
+              await this.$axios.put(`/user/activity/${user_id}`,{
+                is_active:false
+              });
+            }else{
+              const {data} = await this.$axios.put(`/user/activity/${user_id}`,{
+                is_active:true
+              });
+              console.log(data,user_id);
+              await this.$axios.put(`/user/activity/${user_id}`,{
+                role:role
+              });
+            }
+            this.getUsers();
+          }catch(err){
+            console.log(err);
+          }
+        },
+        async getUsers(){
+          try{
+            this.users = (await this.$axios.get('/user/')).data;
+            
+            this.affiliations = (await this.$axios.get('/affiliation/')).data;
+            this.ranks = (await this.$axios.get('/rank/')).data;
+            this.units = (await this.$axios.get('/unit/')).data;
+            this.roles = (await this.$axios.get('role')).data;
+            // console.log(this.users);
+            for(var i=0;i<this.users.length;i++){
+              this.users[i].affiliation_title = this.affiliations.filter(af => af.affiliation_id == this.users[i].affiliation)[0].affiliation;
+              this.users[i].unit_title = this.units.filter(u => u.unit_id == this.users[i].military_unit)[0].unit;
+              this.users[i].rank_title = this.ranks.filter(r => r.rank_id == this.users[i].rank)[0].rank;
+              if(!this.users[i].is_active) this.users[i].role = 0;
+            }
+          }catch(err){
+            console.log(err);
+          }
         }
     }
 }
