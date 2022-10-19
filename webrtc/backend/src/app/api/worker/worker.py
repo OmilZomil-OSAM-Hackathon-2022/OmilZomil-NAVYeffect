@@ -3,7 +3,7 @@ import base64
 import numpy as np
 import os
 import asyncio
-import omil.test
+from omil.app.crud import rank as rank_crud
 
 from multiprocessing import Process, Queue
 

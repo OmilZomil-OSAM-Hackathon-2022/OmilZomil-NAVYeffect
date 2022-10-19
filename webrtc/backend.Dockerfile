@@ -6,7 +6,8 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /backend
 COPY ./webrtc/backend /backend
 COPY ./webrtc/ai /backend/src/app/ai
-COPY ./omilzomil/backend/src/app  /backend/src/app/omil
+COPY ./omilzomil/backend/src  /backend/src/app/omil
+COPY ./omilzomil/backend/src/app/models  /backend/src/app/models
 
 RUN mkdir -p /omil_image/queue
 
