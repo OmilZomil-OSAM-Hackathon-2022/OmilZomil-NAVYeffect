@@ -76,6 +76,51 @@ class ImageBroker(SimpleBroker):
             print("이미지 삭제 실패")
             raise Exception
 
+
+class RandomImageBroker(ImageBroker):
+
+    def __init__(self, ws, id):
+        super().__init__(ws, id)
+        self.ai = RandomAI()
+
+    def execute_task(self, photo, work_start):
+        # 파일 경로 지정
+        name = datetime.now().strftime("%H-%m-%s")
+        path = f'{self.SAVE_PATH}/{self.id}_{name}.jpg'
+
+        person_result = self.capture_human(photo=photo, path=path)
+
+        # 사람 유무 판별
+        if person_result:
+            # 이미지 읽기
+            img = cv2.imread(path)
+            memory_usage()
+            # ai인식
+            result = self.ai.detect(img)
+            result_photo = self.img_2_photo(img)
+
+            # 메세지 제작
+            msg =  {
+                "photo": result_photo,
+                "person": person_result,
+                "path": path,
+            }            
+            msg.update(result)
+            
+            # 삭제
+            self.delete_img(path)
+            return msg
+
+        else:
+            print(person_result)
+            # 처리 결과 반환
+            msg = {
+                "photo": photo,
+                "person": person_result,
+                "path": path,
+            }
+
+            return msg
 """
 
 

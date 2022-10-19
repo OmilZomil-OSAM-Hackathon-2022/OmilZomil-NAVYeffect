@@ -46,7 +46,7 @@ async def websocket_endpoint(url, websocket: WebSocket):
         while True:
             data = await websocket.receive_json()
             work_start = datetime.now()
-            print(f'데이터 수신: {url} - {camera_id}')
+            print(f'데이터 수신: {url} - {camera_id} = {url}')
 
             # 데이터 수신
             result = broker.execute_task(
