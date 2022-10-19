@@ -48,7 +48,7 @@ class HED():
         cv2.dnn_registerLayer('Crop', CropLayer)
         print('[RCF] finished loading (%.4f sec)' % (time.time() - tstamp))
 
-    def detect_edge(self, img, width=256, height=256, verbose=1):
+    def detect_edge(self, img, width=256, height=256, verbose=0):
         org_width = img.shape[1]
         org_height = img.shape[0]
 
