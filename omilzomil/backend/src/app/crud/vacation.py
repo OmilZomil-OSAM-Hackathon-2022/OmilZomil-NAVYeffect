@@ -3,7 +3,6 @@ import sqlalchemy.exc
 from sqlalchemy.orm import Session
 from app.models.user import User
 from app.models.vacation import Vacation
-from app.models.user import User
 from app.models.military_unit import MilitaryUnit
 from app.schemas.vacation import VacationCreate, VacationUpdateApproval, VacationResponse
 
