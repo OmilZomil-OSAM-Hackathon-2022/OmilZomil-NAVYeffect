@@ -1,0 +1,37 @@
+
+<html>
+    <head>
+        <title>Some HTML in here</title>
+    </head>
+    <body>
+        <h1>Look ma! HTML!</h1>
+        <form enctype='application/json' method="post" action="/test/input">
+            <input type="text" name="user[name]">
+            <input type="text" name="user[uid]">
+            <input type="text" name="password">
+            <input type="text" name="dog_num">
+            <input type="text" name="army">
+            <input type="text" name="unit">
+            <input type="text" name="rank">
+            <input type="submit" value="Submit" onclick="submitform()">
+        </form>
+    </body>
+    <script>
+
+fetch("/test/input", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    title: "Test",
+    body: "I am testing!",
+    userId: 1,
+  }),
+}).then((response) => console.log(response));
+    </script>
+
+<script src="//cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
+</html>
+
