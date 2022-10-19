@@ -3,6 +3,8 @@ from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from app.models.inspection_log import InspectionLog
 from app.models.inspection_detail import InspectionDetail
+from app.schemas.inspection_detail import InspectionDetailUpdateStatus, InspectionDetailUpdateValidity, InspectionDetailResponse
+from app.schemas.inspection_detail import InspectionLogUpdateCheck, InspectionLogResponse
 
 
 def get_logs(db: Session, military_unit: int, rank: int = None, name: str = None, appearance_type: int = None, start_date: date = None, end_date: date = None):
@@ -83,3 +85,39 @@ def get_log_details(db: Session, inspection_id: int):
         details.append(detail)
 
     return details
+
+
+def update_log_check(db: Session, inspection_id: int, is_checked: InspectionLogUpdateCheck):
+    log = db.query(InspectionLog).filter_by(inspection_id=inspection_id)
+    if not log.count():
+        return InspectionLogResponse(success=False, message="entry not found")
+    elif type(is_checked.is_checked) != bool:
+        return InspectionLogResponse(success=False, message="invalid type")
+    else:
+        log.update(is_checked.dict())
+        db.commit()
+        return InspectionLogResponse(success=True, message=inspection_id)
+
+
+def update_log_detail_status(db: Session, detail_id: int, status: InspectionDetailUpdateStatus):
+    detail = db.query(InspectionDetail).filter_by(detail_id=detail_id)
+    if not detail.count():
+        return InspectionDetailResponse(success=False, message="entry not found")
+    elif type(status.status) != bool:
+        return InspectionDetailResponse(success=False, message="invalid type")
+    else:
+        detail.update(status.dict())
+        db.commit()
+        return InspectionDetailResponse(success=True, message=detail_id)
+
+
+def update_log_detail_validity(db: Session, detail_id: int, is_valid: InspectionDetailUpdateValidity):
+    detail = db.query(InspectionDetail).filter_by(detail_id=detail_id)
+    if not detail.count():
+        return InspectionDetailResponse(success=False, message="entry not found")
+    elif type(is_valid.is_valid) != bool:
+        return InspectionDetailResponse(success=False, message="invalid type")
+    else:
+        detail.update(is_valid.dict())
+        db.commit()
+        return InspectionDetailResponse(success=True, message=detail_id)
