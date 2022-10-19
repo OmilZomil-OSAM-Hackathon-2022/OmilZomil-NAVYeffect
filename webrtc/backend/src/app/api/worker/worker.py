@@ -37,18 +37,14 @@ class Worker:
             raise Exception
 
 class SingleWorker(Worker):
-    
+    def __init__(self, ws, ai):
+        super().__init__(ws)
+        self.ai = ai
 
-    def add_task(self, path, ai):
+    def add_task(self, path):
         # 그냥 실행
-
-        # worker가 미실행인 경우 생성
-        if not self.is_run:
-            print("worker 생성")
-            proc = Process(target=self.run, args=(self.q,))
-            proc.start()
-        else:
-            pass
+        return self.run(path)
+    
         
 
     def run(self, path):
@@ -68,10 +64,4 @@ class SingleWorker(Worker):
 
         }
         msg.update(result)
-        print("업무 처리 완료 전달 직전")
-        async def send_msg():
-            await self.ws.send_json(msg)
-        asyncio.get_running_loop().run_until_complete(send_msg())
-
-        print("============================ 완료 ===============")
-
+        return msg
