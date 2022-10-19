@@ -1,10 +1,9 @@
 import axios from "axios";
 import stores from '@/stores'
 
-const http = axios.create({
+const http = process.env.VUE_APP_LOCAL !== null ? axios.create({
     baseURL:'https://127.0.0.1:80',
-    // headers: { "content-type": "application/json" },
-})
+}):axios.create({});
 
 http.interceptors.request.use(
     config => {
@@ -18,7 +17,5 @@ http.interceptors.request.use(
       Promise.reject(error)
     }
   );
-
-// http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 export default http;

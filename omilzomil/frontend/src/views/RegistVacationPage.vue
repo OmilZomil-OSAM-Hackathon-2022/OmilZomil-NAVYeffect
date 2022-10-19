@@ -11,21 +11,6 @@
           <div>{{ user.dogTag }}</div>
         </div>
         <div class="term">
-          <div class="gaurdroom">
-            위병소
-            <div :class="['dropdown',{'active':gaurdroomList.length > 0}]">
-              <input placeholder="위병소 이름">
-              <div class="dropdown-list">
-                <div
-                  v-for="(item,idx) in gaurdroomList"
-                  :key="idx"
-                  class="ditem"
-                >
-                  {{ item }}
-                </div>
-              </div>
-            </div>
-          </div>
           <div class="datepicker-wrap">
             시작일
             <Datepicker
@@ -161,7 +146,7 @@ class Vacation{
   }
 
   .search-card{
-    height:183px;
+    height:140px;
     flex-direction: column;
     justify-content: flex-start;
   }
@@ -171,9 +156,9 @@ class Vacation{
     height:100%;
     padding:0px 54px;
     display:flex;
-    flex-direction: column;
-    /* align-items: center; */
-    justify-content:center;
+    /* flex-direction: column; */
+    align-items: center;
+    justify-content:space-between;
     gap:33px;
   }
 
@@ -197,7 +182,6 @@ class Vacation{
   .term{
     display:flex;
     align-items:center;
-    width:100%;
     justify-content: flex-end;
   }
 
