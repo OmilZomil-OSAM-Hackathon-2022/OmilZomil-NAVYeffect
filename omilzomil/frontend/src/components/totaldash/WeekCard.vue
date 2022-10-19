@@ -23,10 +23,10 @@
       type="bar"
       :options="getOption"
       :series="[{
-        name: '불량수',
+        name: '불량률',
         data: data
       }]"
-      height="120px"
+      height="135px"
     />
   </div>
   <!-- </div> -->
@@ -125,6 +125,7 @@ export default {
 .card{
     flex-direction:column;
     justify-content:flex-start;
+    height:189px;
 }
 .df{
     display:flex;

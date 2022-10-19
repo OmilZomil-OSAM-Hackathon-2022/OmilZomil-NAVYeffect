@@ -132,6 +132,16 @@ const routes = [
           leaveClass: "animate__animated animate__fadeOutRight",
         },
         component:()=>import('../components/profile/GuardroomManagement.vue'),
+      },
+      {
+        path:'vacationManagement',
+        name:'VacationManagement',
+        beforeEnter:beforeAuth(true),
+        meta:{
+          enterClass: "animate__animated animate__fadeInLeft",
+          leaveClass: "animate__animated animate__fadeOutRight",
+        },
+        component:()=>import('../components/profile/VacationManagement.vue'),
       }
     ]
   },
