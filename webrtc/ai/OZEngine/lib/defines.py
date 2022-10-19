@@ -15,7 +15,8 @@ class Color:
     RED = (0, 0, 255)
     PURPLE = (173, 119, 137)
     WHITE = (255, 255, 255)
-    TARGET = (61, 255, 45)
+    PARTS_BOX = (61, 255, 45)
+    FACE_BOX = (145, 85, 235)
 
 class FullDressUniformMask:
     pass
