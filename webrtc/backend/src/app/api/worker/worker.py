@@ -32,16 +32,16 @@ class SingleWorker(Worker):
     def add_task(self, path, ai):
         # 이미지를 읽어 ai 동작
         img = cv2.imread(path)
-        result = self.ai.detect(img)
+        result = ai.detect(img)
         # 이전 데이터 갱신
 
         # DB에 저장
 
-
+        result_photo  = self.img_2_photo(img)
         # 메세지 제작
         msg =  {
             "photo": result_photo,
-            "person": person_result,
+            "ai_result": result,
             "path": path,
         }
         msg.update(result)
