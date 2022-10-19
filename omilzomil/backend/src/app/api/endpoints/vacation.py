@@ -21,7 +21,7 @@ def get_vacations(user_id: int, db: Session = Depends(deps.get_db)):
 
 
 @router.get("/", response_model=List[schema.VacationRead])
-def get_vacations_from_unit(user_id: int, db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
+def get_vacations_from_unit(db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_user)):
     return crud.get_vacations(db, unit_id=current_user.military_unit)
 
 
