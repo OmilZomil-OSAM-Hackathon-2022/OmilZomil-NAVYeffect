@@ -27,10 +27,10 @@ class OmilZomil:
         self.train_mode = train_mode
         self.frame_cnt = 0
 
-    def demo(self, img):
-        morphed_edge, ret = self.morph_engine.detect_edge(img)
+    def demo(self, img, info_dic):
+        # morphed_edge, ret = self.morph_engine.detect_edge(img)
         hed_edge = self.HED_engine.detect_edge(img, 500, 500)
-        self.debug({'demo':morphed_edge}, msg='morphed')
+        # self.debug({'demo':morphed_edge}, msg='morphed')
         self.debug({'demo':hed_edge}, msg='hed')
 
     def debug(self, debug_img, msg=""):
@@ -144,7 +144,7 @@ class OmilZomil:
             self.debug(roi_dic, msg="roi")
             self.debug(result_dic['masked_img'], msg="masked")
             self.debug({"result":boxed_img}, msg="res")
-            self.demo(img)
+            self.demo(img, result_dic)
             
         self.frame_cnt += 1
         return {'component':result_dic['component'], 'box_position': result_dic['box_position']}
