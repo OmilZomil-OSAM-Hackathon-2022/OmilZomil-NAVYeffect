@@ -4,9 +4,9 @@
       <CardHead title="휴가신청" />
       <div class="search-content">
         <div class="user-info">
-          <div>{{ getUser.affiliation }}</div>
-          <div>{{ getUser.military_unit }}</div>
-          <div>{{ getUser.rank }}</div>
+          <div>{{ getUser.affiliation_title }}</div>
+          <div>{{ getUser.unit_title }}</div>
+          <div>{{ getUser.rank_title }}</div>
           <div>{{ getUser.full_name }}</div>
           <div>{{ getUser.dog_number }}</div>
         </div>
@@ -120,6 +120,7 @@ const format = (date) => {
                 end_date:format(this.endDate)
               }) ;
               if(data.success){
+                this.getList();
                 alert('신청이 완료되었습니다.');
               }else{
                 alert('날짜를 확인해주세요.');
@@ -157,7 +158,7 @@ const format = (date) => {
   }
 
   .search-card{
-    height:140px;
+    height:183px;
     flex-direction: column;
     justify-content: flex-start;
   }
@@ -167,9 +168,9 @@ const format = (date) => {
     height:100%;
     padding:0px 54px;
     display:flex;
-    /* flex-direction: column; */
+    flex-direction: column;
     align-items: center;
-    justify-content:space-between;
+    justify-content: center;
     gap:33px;
   }
 
@@ -188,12 +189,15 @@ const format = (date) => {
   .user-info{
     display:flex;
     align-items:center;
+    justify-content:flex-start;
+    width:100%;
     gap:24px;
   }
   .term{
     display:flex;
     align-items:center;
     justify-content: flex-end;
+    width:100%;
   }
 
   .regist{
