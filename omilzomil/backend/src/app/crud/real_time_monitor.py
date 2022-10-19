@@ -3,7 +3,7 @@ from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from app.models.inspection_log import InspectionLog
 from app.models.inspection_detail import InspectionDetail
-from app.schemas.inspection_detail import InspectionDetailUpdateValidity, InspectionDetailResponse
+from app.schemas.inspection_detail import InspectionDetailUpdateStatus, InspectionDetailUpdateValidity, InspectionDetailResponse
 
 
 def get_logs(db: Session, military_unit: int, rank: int = None, name: str = None, appearance_type: int = None, start_date: date = None, end_date: date = None):
@@ -84,6 +84,18 @@ def get_log_details(db: Session, inspection_id: int):
         details.append(detail)
 
     return details
+
+
+def update_log_detail_status(db: Session, detail_id: int, status: InspectionDetailUpdateStatus):
+    detail = db.query(InspectionDetail).filter_by(detail_id=detail_id)
+    if not detail.count():
+        return InspectionDetailResponse(success=False, message="entry not found")
+    elif type(status.status) != bool:
+        return InspectionDetailResponse(success=False, message="invalid type")
+    else:
+        detail.update(status.dict())
+        db.commit()
+        return InspectionDetailResponse(success=True, message=detail_id)
 
 
 def update_log_detail_validity(db: Session, detail_id: int, is_valid: InspectionDetailUpdateValidity):
