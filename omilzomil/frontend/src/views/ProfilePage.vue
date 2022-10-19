@@ -7,13 +7,13 @@
         </router-link>
         <router-link
           v-if="user.role > 2"
-          to="/profile/userManagement"
+          to="/profile/UserManagement"
         >
           사용자 관리
         </router-link>
         <router-link
           v-if="user.role > 2"
-          to="/profile/unitManagement"
+          to="/profile/UnitManagement"
         >
           부대 관리
         </router-link>
@@ -22,6 +22,12 @@
           to="/profile/GuardroomManagement"
         >
           위병소 관리
+        </router-link>
+        <router-link
+          v-if="user.role > 2"
+          to="/profile/VacationManagement"
+        >
+          휴가 관리
         </router-link>
       </div>
       <router-view v-slot="{Component, route}">

@@ -7,7 +7,7 @@ class RandomAI:
         self.kind = random.choice(["black", 'blue', 'green'])
 
     def predict(self, list=[True, False]):
-        return random.choices([True, False], weights = [0.2, 0.8])[0]
+        return random.choices([True, False], weights = [0.1, 0.9])[0]
 
     def detect(self, img):
         return {
@@ -17,5 +17,6 @@ class RandomAI:
             "leveltag" : self.predict(),
             "muffler" : self.predict(),
             "neck" : self.predict(),
+            "flag" : self.predict(),
             
         }

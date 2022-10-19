@@ -29,6 +29,7 @@ class ImageBroker(SimpleBroker):
         if not person_result:
             print(person_result)
             result_photo = self.read_img(path)
+            # 메모리 확인
             memory_usage()
             
             # 삭제
@@ -76,33 +77,49 @@ class ImageBroker(SimpleBroker):
             print("이미지 삭제 실패")
             raise Exception
 
-"""
 
+class RandomImageBroker(ImageBroker):
 
+    def __init__(self, ws, id, db):
+        super().__init__(ws, id, db)
+        self.ai = RandomAI()
 
-class SingleBroker(Broker):
-    def __init__(self, ws, id):
-        super().__init__(ws, id)
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.connect((IP, PORT))
-    
-    def send_task(self, msg):
-        # self.socket.sendall(bytes(msg, 'ascii'))
-        path = msg
-        img = cv2.imread(path)
-        print(img)
-        return check_omil(img)
-        pass
+    def execute_task(self, photo, work_start):
+        # 파일 경로 지정
+        name = datetime.now().strftime("%H-%m-%s")
+        path = f'{self.SAVE_PATH}/{self.id}_{name}.jpg'
 
-class SocketBroker(Broker):
-    
-    def __init__(self, ws, id):
-        super().__init__(ws, id)
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.connect((IP, PORT))
-    
-    def send_task(self, msg):
-        self.socket.sendall(bytes(msg, 'ascii'))
-        # return check_omil(img)
-        pass
-"""
+        person_result = self.capture_human(photo=photo, path=path)
+
+        # 사람 유무 판별
+        if person_result:
+            # 이미지 읽기
+            print(f"이미지 읽기 - {path}")
+            img = cv2.imread(path)
+            memory_usage()
+            # ai인식
+            result = self.ai.detect(img)
+            result_photo = self.img_2_photo(img)
+
+            # 메세지 제작
+            msg =  {
+                "photo": result_photo,
+                "person": person_result,
+                "path": path,
+            }            
+            msg.update(result)
+            
+            # 삭제
+            self.delete_img(path)
+            return msg
+
+        else:
+            print(person_result)
+            # 처리 결과 반환
+            msg = {
+                "photo": photo,
+                "person": person_result,
+                "path": path,
+            }
+
+            return msg
