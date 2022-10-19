@@ -13,9 +13,10 @@ class BrokerBase:
     """
     테스트용으로 단순 전달
     """
-    def __init__(self, ws, id):
+    def __init__(self, ws, id, db):
         self.id = id
         self.ws = ws
+        self.db = db
 
     def execute_task(self, photo, work_start):
         return {
@@ -44,8 +45,8 @@ class SimpleBroker(BrokerBase):
     단지 카메라 객체만 유지
     DB에 저장 X
     """
-    def __init__(self, ws, id):
-        super().__init__(ws, id)
+    def __init__(self, ws, id, db):
+        super().__init__(ws, id, db)
         # self.omil_detector = OmilZomil(uniform_type='FULL_DRESS')
         self.person_detector = PersonDetector()
         self.ai = RandomAI()
