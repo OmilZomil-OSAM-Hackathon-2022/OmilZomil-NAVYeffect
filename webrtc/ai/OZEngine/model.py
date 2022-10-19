@@ -61,18 +61,20 @@ class OmilZomil:
             if name != 'shirt' and box_position is not None:
                 x, y, w, h = box_position
                 roi = org_img[y:y+h, x:x+w]
-                cv2.rectangle(img, (x, y), (x+w, y+h), Color.PURPLE, 5)
+                cv2.rectangle(img, (x, y), (x+w, y+h), Color.TARGET, 5)
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 margin = 30
                 if name == 'mahura':
                     y -= (10 + margin)
                 else:
                     y += h+margin
-
-                cv2.putText(img, name, (x, y), font, 1, Color.PURPLE, 3)
+                
+                msg = name.split('_')[0]
+                # if name == 'class_tag':
+                #     msg += info_dic['component']
+                cv2.putText(img, msg, (x, y), font, 1, Color.TARGET, 3)
                 if info_dic.get('probability'):
-                    print(type(info_dic['probability'][name]), info_dic['probability'][name])
-                    cv2.putText(img, str(info_dic['probability'][name]), (x, y+30), font, 1, Color.PURPLE, 3)
+                    cv2.putText(img, str(info_dic['probability'][name]*100) + '%', (x, y+30), font, 1, Color.TARGET, 3)
                 
                 roi_dic[name] = roi
 
@@ -142,7 +144,7 @@ class OmilZomil:
             self.debug(roi_dic, msg="roi")
             self.debug(result_dic['masked_img'], msg="masked")
             self.debug({"result":boxed_img}, msg="res")
-            # self.demo(shirt_img)
+            self.demo(img)
             
         self.frame_cnt += 1
         return {'component':result_dic['component'], 'box_position': result_dic['box_position']}
