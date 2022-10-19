@@ -5,12 +5,8 @@ import numpy as np
 import pathlib
 import os
 
-cur_file_path = pathlib.Path().absolute()
-print(cur_file_path)
-
 if __file__:
     cur_dir = os.path.dirname(os.path.realpath(__file__))
-    print(cur_dir)
     MODEL_PATH = os.path.join(
         cur_dir, 'weights', 'hed_pretrained_bsds.caffemodel')
     PROTO_TXT_PATH = os.path.join(cur_dir, 'deploy.prototxt')
