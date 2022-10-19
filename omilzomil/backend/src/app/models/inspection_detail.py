@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, UniqueConstraint
 from app.db.base_schema import Base
 from app.models.inspection_log import InspectionLog
 from app.models.appearance import Appearance
@@ -13,3 +13,4 @@ class InspectionDetail(Base):
     status = Column(Boolean, nullable=False)
     is_valid = Column(Boolean, default=True)
     image_path = Column(String(128), nullable=False)
+    __table_args__ = (UniqueConstraint("inspection_id", "appearance_type", name="_id_type_uc"),)
