@@ -6,6 +6,7 @@ from app.core.config import settings
 
 # from app.ai.OZEngine.model import OmilZomil
 from app.ai.OZEngine.person_detectors.PersonDetector import PersonDetector
+from app.api.worker.random_ai import RandomAI
 
 
 class BrokerBase:
@@ -47,17 +48,28 @@ class SimpleBroker(BrokerBase):
         super().__init__(ws, id)
         # self.omil_detector = OmilZomil(uniform_type='FULL_DRESS')
         self.person_detector = PersonDetector()
+        self.ai = RandomAI()
+
 
 
     def execute_task(self, photo, work_start):
 
         # 사진 분석
-        img = self.capture(photo)
+        img = self.photo_2_img(photo)
         person_result = self.person_detector.detect(img)
-
-        # 처리 결과 반환
-        return {
-            "photo": photo,
-            "person": person_result,
-        }
+        if person_result:
+            msg =  {
+                "photo": photo,
+                "person": person_result,
+            }
+            result = self.ai.detect(img)
+            msg.update(result)
+            # 처리 결과 반환
+            return msg
+        else:
+            # 처리 결과 반환
+            return {
+                "photo": photo,
+                "person": person_result,
+            }
 

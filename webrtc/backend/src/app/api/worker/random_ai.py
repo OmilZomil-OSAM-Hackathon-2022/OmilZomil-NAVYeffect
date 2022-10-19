@@ -7,7 +7,7 @@ class RandomAI:
         self.kind = random.choice(["black", 'blue', 'green'])
 
     def predict(self, list=[True, False]):
-        return random.choices([True, False], weights = [0.2, 0.8])
+        return random.choices([True, False], weights = [0.2, 0.8])[0]
 
     def detect(self, img):
         return {
