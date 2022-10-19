@@ -101,12 +101,12 @@ class OmilZomil:
         person_base_point = person_box[0]
         person_img = box2img(img, person_box)
         if person_img is None:
-            return None, None
+            return None
         
         # 얼굴인식
         face_box = self.face_detector.detect(person_img)
         if face_box is None:
-            return None, None
+            return None
 
         face_img = box2img(person_img, face_box)
 
@@ -135,7 +135,7 @@ class OmilZomil:
             elif self.uniform_type == UniformType.dic['FULL_DRESS']:
                 self.uniform_checker = FullDressUniformChecker(self.train_mode)
             else:
-                return None, None, None
+                return None
 
         # 옷 종류별로 분기를 나눔
         result_dic = self.uniform_checker.checkUniform(shirt_img)
