@@ -32,21 +32,54 @@ def get_logs(db: Session, military_unit: int, rank: int = None, name: str = None
     hair_status = query.filter(InspectionDetail.appearance_type == 1).filter(InspectionDetail.status == False).count() == 0
     appearance_status = query.filter(InspectionDetail.appearance_type > 1).filter(InspectionDetail.status == False).count() == 0
 
-    ret = list()
+    logs = list()
     for entry in query.all():
-        ret.append(
-            {
-                "inspection_id": entry.inspection_id,
-                "access_time": entry.access_time,
-                "affiliation": entry.affiliation,
-                "rank": entry.rank,
-                "name": entry.name,
-                "uniform": entry.uniform,
-                "hair_status": hair_status,
-                "appearance_status": appearance_status,
-                "image_path": entry.image_path,
-                "is_checked": entry.is_checked,
-            }
-        )
+        log = {
+            "inspection_id": entry.inspection_id,
+            "access_time": entry.access_time,
+            "affiliation": entry.affiliation,
+            "rank": entry.rank,
+            "name": entry.name,
+            "uniform": entry.uniform,
+            "hair_status": hair_status,
+            "appearance_status": appearance_status,
+            "image_path": entry.image_path,
+            "is_checked": entry.is_checked,
+        }
+        logs.append(log)
 
-    return ret
+    return logs
+
+
+def get_log_details(db: Session, inspection_id: int):
+    log = db.query(InspectionLog).get(inspection_id)
+    if log is None:
+        return list()
+
+    types = list()
+    if log.uniform == 2:
+        types = [1, 2, 3, 5]
+    elif log.uniform == 3:
+        types = [1, 2, 3, 5, 6, 7]
+    elif log.uniform == 4:
+        types = [1, 2, 3, 4, 5]
+
+    query = db.query(InspectionDetail).filter_by(inspection_id=inspection_id)
+
+    details = list()
+    for appearance_type in types:
+        detail = query.filter_by(appearance_type=appearance_type)
+        if detail.count() == 0:
+            continue
+
+        detail = detail.first()
+        detail = {
+            "detail_id": detail.detail_id,
+            "apperance_type": detail.apperance_type,
+            "status": detail.status,
+            "is_valid": detail.is_valid,
+            "image_path": detail.image_path,
+        }
+        details.append(detail)
+
+    return details
