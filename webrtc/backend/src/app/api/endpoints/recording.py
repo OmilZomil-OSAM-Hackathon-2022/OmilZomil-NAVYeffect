@@ -17,11 +17,7 @@ from loguru import logger
 import uuid
 
 
-from app.api.websocket.connections import ConnectionManager
 from app.api.broker.create import create_broker
-
-# 관리 객체
-socket_mng = ConnectionManager()
 
 router1 = APIRouter()
 router2 = APIRouter()
@@ -62,6 +58,8 @@ async def websocket_endpoint(url, websocket: WebSocket):
                 await websocket.send_json(msg)
             # 1차 처리 로그 출력
             print(f'테스크 1차 처리 완료: {url} - {camera_id} : {datetime.now() - work_start}')
+            print()
+            print()
 
 
     except WebSocketDisconnect:

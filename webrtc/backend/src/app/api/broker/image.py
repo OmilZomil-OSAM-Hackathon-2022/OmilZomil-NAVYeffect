@@ -29,6 +29,7 @@ class ImageBroker(SimpleBroker):
         if not person_result:
             print(person_result)
             result_photo = self.read_img(path)
+            # 메모리 확인
             memory_usage()
             
             # 삭제
