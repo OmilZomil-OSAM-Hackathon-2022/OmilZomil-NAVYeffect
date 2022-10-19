@@ -17,5 +17,6 @@ class RandomAI:
             "leveltag" : self.predict(),
             "muffler" : self.predict(),
             "neck" : self.predict(),
+            "flag" : self.predict(),
             
         }
