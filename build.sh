@@ -49,12 +49,12 @@ sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock build
 
 # 프론트 빌드
 echo [+] frontend build
-sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up web_vue
-sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up camera_vue
+sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up omilzomil_front
+sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up webrtc_front
 
 echo [+] frontend build 대기
 
-while sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock ps --services --filter status=running | grep -q 'vue'; do
+while sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock ps --services --filter status=running | grep -q 'front'; do
     echo `sudo docker-compose --env-file .env.lock ps --services --filter status=running`
     wait_time=`date +%T`
     echo frontend $wait_time
@@ -69,7 +69,7 @@ sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up -d db
 
 # DB 테이블 만들기 - omilzomil backend 참조
 echo [+] make db tables
-sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock run --rm web python src/initial_data.py
+sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock run --rm omilzomil python src/initial_data.py
 
 
 # ============== 기타 잔여 파일 컨테이너 캐쉬 삭제
