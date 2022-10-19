@@ -67,7 +67,7 @@ class OmilZomil:
         cv2.rectangle(img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
         
         for name, box_position in info_dic['box_position'].items():
-            if name != 'shirt' and box_position is not None:
+            if name != 'shirt' and name != 'face' and box_position is not None:
                 x, y, w, h = box_position
                 roi = org_img[y:y+h, x:x+w]
                 
@@ -84,7 +84,8 @@ class OmilZomil:
                 #     msg += info_dic['component']
                 cv2.putText(img, msg, (x, y), font, 1, Color.PARTS_BOX, 3)
                 if info_dic.get('probability'):
-                    cv2.putText(img, str(info_dic['probability'][name]*100) + '%', (x, y+30), font, 1, Color.PARTS_BOX, 3)
+                    probability = round(info_dic['probability'][name]*100, 2)
+                    cv2.putText(img, str(probability) + '%', (x, y+30), font, 1, Color.PARTS_BOX, 3)
                 
                 roi_dic[name] = roi
 
@@ -146,15 +147,18 @@ class OmilZomil:
                 x += base_point[1]
                 y += base_point[0]
                 result_dic['box_position'][name] = (x, y, w, h)
+
+        
             
         # 최종 debug 여부 확인
         if self.debug_list:
             # for debug
-            result_dic['box_position']['face']
-            result_dic['box_position']['face'] = face_box
+            result_dic['box_position']['face'] = [face_box[0][1], face_box[0][0], face_box[1][1]-face_box[0][1], face_box[1][0]-face_box[0][0]]
+            result_dic['box_position']['face'][0] += person_base_point[1]
+            result_dic['box_position']['face'][1] += person_base_point[0]
 
             boxed_img, roi_dic = self.boxImage(input_img, result_dic)
-
+            
             # plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic, msg="roi")
             self.debug(result_dic['masked_img'], msg="masked")
