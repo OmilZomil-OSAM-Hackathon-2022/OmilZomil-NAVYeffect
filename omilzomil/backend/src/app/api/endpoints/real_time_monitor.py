@@ -24,3 +24,16 @@ def get_logs(
         return {"success": False, "message": current_user.message}
 
     return crud.get_logs(db, current_user.military_unit, rank, name, appearance_type, start_date, end_date)
+
+
+@router.get("/detail/{inspection_id}")
+def get_log_details(
+    inspection_id,
+    int,
+    db: Session = Depends(deps.get_db),
+    current_user: UserReadResponse = Depends(deps.get_current_user),
+):
+    if not current_user.success:
+        return {"success": False, "message": current_user.message}
+
+    return crud.get_log_details(db, inspection_id)
