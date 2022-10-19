@@ -33,9 +33,12 @@ class SingleWorker(Worker):
         # 이미지를 읽어 ai 동작
         img = cv2.imread(path)
         result = ai.detect(img)
+
+        print("AI 처리")
         # 이전 데이터 갱신
 
         # DB에 저장
+        print("DB에 저장")
 
         result_photo  = self.img_2_photo(img)
         # 메세지 제작

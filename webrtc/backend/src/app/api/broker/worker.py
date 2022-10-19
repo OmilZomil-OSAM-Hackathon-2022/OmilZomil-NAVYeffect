@@ -36,6 +36,7 @@ class SingleWorkerBroker(WorkerBroker):
             if now_time - self.last_person_time > timedelta(seconds=EMPTY_PERSON_SECOND):
                 self.now_worker = self.worker_creater()
             # worker 동작
+            print("사람 인식 worker에게 지시")
             result = self.order_worker(path)
             msg={
                 "worker" : "사람 인식하여 worker 실행중임"
