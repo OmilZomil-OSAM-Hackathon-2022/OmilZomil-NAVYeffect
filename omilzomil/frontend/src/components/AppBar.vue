@@ -191,7 +191,7 @@
             >
               <BookAccount />
             </IconBase>
-            휴가 관리
+            휴가 신청
             <!-- <img src="@/assets/icons/trophy-variant.svg"/>랭킹 -->
           </div>
         </router-link>
@@ -250,6 +250,7 @@ export default {
 <style scoped >
 /* @import '@/assets/styles/common.css'; */
 .app-bar{
+    font-family: 'Roboto';
     width:100%;
     background: var(--color-appbar);
     box-shadow: 0px 4px 25px rgba(145, 85, 235, 0.03);

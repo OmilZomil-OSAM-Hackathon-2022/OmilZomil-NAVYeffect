@@ -23,6 +23,12 @@
         >
           위병소 관리
         </router-link>
+        <router-link
+          v-if="user.role > 2"
+          to="/profile/VacationManagement"
+        >
+          휴가 관리
+        </router-link>
       </div>
       <router-view v-slot="{Component, route}">
         <transition
