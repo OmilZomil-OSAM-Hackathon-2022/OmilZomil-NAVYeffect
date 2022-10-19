@@ -1,8 +1,8 @@
 <template>
   <div class="card">
     <CardHead title="주간 불량 통계" />
-    <div class="df">
-      <div class="info">
+    <!-- <div class="df"> -->
+    <!-- <div class="info">
         <div class="df-col">
           <number
             :from="0"
@@ -17,31 +17,36 @@
           :percent="3"
           :reverse="true"
         />
-      </div>
-      <apexchart
-        type="bar"
-        :options="getOption"
-        :series="series"
-      />
-    </div>
+      </div> -->
+    <apexchart
+      v-if="!isLoading"
+      type="bar"
+      :options="getOption"
+      :series="[{
+        name: '불량수',
+        data: data
+      }]"
+      height="120px"
+    />
   </div>
+  <!-- </div> -->
 </template>
 
 <script>
 import CardHead from '../CardHead.vue';
-import PercentTag from '../common/PercentTag.vue';
+// import PercentTag from '../common/PercentTag.vue';
 
+const days = ["일","월","화","수","목","금","토"];
 export default {
-    components: { CardHead, PercentTag },
+    components: { CardHead },
     // props:{
 
     // }
     data(){
         return{
-            series: [{
-                name: '불량수',
-                data: [30, 40, 45, 50, 49, 60, 70]
-            }],
+            data:[],
+            isLoading:true,
+            labels:[],
         }
     },
     computed: {
@@ -79,7 +84,7 @@ export default {
                     lines:{
                         show:false,
                     },
-                    categories: ["월","화","수","목","금","토","일"],
+                    categories: this.labels,
                     axisBorder: {
                         show: false,
                     },
@@ -99,13 +104,27 @@ export default {
         return options;
       }
     },
+    async mounted(){
+        try{
+            const {data} = await this.$axios.get('/stats/week/fail/');
+            for(var key in data){
+                if(key == 'success' || key == 'message' || key == 'count' || key == 'fail_rate' || key == 'increase_rate')continue;
+                this.data.push(data[key]);
+                this.labels.push(days[new Date(key).getDay()]);
+            }
+        }catch(err){
+            console.log(err);
+        }
+        this.isLoading=false;
+    },
 }
 </script>
 
 <style scoped>
+
 .card{
-    flex-direction: column;
-    justify-content: flex-start;
+    flex-direction:column;
+    justify-content:flex-start;
 }
 .df{
     display:flex;

@@ -297,7 +297,7 @@ export default {
           })
           .then((response) => {
             if(response.data.success){
-              this.$router.push('/')
+              this.$router.push('/login')
             }else{
               if(response.data.message.includes('dog_number')){
                 this.dogTag.check = 3;

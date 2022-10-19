@@ -58,7 +58,7 @@ export default {
         }
     },
     async mounted(){
-      const url = this.type == 0 ? '/stats/unit/best/unit':'/stats/unit/best/person'
+      const url = this.type == 0 ? '/stats/month/unit/best/unit':'/stats/month/unit/best/person'
       try{
         const {data} = await this.$axios.get(url);
         // console.log(data);

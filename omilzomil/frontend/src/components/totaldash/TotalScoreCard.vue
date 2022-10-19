@@ -38,15 +38,21 @@
 import PercentTag from '../common/PercentTag.vue';
 export default {
     components: { PercentTag },
-    props: {
-        totalCount: {
-            type: Number,
-            default: 0
-        },
-        percent: {
-            type: Number,
-            default: 0
-        }
+    data(){
+      return{
+        totalCount:0,
+        percent:0
+      }
+       
+    },
+    async mounted(){
+      try{
+        const {data} = await this.$axios.get('/stats/month/fail/');
+        this.totalCount = data.count;
+        this.percent = data.increase_rate;
+      }catch(err){
+        console.log(err);
+      }
     }
 }
 </script>
