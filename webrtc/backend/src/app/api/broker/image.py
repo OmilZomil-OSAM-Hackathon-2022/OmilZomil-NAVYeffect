@@ -80,8 +80,8 @@ class ImageBroker(SimpleBroker):
 
 class RandomImageBroker(ImageBroker):
 
-    def __init__(self, ws, id):
-        super().__init__(ws, id)
+    def __init__(self, ws, id, db):
+        super().__init__(ws, id, db)
         self.ai = RandomAI()
 
     def execute_task(self, photo, work_start):

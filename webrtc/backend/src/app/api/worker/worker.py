@@ -7,6 +7,9 @@ import asyncio
 from multiprocessing import Process, Queue
 
 class Worker:
+    def __init__(self, db):
+        self.result_state = None
+        self.db = db
 
     def photo_2_img(self, photo):
         img = cv2.imdecode(np.fromstring(base64.b64decode(photo.split(',')[1]), np.uint8), cv2.IMREAD_COLOR)        
@@ -26,7 +29,8 @@ class Worker:
 
 
 class SingleWorker(Worker):
-    def __init__(self):
+    def __init__(self, db):
+        super().__init__(db)
         self.result_state = None
 
     def add_task(self, path, ai):

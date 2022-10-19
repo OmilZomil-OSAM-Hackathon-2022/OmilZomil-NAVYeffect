@@ -10,12 +10,12 @@ from app.api.worker.worker import SingleWorker
 EMPTY_PERSON_SECOND = 10
 
 class WorkerBroker(ImageBroker):
-    def __init__(self, ws, id):
-        super().__init__(ws, id)
+    def __init__(self, ws, id, db):
+        super().__init__(ws, id, db)
   
 class SingleWorkerBroker(WorkerBroker):
-    def __init__(self, ws, id):
-        super().__init__(ws, id)
+    def __init__(self, ws, id, db):
+        super().__init__(ws, id, db)
         self.worker_creater = SingleWorker  # worker 생성 클래스
         self.now_worker = None      # 현재 동작중인 worker
         self.last_person_time = datetime.now() - timedelta(seconds=EMPTY_PERSON_SECOND) # 처음은 무조건 새로운 사람이니깐
@@ -34,7 +34,7 @@ class SingleWorkerBroker(WorkerBroker):
         if person_result:
             # 해당 시간동안 사람이 없었는 경우 => 새로운 사람이다.
             if now_time - self.last_person_time > timedelta(seconds=EMPTY_PERSON_SECOND):
-                self.now_worker = self.worker_creater()
+                self.now_worker = self.worker_creater(self.db)
             # worker 동작
             print("사람 인식 worker에게 지시")
             result = self.order_worker(path)
@@ -64,8 +64,8 @@ class SingleWorkerBroker(WorkerBroker):
 
 class RandomSingleWorkerBroker(SingleWorkerBroker):
     
-    def __init__(self, ws, id):
-        super().__init__(ws, id)
+    def __init__(self, ws, id, db):
+        super().__init__(ws, id, db)
         self.ai = RandomAI()
 
     def order_worker(self, path):
