@@ -7,7 +7,7 @@ from app.api.worker.random_ai import RandomAI
 from app.api.worker.worker import SingleWorker
 
 
-EMPTY_PERSON_SECOND = 10
+EMPTY_PERSON_SECOND = 100
 
 class WorkerBroker(ImageBroker):
     def __init__(self, ws, id, db):
@@ -42,6 +42,9 @@ class SingleWorkerBroker(WorkerBroker):
                 "worker" : "사람 인식하여 worker 실행중임"
             }
             msg.update(result)
+
+            # 시간 갱신
+            self.last_person_time = now_time
 
 
         else:
