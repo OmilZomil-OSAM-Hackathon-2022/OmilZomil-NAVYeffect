@@ -14,7 +14,7 @@ class Worker:
         self.result_state = None
         self.db = db
         self.ai = ai
-        self.image_box = ImageBox(ai=ai, guardhouse=guardhouse)
+        self.image_box = ImageBox(db=db, ai=ai, guardhouse=guardhouse)
 
     def photo_2_img(self, photo):
         img = cv2.imdecode(np.fromstring(base64.b64decode(photo.split(',')[1]), np.uint8), cv2.IMREAD_COLOR)        
@@ -41,6 +41,7 @@ class SingleWorker(Worker):
         print("AI 처리")
         report = self.image_box.image_process(image=img, path=path)
         
+        print(report)
         # 답장
         photo  = self.img_2_photo(img)
         # 메세지 제작

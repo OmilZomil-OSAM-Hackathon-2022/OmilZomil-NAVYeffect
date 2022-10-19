@@ -40,7 +40,7 @@ async def websocket_endpoint(url, websocket: WebSocket, db: Session = Depends(de
     # 처음 접속
     await websocket.accept()
     first_data = await websocket.receive_json()
-    guardhouse = first_data['name']
+    guardhouse = 2
 
     print(f'연결 시작: {url} - {camera_id}')
     broker = create_broker(name=url, ws=websocket, id=camera_id, db=db, guardhouse=guardhouse)

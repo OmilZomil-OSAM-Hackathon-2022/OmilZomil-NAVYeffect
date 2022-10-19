@@ -9,10 +9,10 @@ class RandomAI:
         pass
 
     def get_uniform(self):
-        return random.choice(["black", 'blue', 'green'])
+        return random.choice([2, 3, 4])
 
     def get_affiliation(self):
-        return random.choice(["육군", '해군', '공군', "국직"])
+        return random.choice([2, 3, 4, 5])
 
     def predict(self, list=[True, False]):
         return random.choices([True, False], weights = [0.1, 0.9])[0]
@@ -41,5 +41,5 @@ class RandomAI:
         return random.choices([result, None], weights = [0.1, 0.9])[0]
     
     def random_rank(self):
-        rank = random.choice(["이병", '일병', '상병', "병장"])
+        rank = random.choice([2, 3, 4, 5])
         return random.choices([rank, None], weights = [0.1, 0.9])[0]
