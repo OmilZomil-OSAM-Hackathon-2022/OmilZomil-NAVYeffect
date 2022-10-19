@@ -41,7 +41,9 @@ class SingleWorker(Worker):
 
         print("AI 처리")
         # 이전 데이터 갱신
-        print(rank_crud.get_ranks(self.db))
+        data = rank_crud.get_ranks(self.db) 
+        for i in data:
+            print(i.rank)
         
 
         # DB에 저장
