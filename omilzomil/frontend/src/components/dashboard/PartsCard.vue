@@ -86,7 +86,7 @@ export default {
         }
     },
     async mounted(){
-        let url = '/stats/unit/rate/';
+        let url = '/stats/month/unit/';
         if(this.partsType == 0){
             url += '?category=hair';
             this.title = "두발 양호 인원"
