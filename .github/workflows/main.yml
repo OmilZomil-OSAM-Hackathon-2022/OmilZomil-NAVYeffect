@@ -1,0 +1,22 @@
+
+name: 117 서버에 배포
+
+on: 
+  push:            
+    branches: [ "main" , "devops/hotfix", "development"]
+
+jobs:
+  Build-ssh-action:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - name: 경유서버에서 스크립트 실행
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEV_SERVER_IP }}          
+          username: ${{ secrets.DEV_SERVER_USER }}
+          key: ${{ secrets.DEV_SERVER_PW }}
+          port: ${{ secrets.DEV_SERVER_PORT }}
+          script: |
+            sh run_github_action.sh
+
