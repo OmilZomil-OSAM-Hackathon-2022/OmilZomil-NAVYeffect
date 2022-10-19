@@ -16,7 +16,6 @@ from loguru import logger
 
 import uuid
 
-
 from app.api.broker.create import create_broker
 from app.api import deps
 
@@ -34,12 +33,17 @@ async def websocket_endpoint(url, websocket: WebSocket, db: Session = Depends(de
     버퍼 X - 파일로 저장 X
     단지 카메라 객체만 유지
     """
+    # id, time
     connect_start_time = datetime.now()
-    await websocket.accept()
     camera_id = str(uuid.uuid4())
 
+    # 처음 접속
+    await websocket.accept()
+    first_data = await websocket.receive_json()
+    guardhouse = first_data['name']
+
     print(f'연결 시작: {url} - {camera_id}')
-    broker = create_broker(name=url, ws=websocket, id=camera_id, db=db)
+    broker = create_broker(name=url, ws=websocket, id=camera_id, db=db, guardhouse=guardhouse)
 
     try:
         while True:
