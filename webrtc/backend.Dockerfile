@@ -13,7 +13,7 @@ RUN mkdir -p /omil_image/queue
 
 
 # 가중치 파일 다운로드
-RUN wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights 
+RUN wget -q https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights
 RUN mkdir -p /ai/OZEngine/person_detectors/refs/weights/
 RUN mv yolov4.weights /ai/OZEngine/person_detectors/refs/weights/yolov4.weights
 
