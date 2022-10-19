@@ -1,7 +1,10 @@
+from datetime import datetime
 import sqlalchemy.exc
 from sqlalchemy.orm import Session
 from app.models.user import User
 from app.models.vacation import Vacation
+from app.models.user import User
+from app.models.military_unit import MilitaryUnit
 from app.schemas.vacation import VacationCreate, VacationUpdateApproval, VacationResponse
 
 
@@ -32,6 +35,26 @@ def get_vacations(db: Session, user_id: int = None, unit_id: int = None):
     elif unit_id is not None:
         query = query.join(User, Vacation.user == User.user_id).filter(User.military_unit == unit_id).filter(Vacation.is_approved == None)
     return query.order_by(Vacation.start_date.desc()).all()
+
+
+def get_unit_names_from_user(db: Session, access_time: datetime, affiliation: int = None, rank: int = None, name: str = None):
+    query = (
+        db.query(MilitaryUnit)
+        .select_from(Vacation)
+        .join(User, Vacation.user == User.user_id)
+        .join(MilitaryUnit, User.military_unit == MilitaryUnit.unit_id)
+        .filter(Vacation.is_approved == True)
+        .filter(Vacation.end_date == access_time.date())
+    )
+
+    if affiliation is not None:
+        query = query.filter(User.affiliation == affiliation)
+    if rank is not None:
+        query = query.filter(User.rank == rank)
+    if name is not None:
+        query = query.filter(User.name.like(f"%{name}%"))
+
+    return query.all()
 
 
 def update_vacation_approval(db: Session, vacation_id: int, is_approved: VacationUpdateApproval):
