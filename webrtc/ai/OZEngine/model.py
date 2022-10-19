@@ -27,11 +27,16 @@ class OmilZomil:
         self.train_mode = train_mode
         self.frame_cnt = 0
 
-    def demo(self, img, info_dic):
+    def demo(self, img, info_dic=None):
         # morphed_edge, ret = self.morph_engine.detect_edge(img)
         hed_edge = self.HED_engine.detect_edge(img, 500, 500)
         # self.debug({'demo':morphed_edge}, msg='morphed')
+        if info_dic is not None:
+            hed_edge_bgr = cv2.cvtColor(hed_edge, cv2.COLOR_GRAY2BGR)
+            hed_boxed_img, roi_dic = self.boxImage(hed_edge_bgr, info_dic)
+            self.debug({'demo':hed_boxed_img}, msg='boxed_hed')
         self.debug({'demo':hed_edge}, msg='hed')
+        
 
     def debug(self, debug_img, msg=""):
         pairs = [(f'{msg} - {name}', img)
