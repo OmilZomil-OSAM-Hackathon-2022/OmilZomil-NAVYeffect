@@ -6,6 +6,60 @@ import asyncio
 
 from multiprocessing import Process, Queue
 
+class Worker:
+
+    def photo_2_img(self, photo):
+        img = cv2.imdecode(np.fromstring(base64.b64decode(photo.split(',')[1]), np.uint8), cv2.IMREAD_COLOR)        
+        return img
+    
+    def img_2_photo(self, img):
+        photo = cv2.imencode('.jpg', img)[1]
+        photo_as_text = base64.b64encode(photo)
+        return "data:image/jpeg;base64," + photo_as_text.decode('utf-8')
+    
+    def delete_img(self, path):
+        if os.path.isfile(path):
+            os.remove(path)
+        else:
+            print("이미지 삭제 실패")
+            raise Exception
+
+
+class SingleWorker(Worker):
+    def __init__(self):
+        self.result_state = None
+
+    def add_task(self, path, ai):
+        # 이미지를 읽어 ai 동작
+        img = cv2.imread(path)
+        result = self.ai.detect(img)
+        # 이전 데이터 갱신
+
+        # DB에 저장
+
+
+        # 메세지 제작
+        msg =  {
+            "photo": result_photo,
+            "person": person_result,
+            "path": path,
+        }
+        msg.update(result)
+    
+        # 프론트에게 응답
+        return msg
+
+
+
+
+        pass
+
+    pass
+
+
+
+
+"""
 
 class Worker:
     pass
@@ -65,3 +119,4 @@ class SingleWorker(Worker):
         }
         msg.update(result)
         return msg
+"""

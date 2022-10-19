@@ -93,7 +93,7 @@ class RandomImageBroker(ImageBroker):
         # 사람 유무 판별
         if person_result:
             # 이미지 읽기
-            print(f"이미지 읽기 RandomImageBroker {path}")
+            print(f"이미지 읽기 - {path}")
             img = cv2.imread(path)
             memory_usage()
             # ai인식
@@ -109,7 +109,7 @@ class RandomImageBroker(ImageBroker):
             msg.update(result)
             
             # 삭제
-            # self.delete_im/g(path)
+            self.delete_img(path)
             return msg
 
         else:
@@ -122,33 +122,3 @@ class RandomImageBroker(ImageBroker):
             }
 
             return msg
-"""
-
-
-
-class SingleBroker(Broker):
-    def __init__(self, ws, id):
-        super().__init__(ws, id)
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.connect((IP, PORT))
-    
-    def send_task(self, msg):
-        # self.socket.sendall(bytes(msg, 'ascii'))
-        path = msg
-        img = cv2.imread(path)
-        print(img)
-        return check_omil(img)
-        pass
-
-class SocketBroker(Broker):
-    
-    def __init__(self, ws, id):
-        super().__init__(ws, id)
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.connect((IP, PORT))
-    
-    def send_task(self, msg):
-        self.socket.sendall(bytes(msg, 'ascii'))
-        # return check_omil(img)
-        pass
-"""
