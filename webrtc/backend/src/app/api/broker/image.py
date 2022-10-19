@@ -93,6 +93,7 @@ class RandomImageBroker(ImageBroker):
         # 사람 유무 판별
         if person_result:
             # 이미지 읽기
+            print(f"이미지 읽기 RandomImageBroker {path}")
             img = cv2.imread(path)
             memory_usage()
             # ai인식
@@ -108,7 +109,7 @@ class RandomImageBroker(ImageBroker):
             msg.update(result)
             
             # 삭제
-            self.delete_img(path)
+            # self.delete_im/g(path)
             return msg
 
         else:
