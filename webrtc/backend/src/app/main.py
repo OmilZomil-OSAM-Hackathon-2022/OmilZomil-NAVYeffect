@@ -1,7 +1,12 @@
 import sys
 sys.path.append("./app/ai/.")
 sys.path.append("./app/ai/OZEngine/.")
-sys.path.append("./omil/.")
+
+sys.path.append("./app/.")
+
+
+
+print(sys.path)
 
 
 import app.custom_logging

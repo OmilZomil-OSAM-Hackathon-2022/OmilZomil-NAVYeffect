@@ -3,6 +3,7 @@ import base64
 import numpy as np
 import os
 import asyncio
+import omil.test
 
 from multiprocessing import Process, Queue
 
@@ -40,6 +41,8 @@ class SingleWorker(Worker):
 
         print("AI 처리")
         # 이전 데이터 갱신
+        print(rank_crud.get_ranks(self.db))
+        
 
         # DB에 저장
         print("DB에 저장")
