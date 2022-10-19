@@ -157,6 +157,5 @@ class FullDressUniformChecker(UniformChecker):
                 component_dic[name] = Classes.dic.get(int(class_n))
                 probability_dic[name] = probability
                 break
-
-        print('debug cnt ', self.debug_cnt)
+            
         return {'component':component_dic, 'box_position':box_position_dic, 'masked_img':masked_img_dic, 'probability':probability_dic}
