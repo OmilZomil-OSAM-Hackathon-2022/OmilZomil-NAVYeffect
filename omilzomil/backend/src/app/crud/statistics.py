@@ -1,3 +1,4 @@
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from app.models.inspection_log import InspectionLog
 from app.models.inspection_detail import InspectionDetail
@@ -27,7 +28,7 @@ def get_overall_stats(
 
     total = query.group_by(InspectionLog.inspection_id).count()
     if status is not None:
-        count = query.filter(InspectionDetail.is_valid == True).filter(InspectionDetail.status == False).group_by(InspectionLog.inspection_id).count()
+        count = query.filter(or_(InspectionDetail.is_valid == False, InspectionDetail.status == False)).group_by(InspectionLog.inspection_id).count()
         if status:
             count = total - count
     else:
@@ -81,8 +82,7 @@ def get_monthly_best_stats(db: Session, military_unit: int, category: str):
             .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
             .filter(InspectionLog.access_time.like(str(Date.now(day=False))))
             .filter(InspectionLog.military_unit == military_unit)
-            .filter(InspectionDetail.is_valid == True)
-            .filter(InspectionDetail.status == False)
+            .filter(or_(InspectionDetail.is_valid == False, InspectionDetail.status == False))
         )
 
         query = (
