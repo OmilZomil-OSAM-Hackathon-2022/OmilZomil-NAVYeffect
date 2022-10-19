@@ -61,6 +61,10 @@ class OmilZomil:
     def boxImage(self, org_img, info_dic):
         img = org_img.copy()
         roi_dic = {}
+
+        # for demo
+        x, y, w, h = info_dic['box_position']['face']
+        cv2.rectangle(img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
         
         for name, box_position in info_dic['box_position'].items():
             if name != 'shirt' and box_position is not None:
