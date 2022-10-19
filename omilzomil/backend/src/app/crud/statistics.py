@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session, aliased
+from sqlalchemy.orm import Session
 from app.models.inspection_log import InspectionLog
 from app.models.inspection_detail import InspectionDetail
 from app.schemas.Date import Date
@@ -81,6 +81,7 @@ def get_monthly_best_stats(db: Session, military_unit: int, category: str):
             .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
             .filter(InspectionLog.access_time.like(str(Date.now(day=False))))
             .filter(InspectionLog.military_unit == military_unit)
+            .filter(InspectionDetail.is_valid == True)
             .filter(InspectionDetail.status == False)
         )
 
