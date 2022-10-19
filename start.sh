@@ -15,13 +15,13 @@ input=$1
 if [ "$input" = "--build" ]; then
     # 프론트 빌드 - 단지 프론트 백앤드 빌드만 다시함
     echo [+] frontend build 프론트 재빌드 - 백앤드 실행 X
-    sudo docker-compose --env-file .env.lock build web_vue camera_vue
-    sudo docker-compose --env-file .env.lock up web_vue
-    sudo docker-compose --env-file .env.lock up camera_vue
+    sudo docker-compose --env-file .env.lock build omilzomil_front webrtc_front
+    sudo docker-compose --env-file .env.lock up omilzomil_front
+    sudo docker-compose --env-file .env.lock up webrtc_front
 
     echo [+] frontend build 대기
 
-    while sudo docker-compose --env-file .env.lock ps --services --filter status=running | grep -q 'vue'; do
+    while sudo docker-compose --env-file .env.lock ps --services --filter status=running | grep -q 'front'; do
         echo `sudo docker-compose --env-file .env.lock ps --services --filter status=running`
         wait_time=`date +%T`
         echo frontend $wait_time
@@ -29,23 +29,23 @@ if [ "$input" = "--build" ]; then
     done;
 
 elif [ "$input" = "--server" ]; then
-    echo [+] run web camera 서버환경
-    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.private up -d web camera
+    echo [+] run omilzomil webrtc 서버환경
+    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.private up -d omilzomil webrtc
 
 elif [ "$input" = "--dev-back" ]; then
     # 백앤드 개발용 코드 - 라이브러리 재설치 및 apt install 에 따른 build가 필요한 경우 사용
-    echo [+] run web camera 백앤드 개발환경
-    sudo docker-compose --env-file .env.lock up --build web camera    
+    echo [+] run omilzomil webrtc 백앤드 개발환경
+    sudo docker-compose --env-file .env.lock up --build omilzomil webrtc    
 
 elif [ "$input" = "--name" ]; then
     # 백앤드 개발용 코드 - 라이브러리 재설치 및 apt install 에 따른 build가 필요한 경우 사용
-    echo [+] run web camera 플젝명 직접 지정 ${PROJECT_NAME}
-    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up web camera
+    echo [+] run omilzomil webrtc 플젝명 직접 지정 ${PROJECT_NAME}
+    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up omilzomil webrtc
 
 else
-    echo [+] run web camera 개발환경 ${PROJECT_NAME}
+    echo [+] run omilzomil webrtc 개발환경 ${PROJECT_NAME}
 
-    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up web camera
+    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up omilzomil webrtc
 
 fi
 
