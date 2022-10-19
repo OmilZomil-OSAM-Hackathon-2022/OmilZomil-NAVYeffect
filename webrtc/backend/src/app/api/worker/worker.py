@@ -29,10 +29,29 @@ class Worker:
             raise Exception
 
 
-class SingleWorker(Worker):
+class StatusWorker(Worker):
     def __init__(self, db):
         super().__init__(db)
         self.result_state = None
+        print("worker 생성")
+
+    def update_status(self, data_list):
+        if self.result_state is None:
+            print(f"기존 데이터가 없어 갱신 - {self.result_state} - {data_list}")
+            self.result_state = data_list
+            return True
+
+        for idx, val in data_list.items():
+            # 상태가 양호인경우만 업데이트
+            if type(val) == bool and val == True:
+                self.result_state[idx] = val           
+                print(f"상태 업데이트 {idx} - {val}")
+
+        print(f"상태 업데이트 {self.result_state}")
+    def save_db(self):
+        pass
+
+class SingleWorker(StatusWorker):
 
     def add_task(self, path, ai):
         # 이미지를 읽어 ai 동작
@@ -41,11 +60,7 @@ class SingleWorker(Worker):
 
         print("AI 처리")
         # 이전 데이터 갱신
-        data = rank_crud.get_ranks(self.db) 
-        for i in data:
-            print(i.rank)
-        
-
+        self.update_status(data_list=result)
         # DB에 저장
         print("DB에 저장")
 
@@ -53,10 +68,11 @@ class SingleWorker(Worker):
         # 메세지 제작
         msg =  {
             "photo": result_photo,
-            "ai_result": result,
+            "img_result": result,
+            "total_result": self.result_state,
             "path": path,
         }
-        msg.update(result)
+        msg.update(self.result_state)
     
         # 프론트에게 응답
         return msg
