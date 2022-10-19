@@ -3,6 +3,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, Body
 from sqlalchemy.orm import Session
 from app.schemas.user import UserReadResponse
+from app.schemas.inspection_detail import InspectionLogUpdateCheck
 from app.schemas.inspection_detail import InspectionDetailUpdateStatus, InspectionDetailUpdateValidity
 from app.crud import real_time_monitor as crud
 from app.api import deps
@@ -38,6 +39,19 @@ def get_log_details(
         return {"success": False, "message": current_user.message}
 
     return crud.get_log_details(db, inspection_id)
+
+
+@router.put("/{inspection_id}")
+def update_log_check(
+    inspection_id: int,
+    is_checked: InspectionLogUpdateCheck = Body(),
+    db: Session = Depends(deps.get_db),
+    current_user: UserReadResponse = Depends(deps.get_current_user),
+):
+    if not current_user.success:
+        return {"success": False, "message": current_user.message}
+
+    return crud.update_log_check(db, inspection_id, is_checked)
 
 
 @router.put("/detail/{detail_id}")
