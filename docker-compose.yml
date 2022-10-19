@@ -14,7 +14,7 @@ services:
       timeout: 10s
       retries: 100
 
-  OmilZomil_front:
+  omilzomil_front:
     build:
       context: omilzomil
       dockerfile: frontend.Dockerfile
@@ -22,7 +22,7 @@ services:
     volumes:
       - omil_volume:/frontend/dist
 
-  WebRTC_front:
+  webrtc_front:
     build:
       context: webrtc
       dockerfile: frontend.Dockerfile
@@ -32,7 +32,7 @@ services:
 
 
 
-  OmilZomil:
+  omilzomil:
     build:
       context: omilzomil
       dockerfile: backend.Dockerfile
@@ -50,7 +50,7 @@ services:
 
 
 
-  WebRTC:
+  webrtc:
     build:
       context: webrtc
       dockerfile: backend.Dockerfile
