@@ -27,7 +27,7 @@ def get_overall_stats(
 
     total = query.group_by(InspectionLog.inspection_id).count()
     if status is not None:
-        count = query.filter(InspectionDetail.status == False).group_by(InspectionLog.inspection_id).count()
+        count = query.filter(InspectionDetail.is_error == False).filter(InspectionDetail.status == False).group_by(InspectionLog.inspection_id).count()
         if status:
             count = total - count
     else:
@@ -87,6 +87,7 @@ def get_monthly_best_stats(db: Session, military_unit: int, category: str):
             .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
             .filter(InspectionLog.access_time.like(str(Date.now(day=False))))
             .filter(InspectionLog.military_unit == military_unit)
+            .filter(InspectionDetail.is_error == False)
             .filter(InspectionDetail.status == False)
         )
 
