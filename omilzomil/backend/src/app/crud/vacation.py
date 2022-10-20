@@ -51,7 +51,7 @@ def get_unit_names_from_user(db: Session, access_time: datetime, affiliation: in
     if rank is not None:
         query = query.filter(User.rank == rank)
     if name is not None:
-        query = query.filter(User.name.like(f"%{name}%"))
+        query = query.filter(User.full_name.like(f"%{name}%"))
 
     return query.all()
 
