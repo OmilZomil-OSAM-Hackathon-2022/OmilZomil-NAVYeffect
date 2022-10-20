@@ -96,7 +96,7 @@ class FullDressUniformChecker(UniformChecker):
                 x,y,w,h = tmp_box_position
                 parts_img = img[y:y+h, x:x+w]
 
-                isCenter = x < W < x+w
+                isCenter = x < W//2 < x+w
 
                 if self.train_mode:
                     probability, kind = 0, name
