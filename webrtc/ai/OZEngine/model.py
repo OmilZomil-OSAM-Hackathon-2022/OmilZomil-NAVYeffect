@@ -10,7 +10,7 @@ from .lib.utils import plt_imshow, histNorm, box2img
 
 
 class OmilZomil:
-    def __init__(self, resize=None, debug_list=[], save_path=None, train_mode=False):
+    def __init__(self, resize=None, check_person=True, debug_list=[], save_path=None, train_mode=False):
         self.HED_engine = HED()
         self.morph_engine = Morph()
         self.uniform_checker = None
@@ -21,6 +21,7 @@ class OmilZomil:
 
         self.resize = resize
         self.uniform_type = None
+        self.check_person = check_person
         self.debug_list = debug_list
         self.save_path = save_path
         self.train_mode = train_mode
@@ -94,9 +95,9 @@ class OmilZomil:
 
         base_point = [0, 0]
         # 사람인식
-        if self.person_detect:
+        if self.check_person:
             person_box = self.person_detector.detect(img)
-            if person_img is None:
+            if person_box is None:
                 if self.debug_list:
                     pass
                     self.frame_cnt += 1
@@ -123,7 +124,7 @@ class OmilZomil:
         shirt_box = ((max_y, 0), (h, w))
         base_point[0] += shirt_box[0][0]
         base_point[1] += shirt_box[0][1]
-        shirt_img = box2img(person_img, shirt_box)
+        shirt_img = box2img(img, shirt_box)
         
         self.debug({'shirt':shirt_img}, msg='roi')
 
