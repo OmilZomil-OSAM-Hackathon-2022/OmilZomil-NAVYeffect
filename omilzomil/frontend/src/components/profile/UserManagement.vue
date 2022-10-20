@@ -224,22 +224,11 @@ export default {
             }
         },
         async changeRole(user_id,role){
-          console.log(role);
+          // console.log(role);
           try{
-            if(role == 0){
-              await this.$axios.put(`/user/activity/${user_id}`,{
-                is_active:false
-              });
-            }else{
-              const {data} = await this.$axios.put(`/user/activity/${user_id}`,{
-                is_active:true
-              });
-              console.log(data,user_id);
-              await this.$axios.put(`/user/activity/${user_id}`,{
-                role:role
-              });
-            }
-            this.getUsers();
+            await this.$axios.put(`/user/role/${user_id}`,{
+              role
+            });
           }catch(err){
             console.log(err);
           }

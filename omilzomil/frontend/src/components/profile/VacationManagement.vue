@@ -63,10 +63,11 @@ export default {
     }catch(err){
       console.log(err);
     }
-    this.getVacatios();
+    this.getVacations();
+    console.log(this.vacations);
   },
   methods:{
-    async getVacatios(){
+    async getVacations(){
       try{
         this.vacations = (await this.$axios.get(`/vacation/unit/`)).data;
         for(var i=0;i<this.vacations.length;i++){
