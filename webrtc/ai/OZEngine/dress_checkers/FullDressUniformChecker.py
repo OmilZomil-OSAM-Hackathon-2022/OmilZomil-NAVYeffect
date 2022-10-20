@@ -1,3 +1,4 @@
+import time
 import sys
 import numpy as np
 import re
@@ -40,9 +41,11 @@ class FullDressUniformChecker(UniformChecker):
         self.name_cache = None
         self.debug_cnt = 0
 
+        self.W = 0
+
     def getPosition(self, contour):
         center_p = getContourCenterPosition(contour)
-        position = 'left' if center_p[0] < (W//2) else 'right'
+        position = 'left' if center_p[0] < (self.W//2) else 'right'
         return position
     
 
@@ -66,6 +69,7 @@ class FullDressUniformChecker(UniformChecker):
         img = org_img
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         H, W = img.shape[: 2]
+        self.W = W
 
         box_position_dic = {}
         component_dic = {}
@@ -73,16 +77,19 @@ class FullDressUniformChecker(UniformChecker):
         probability_dic = {}
 
         # 이름표 체크
+        start_time = time.perf_counter()
         name = 'name_tag'
         contours, _,  masked_img_dic[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='name_tag', sort=True)
 
         if contours is not None:
+            print(len(contours))
             for contour in contours:
                 is_name_tag = component_dic.get('name_tag')
                 is_mahura = component_dic.get('mahura')
+                area = cv2.contourArea(contour)
 
-                if is_name_tag and is_mahura:
+                if is_name_tag and is_mahura and area < 1000:
                     break
 
                 position = self.getPosition(contour)
@@ -90,6 +97,8 @@ class FullDressUniformChecker(UniformChecker):
                 tmp_box_position = cv2.boundingRect(contour)
                 x,y,w,h = tmp_box_position
                 parts_img = img[y:y+h, x:x+w]
+
+                isCenter = x < W < x+w
 
                 if self.train_mode:
                     probability, kind = 0, name
@@ -111,11 +120,13 @@ class FullDressUniformChecker(UniformChecker):
                     component_dic['name_tag'] = component
                     probability_dic['name_tag'] = probability
                 
-                elif not is_mahura and self.isMahura(kind):
+                elif not is_mahura and isCenter and self.isMahura(kind):
                     box_position_dic['mahura'] = tmp_box_position
                     component_dic['mahura'] = True
-                    probability_dic['mahura'] = probability
-            
+                    probability_dic['mahura'] = probabilit
+                    print('mah', cv2.contourArea(contour))
+        end_time = time.perf_counter()
+        print(f"time elapsed (step 1): {int(round((end_time - start_time) * 1000))}ms")
 
         # 네카치프 / 네카치프링 체크
         name = 'anchor'
