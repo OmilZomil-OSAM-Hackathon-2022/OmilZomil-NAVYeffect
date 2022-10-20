@@ -32,7 +32,7 @@ class FullDressUniformChecker(UniformChecker):
                 'lower': (20, 100, 100),
                 'upper': (30, 255, 255)
             },
-            'mahura': {
+            'muffler': {
                 'lower': (140, 120, 50), 
                 'upper': (190, 255, 255)
             }
@@ -58,8 +58,8 @@ class FullDressUniformChecker(UniformChecker):
     def isAnchor(self, position, kind):
         return kind == 'anchor'
 
-    def isMahura(self, kind):
-        return kind == 'mahura'
+    def isMuffler(self, kind):
+        return kind == 'muffler'
 
     def isInShirt(self, contour):
         # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
@@ -84,10 +84,10 @@ class FullDressUniformChecker(UniformChecker):
         if contours is not None:
             for contour in contours:
                 is_name_tag = component_dic.get('name_tag')
-                is_mahura = component_dic.get('mahura')
+                is_muffler = component_dic.get('muffler')
                 area = cv2.contourArea(contour)
 
-                if is_name_tag and is_mahura or (area < 1000):
+                if is_name_tag and is_muffler or (area < 1000):
                     break
 
                 position = self.getPosition(contour)
@@ -118,10 +118,10 @@ class FullDressUniformChecker(UniformChecker):
                     component_dic['name_tag'] = component
                     probability_dic['name_tag'] = probability
                 
-                elif not is_mahura and isCenter and self.isMahura(kind):
-                    box_position_dic['mahura'] = tmp_box_position
-                    component_dic['mahura'] = True
-                    probability_dic['mahura'] = probability
+                elif not is_muffler and isCenter and self.isMuffler(kind):
+                    box_position_dic['muffler'] = tmp_box_position
+                    component_dic['muffler'] = True
+                    probability_dic['muffler'] = probability
 
         # 네카치프 / 네카치프링 체크
         name = 'anchor'
