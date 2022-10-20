@@ -1,7 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel, Field
 from typing import Optional
-from app.db.base_schema import Response, AllOptional
+from app.db.base_schema import Response
 
 
 class InspectionLogBase(BaseModel):
