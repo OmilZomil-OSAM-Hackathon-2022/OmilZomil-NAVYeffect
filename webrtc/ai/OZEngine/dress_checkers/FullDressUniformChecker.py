@@ -49,14 +49,14 @@ class FullDressUniformChecker(UniformChecker):
         return position
     
 
-    def isNameTag(self, contour, position, kind):
-        return position == 'left' and kind == 'name_tag' and cv2.contourArea(contour) > 100
+    def isNameTag(self, position, kind):
+        return position == 'left' and kind == 'name_tag'
 
-    def isClassTag(self, contour, position, kind):
-        return position == 'left' and kind is not None and kind.find('class_tag') != -1 and cv2.contourArea(contour) > 100
+    def isClassTag(self, position, kind):
+        return position == 'left' and kind is not None and kind.find('class_tag') != -1
 
-    def isAnchor(self, contour, position, kind):
-        return kind == 'anchor' and cv2.contourArea(contour) > 100
+    def isAnchor(self, position, kind):
+        return kind == 'anchor'
 
     def isMahura(self, kind):
         return kind == 'mahura'
@@ -103,7 +103,7 @@ class FullDressUniformChecker(UniformChecker):
                 else:
                     probability, kind = self.parts_classifier.predict(parts_img)[:2]
 
-                if not is_name_tag and self.isNameTag(contour, position, kind):
+                if not is_name_tag and self.isNameTag(position, kind):
                     # 이름표 OCR
                     if self.name_cache:
                         box_position = tmp_box_position
@@ -144,7 +144,7 @@ class FullDressUniformChecker(UniformChecker):
                     kind = name
                 else:
                     probability, kind = self.parts_classifier.predict(parts_img)[:2]
-                if self.isAnchor(contour, position, kind):
+                if self.isAnchor(position, kind):
                     box_position_dic[name] = tmp_box_position
                     component_dic[name] = True
                     probability_dic[name] = probability
@@ -171,7 +171,7 @@ class FullDressUniformChecker(UniformChecker):
                     kind = name
                 else:
                     probability, kind = self.parts_classifier.predict(parts_img)[:2]
-                if self.isClassTag(contour, position, kind):
+                if self.isClassTag(position, kind):
                     box_position_dic[name] = tmp_box_position
                     class_n = kind.split('+')[1]
                     component_dic[name] = Classes.dic.get(int(class_n))
