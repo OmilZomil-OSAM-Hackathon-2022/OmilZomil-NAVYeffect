@@ -39,13 +39,18 @@ class FullDressUniformChecker(UniformChecker):
         super().__init__(filter, 'full_dress_uniform', train_mode)
         self.name_cache = None
         self.debug_cnt = 0
+
+    def getPosition(self, contour):
+        center_p = getContourCenterPosition(contour)
+        position = 'left' if center_p[0] < (W//2) else 'right'
+        return position
     
 
     def isNameTag(self, contour, position, kind):
         return position == 'left' and kind == 'name_tag' and cv2.contourArea(contour) > 100
 
     def isClassTag(self, contour, position, kind):
-        return position == 'left' and kind.find('class_tag') != -1 and cv2.contourArea(contour) > 100
+        return position == 'left' and kind is not None and kind.find('class_tag') != -1 and cv2.contourArea(contour) > 100
 
     def isAnchor(self, contour, position, kind):
         return kind == 'anchor' and cv2.contourArea(contour) > 100
@@ -72,90 +77,90 @@ class FullDressUniformChecker(UniformChecker):
         contours, _,  masked_img_dic[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='name_tag', sort=True)
 
-        for contour in contours:
-            is_name_tag = component_dic.get('name_tag')
-            is_mahura = component_dic.get('mahura')
+        if contours is not None:
+            for contour in contours:
+                is_name_tag = component_dic.get('name_tag')
+                is_mahura = component_dic.get('mahura')
 
-            if is_name_tag and is_mahura:
-                break
+                if is_name_tag and is_mahura:
+                    break
 
-            center_p = getContourCenterPosition(contour)
-            position = 'left' if center_p[0] < (W//2) else 'right'
+                position = self.getPosition(contour)
 
-            x,y,w,h = cv2.boundingRect(contour)
-            parts_img = img[y:y+h, x:x+w]
+                tmp_box_position = cv2.boundingRect(contour)
+                x,y,w,h = tmp_box_position
+                parts_img = img[y:y+h, x:x+w]
 
-
-
-            if self.train_mode:
-                probability, kind = 0, name
-            else:
-                probability, kind = self.parts_classifier.predict(parts_img)[:2]
-
-            if not is_name_tag and self.isNameTag(contour, position, kind):
-                # 이름표 OCR
-                if self.name_cache:
-                    box_position = cv2.boundingRect(contour)
-                    component = self.name_cache
+                if self.train_mode:
+                    probability, kind = 0, name
                 else:
-                    ocr_list = OCR(img)
-                    self.debug_cnt += 1
-                    box_position, component = self.getName(contour, ocr_list)
-                    self.name_cache = component
+                    probability, kind = self.parts_classifier.predict(parts_img)[:2]
 
-                box_position_dic['name_tag'] = box_position
-                component_dic['name_tag'] = component
-                probability_dic['name_tag'] = probability
+                if not is_name_tag and self.isNameTag(contour, position, kind):
+                    # 이름표 OCR
+                    if self.name_cache:
+                        box_position = tmp_box_position
+                        component = self.name_cache
+                    else:
+                        ocr_list = OCR(img)
+                        self.debug_cnt += 1
+                        box_position, component = self.getName(contour, ocr_list)
+                        self.name_cache = component
+
+                    box_position_dic['name_tag'] = box_position
+                    component_dic['name_tag'] = component
+                    probability_dic['name_tag'] = probability
+                
+                elif not is_mahura and self.isMahura(kind):
+                    box_position_dic['mahura'] = tmp_box_position
+                    component_dic['mahura'] = True
+                    probability_dic['mahura'] = probability
             
-            elif not is_mahura and self.isMahura(kind):
-                box_position_dic['mahura'] = cv2.boundingRect(contour)
-                component_dic['mahura'] = True
-                probability_dic['mahura'] = probability
-        
 
         # 네카치프 / 네카치프링 체크
         name = 'anchor'
         contours, masked_img_dic[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name)
         
-        for contour in contours:
-            center_p = getContourCenterPosition(contour)
-            position = 'left' if center_p[0] < (W//2) else 'right'
+        if contours is not None:
+            for contour in contours:
+                position = self.getPosition(contour)
+                tmp_box_position = cv2.boundingRect(contour)
+                x,y,w,h = tmp_box_position
+                parts_img = img[y:y+h, x:x+w]
 
-            x,y,w,h = cv2.boundingRect(contour)
-            parts_img = img[y:y+h, x:x+w]
-
-            if self.train_mode:
-                kind = name
-            else:
-                probability, kind = self.parts_classifier.predict(parts_img)[:2]
-            if self.isAnchor(contour, position, kind):
-                box_position_dic[name] = cv2.boundingRect(contour)
-                component_dic[name] = True
-                probability_dic[name] = probability
-                break
+                if self.train_mode:
+                    kind = name
+                else:
+                    probability, kind = self.parts_classifier.predict(parts_img)[:2]
+                if self.isAnchor(contour, position, kind):
+                    box_position_dic[name] = tmp_box_position
+                    component_dic[name] = True
+                    probability_dic[name] = probability
+                    break
 
         # 계급장 체크
         name = 'class_tag'
         contours, _, masked_img_dic[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name, sort=True)
             
-        for contour in contours:
-            center_p = getContourCenterPosition(contour)
-            position = 'left' if center_p[0] < (W//2) else 'right'
+        if contours is not None:
+            for contour in contours:
+                position = self.getPosition(contour)
 
-            x,y,w,h = cv2.boundingRect(contour)
-            parts_img = img[y:y+h, x:x+w]
+                tmp_box_position = cv2.boundingRect(contour)
+                x,y,w,h = tmp_box_position
+                parts_img = img[y:y+h, x:x+w]
 
-            if self.train_mode:
-                kind = name
-            else:
-                probability, kind = self.parts_classifier.predict(parts_img)[:2]
-            if self.isClassTag(contour, position, kind):
-                box_position_dic[name] = cv2.boundingRect(contour)
-                class_n = kind.split('+')[1]
-                component_dic[name] = Classes.dic.get(int(class_n))
-                probability_dic[name] = probability
-                break
-            
+                if self.train_mode:
+                    kind = name
+                else:
+                    probability, kind = self.parts_classifier.predict(parts_img)[:2]
+                if self.isClassTag(contour, position, kind):
+                    box_position_dic[name] = tmp_box_position
+                    class_n = kind.split('+')[1]
+                    component_dic[name] = Classes.dic.get(int(class_n))
+                    probability_dic[name] = probability
+                    break
+
         return {'component':component_dic, 'box_position':box_position_dic, 'masked_img':masked_img_dic, 'probability':probability_dic}
