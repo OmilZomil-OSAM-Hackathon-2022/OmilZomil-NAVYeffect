@@ -6,13 +6,18 @@
     <div class="filter-wrap">
       <select v-model="classFilter">
         <option
-          value=""
+          :value="null"
           disabled
           selected
         >
           계급을 선택하세요.
         </option>
-
+        <option
+          :value="null"
+        >
+          전체
+        </option>
+        
         <option
           v-for="rank in ranks"
           :key="rank.rank_id"
@@ -23,11 +28,16 @@
       </select>
       <select v-model="divisionFilter">
         <option
-          value=""
+          :value="null"
           disabled
           selected
         >
           소속을 선택하세요.
+        </option>
+        <option
+          :value="null"
+        >
+          전체
         </option>
         <option
           v-for="affiliation in affiliations"
@@ -39,13 +49,17 @@
       </select>
       <select v-model="unitFilter">
         <option
-          value=""
+          :value="null"
           disabled
           selected
         >
           부대를 선택하세요.
         </option>
-
+        <option
+          :value="null"
+        >
+          전체
+        </option>
         <option
           v-for="unit in units"
           :key="unit.unit_id"
@@ -54,23 +68,30 @@
           {{ unit.unit }}
         </option>
       </select>
-      <select v-model="unitFilter">
+      <select v-model="isActive">
         <option
-          value=""
+          :value="null"
           disabled
           selected
         >
           승인 여부를 선택하세요.
         </option>
-
-        <option value="true">
-          미승인
+        <option
+          :value="null"
+        >
+          전체
         </option>
         <option value="false">
+          미승인
+        </option>
+        <option value="true">
           승인
         </option>
       </select>
-      <button class="filterbtn">
+      <button
+        class="filterbtn"
+        @click="filtering"
+      >
         필터 적용
       </button>
     </div>
@@ -137,9 +158,10 @@ export default {
     components: { SearchInput, CheckTag },
     data(){
       return{
-        classFilter:'',
-        divisionFilter:'',
-        unitFilter:'',
+        classFilter:null,
+        divisionFilter:null,
+        unitFilter:null,
+        isActive:null,
         units:[],
         affiliations:[],
         ranks:[],
@@ -151,15 +173,52 @@ export default {
       this.getUsers();
     },
     methods:{
+        getInfo(){
+          for(var i=0;i<this.users.length;i++){
+            this.users[i].affiliation_title = this.affiliations.filter(af => af.affiliation_id == this.users[i].affiliation)[0].affiliation;
+            this.users[i].unit_title = this.units.filter(u => u.unit_id == this.users[i].military_unit)[0].unit;
+            this.users[i].rank_title = this.ranks.filter(r => r.rank_id == this.users[i].rank)[0].rank;
+          }
+        },
+        async filtering(){
+          try{
+            let url = '/user/';
+            let cnt = 0;
+            if(this.classFilter){
+              cnt++;
+              if(cnt == 1) url += '?';
+              else url += '&';
+              url += `rank=${this.classFilter}`;
+            }
+            if(this.divisionFilter){
+              cnt++;
+              if(cnt == 1) url += '?';
+              else url += '&';
+              url += `affiliation=${this.divisionFilter}`;
+            }
+            if(this.unitFilter){
+              cnt++;
+              if(cnt == 1) url += '?';
+              else url += '&';
+              url += `military_unit=${this.unitFilter}`;
+            }
+            if(this.isActive != null){
+              cnt++;
+              if(cnt == 1) url += '?';
+              else url += '&';
+              url += `is_active=${this.isActive}`;
+            }
+            this.users = (await this.$axios.get(url)).data;
+            this.getInfo();
+          }catch(err){ 
+            console.log(err);
+          }
+        },
         async search(text){
             try{
               this.users = (await this.$axios.get(`/user/?full_name=${text}`)).data;
               
-              for(var i=0;i<this.users.length;i++){
-                this.users[i].affiliation_title = this.affiliations.filter(af => af.affiliation_id == this.users[i].affiliation)[0].affiliation;
-                this.users[i].unit_title = this.units.filter(u => u.unit_id == this.users[i].military_unit)[0].unit;
-                this.users[i].rank_title = this.ranks.filter(r => r.rank_id == this.users[i].rank)[0].rank;
-              }
+              this.getInfo();
             }catch(err){
               console.log(err);
             }
@@ -194,11 +253,8 @@ export default {
             this.units = (await this.$axios.get('/unit/')).data;
             this.roles = (await this.$axios.get('role')).data;
             // console.log(this.users);
-            for(var i=0;i<this.users.length;i++){
-              this.users[i].affiliation_title = this.affiliations.filter(af => af.affiliation_id == this.users[i].affiliation)[0].affiliation;
-              this.users[i].unit_title = this.units.filter(u => u.unit_id == this.users[i].military_unit)[0].unit;
-              this.users[i].rank_title = this.ranks.filter(r => r.rank_id == this.users[i].rank)[0].rank;
-            }
+            this.getInfo();
+            console.log(this.users);
           }catch(err){
             console.log(err);
           }

@@ -4,7 +4,7 @@
       <img
         src="@/assets/icons/left-arrow.svg"
         height="12"
-        style="cursor;:pointer"
+        style="cursor:pointer"
         @click="$emit('close')"
       >
       {{ title }} 위병소 연결
@@ -17,13 +17,12 @@
         <input
           v-model="newHouse"
           placeholder="위병소 이름을 입력하세요."
-          @keydown="search"
+          list="list"
         >
         <datalist id="list">
           <option
-            v-for="h in searchHouse"
+            v-for="h in allHouses"
             :key="h.house_id"
-            :value="h.house_id"
           >
             {{ h.house }}
           </option>
@@ -50,7 +49,7 @@
             <div
               class="tcenter"
             >
-              <a>해제</a>
+              <a @click="delHouse(house.house_id)">해제</a>
             </div>
           </td>
         </tr>
@@ -69,18 +68,25 @@
         unitID:{
             type:Number,
             default:0,
-        }
+        },
       },
       emits:["close"],
       data(){
         return{
+          allHouses:[],
           houses:[],
           newHouse:'',
           searchHouse:[],
         }
       },
-      mounted(){
+      async mounted(){
         this.getHouse();
+        try{
+            this.allHouses = (await this.$axios.get('/house/')).data;
+            // console.log(this.allHouses);
+        }catch(err){
+            console.log(err);
+        }
       },
       methods:{
           async getHouse(){
@@ -91,16 +97,25 @@
               console.log(err);
             }
           },
-          async search(){
+          async addHouse(){
+            const h = this.allHouses.filter(h => h.house == this.newHouse);
+            if(h.length > 0){
+                await this.$axios.post(`/unit/relation/${this.unitID.toString()}`,{
+                    house_id:h[0].house_id
+                });
+                this.getHouse();
+                this.newHouse = '';
+            }else{
+                alert("위병소 이름을 확인해주세요!");
+            }
+          },
+          async delHouse(house_id){
             try{
-                this.searchHouse = (await this.$axios.get(`/house/?house=${this.newHouse}`)).data;
-                // console.log(this.newHouse,this.searchHouse);
+                await this.$axios.delete(`/unit/relation/${this.unitID.toString()}/${house_id}`);
+                this.getHouse();
             }catch(err){
                 console.log(err);
             }
-          },
-          async addHouse(){
-
           }
       }
   }
@@ -244,6 +259,10 @@
     /* identical to box height */
   
     letter-spacing: 0.4px;
+  }
+
+  datalist{
+    width:100%;
   }
   </style>
   
