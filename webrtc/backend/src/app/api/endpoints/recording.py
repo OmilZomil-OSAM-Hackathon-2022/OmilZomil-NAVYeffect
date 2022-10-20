@@ -72,5 +72,5 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
 
 
     except WebSocketDisconnect:
-        print(f'연결 종료: {url} - {camera_id}')
+        print(f'연결 종료: - {camera_id} {datetime.now() - connect_start_time}')
         pass

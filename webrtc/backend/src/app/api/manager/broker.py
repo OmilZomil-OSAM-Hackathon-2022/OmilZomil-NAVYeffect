@@ -11,6 +11,14 @@ from app.core.config import settings
 EMPTY_PERSON_SECOND = 10
 SAVE_PATH = f"{settings.IMAGE_PATH}/queue"
 
+FRONT_NAME = {
+    'uniform' : {
+        1 : "null_value",
+        2 : "black",
+        3 : "blue",
+        4 : "green",
+    }
+}
 
 class Broker:
     """
@@ -79,7 +87,8 @@ class SingleBroker(Broker):
             self.last_person_time = work_start
 
             # 프론트에 맞게 네이밍 변경
-            msg['kind'] = msg.pop('uniform')
+            msg['kind'] = FRONT_NAME['uniform'][msg.pop('uniform')]
+            print(msg)
             return msg
         
         # 서람이 아닌 경우는 해당 메세지 반환
