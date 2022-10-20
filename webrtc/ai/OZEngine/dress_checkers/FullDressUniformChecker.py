@@ -144,7 +144,6 @@ class FullDressUniformChecker(UniformChecker):
                     box_position_dic[name] = tmp_box_position
                     component_dic[name] = True
                     probability_dic[name] = probability
-                    print('area', area)
                     break
 
         # 계급장 체크
