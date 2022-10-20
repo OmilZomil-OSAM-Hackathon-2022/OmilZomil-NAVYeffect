@@ -78,8 +78,6 @@ class OmilZomil:
                     y += h+margin
                 
                 msg = name.split('_')[0]
-                # if name == 'class_tag':
-                #     msg += info_dic['component']
                 cv2.putText(img, msg, (x, y), font, 1, Color.PARTS_BOX, 3)
                 if info_dic.get('probability'):
                     probability = round(info_dic['probability'][name]*100, 2)
