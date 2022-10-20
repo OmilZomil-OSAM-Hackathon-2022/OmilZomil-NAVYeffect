@@ -1,23 +1,17 @@
 
 from app.api.broker.broker import BrokerBase, SimpleBroker
-from app.api.broker.image import ImageBroker
-from app.api.broker.worker import RandomSingleBroker
+from app.api.broker.image import ImageBroker, RandomImageBroker
+from app.api.broker.worker import RandomSingleWorkerBroker
 
-def create_broker(name, ws, id):
+def create_broker(name, ws, id, db):
     brocker_list = {
         "test" : BrokerBase,
-        "simple" : SimpleBroker,
-        "image" : ImageBroker,
-        "random" : RandomWorkBroker,
-        # "test" : RandomWorkBroker,
+        "simple" : SimpleBroker,    # random ai - 이미지 저장 X
+        "image" : ImageBroker,      # ai 없음 - 이미지 저장 O
+        "random" : RandomImageBroker,
+        "random_single" : RandomSingleWorkerBroker,
+        "test" : RandomSingleWorkerBroker,
 
     }
-    return brocker_list[name](ws, id)
+    return brocker_list[name](ws, id, db)
 
-def create_await_broker(name, ws, id):
-    brocker_list = {
-        "test" : SimpleBroker,
-        #"test" : RandomSingleBroker,
-
-    }
-    return brocker_list[name](ws, id)

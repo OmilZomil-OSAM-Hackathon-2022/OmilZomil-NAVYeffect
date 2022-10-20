@@ -5,12 +5,8 @@ import numpy as np
 import pathlib
 import os
 
-cur_file_path = pathlib.Path().absolute()
-print(cur_file_path)
-
 if __file__:
     cur_dir = os.path.dirname(os.path.realpath(__file__))
-    print(cur_dir)
     MODEL_PATH = os.path.join(
         cur_dir, 'weights', 'hed_pretrained_bsds.caffemodel')
     PROTO_TXT_PATH = os.path.join(cur_dir, 'deploy.prototxt')
@@ -52,7 +48,7 @@ class HED():
         cv2.dnn_registerLayer('Crop', CropLayer)
         print('[RCF] finished loading (%.4f sec)' % (time.time() - tstamp))
 
-    def detect_edge(self, img, width=256, height=256, verbose=1):
+    def detect_edge(self, img, width=256, height=256, verbose=0):
         org_width = img.shape[1]
         org_height = img.shape[0]
 

@@ -10,21 +10,30 @@
           src="@/assets/icons/close-thick.svg"
           width="24"
           height="24"
+          style="cursor:pointer"
           @click="$emit('close')"
         >
       </div>
       <div class="content">
         수정할 {{ title }} 이름을 입력해주세요.
       </div>
-      <div class="data">
+      <form
+        class="data"
+        @submit.prevent="$emit('submit',text)"
+      >
         <div class="more">
           {{ title }} 이름
         </div>
-        <input :placeholder="data">
+        <input
+          v-model="text"
+          :placeholder="data"
+        >
         <div class="btn-wrap">
-          <button @click="$emit('submit',data)" />
+          <button>
+            저장
+          </button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
@@ -42,6 +51,11 @@ export default {
         }
     },
     emits:["submit","close"],
+    data(){
+      return{
+        text:'',
+      }
+    },
 }
 </script>
 
@@ -87,6 +101,9 @@ export default {
     line-height: 19px;
 
     letter-spacing: 0.5px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
 .btn-wrap{
@@ -129,10 +146,19 @@ input{
 
     border: 2px solid var(--color-input-border);
     border-radius: 8px;
+    margin-top:12px;
+    margin-bottom:20px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+    letter-spacing: 0.15px;
 }
 
 .more{
-    font-weight: 400;
+  display:flex;
+  width:100%;
+  justify-content:flex-start;  
+  font-weight: 400;
     font-size: 14px;
     line-height: 16px;
     letter-spacing: 0.25px;
@@ -140,6 +166,5 @@ input{
     /* Dark4 */
 
     color: #78798D;
-
 }
 </style>

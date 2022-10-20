@@ -13,8 +13,7 @@ class OmilZomil:
     def __init__(self, resize=None, img_norm_type=None, debug_list=[], save_path=None, train_mode=False):
         self.HED_engine = HED()
         self.morph_engine = Morph()
-        self.full_dress_uniform_checker = FullDressUniformChecker(train_mode)
-        self.navy_service_uniform_checker = NavyServiceUniformChecker(train_mode)
+        self.uniform_checker = None
         self.dress_classifier = DressClassifier()
         self.person_detector = PersonDetector()
         self.face_detector = FaceDetector()
@@ -25,14 +24,19 @@ class OmilZomil:
         self.uniform_type = None
         self.debug_list = debug_list
         self.save_path = save_path
-        
+        self.train_mode = train_mode
         self.frame_cnt = 0
 
-    def demo(self, img):
-        morphed_edge, ret = self.morph_engine.detect_edge(img)
+    def demo(self, img, info_dic=None):
+        # morphed_edge, ret = self.morph_engine.detect_edge(img)
         hed_edge = self.HED_engine.detect_edge(img, 500, 500)
-        self.debug({'demo':morphed_edge}, msg='morphed')
+        # self.debug({'demo':morphed_edge}, msg='morphed')
+        if info_dic is not None:
+            hed_edge_bgr = cv2.cvtColor(hed_edge, cv2.COLOR_GRAY2BGR)
+            hed_boxed_img, roi_dic = self.boxImage(hed_edge_bgr, info_dic)
+            self.debug({'demo':hed_boxed_img}, msg='boxed_hed')
         self.debug({'demo':hed_edge}, msg='hed')
+        
 
     def debug(self, debug_img, msg=""):
         pairs = [(f'{msg} - {name}', img)
@@ -54,17 +58,35 @@ class OmilZomil:
                     os.makedirs(parts_dir, exist_ok=True)
                     cv2.imwrite(dst_path, img)
 
-    def boxImage(self, org_img, box_position_dic):
+    def boxImage(self, org_img, info_dic):
         img = org_img.copy()
         roi_dic = {}
+
+        # for demo
+        x, y, w, h = info_dic['box_position']['face']
+        cv2.rectangle(img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
         
-        for name, box_position in box_position_dic.items():
-            if name != 'shirt' and box_position is not None:
+        for name, box_position in info_dic['box_position'].items():
+            if name != 'shirt' and name != 'face' and box_position is not None:
                 x, y, w, h = box_position
                 roi = org_img[y:y+h, x:x+w]
-                cv2.rectangle(img, (x, y), (x+w, y+h), Color.PURPLE, 5)
+                
+                cv2.rectangle(img, (x, y), (x+w, y+h), Color.PARTS_BOX, 5)
                 font = cv2.FONT_HERSHEY_SIMPLEX
-                cv2.putText(img, name, (x, y), font, 2, Color.PURPLE, 3)
+                margin = 30
+                if name == 'mahura':
+                    y -= (10 + margin)
+                else:
+                    y += h+margin
+                
+                msg = name.split('_')[0]
+                # if name == 'class_tag':
+                #     msg += info_dic['component']
+                cv2.putText(img, msg, (x, y), font, 1, Color.PARTS_BOX, 3)
+                if info_dic.get('probability'):
+                    probability = round(info_dic['probability'][name]*100, 2)
+                    cv2.putText(img, str(probability) + '%', (x, y+30), font, 1, Color.PARTS_BOX, 3)
+                
                 roi_dic[name] = roi
 
         return img, roi_dic
@@ -79,12 +101,12 @@ class OmilZomil:
         person_base_point = person_box[0]
         person_img = box2img(img, person_box)
         if person_img is None:
-            return None, None
+            return None
         
         # 얼굴인식
         face_box = self.face_detector.detect(person_img)
         if face_box is None:
-            return None, None
+            return None
 
         face_img = box2img(person_img, face_box)
 
@@ -96,7 +118,7 @@ class OmilZomil:
         shirt_base_point = shirt_box[0]
         shirt_img = box2img(person_img, shirt_box)
         
-        self.debug({'shirt':shirt_img}, msg='roi')
+        self.debug({'shirt':2}, msg='roi')
         
         # 히스토그램 평활화 여부 확인 후 적용
         if self.img_norm_type:
@@ -108,37 +130,40 @@ class OmilZomil:
 
         if self.uniform_type is None:
             self.uniform_type = self.dress_classifier.predict(shirt_img)[1]  # 복장종류인식 (전투복, 동정복, 샘당)
-            print(self.uniform_type)
+            if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
+                self.uniform_checker = NavyServiceUniformChecker(self.train_mode)
+            elif self.uniform_type == UniformType.dic['FULL_DRESS']:
+                self.uniform_checker = FullDressUniformChecker(self.train_mode)
+            else:
+                return None
 
         # 옷 종류별로 분기를 나눔
-        if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
-            component_dic, box_position_dic, masked_img_dic = self.navy_service_uniform_checker.checkUniform(
-                shirt_img)
-
-        elif self.uniform_type == UniformType.dic['FULL_DRESS']:
-            component_dic, box_position_dic, masked_img_dic = self.full_dress_uniform_checker.checkUniform(
-                shirt_img)
-        else:
-            return None, None, None
+        result_dic = self.uniform_checker.checkUniform(shirt_img)
 
         base_point = (person_base_point[0] + shirt_base_point[0]), (person_base_point[1] + shirt_base_point[1])
-        for name, pos in box_position_dic.items():
+        for name, pos in result_dic['box_position'].items():
             if pos:
                 x, y, w, h = pos
                 x += base_point[1]
                 y += base_point[0]
-                box_position_dic[name] = (x, y, w, h)
+                result_dic['box_position'][name] = (x, y, w, h)
+
+        
             
         # 최종 debug 여부 확인
         if self.debug_list:
-            boxed_img, roi_dic = self.boxImage(input_img, box_position_dic)
+            # for debug
+            result_dic['box_position']['face'] = [face_box[0][1], face_box[0][0], face_box[1][1]-face_box[0][1], face_box[1][0]-face_box[0][0]]
+            result_dic['box_position']['face'][0] += person_base_point[1]
+            result_dic['box_position']['face'][1] += person_base_point[0]
+
+            boxed_img, roi_dic = self.boxImage(input_img, result_dic)
+            
             # plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic, msg="roi")
-            self.debug(masked_img_dic, msg="masked")
+            self.debug(result_dic['masked_img'], msg="masked")
             self.debug({"result":boxed_img}, msg="res")
-            self.demo(shirt_img)
-            
-            
+            self.demo(img, result_dic)
             
         self.frame_cnt += 1
-        return component_dic, box_position_dic
+        return {'component':result_dic['component'], 'box_position': result_dic['box_position']}

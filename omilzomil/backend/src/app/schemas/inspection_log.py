@@ -1,6 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel, Field
-from app.db.base_schema import Response, AllOptional
+from typing import Optional
+from app.db.base_schema import Response
 
 
 class InspectionLogBase(BaseModel):
@@ -52,12 +53,12 @@ class InspectionLogRead(InspectionLogBase):
         orm_mode = True
 
 
-class InspectionLogUpdateInformation(BaseModel, metaclass=AllOptional):
-    affiliation: int = Field(None, description="affiliation")
-    military_unit: int = Field(None, description="military unit")
-    rank: int = Field(None, description="rank")
-    name: str = Field(None, description="name")
-    uniform: int = Field(None, description="uniform")
+class InspectionLogUpdateInformation(BaseModel):
+    affiliation: Optional[int] = Field(None, description="affiliation")
+    military_unit: Optional[int] = Field(None, description="military unit")
+    rank: Optional[int] = Field(None, description="rank")
+    name: Optional[str] = Field(None, description="name")
+    uniform: Optional[int] = Field(None, description="uniform")
 
     class Config:
         schema_extra = {
