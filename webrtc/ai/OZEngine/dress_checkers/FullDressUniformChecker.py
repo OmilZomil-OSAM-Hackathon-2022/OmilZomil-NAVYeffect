@@ -77,7 +77,6 @@ class FullDressUniformChecker(UniformChecker):
         probability_dic = {}
 
         # 이름표, 마후라 체크
-        start_time = time.perf_counter()
         name = 'name_tag'
         contours, _,  masked_img_dic[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='name_tag', sort=True)
@@ -123,8 +122,6 @@ class FullDressUniformChecker(UniformChecker):
                     box_position_dic['mahura'] = tmp_box_position
                     component_dic['mahura'] = True
                     probability_dic['mahura'] = probabilit
-        end_time = time.perf_counter()
-        print(f"time elapsed (step 1): {int(round((end_time - start_time) * 1000))}ms")
 
         # 네카치프 / 네카치프링 체크
         name = 'anchor'
