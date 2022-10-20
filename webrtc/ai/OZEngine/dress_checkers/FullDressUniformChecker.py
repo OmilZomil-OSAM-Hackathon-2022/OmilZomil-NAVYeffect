@@ -55,7 +55,7 @@ class FullDressUniformChecker(UniformChecker):
     def isClassTag(self, position, kind):
         return position == 'left' and kind is not None and kind.find('rank_tag') != -1
 
-    def isneckerchief(self, position, kind):
+    def isNeckerchief(self, position, kind):
         return kind == 'neckerchief'
 
     def isMuffler(self, kind):
