@@ -76,7 +76,7 @@ class FullDressUniformChecker(UniformChecker):
         masked_img_dic = {}
         probability_dic = {}
 
-        # 이름표 체크
+        # 이름표, 마후라 체크
         start_time = time.perf_counter()
         name = 'name_tag'
         contours, _,  masked_img_dic[name] = self.getMaskedContours(
@@ -124,7 +124,6 @@ class FullDressUniformChecker(UniformChecker):
                     box_position_dic['mahura'] = tmp_box_position
                     component_dic['mahura'] = True
                     probability_dic['mahura'] = probabilit
-                    print('mah', cv2.contourArea(contour))
         end_time = time.perf_counter()
         print(f"time elapsed (step 1): {int(round((end_time - start_time) * 1000))}ms")
 
@@ -135,6 +134,11 @@ class FullDressUniformChecker(UniformChecker):
         
         if contours is not None:
             for contour in contours:
+                area = cv2.contourArea(contour)
+
+                if area < 100:
+                    break
+
                 position = self.getPosition(contour)
                 tmp_box_position = cv2.boundingRect(contour)
                 x,y,w,h = tmp_box_position
@@ -157,6 +161,10 @@ class FullDressUniformChecker(UniformChecker):
             
         if contours is not None:
             for contour in contours:
+                area = cv2.contourArea(contour)
+
+                if area < 100:
+                    break
                 position = self.getPosition(contour)
 
                 tmp_box_position = cv2.boundingRect(contour)
