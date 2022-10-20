@@ -4,11 +4,11 @@
       <CardHead title="휴가신청" />
       <div class="search-content">
         <div class="user-info">
-          <div>{{ user.division }}</div>
-          <div>{{ user.unit }}</div>
-          <div>{{ user.uClass }}</div>
-          <div>{{ user.uName }}</div>
-          <div>{{ user.dogTag }}</div>
+          <div>{{ getUser.affiliation_title }}</div>
+          <div>{{ getUser.unit_title }}</div>
+          <div>{{ getUser.rank_title }}</div>
+          <div>{{ getUser.full_name }}</div>
+          <div>{{ getUser.dog_number }}</div>
         </div>
         <div class="term">
           <div class="datepicker-wrap">
@@ -33,7 +33,10 @@
               :dark="getDarkMode"
             />
           </div>
-          <a class="regist">신청</a>
+          <a
+            class="regist"
+            @click="submit"
+          >신청</a>
         </div>
       </div>
     </div>
@@ -53,9 +56,13 @@
             :key="index"
           >
             <td>{{ index+1 }}</td>
-            <td>{{ vacation.term }}</td>
-            <td>{{ vacation.state }}</td>
-            <td><button>취소</button></td>
+            <td>{{ `${vacation.start_date} ~ ${vacation.end_date}` }}</td>
+            <td>{{ vacation.is_approved == null ? '미승인':(vacation.is_approved?'승인':'승인거부') }}</td>
+            <td>
+              <button @click="cancel(vacation.vacation_id)">
+                취소
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -70,29 +77,15 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import {ref} from 'vue';
 import CardHead from '@/components/CardHead.vue';
 
-class Vacation{
-      constructor(){
-          this.term = "2022.09.29 ~ 2022.10.09";
-          this.state = "완료";
-      }
-  }
-  class User{
-    constructor(){
-        this.uName = "김민섭";
-        this.division = "해군";
-        this.unit = "계룡대근무지원단";
-        this.uClass = "일병";
-        this.dogTag = "22-71005164";
-    }
+const format = (date) => {
+  return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
 }
   export default { 
     components:{ Datepicker, CardHead },
     setup(){
       const startDate = ref();
       const endDate = ref();
-      const format = (date) => {
-        return `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`;
-      }
+      
       return {
         startDate,
         endDate,
@@ -101,31 +94,64 @@ class Vacation{
     },
       data(){
           return{
-              vacationList:[
-                  new Vacation(),
-                  new Vacation(),
-                  new Vacation(),
-                  new Vacation(),
-                  new Vacation(),
-                  new Vacation(),
-                  new Vacation(),
-                  new Vacation(),
-              ],
-              gaurdroomList:['test','test'],
+              vacationList:[],
               g:false,
-              user:new User(),
           }
       },
       computed:{
-      getDarkMode() {
-        return this.$store.getters.getDarkMode;
+        getDarkMode() {
+          return this.$store.getters.getDarkMode;
+        },
+        getUser () {
+          return this.$store.getters.getUser;
+        },
       },
-    },
+      mounted(){
+        this.getList();
+      },
       methods:{
           search(text){
               console.log(text);
           },
-      }
+          async submit(){
+            try{
+              const {data} = await this.$axios.post(`/vacation/user/${this.getUser.user_id}`,{
+                start_date:format(this.startDate),
+                end_date:format(this.endDate)
+              }) ;
+              if(data.success){
+                this.getList();
+                alert('신청이 완료되었습니다.');
+              }else{
+                alert('날짜를 확인해주세요.');
+              }
+            }catch(err){
+              console.log(err);
+            }
+          },
+          async getList(){
+            try{
+              const {data} = await this.$axios.get(`/vacation/user/${this.getUser.user_id}`);
+              this.vacationList = data;
+              // console.log(data);
+            }catch(err){
+              console.log(err);
+            }
+          },
+          async cancel(vacation_id){
+            try{
+              const {data} = await this.$axios.delete(`/vacation/${vacation_id}`) ;
+              if(data.success){
+                this.getList();
+                alert('취소가 완료되었습니다.');
+              }else{
+                alert('날짜를 확인해주세요.');
+              }
+            }catch(err){
+              console.log(err);
+            }
+          }
+      },
   }
   </script>
   
@@ -146,7 +172,7 @@ class Vacation{
   }
 
   .search-card{
-    height:140px;
+    height:183px;
     flex-direction: column;
     justify-content: flex-start;
   }
@@ -156,9 +182,9 @@ class Vacation{
     height:100%;
     padding:0px 54px;
     display:flex;
-    /* flex-direction: column; */
+    flex-direction: column;
     align-items: center;
-    justify-content:space-between;
+    justify-content: center;
     gap:33px;
   }
 
@@ -177,12 +203,15 @@ class Vacation{
   .user-info{
     display:flex;
     align-items:center;
+    justify-content:flex-start;
+    width:100%;
     gap:24px;
   }
   .term{
     display:flex;
     align-items:center;
     justify-content: flex-end;
+    width:100%;
   }
 
   .regist{
@@ -240,7 +269,7 @@ class Vacation{
   }
   table{
       width:100%;
-      height:100%;
+      /* height:100%; */
       border-collapse: collapse; 
       border-bottom: 1px solid #E1E2E9;
     /* border-spacing: 0 5px; */

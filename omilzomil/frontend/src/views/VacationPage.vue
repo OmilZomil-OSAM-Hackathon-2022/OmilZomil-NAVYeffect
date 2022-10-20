@@ -37,12 +37,12 @@
         </tbody>
       </table>
     </div>
+    <RegistVacationPage
+      v-show="showRegister"
+      :user="currentUser"
+      @back-to-page="backToPage"
+    />
   </div>
-  <RegistVacationPage
-    v-show="showRegister"
-    :user="currentUser"
-    @back-to-page="backToPage"
-  />
 </template>
 
 <script>

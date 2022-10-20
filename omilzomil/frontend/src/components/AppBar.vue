@@ -100,6 +100,12 @@
                 >
                   위병소 관리
                 </router-link>
+                <router-link
+                  to="/profile/vacationManageMent"
+                  @click="closeUserMenu"
+                >
+                  휴가 관리
+                </router-link>
               </div>
               <router-link
                 to="/"
