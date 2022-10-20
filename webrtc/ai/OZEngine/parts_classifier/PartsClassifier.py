@@ -4,7 +4,8 @@ import pickle
 from PIL import Image
 from OZEngine.FeatureExtractor import FeatureExtractor
 
-
+def distFunc(x):
+    return -0.6*x + 1
 class PartsClassifier(FeatureExtractor):
     def __init__(self, dress_kind):
         project_path = '/config/workspace/WEB_CLOUD_OmilZomil_NAVYeffect/webrtc/ai/OZEngine/parts_classifier'
@@ -21,7 +22,7 @@ class PartsClassifier(FeatureExtractor):
         dist = dists[id]
         kind = self.classes[id]
         if dist < 1:
-            return (dist, kind, id)
+            return (distFunc(dist), kind, id)
         else:
             return (None, None, None)
 
