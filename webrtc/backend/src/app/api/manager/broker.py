@@ -88,7 +88,6 @@ class SingleBroker(Broker):
 
             # 프론트에 맞게 네이밍 변경
             msg['kind'] = FRONT_NAME['uniform'][msg.pop('uniform')]
-            print(msg)
             return msg
         
         # 서람이 아닌 경우는 해당 메세지 반환

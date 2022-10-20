@@ -58,11 +58,19 @@ class Worker:
 
         # 각 파츠도 DB에 생성
 
-        print("DB에 데이터 생성 완료")
+        print("DB에 데이터 생성 완료 - 각 파츠 생성 미구현")
 
 
     def update_data(self):
-        print("업데이트 미구현")
+        db_data = self.db.query(InspectionLog).filter_by(inspection_id=self.db_data_id)
+        print(db_data)
+        if not db_data.count():
+            raise NotImplementedError(f"해당 객체를 조회할 수 없음 - {self.db_data_id}")
+
+        inspection_dict = self.image_box.get_inspection()
+        db_data.update(inspection_dict)
+        self.db.commit()
+        print("업데이트 미구현 - 각 파츠 업데이트 미구현")
         pass
 
 class SingleWorker(Worker):
