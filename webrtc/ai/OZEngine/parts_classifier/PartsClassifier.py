@@ -5,7 +5,7 @@ from PIL import Image
 from OZEngine.FeatureExtractor import FeatureExtractor
 
 def distFunc(x):
-    return round(-0.6*x + 1, 2)
+    return -0.6*x + 1
 class PartsClassifier(FeatureExtractor):
     def __init__(self, dress_kind):
         project_path = '/config/workspace/WEB_CLOUD_OmilZomil_NAVYeffect/webrtc/ai/OZEngine/parts_classifier'
