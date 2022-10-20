@@ -83,13 +83,12 @@ class FullDressUniformChecker(UniformChecker):
             img=img, hsv_img=hsv_img, kind='name_tag', sort=True)
 
         if contours is not None:
-            print(len(contours))
             for contour in contours:
                 is_name_tag = component_dic.get('name_tag')
                 is_mahura = component_dic.get('mahura')
                 area = cv2.contourArea(contour)
 
-                if is_name_tag and is_mahura and area < 1000:
+                if is_name_tag and is_mahura or (area < 1000):
                     break
 
                 position = self.getPosition(contour)
