@@ -16,17 +16,18 @@ from loguru import logger
 
 import uuid
 
-from app.api.broker.create import create_broker
 from app.api import deps
+from app.api.manager.broker import SingleBroker
 
-router1 = APIRouter()
-router2 = APIRouter()
+
+
+router = APIRouter()
 
 
 
     
-@router1.websocket("/{url}")
-async def websocket_endpoint(url, websocket: WebSocket, db: Session = Depends(deps.get_db)):
+@router.websocket("/test")
+async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.get_db)):
     """
     ai 요구사항만 맞춰서 실행
     병렬 처리 X
@@ -40,19 +41,20 @@ async def websocket_endpoint(url, websocket: WebSocket, db: Session = Depends(de
     # 처음 접속
     await websocket.accept()
     first_data = await websocket.receive_json()
-    guardhouse = 2
+    guardhouse = 1
 
-    print(f'연결 시작: {url} - {camera_id}')
-    broker = create_broker(name=url, ws=websocket, id=camera_id, db=db, guardhouse=guardhouse)
+    print(f'연결 시작: {camera_id}')
+    # broker = create_broker(name=url, ws=websocket, id=camera_id, db=db, guardhouse=guardhouse)
+    broker = SingleBroker(ws=websocket, id=camera_id, db=db, guardhouse=guardhouse)
 
     try:
         while True:
             data = await websocket.receive_json()
             work_start = datetime.now()
-            print(f'데이터 수신: {url} - {camera_id} = {url}')
+            print(f'데이터 수신:- {camera_id}')
 
             # 데이터 수신
-            result = broker.execute_task(
+            result = broker.add_task(
                 photo=data['photo'], work_start=work_start
             )
             # worker가 없는 경우
@@ -64,7 +66,7 @@ async def websocket_endpoint(url, websocket: WebSocket, db: Session = Depends(de
                 msg.update(result)
                 await websocket.send_json(msg)
             # 1차 처리 로그 출력
-            print(f'테스크 1차 처리 완료: {url} - {camera_id} : {datetime.now() - work_start}')
+            print(f'테스크 1차 처리 완료: {camera_id} : {datetime.now() - work_start}')
             print()
             print()
 

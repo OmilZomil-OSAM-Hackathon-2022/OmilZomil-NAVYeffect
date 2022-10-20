@@ -38,9 +38,12 @@ class SingleWorkerBroker(WorkerBroker):
             # 해당 시간동안 사람이 없었는 경우 => 새로운 사람이다.
             if now_time - self.last_person_time > timedelta(seconds=EMPTY_PERSON_SECOND):
                 self.now_worker = self.worker_creater(db=self.db, ai=self.ai, guardhouse=self.guardhouse)
+                # 처음 업무를 받아서 업무를 처리
+                msg = self.now_worker.create_task(path=path)
 
-            # 업무 지시
-            msg = self.order_worker(path)
+            else:
+                # 이전에 있던 사용자로 업무 지시
+                msg = self.order_worker(path)
 
             # 프론트에 맞게 네이밍 변경
             msg['kind'] = msg.pop('uniform')
@@ -61,8 +64,7 @@ class SingleWorkerBroker(WorkerBroker):
     def order_worker(self, path):
         msg = self.now_worker.add_task(path=path)
         return msg
-
-
+   
 class RandomSingleWorkerBroker(SingleWorkerBroker):
     
     def __init__(self, ws, id, db, guardhouse):

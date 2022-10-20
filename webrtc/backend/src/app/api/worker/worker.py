@@ -25,22 +25,46 @@ class Worker:
         photo_as_text = base64.b64encode(photo)
         return "data:image/jpeg;base64," + photo_as_text.decode('utf-8')
     
-    def delete_img(self, path):
-        if os.path.isfile(path):
-            os.remove(path)
-        else:
-            print("이미지 삭제 실패")
+
+
+         
+    def create_db_date(self):
+        data_dict = self.image_box.inspection
+        log = InspectionLog(
+            guardhouse=data_dict['guardhouse'],
+            affiliation=data_dict['affiliation'],
+            rank=data_dict['rank'],
+            name=data_dict['name'],
+            uniform=data_dict['uniform'],
+            image_path=data_dict['image_path'],
+        )
+        self.db.add(log)
+        self.db.commit()
+        self.db.refresh(log)
+        self.db_data_id = log.inspection_id       
+
+    def update_db_data(self):
+        return False
+        log =  db.query(InspectionLog).filter_by(inspection_id=self.db_data_id).all()
+        if not log.count():
             raise Exception
+        else:
+            information = self.image_box.inspection
+            log.update(information)
+            db.commit()
 
 class SingleWorker(Worker):
 
-    def add_task(self, path):
+    def execute(self, path):
         # 이미지를 읽어 ai 동작
         img = cv2.imread(path)
         
         print("AI 처리")
         report = self.image_box.image_process(image=img, path=path)
-        
+        # 업데이트 할 내용이 있으면 업데이트
+        if self.image_box.is_update:
+            self.update_db_data()
+
         print(report)
         # 답장
         photo  = self.img_2_photo(img)
@@ -56,6 +80,32 @@ class SingleWorker(Worker):
         # 프론트에게 응답
         return msg
 
+    def create_task(self, path):
+        # 이미지를 읽어 ai 동작
+        img = cv2.imread(path)
+        
+        # 이미지 박스에서 처리후 db 데이터 생성
+        print("첫 이미지 입니다. ===============================")
+        report = self.image_box.image_process(image=img, path=path)
+
+        self.image_box.update()
+        
+        # 답장
+        photo  = self.img_2_photo(img)
+        # 메세지 제작
+        msg =  {
+            "photo": photo,
+            "report": report,
+            "path": path,
+        }
+
+        msg.update(report)
+    
+        # 프론트에게 응답
+        return msg
+
+
+    
 
 """
 
