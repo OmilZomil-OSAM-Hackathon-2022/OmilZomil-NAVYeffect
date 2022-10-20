@@ -72,7 +72,7 @@ def delete_vacation(db: Session, vacation_id: int):
     vacation = db.query(Vacation).filter_by(vacation_id=vacation_id)
     if not vacation.count():
         return VacationResponse(success=False, message="entry not found")
-    elif vacation.is_approved is True:
+    elif vacation.first().is_approved is True:
         return VacationResponse(success=False, message="already approved")
     else:
         vacation.delete()
