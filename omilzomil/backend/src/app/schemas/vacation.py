@@ -20,6 +20,7 @@ class VacationCreate(VacationBase):
 
 class VacationRead(BaseModel):
     vacation_id: int = Field(None, description="primary key")
+    user: int = Field(None, description="user id")
     start_date: date = Field(None, description="start date")
     end_date: date = Field(None, description="end date")
     is_approved: bool = Field(None, description="is_approved")
@@ -29,6 +30,7 @@ class VacationRead(BaseModel):
         schema_extra = {
             "example": {
                 "vacation_id": 1,
+                "user": 2,
                 "start_date": date.today(),
                 "end_date": date.today() + timedelta(days=13),
                 "is_approved": None,
