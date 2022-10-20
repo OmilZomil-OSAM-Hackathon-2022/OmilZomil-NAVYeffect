@@ -1,5 +1,7 @@
 import cv2
 import os
+from datetime import datetime
+
 
 from app.models.inspection_log import InspectionLog
 from app.models.inspection_detail import InspectionDetail
@@ -7,6 +9,11 @@ from app.models.inspection_detail import InspectionDetail
 
 from app.api.manager.image_box import ImageBox
 from app.api.websocket.image import img_2_photo
+from app.core.config import settings
+
+
+MAIN_IMAGE_PATH = f"{settings.IMAGE_PATH}/inspection"
+
 
 PART_ID = {
     "hair": 1, 
@@ -34,6 +41,9 @@ class Worker:
         self.image_box = ImageBox(ai=ai, guardhouse=guardhouse)
         self.db_data_id = None
         self.parts_path = {}
+        # 파일 경로 지정
+        name = datetime.now().strftime("%H-%m-%s")
+        self.main_image_path = f"{MAIN_IMAGE_PATH}/{guardhouse}_{name}.jpg"
 
     def read_image(self, path):
         # 이미지 읽어오기
@@ -48,7 +58,7 @@ class Worker:
         # 읽은 이미지 전달        
         return img
 
-    def create_data(self, path):
+    def create_data(self):
         # 생성할 정보 가져오기
         data_dict = self.image_box.get_inspection()
         # model 객체 생성
@@ -59,7 +69,7 @@ class Worker:
             rank=data_dict['rank'],
             name=data_dict['name'],
             uniform=data_dict['uniform'],
-            image_path=path,
+            image_path=self.main_image_path,
         )
         self.db.add(db_data)
         self.db.commit()
@@ -69,8 +79,6 @@ class Worker:
 
         # 각 파츠도 DB에 생성
         part_list = self.image_box.get_parts()
-        print(f"각 파츠도 DB에 생성 - {part_list}")
-
         for part_name, status in part_list.items():
             db_part = InspectionDetail(
                 inspection_id=self.db_data_id,
@@ -81,28 +89,24 @@ class Worker:
             self.db.add(db_part)
             self.db.commit()
             self.db.refresh(db_part)
-            
 
-        print("DB에 데이터 생성 완료 - 각 파츠 생성 미구현")
+        print("DB에 데이터 생성 완료")
 
 
     def update_data(self):
-
         db_data = self.db.query(InspectionLog).filter_by(inspection_id=self.db_data_id)
-        print(db_data)
         if not db_data.count():
             raise NotImplementedError(f"해당 객체를 조회할 수 없음 - {self.db_data_id}")
 
         inspection_dict = self.image_box.get_inspection()
         db_data.update(inspection_dict)
         self.db.commit()
-        print(f"업데이트 완료 - {db_data}")
+        print(f"업데이트 완료")
        
             
     
     def update_parts(self, part_name):
         db_data = self.db.query(InspectionDetail).filter_by(inspection_id=self.db_data_id).filter_by(appearance_type=PART_ID[part_name])
-        print(db_data)
         if not db_data.count():
             raise NotImplementedError(f"해당 객체를 조회할 수 없음 - {self.db_data_id}")
 
@@ -113,7 +117,7 @@ class Worker:
         
         db_data.update(part_dict)
         self.db.commit()
-        print(f"파츠 업데이트 완료 - {db_data}")
+        print(f"파츠 업데이트 완료 - {part_name}")
 
 
 class SingleWorker(Worker):
@@ -125,21 +129,30 @@ class SingleWorker(Worker):
         # ai에게 처리
         # print("이미지 처리 시작 ===============================")
         parts_image_list = self.image_box.image_process(image=img, path=path)
+
+        # 메인 이미지 저장
+        if self.image_box.image_update:
+            cv2.imwrite(self.main_image_path, img)
+            self.image_box.image_update = False
+
+        # 파츠 이미지 파일로 저장
         if parts_image_list:
             for part_name, part_image in parts_image_list.items():
                 # 파츠 이미지 저장
+                # cv2.imwrite(path, img)
                 # 일단 저장한 척
                 self.parts_path[part_name] = part_image
 
         # 데이터가 없으면 생성
         if self.db_data_id is None:
-            self.create_data(path=path)
+            self.create_data()
 
         # DB에 반영
         if self.image_box.is_update:
             # DB에 데이터 업데이트
             self.update_data()
             self.image_box.is_update = False
+
         # 각 파츠 업데이트
         for part_name in self.image_box.parts_update:
             self.update_parts(part_name)

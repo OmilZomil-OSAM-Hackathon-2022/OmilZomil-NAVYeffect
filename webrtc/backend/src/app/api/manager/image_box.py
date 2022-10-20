@@ -40,6 +40,7 @@ class ImageBox:
         self.parts = {} # 기타 파츠
         # 메인 이미지 관리
         self.image_path = None
+        self.image_update = True
         self.old_image_count=0
         # 데이터 갱신 유무
         self.is_update = False
@@ -64,6 +65,9 @@ class ImageBox:
             self.inspection['affiliation'] = self.ai.get_affiliation()
             self.parts = {key: False for key in UNIFORM_PARTS[self.inspection['uniform']]} # 유니폼에 따라 파츠 리스트 생성
             self.is_update = True
+
+        # 해당 이미지가 잘 나온 이미지인지 판별
+        self.best_image(result=result, path=path) 
         
         # 각 파츠별 데이터 갱신
         for part in UNIFORM_PARTS[self.inspection['uniform']]:
@@ -72,6 +76,7 @@ class ImageBox:
                 self.parts[part] = True # 양호로 갱신
                 result_images[part] = f"가짜 이미지 - {part} - {path}"
                 self.parts_update.append(part) # 업데이트 목록에 추가
+        
 
 
         # 각 파츠별 추가 ai 인식
@@ -85,5 +90,16 @@ class ImageBox:
             # 계급 인식
             self.inspection['rank'] = self.ai.random_rank()
             self.is_update = True        
-        
         return result_images
+
+    def best_image(self, result, path):
+        count = 0
+        for key, val in result.items():
+            if val:
+                count +=1
+        if self.old_image_count < count:
+            self.old_image_count = count
+            self.image_path=path
+            self.image_update = True
+
+        pass

@@ -90,7 +90,8 @@ class SingleBroker(Broker):
             # 프론트에 맞게 네이밍 변경
             msg['kind'] = FRONT_NAME['uniform'][msg.pop('uniform')]
             return msg
-        
+        else:
+            print("사람이 아닙니다.")
         # 서람이 아닌 경우는 해당 메세지 반환
         msg = {
             "photo": photo,
