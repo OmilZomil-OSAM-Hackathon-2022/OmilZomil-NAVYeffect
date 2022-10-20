@@ -96,19 +96,24 @@ class Worker:
         inspection_dict = self.image_box.get_inspection()
         db_data.update(inspection_dict)
         self.db.commit()
-        print("업데이트 미구현 - 각 파츠 업데이트 미구현")
+        print(f"업데이트 완료 - {db_data}")
        
             
     
     def update_parts(self, part_name):
-        db_data = self.db.query(InspectionDetail).filter_by(detail_id=self.db_data_id)
+        db_data = self.db.query(InspectionDetail).filter_by(inspection_id=self.db_data_id).filter_by(appearance_type=PART_ID[part_name])
         print(db_data)
         if not db_data.count():
             raise NotImplementedError(f"해당 객체를 조회할 수 없음 - {self.db_data_id}")
 
-        inspection_dict = self.image_box.get_inspection()
-        db_data.update(inspection_dict)
+        part_dict = {
+            "status": True,
+            "image_path": self.parts_path[part_name]
+        }
+        
+        db_data.update(part_dict)
         self.db.commit()
+        print(f"파츠 업데이트 완료 - {db_data}")
 
 
 class SingleWorker(Worker):
@@ -125,16 +130,20 @@ class SingleWorker(Worker):
                 # 파츠 이미지 저장
                 # 일단 저장한 척
                 self.parts_path[part_name] = part_image
-                pass
 
         # 데이터가 없으면 생성
         if self.db_data_id is None:
             self.create_data(path=path)
 
         # DB에 반영
-        if self.image_box.is_update_list:
+        if self.image_box.is_update:
             # DB에 데이터 업데이트
             self.update_data()
+            self.image_box.is_update = False
+        # 각 파츠 업데이트
+        for part_name in self.image_box.parts_update:
+            self.update_parts(part_name)
+            self.image_box.parts_update.remove(part_name)
 
         # 답장
         photo  = img_2_photo(img)

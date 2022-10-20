@@ -42,8 +42,9 @@ class ImageBox:
         self.image_path = None
         self.old_image_count=0
         # 데이터 갱신 유무
-        self.is_update_list = []
-        
+        self.is_update = False
+        self.parts_update = []
+
     
     def get_inspection(self):
         return self.inspection
@@ -62,7 +63,7 @@ class ImageBox:
             self.inspection['uniform'] = self.ai.get_uniform()
             self.inspection['affiliation'] = self.ai.get_affiliation()
             self.parts = {key: False for key in UNIFORM_PARTS[self.inspection['uniform']]} # 유니폼에 따라 파츠 리스트 생성
-            self.is_update_list.append("inspection") # 업데이트 목록에 추가
+            self.is_update = True
         
         # 각 파츠별 데이터 갱신
         for part in UNIFORM_PARTS[self.inspection['uniform']]:
@@ -70,7 +71,7 @@ class ImageBox:
             if result[part] and not self.parts[part]:
                 self.parts[part] = True # 양호로 갱신
                 result_images[part] = f"가짜 이미지 - {part} - {path}"
-                self.is_update_list.append(part) # 업데이트 목록에 추가
+                self.parts_update.append(part) # 업데이트 목록에 추가
 
 
         # 각 파츠별 추가 ai 인식
@@ -78,12 +79,11 @@ class ImageBox:
         if result["nametag"] and self.inspection['name'] == "":
             # 이름 인식
             self.inspection['name'] = self.ai.random_name()
-            self.is_update_list.append("inspection") # 업데이트 목록에 추가
-        
+            self.is_update = True        
         # 계급장이 있으면
         if result["leveltag"] and self.inspection['rank'] == 1:
             # 계급 인식
             self.inspection['rank'] = self.ai.random_rank()
-            self.is_update_list.append("inspection") # 업데이트 목록에 추가
+            self.is_update = True        
         
         return result_images
