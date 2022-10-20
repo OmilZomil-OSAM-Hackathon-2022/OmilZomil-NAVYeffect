@@ -124,6 +124,7 @@ class OmilZomil:
                 plt_imshow(['org', 'histed_img'], [input_img, histed_img])
                 input_img = histed_img
 
+        # 옷 종류별로 분기를 나눔
         if self.uniform_type is None:
             self.uniform_type = self.dress_classifier.predict(shirt_img)[1]  # 복장종류인식 (전투복, 동정복, 샘당)
             if self.uniform_type == UniformType.dic['NAVY_SERVICE']:
@@ -133,7 +134,7 @@ class OmilZomil:
             else:
                 return None
 
-        # 옷 종류별로 분기를 나눔
+        # 복장검사모델
         result_dic = self.uniform_checker.checkUniform(shirt_img)
 
         base_point = (person_base_point[0] + shirt_base_point[0]), (person_base_point[1] + shirt_base_point[1])
