@@ -24,6 +24,8 @@ def get_logs(db: Session, military_unit: int, rank: int = None, name: str = None
         start_date = datetime(*start_date.timetuple()[:6])
         end_date = datetime(*end_date.timetuple()[:6])
         subquery = subquery.filter(InspectionLog.access_time >= start_date).filter(InspectionLog.access_time <= end_date)
+    else:
+        subquery = subquery.filter(InspectionLog.access_time.like(str(date.today()) + "%"))
 
     query = (
         db.query(InspectionLog)
@@ -35,11 +37,12 @@ def get_logs(db: Session, military_unit: int, rank: int = None, name: str = None
     appearance_status = query.filter(InspectionDetail.appearance_type > 1).filter(InspectionDetail.status == False).count() == 0
 
     logs = list()
-    for entry in query.all():
+    for entry in query.order_by(InspectionLog.access_time.desc()).all():
         log = {
             "inspection_id": entry.inspection_id,
             "access_time": entry.access_time,
             "affiliation": entry.affiliation,
+            "military_unit": entry.military_unit,
             "rank": entry.rank,
             "name": entry.name,
             "uniform": entry.uniform,
@@ -77,7 +80,7 @@ def get_log_details(db: Session, inspection_id: int):
         detail = detail.first()
         detail = {
             "detail_id": detail.detail_id,
-            "apperance_type": detail.apperance_type,
+            "apperance_type": detail.appearance_type,
             "status": detail.status,
             "is_valid": detail.is_valid,
             "image_path": detail.image_path,
