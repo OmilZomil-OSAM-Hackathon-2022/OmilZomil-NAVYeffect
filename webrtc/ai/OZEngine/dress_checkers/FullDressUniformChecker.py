@@ -121,8 +121,8 @@ class FullDressUniformChecker(UniformChecker):
 
         # 네카치프 / 네카치프링 체크
         name = 'neckerchief'
-        contours, masked_img_dic[name] = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind=name)
+        contours, _, masked_img_dic[name] = self.getMaskedContours(
+            img=img, hsv_img=hsv_img, kind=name, sort=True)
         
         if contours is not None:
             for contour in contours:
