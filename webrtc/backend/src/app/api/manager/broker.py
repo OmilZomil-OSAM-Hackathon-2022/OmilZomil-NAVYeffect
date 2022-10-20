@@ -14,10 +14,11 @@ SAVE_PATH = f"{settings.IMAGE_PATH}/queue"
 FRONT_NAME = {
     'uniform' : {
         1 : "null_value",
-        2 : "black",
-        3 : "blue",
+        2 : "blue",
+        3 : "black",
         4 : "green",
-    }
+    },
+
 }
 
 class Broker:

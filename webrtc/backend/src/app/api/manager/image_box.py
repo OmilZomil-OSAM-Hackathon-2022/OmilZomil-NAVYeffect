@@ -1,8 +1,8 @@
 
-
 UNIFORM_PARTS = {
     2 : [  # 샘당
         "hair", "nametag", "leveltag"
+        
         ],
     3 : [ # 정복
         "hair", "nametag", "leveltag", "muffler", "neck" 
@@ -11,6 +11,7 @@ UNIFORM_PARTS = {
         "hair", "nametag", "leveltag", "flag"
     ],
 }
+
 
 
 
@@ -41,7 +42,8 @@ class ImageBox:
         self.image_path = None
         self.old_image_count=0
         # 데이터 갱신 유무
-        self.is_update = False 
+        self.is_update_list = []
+        
     
     def get_inspection(self):
         return self.inspection
@@ -52,33 +54,36 @@ class ImageBox:
     def image_process(self, image, path):
         # 복장 양호 불량 인식
         result = self.ai.detect(img=image)
+        result_images = {}
 
         # 첫 이미지인 경우
         if not self.image_path:
             self.image_path = path        
             self.inspection['uniform'] = self.ai.get_uniform()
             self.inspection['affiliation'] = self.ai.get_affiliation()
-            self.parts = {key: None for key in UNIFORM_PARTS[self.inspection['uniform']]} # 유니폼에 따라 파츠 리스트 생성
-            self.is_update = True
+            self.parts = {key: False for key in UNIFORM_PARTS[self.inspection['uniform']]} # 유니폼에 따라 파츠 리스트 생성
+            self.is_update_list.append("inspection") # 업데이트 목록에 추가
         
         # 각 파츠별 데이터 갱신
         for part in UNIFORM_PARTS[self.inspection['uniform']]:
             # 각 파츠가 갱신이 필요한 경우 
             if result[part] and not self.parts[part]:
                 self.parts[part] = True # 양호로 갱신
-                self.is_update = True
+                result_images[part] = f"가짜 이미지 - {part} - {path}"
+                self.is_update_list.append(part) # 업데이트 목록에 추가
+
 
         # 각 파츠별 추가 ai 인식
         # 이름 태그가 있으면
         if result["nametag"] and self.inspection['name'] == "":
             # 이름 인식
             self.inspection['name'] = self.ai.random_name()
-            self.is_update = True
+            self.is_update_list.append("inspection") # 업데이트 목록에 추가
         
         # 계급장이 있으면
         if result["leveltag"] and self.inspection['rank'] == 1:
             # 계급 인식
             self.inspection['rank'] = self.ai.random_rank()
-            self.is_update = True
+            self.is_update_list.append("inspection") # 업데이트 목록에 추가
         
-    
+        return result_images
