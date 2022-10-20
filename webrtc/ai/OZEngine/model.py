@@ -153,10 +153,10 @@ class OmilZomil:
         if self.debug_list:
             # for debug
             result_dic['box_position']['face'] = [face_box[0][1], face_box[0][0], face_box[1][1]-face_box[0][1], face_box[1][0]-face_box[0][0]]
-            result_dic['box_position']['face'][0] += person_base_point[1]
-            result_dic['box_position']['face'][1] += person_base_point[0]
+            result_dic['box_position']['face'][0] += person_box[0][1]
+            result_dic['box_position']['face'][1] += person_box[0][0]
 
-            boxed_img, roi_dic = self.boxImage(input_img, result_dic)
+            boxed_img, roi_dic = self.boxImage(img, result_dic)
             
             # plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic, msg="roi")
