@@ -52,7 +52,7 @@ class FullDressUniformChecker(UniformChecker):
     def isNameTag(self, position, kind):
         return position == 'left' and kind == 'name_tag'
 
-    def isClassTag(self, position, kind):
+    def isRankTag(self, position, kind):
         return position == 'left' and kind is not None and kind.find('rank_tag') != -1
 
     def isNeckerchief(self, position, kind):
@@ -144,6 +144,7 @@ class FullDressUniformChecker(UniformChecker):
                     box_position_dic[name] = tmp_box_position
                     component_dic[name] = True
                     probability_dic[name] = probability
+                    print('area', area)
                     break
 
         # 계급장 체크
