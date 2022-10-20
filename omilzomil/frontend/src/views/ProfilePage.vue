@@ -7,13 +7,13 @@
         </router-link>
         <router-link
           v-if="user.role > 2"
-          to="/profile/userManagement"
+          to="/profile/UserManagement"
         >
           사용자 관리
         </router-link>
         <router-link
           v-if="user.role > 2"
-          to="/profile/unitManagement"
+          to="/profile/UnitManagement"
         >
           부대 관리
         </router-link>
