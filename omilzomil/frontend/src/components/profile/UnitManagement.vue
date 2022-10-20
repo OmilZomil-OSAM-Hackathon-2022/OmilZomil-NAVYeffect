@@ -1,16 +1,22 @@
 <template>
   <div class="page">
     <div class="search-div">
-      <div class="add-unit">
-        <input placeholder="부대 이름을 입력하세요.">
+      <form
+        class="add-unit"
+        @submit.prevent="addUnit()"
+      >
+        <input
+          v-model="newUnit"
+          placeholder="부대 이름을 입력하세요."
+        >
         <button>추가</button>
-      </div>
-      <SearchInput :on-click="search" />
+      </form>
+      <SearchInput @search="search" />
     </div>
     <table>
       <thead>
         <tr>
-          <th w>
+          <th>
             부대이름
           </th>
           <th>위병소 관리</th>
@@ -19,43 +25,147 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>계룡대 본부대대</td>
+        <tr
+          v-for="unit in units"
+          :key="unit.unit_id"
+        >
+          <td>{{ unit.unit }}</td>
           <td>
-            <div class="tcenter">
-              <a>관리</a>
+            <div
+              class="tcenter"
+            >
+              <a @click="openConect(unit.unit,unit.unit_id)">관리</a>
             </div>
           </td>
           <td>
-            <div class="tcenter">
-              <a>변경</a>
+            <div
+              class="tcenter"
+            >
+              <a
+                @click="openEdit(unit.unit,unit.unit_id)"
+              >변경</a>
             </div>
           </td>
           <td>
-            <div class="tcenter">
-              <a>삭제</a>
+            <div
+              class="tcenter"
+            >
+              <a
+              
+                @click="deleteUnit(unit.unit_id)"
+              >삭제</a>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
+
+    <EditTitleCard
+      v-if="isEdit"
+      title="부대"
+      :data="editText"
+      @close="closeEdit"
+      @submit="submitEdit"
+    />
+    <ConectCard
+      v-if="isConect"
+      :title="editText"
+      :unit-i-d="editUnitID"
+      @close="closeConect"
+    />
   </div>
 </template>
 
 <script>
 import SearchInput from '../common/SearchInput.vue';
+import EditTitleCard from './EditTitleCard.vue';
+import ConectCard from './ConectCard.vue';
 export default {
-    components: { SearchInput },
+    components: { SearchInput, EditTitleCard, ConectCard },
     data(){
       return{
         classFilter:'',
         divisionFilter:'',
-        unitFilter:''
+        unitFilter:'',
+        units:[],
+        isEdit:false,
+        editText:'',
+        editUnitID:0,
+        newUnit:'',
+        isConect:false,
       }
     },
+    mounted(){
+      this.getUnits();
+    },
     methods:{
-        search(text){
-            text;
+        async getUnits(){
+          try{
+            const {data} = await this.$axios.get('/unit/');
+            this.units = data;
+          }catch(err){ 
+            console.log(err);
+          }
+        },
+        closeEdit(){
+          this.isEdit = false;
+        },
+        openEdit(text,id){
+          this.editUnitID = id;
+          this.editText = text;
+          this.isEdit = true;
+        },
+        closeConect(){
+          this.isConect = false;
+        },
+        openConect(text,id){
+          this.editUnitID = id;
+          this.editText = text;
+          this.isConect = true;
+        },
+
+        async submitEdit(text){
+          if(text == '' || this.editText == text){
+            this.closeEdit();
+            return;
+          }
+          try{
+            await this.$axios.put(`/unit/${this.editUnitID}`,{
+              unit:text
+            });
+            this.getUnits();
+          }catch(err){ 
+            console.log(err);
+          }
+          this.closeEdit();
+        },
+        async deleteUnit(unit_id){
+          try{
+            await this.$axios.delete(`/unit/${unit_id}`);
+            this.getUnits();
+          }catch(err){ 
+            console.log(err);
+          }
+        },
+        async addUnit(){
+          try{
+            await this.$axios.post('/unit/',{
+              unit:this.newUnit
+            });
+            this.newUnit = '';
+            this.getUnits();
+          }catch(err){
+            console.log(err);
+          }
+        },
+        async search(text){
+          console.log(text);
+          try{
+            const {data} = await this.$axios.get(`/unit/?unit=${text}`);
+            this.units = data;
+          }catch(err){
+            console.log(err);
+          }
         }
     }
 }

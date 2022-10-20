@@ -1,6 +1,9 @@
 <template>
-  <div class="search-wrap">
-    <button @click="$emit('onClick',text)">
+  <form
+    class="search-wrap"
+    @submit.prevent="$emit('search',text)"
+  >
+    <button>
       <img
         width="16"
         src="@/assets/icons/mdi_magnify.svg"
@@ -10,12 +13,12 @@
       v-model="text"
       placeholder="검색"
     >
-  </div>
+  </form>
 </template>
 
 <script>
 export default {
-    emits:["onClick"],
+    emits:["search"],
     data(){
         return{
             text:'',

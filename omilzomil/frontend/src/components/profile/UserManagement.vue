@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="search-div">
-      <SearchInput :on-click="search" />
+      <SearchInput @search="search" />
     </div>
     <div class="filter-wrap">
       <select v-model="classFilter">
@@ -63,10 +63,10 @@
           승인 여부를 선택하세요.
         </option>
 
-        <option value="계룡대 근무지원단">
+        <option value="true">
           미승인
         </option>
-        <option value="1함대">
+        <option value="false">
           승인
         </option>
       </select>
@@ -101,9 +101,9 @@
               v-model="user.role"
               @change="changeRole(user.user_id,user.role)"
             >
-              <option value="0">
+              <!-- <option value="0">
                 미승인 사용자
-              </option>
+              </option> -->
               <option value="1">
                 일반 사용자
               </option>
@@ -117,7 +117,11 @@
           </td>
           <td>
             <div style="display:flex; justify-content:center">
-              <CheckTag :is-check="user.is_active" />
+              <CheckTag
+                :is-check="user.is_active"
+                style="cursor:pointer"
+                @click="activeUser(user.user_id,user.is_active)"
+              />
             </div>
           </td>
         </tr>
@@ -147,8 +151,18 @@ export default {
       this.getUsers();
     },
     methods:{
-        search(text){
-            text;
+        async search(text){
+            try{
+              this.users = (await this.$axios.get(`/user/?full_name=${text}`)).data;
+              
+              for(var i=0;i<this.users.length;i++){
+                this.users[i].affiliation_title = this.affiliations.filter(af => af.affiliation_id == this.users[i].affiliation)[0].affiliation;
+                this.users[i].unit_title = this.units.filter(u => u.unit_id == this.users[i].military_unit)[0].unit;
+                this.users[i].rank_title = this.ranks.filter(r => r.rank_id == this.users[i].rank)[0].rank;
+              }
+            }catch(err){
+              console.log(err);
+            }
         },
         async changeRole(user_id,role){
           console.log(role);
@@ -184,7 +198,20 @@ export default {
               this.users[i].affiliation_title = this.affiliations.filter(af => af.affiliation_id == this.users[i].affiliation)[0].affiliation;
               this.users[i].unit_title = this.units.filter(u => u.unit_id == this.users[i].military_unit)[0].unit;
               this.users[i].rank_title = this.ranks.filter(r => r.rank_id == this.users[i].rank)[0].rank;
-              if(!this.users[i].is_active) this.users[i].role = 0;
+            }
+          }catch(err){
+            console.log(err);
+          }
+        },
+        async activeUser(user_id,is_active){
+          try{
+            const {data} = await this.$axios.put(`/user/activity/${user_id}`,{
+              is_active:!is_active
+            });
+            if(data.success){
+              this.getUsers();
+            }else{
+              alert('오류!');
             }
           }catch(err){
             console.log(err);

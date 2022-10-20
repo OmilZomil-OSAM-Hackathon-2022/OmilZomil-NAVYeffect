@@ -57,7 +57,7 @@
           >
             <td>{{ index+1 }}</td>
             <td>{{ `${vacation.start_date} ~ ${vacation.end_date}` }}</td>
-            <td>{{ vacation.is_approved !== null ? '승인':'미승인' }}</td>
+            <td>{{ vacation.is_approved == null ? '미승인':(vacation.is_approved?'승인':'승인거부') }}</td>
             <td>
               <button @click="cancel(vacation.vacation_id)">
                 취소
@@ -115,7 +115,7 @@ const format = (date) => {
           },
           async submit(){
             try{
-              const {data} = await this.$axios.post(`/vacation/${this.getUser.user_id}`,{
+              const {data} = await this.$axios.post(`/vacation/user/${this.getUser.user_id}`,{
                 start_date:format(this.startDate),
                 end_date:format(this.endDate)
               }) ;
@@ -131,8 +131,22 @@ const format = (date) => {
           },
           async getList(){
             try{
-              const {data} = await this.$axios.get(`/vacation/${this.getUser.user_id}`);
+              const {data} = await this.$axios.get(`/vacation/user/${this.getUser.user_id}`);
               this.vacationList = data;
+              // console.log(data);
+            }catch(err){
+              console.log(err);
+            }
+          },
+          async cancel(vacation_id){
+            try{
+              const {data} = await this.$axios.delete(`/vacation/${vacation_id}`) ;
+              if(data.success){
+                this.getList();
+                alert('취소가 완료되었습니다.');
+              }else{
+                alert('날짜를 확인해주세요.');
+              }
             }catch(err){
               console.log(err);
             }

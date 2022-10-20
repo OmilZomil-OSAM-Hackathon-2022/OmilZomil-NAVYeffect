@@ -1,140 +1,136 @@
 <template>
-  <div class="page">
+  <div class="card">
+    <div class="title">
+      <img
+        src="@/assets/icons/left-arrow.svg"
+        height="12"
+        style="cursor;:pointer"
+        @click="$emit('close')"
+      >
+      {{ title }} 위병소 연결
+    </div>
     <div class="search-div">
       <form
-        class="add-unit" 
-        @submit.prevent="addGaurdroom()"
+        class="add-unit"
+        @submit.prevent="addHouse"
       >
         <input
-          v-model="newGaurdroom"
+          v-model="newHouse"
           placeholder="위병소 이름을 입력하세요."
+          @keydown="search"
         >
+        <datalist id="list">
+          <option
+            v-for="h in searchHouse"
+            :key="h.house_id"
+            :value="h.house_id"
+          >
+            {{ h.house }}
+          </option>
+        </datalist>
         <button>추가</button>
       </form>
-      <SearchInput @search="search" />
     </div>
     <table>
       <thead>
         <tr>
           <th>
-            위병소 이름
+            위병소
           </th>
-          <th>변경</th>
-          <th>삭제</th>
+          <th>연결</th>
         </tr>
       </thead>
       <tbody>
         <tr
-          v-for="room in gaurdrooms"
-          :key="room.house_id"
+          v-for="house in houses"
+          :key="house.house_id"
         >
-          <td>{{ room.house }}</td>
+          <td>{{ house.house }}</td>
           <td>
-            <div class="tcenter">
-              <a @click="openEdit(room.house,room.house_id)">변경</a>
-            </div>
-          </td>
-          <td>
-            <div class="tcenter">
-              <a @click="deleteGaurdroom(room.house_id)">삭제</a>
+            <div
+              class="tcenter"
+            >
+              <a>해제</a>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
-    <EditTitleCard
-      v-if="isEdit"
-      title="위병소"
-      :data="editText"
-      @close="closeEdit"
-      @submit="submitEdit"
-    />
   </div>
 </template>
   
   <script>
-  import SearchInput from '../common/SearchInput.vue';
-  import EditTitleCard from './EditTitleCard.vue';
   export default {
-      components: { SearchInput,EditTitleCard },
+      props:{
+        title:{
+            type:String,
+            default:'',
+        },
+        unitID:{
+            type:Number,
+            default:0,
+        }
+      },
+      emits:["close"],
       data(){
         return{
-          gaurdrooms:[],
-          newGaurdroom:'',
-          editID:0,
-          editText:'',
-          isEdit:false,
+          houses:[],
+          newHouse:'',
+          searchHouse:[],
         }
       },
       mounted(){
-        this.getGaurdrooms();
+        this.getHouse();
       },
       methods:{
-          async search(text){
+          async getHouse(){
             try{
-              this.gaurdrooms = (await this.$axios.get(`/house/?house=${text}`)).data;
-            }catch(err){
-              console.log(err);
-            }
-          },
-          async getGaurdrooms(){
-            try{
-              this.gaurdrooms = (await this.$axios.get('/house/')).data;
-            }catch(err){
-              console.log(err);
-            }
-          },
-          async addGaurdroom(){
-            try{
-              await this.$axios.post('/house/',{
-                house:this.newGaurdroom
-              })
-              this.newGaurdroom = '';
-              this.getGaurdrooms();
-            }catch(err){
-              console.log(err);
-            }
-          },
-          async deleteGaurdroom(gaurdroom_id){
-            try{
-              await this.$axios.delete(`/house/${gaurdroom_id}`);
-              this.getGaurdrooms();
-            }catch(err){
-              console.log(err);
-            }
-          },
-          closeEdit(){
-            this.isEdit = false;
-          },
-          openEdit(text,room_id){
-            this.editID = room_id;
-            this.editText = text;
-            this.isEdit = true;
-          },
-          async submitEdit(text){
-            if(text == '' || this.editText == text){
-              this.closeEdit();
-              return;
-            }
-            try{
-              await this.$axios.put(`/house/${this.editID}`,{
-                house:text
-              });
-              this.getGaurdrooms();
+              const {data} = await this.$axios.get(`/unit/relation/${this.unitID.toString()}`);
+              this.houses = data;
             }catch(err){ 
               console.log(err);
             }
-            this.closeEdit();
+          },
+          async search(){
+            try{
+                this.searchHouse = (await this.$axios.get(`/house/?house=${this.newHouse}`)).data;
+                // console.log(this.newHouse,this.searchHouse);
+            }catch(err){
+                console.log(err);
+            }
+          },
+          async addHouse(){
+
           }
       }
   }
   </script>
   
   <style scoped>
-  .page{
-      padding:28px 61px;
+  .card{    
+    padding:28px 61px;
+    position:absolute;
+    top:0px;
+    left:0px;
+    box-sizing:border-box;
+      /* padding:28px 61px; */
       display:flex;
       flex-direction:column;
+      justify-content: flex-start;
+      box-shadow: none;
+      border-radius:0px 0px 0px 0px;
+  }
+  .title{
+    display:flex;
+    align-items:center;
+    background:var(--color-state-card);
+    width:100%;
+    gap:18px;
+    height:46px;
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding:0px 21px;
+    margin-bottom: 30px;
   }
   .search-div{
       width:100%;
@@ -250,3 +246,4 @@
     letter-spacing: 0.4px;
   }
   </style>
+  
