@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, Body
 from sqlalchemy.orm import Session
 from app.schemas.user import UserReadResponse
-from app.schemas.inspection_detail import InspectionLogUpdateCheck
+from app.schemas.inspection_log import InspectionLogUpdateCheck
 from app.schemas.inspection_detail import InspectionDetailUpdateStatus, InspectionDetailUpdateValidity
 from app.crud import real_time_monitor as crud
 from app.api import deps
