@@ -80,14 +80,14 @@ def get_monthly_best_stats(db: Session, military_unit: int, category: str):
         subquery = (
             db.query(InspectionLog.inspection_id)
             .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
-            .filter(InspectionLog.access_time.like(str(Date.now(day=False))))
+            .filter(InspectionLog.access_time.like(str(Date.now(day=False)) + "%"))
             .filter(InspectionLog.military_unit == military_unit)
             .filter(or_(InspectionDetail.is_valid == False, InspectionDetail.status == False))
         )
 
         query = (
             db.query(InspectionLog.inspection_id, InspectionLog.name, InspectionLog.image_path)
-            .filter(InspectionLog.access_time.like(str(Date.now(day=False))))
+            .filter(InspectionLog.access_time.like(str(Date.now(day=False)) + "%"))
             .filter(InspectionLog.military_unit == military_unit)
             .filter(InspectionLog.inspection_id.not_in(subquery))
         )
