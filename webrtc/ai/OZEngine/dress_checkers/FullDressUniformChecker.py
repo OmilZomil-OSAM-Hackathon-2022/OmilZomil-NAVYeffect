@@ -28,7 +28,7 @@ class FullDressUniformChecker(UniformChecker):
                 'lower': (140, 60, 60),
                 'upper': (190, 255, 255)
             },
-            'anchor': {
+            'neckerchief': {
                 'lower': (20, 100, 100),
                 'upper': (30, 255, 255)
             },
@@ -55,8 +55,8 @@ class FullDressUniformChecker(UniformChecker):
     def isClassTag(self, position, kind):
         return position == 'left' and kind is not None and kind.find('rank_tag') != -1
 
-    def isAnchor(self, position, kind):
-        return kind == 'anchor'
+    def isneckerchief(self, position, kind):
+        return kind == 'neckerchief'
 
     def isMuffler(self, kind):
         return kind == 'muffler'
@@ -124,7 +124,7 @@ class FullDressUniformChecker(UniformChecker):
                     probability_dic['muffler'] = probability
 
         # 네카치프 / 네카치프링 체크
-        name = 'anchor'
+        name = 'neckerchief'
         contours, masked_img_dic[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name)
         
@@ -144,7 +144,7 @@ class FullDressUniformChecker(UniformChecker):
                     kind = name
                 else:
                     probability, kind = self.parts_classifier.predict(parts_img)[:2]
-                if self.isAnchor(position, kind):
+                if self.isNeckerchief(position, kind):
                     box_position_dic[name] = tmp_box_position
                     component_dic[name] = True
                     probability_dic[name] = probability
@@ -171,7 +171,7 @@ class FullDressUniformChecker(UniformChecker):
                     kind = name
                 else:
                     probability, kind = self.parts_classifier.predict(parts_img)[:2]
-                if self.isClassTag(position, kind):
+                if self.isRankTag(position, kind):
                     box_position_dic[name] = tmp_box_position
                     rank_n = kind.split('+')[1]
                     component_dic[name] = Classes.dic.get(int(rank_n))
