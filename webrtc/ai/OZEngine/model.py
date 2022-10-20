@@ -10,7 +10,7 @@ from .lib.utils import plt_imshow, histNorm, box2img
 
 
 class OmilZomil:
-    def __init__(self, resize=None, img_norm_type=None, debug_list=[], save_path=None, train_mode=False):
+    def __init__(self, resize=None, debug_list=[], save_path=None, train_mode=False):
         self.HED_engine = HED()
         self.morph_engine = Morph()
         self.uniform_checker = None
@@ -20,7 +20,6 @@ class OmilZomil:
         print('init!')
 
         self.resize = resize
-        self.img_norm_type = img_norm_type
         self.uniform_type = None
         self.debug_list = debug_list
         self.save_path = save_path
@@ -141,7 +140,6 @@ class OmilZomil:
         # 복장검사모델
         result_dic = self.uniform_checker.checkUniform(shirt_img)
 
-        base_point = (person_base_point[0] + shirt_base_point[0]), (person_base_point[1] + shirt_base_point[1])
         for name, pos in result_dic['box_position'].items():
             if pos:
                 x, y, w, h = pos
