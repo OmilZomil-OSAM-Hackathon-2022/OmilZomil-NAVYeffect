@@ -24,7 +24,7 @@ class FullDressUniformChecker(UniformChecker):
                 'lower': (0, 0, 0),
                 'upper': (255, 255, 50)
             },
-            'class_tag': {
+            'rank_tag': {
                 'lower': (140, 60, 60),
                 'upper': (190, 255, 255)
             },
@@ -53,7 +53,7 @@ class FullDressUniformChecker(UniformChecker):
         return position == 'left' and kind == 'name_tag'
 
     def isClassTag(self, position, kind):
-        return position == 'left' and kind is not None and kind.find('class_tag') != -1
+        return position == 'left' and kind is not None and kind.find('rank_tag') != -1
 
     def isAnchor(self, position, kind):
         return kind == 'anchor'
@@ -121,7 +121,7 @@ class FullDressUniformChecker(UniformChecker):
                 elif not is_mahura and isCenter and self.isMahura(kind):
                     box_position_dic['mahura'] = tmp_box_position
                     component_dic['mahura'] = True
-                    probability_dic['mahura'] = probabilit
+                    probability_dic['mahura'] = probability
 
         # 네카치프 / 네카치프링 체크
         name = 'anchor'
@@ -151,7 +151,7 @@ class FullDressUniformChecker(UniformChecker):
                     break
 
         # 계급장 체크
-        name = 'class_tag'
+        name = 'rank_tag'
         contours, _, masked_img_dic[name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name, sort=True)
             
@@ -173,8 +173,8 @@ class FullDressUniformChecker(UniformChecker):
                     probability, kind = self.parts_classifier.predict(parts_img)[:2]
                 if self.isClassTag(position, kind):
                     box_position_dic[name] = tmp_box_position
-                    class_n = kind.split('+')[1]
-                    component_dic[name] = Classes.dic.get(int(class_n))
+                    rank_n = kind.split('+')[1]
+                    component_dic[name] = Classes.dic.get(int(rank_n))
                     probability_dic[name] = probability
                     break
 
