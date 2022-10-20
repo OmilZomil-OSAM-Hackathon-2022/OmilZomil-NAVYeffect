@@ -87,42 +87,46 @@ class OmilZomil:
 
         return img, roi_dic
 
-    def detect(self, img):
+    def detect(self, org_img):
         if self.resize is not None:
             img = cv2.resize(img, self.resize)
         
-        input_img = img
+        img = org_img.copy()
+
+        base_point = [0, 0]
         # 사람인식
-        person_box = self.person_detector.detect(img)
-        person_base_point = person_box[0]
-        person_img = box2img(img, person_box)
-        if person_img is None:
-            return None
+        if self.person_detect:
+            person_box = self.person_detector.detect(img)
+            if person_img is None:
+                if self.debug_list:
+                    pass
+                    self.frame_cnt += 1
+                return None
+            base_point[0] += person_box[0][0]
+            base_point[0] += person_box[0][1]
+            img = box2img(img, person_box)
+        
         
         # 얼굴인식
-        face_box = self.face_detector.detect(person_img)
+        face_box = self.face_detector.detect(img)
         if face_box is None:
+            if self.debug_list:
+                self.debug({"result":img})
+                self.frame_cnt += 1
             return None
 
-        face_img = box2img(person_img, face_box)
+        face_img = box2img(img, face_box)
 
         self.debug({'face':face_img}, msg='roi')
         # 셔츠인식
-        h, w = person_img.shape[:2]
+        h, w = img.shape[:2]
         max_y = face_box[1][0]
         shirt_box = ((max_y, 0), (h, w))
-        shirt_base_point = shirt_box[0]
+        base_point[0] += shirt_box[0][0]
+        base_point[1] += shirt_box[0][1]
         shirt_img = box2img(person_img, shirt_box)
         
-        self.debug({'shirt':2}, msg='roi')
-        
-        # 히스토그램 평활화 여부 확인 후 적용
-        if self.img_norm_type:
-            histed_img = histNorm(input_img, type=self.img_norm_type)
-            # 디버깅 여부 확인
-            if 'plt' in self.debug_list:
-                plt_imshow(['org', 'histed_img'], [input_img, histed_img])
-                input_img = histed_img
+        self.debug({'shirt':shirt_img}, msg='roi')
 
         # 옷 종류별로 분기를 나눔
         if self.uniform_type is None:
@@ -145,7 +149,6 @@ class OmilZomil:
                 y += base_point[0]
                 result_dic['box_position'][name] = (x, y, w, h)
 
-        
             
         # 최종 debug 여부 확인
         if self.debug_list:
