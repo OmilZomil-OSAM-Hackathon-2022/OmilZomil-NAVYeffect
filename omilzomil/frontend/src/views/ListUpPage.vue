@@ -104,6 +104,29 @@ export default {
     async mounted(){
       this.ranks = (await this.$axios.get('/rank/')).data;
       this.appearances = (await this.$axios.get('/appearance/')).data;
+    },
+    methods:{
+      filterList(){
+        if(this.appearanceFilter || this.rankFilter || !!this.search){
+          this.filter = '?';
+          var f = false;
+          if(this.rankFilter){
+            if(f) this.filter += '&';
+            this.filter += `rank=${this.rankFilter}`;
+            f = true;
+          }
+          if(this.search){
+            if(f) this.filter += '&';
+            this.filter += `name=${this.search}`;
+            f = true;
+          }
+          if(this.appearanceFilter){
+            if(f) this.filter += '&';
+            this.filter += `appearance_type=${this.appearanceFilter}`;
+            f = true;
+          }
+        }
+      }
     }
 }
 </script>
