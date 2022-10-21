@@ -71,10 +71,11 @@
           <div class="time">
             {{ rtm.access_time.replace('T',' ') }}
           </div>
-          <div
+          <!-- <div
             class="dress-type"
             :style="{color:dressColors[rtm.uniform]}"
           >
+          
             <IconBase
               :width="16"
               :height="16"
@@ -83,8 +84,13 @@
               <TshirtIcon />
             </IconBase>
             {{ rtm.uniform_title }}
+          </div> -->
+          <div style="width: 100px;display:flex;justify-content:center">
+            <DressType
+              :dress-type="rtm.uniform"
+              :title="rtm.uniform_title"
+            />
           </div>
-
           <GoodBadTag :is-good="rtm.hair_status" />
           <GoodBadTag :is-good="rtm.appearance_status" />
           <CheckTag
@@ -109,15 +115,14 @@
 </template>
 
 <script>
-import TshirtIcon from "../assets/icons/tshirt-icon.vue";
-import IconBase from "./IconBase.vue";
 import GoodBadTag from "./GoodBadTag.vue";
 import DetailCard from "./DetailCard.vue";
 import CardHead from "./CardHead.vue";
 import CheckTag from "./CheckTag.vue";
+import DressType from './DressType.vue';
 
 export default {
-    components: { TshirtIcon, IconBase, GoodBadTag, DetailCard, CardHead, CheckTag },
+    components: { GoodBadTag, DetailCard, CardHead, CheckTag, DressType },
     props:{
       gap: {
         type:String,
@@ -296,31 +301,6 @@ export default {
   /* Dark4 */
 
   color: #78798D;
-}
-.list-item .dress-type{
-  display:flex;
-  align-items: center;
-  justify-content:center;
-  box-sizing: border-box;
-  /* padding: 4px 5px; */
-  gap: 5px;
-
-  width: 100px;
-  height: 24px;
-
-  /* Dark9 */
-
-  background: var(--color-state-card);
-  border-radius: 4px;
-
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 16px;
-  letter-spacing: 0.25px;
-
-  color: rgba(0,0,0,0.2);
 }
 .list-item .hair-state,.dress-state{
   width: 55px;

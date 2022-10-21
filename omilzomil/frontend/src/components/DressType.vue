@@ -49,5 +49,6 @@ export default {
   font-size: 14px;
   line-height: 16px;
   letter-spacing: 0.25px;
+  color: rgba(0,0,0,0.2);
 }
 </style>

@@ -9,7 +9,9 @@
     >
       <div class="overlay-card card">
         <img
-          src="@/assets/images/test.png"
+          class=".main-img"
+          :src="item.image_path"
+          @error="e => e.target.src = require('@/assets/images/test.png')"
         >
         <div class="detail">
           <div class="info">
@@ -65,6 +67,13 @@
               class="parts"
             >
               <div class="parts-image">
+                <img
+                  class="thumb"
+                  :src="d.image_path"
+                  :style="{cursor:isAdmin?'pointer':''}"
+                  @error="e => e.target.src = require('@/assets/images/no-image.png')"
+                  @click="changeValid(d)"
+                >
                 <div
                   v-if="isAdmin"
                   class="toggle-wrap"
@@ -87,6 +96,8 @@
                 <div
                   v-if="!d.is_valid"
                   class="error-wrap"
+                  :style="{cursor:isAdmin?'pointer':''}"
+                  @click="changeValid(d)"
                 >
                   <img
                     src="@/assets/icons/alert-error.svg"
@@ -171,7 +182,19 @@ export default {
         }catch(err){
           console.log(err);
         }
+      },
+      async changeValid(d){
+        if(!this.isAdmin) return;
+        d.is_valid = !d.is_valid;
+        try{
+          await this.$axios.put(`/rtm/detail/validity/${d.detail_id}`,{
+            is_valid:d.is_valid
+          });
+        }catch(err){
+          console.log(err);
+        }
       }
+
     },
 }
 </script>
@@ -212,7 +235,7 @@ export default {
 
   letter-spacing: 0.15px;
 }
-.overlay-card img{
+.overlay-card .main-img{
   width:380px;
   height:100%;
 }
@@ -260,6 +283,11 @@ export default {
     width:160px;
     height:120px;
     overflow:hidden;
+}
+.parts-image .thumb{
+  object-fit:fill;
+  width:160px;
+  height:120px;
 }
 .parts .parts-info{
     display:flex;
