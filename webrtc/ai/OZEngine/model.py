@@ -50,7 +50,7 @@ class OmilZomil:
         self.debug({'demo':hed_edge}, msg='hed')
         
 
-    def debug(self, img_dic, save_path="", msg=""):
+    def saveImg(self, img_dic, save_path="", msg=""):
         pairs = [(f'{msg} - {name}', img)
                  for name, img in img_dic.items() if img is not None]
             
