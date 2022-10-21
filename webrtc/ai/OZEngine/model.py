@@ -31,6 +31,15 @@ class OmilZomil:
         self.base_point[0] += box[0][0]
         self.base_point[1] += box[0][1]
 
+    def applyBasePoint(self, points, method):
+        if method == '2':
+            p1, p2 = points
+            pass 
+
+        elif method == '4':
+            x, y, w, h = points
+            return x+points[1], y+points[0], w, h
+
     def demo(self, img, info_dic=None):
         # morphed_edge, ret = self.morph_engine.detect_edge(img)
         hed_edge = self.HED_engine.detect_edge(img, 500, 500)
@@ -119,8 +128,6 @@ class OmilZomil:
         shirt_box = ((max_y, 0), (h, w))
         shirt_img = box2img(img, shirt_box)
         self.addBasePoint(shirt_box)
-        
-        self.debug({'shirt':shirt_img}, msg='roi')
 
         # 옷 종류별로 분기를 나눔
         if self.uniform_type is None:
@@ -137,11 +144,7 @@ class OmilZomil:
 
         for name, pos in result_dic['box_position'].items():
             if pos:
-                x, y, w, h = pos
-                x += base_point[1]
-                y += base_point[0]
-                result_dic['box_position'][name] = (x, y, w, h)
-
+                result_dic['box_position'][name] = applyBasePoint(pos)
             
         boxed_img, roi_dic = self.boxImage(boxed_img, result_dic)
             
