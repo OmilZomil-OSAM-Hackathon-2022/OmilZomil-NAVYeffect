@@ -9,7 +9,7 @@
     >
       <div class="overlay-card card">
         <img
-          class=".main-img"
+          class="main-img"
           :src="item.image_path"
           @error="e => e.target.src = require('@/assets/images/test.png')"
         >
@@ -238,6 +238,7 @@ export default {
 .overlay-card .main-img{
   width:380px;
   height:100%;
+  /* object-fit:fill; */
 }
 .overlay-card .detail{
   width:580px;
