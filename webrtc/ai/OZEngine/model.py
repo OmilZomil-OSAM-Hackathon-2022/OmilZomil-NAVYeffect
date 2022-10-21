@@ -39,17 +39,6 @@ class OmilZomil:
             x, y, w, h = points
             return x+self.base_point[1], y+self.base_point[0], w, h
 
-    def demo(self, img, info_dic=None):
-        # morphed_edge, ret = self.morph_engine.detect_edge(img)
-        
-        # self.debug({'demo':morphed_edge}, msg='morphed')
-        if info_dic is not None:
-            
-            hed_boxed_img, roi_dic = self.boxImage(hed_edge_bgr, info_dic)
-            self.debug({'demo':hed_boxed_img}, msg='boxed_hed')
-        self.debug({'demo':hed_edge}, msg='hed')
-        
-
     def saveImg(self, img_dic, save_path="", msg=""):
         pairs = [(f'{msg} - {name}', img)
                  for name, img in img_dic.items() if img is not None]
