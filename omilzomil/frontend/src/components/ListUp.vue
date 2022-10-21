@@ -152,7 +152,6 @@ export default {
     },
     watch:{
       filter(){
-        console.log(this.filter);
         this.getRtms();
       }
     },
@@ -189,7 +188,7 @@ export default {
         async getRtms(){
           try{
             this.rtms = (await this.$axios.get('/rtm/'+this.filter)).data;
-            console.log(this.filter);
+            // console.log(this.filter);
             // console.log(this.rtms);
             this.rtmInfo();
           }catch(err){

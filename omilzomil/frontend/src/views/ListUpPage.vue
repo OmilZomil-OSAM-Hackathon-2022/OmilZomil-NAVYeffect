@@ -87,7 +87,6 @@ export default {
     setup(){
       const date = ref();
       const format = (date) => {
-        console.log(date[0]);
         const d1 = date[0];
         const d2 = date[1];
         return `${d1.getFullYear()}/${d1.getMonth()+1}/${d1.getDate()} ~ ${d2.getFullYear()}/${d2.getMonth()+1}/${d2.getDate()}`;
@@ -118,7 +117,6 @@ export default {
     },
     methods:{
       filterList(){
-        console.log(this.date);
         if(this.appearanceFilter || this.rankFilter || this.search || this.date){
           let cur = '?';
           var f = false;
