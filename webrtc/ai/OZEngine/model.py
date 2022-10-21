@@ -65,10 +65,7 @@ class OmilZomil:
                 cv2.rectangle(img, (x, y), (x+w, y+h), Color.PARTS_BOX, 5)
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 margin = 30
-                if name == 'muffler':
-                    y -= (10 + margin)
-                else:
-                    y += h+margin
+                y += -(10+margin) if name == 'muffler' else h+margin
                 
                 msg = name.split('_')[0]
                 cv2.putText(img, msg, (x, y), font, 1, Color.PARTS_BOX, 3)
