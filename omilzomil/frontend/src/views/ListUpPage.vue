@@ -2,7 +2,10 @@
 <template>
   <div class="wrap">
     <div class="card filter">
-      <form class="form1">
+      <form
+        class="form1"
+        @submit.prevent="filterList()"
+      >
         <select v-model="appearanceFilter">
           <option
             :value="null"
@@ -46,7 +49,10 @@
         />
         <button>필터 적용</button>
       </form>
-      <form class="form2">
+      <form
+        class="form2"
+        @submit.prevent="filterList()"
+      >
         <button><img src="@/assets/icons/mdi_magnify.svg"></button>
         <input
           v-model="search"
