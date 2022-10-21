@@ -2,38 +2,51 @@
 <template>
   <div class="wrap">
     <div class="card filter">
-      <form class="form1">
-        <select>
+      <div
+        class="form1"
+      >
+        <select v-model="appearanceFilter">
           <option
-            value=""
+            :value="null"
             disabled
             selected
           >
             불량 요소를 선택하세요.
           </option>
-          <option>이름표</option>
-          <option>계급장</option>
-          <option>태극기</option>
-          <option>모자</option>
-          <option>두발</option>
-        </select>
-        <select>
           <option
-            value=""
+            :value="null"
+          >
+            전체
+          </option>
+          <option
+            v-for="ap in appearances"
+            :key="ap.appearance_id"
+            :value="ap.appearance_id"
+          >
+            {{ ap.appearance }}
+          </option>
+        </select>
+        <select v-model="rankFilter">
+          <option
+            :value="null"
             disabled
             selected
           >
             계급을 선택하세요.
           </option>
-          <option>이병</option>
-          <option>일병</option>
-          <option>상병</option>
-          <option>병장</option>
+          <option
+            :value="null"
+          >
+            전체
+          </option>
+          <option
+            v-for="r in ranks"
+            :key="r.rank_id"
+            :value="r.rank_id"
+          >
+            {{ r.rank }}
+          </option>
         </select>
-        <!-- <input
-          type="date"
-          placeholder="기한을 선택하세요."
-        > -->
         <Datepicker
           v-model="date"
           :format="format"
@@ -43,14 +56,22 @@
           selectText="확인"
           :dark="getDarkMode"
         />
-        <button>필터 적용</button>
-      </form>
-      <form class="form2">
+        <button @click="filterList()">
+          필터 적용
+        </button>
+      </div>
+      <form
+        class="form2"
+        @submit.prevent="filterList()"
+      >
         <button><img src="@/assets/icons/mdi_magnify.svg"></button>
-        <input placeholder="검색">
+        <input
+          v-model="search"
+          placeholder="검색"
+        >
       </form>
     </div>
-    <ListUp />
+    <ListUp :filter="filter" />
   </div>
 </template>
 
@@ -60,30 +81,71 @@ import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import ListUp from '@/components/ListUp.vue';
 import {ref} from 'vue';
+
 export default {
     components: { Datepicker, ListUp},
-    // data(){
-    //   return {
-    //     date:null,
-    //   }
-    // },
     setup(){
-      const date = ref(new Date());
+      const date = ref();
       const format = (date) => {
-        console.log(date[0]);
         const d1 = date[0];
         const d2 = date[1];
-        return `${d1.getFullYear()}/${d1.getMonth()}/${d1.getDate()} ~ ${d2.getFullYear()}/${d2.getMonth()}/${d2.getDate()}`;
+        return `${d1.getFullYear()}/${d1.getMonth()+1}/${d1.getDate()} ~ ${d2.getFullYear()}/${d2.getMonth()+1}/${d2.getDate()}`;
       }
       return {
         date,
         format,
       }
     },
+    data(){
+      return {
+        ranks:[],
+        appearances:[],
+        appearanceFilter:null,
+        rankFilter:null,
+        filter:'',
+        search:'',
+      }
+    },
     computed:{
       getDarkMode() {
         return this.$store.getters.getDarkMode;
       },
+    },
+    async mounted(){
+      this.ranks = (await this.$axios.get('/rank/')).data;
+      this.appearances = (await this.$axios.get('/appearance/')).data;
+    },
+    methods:{
+      filterList(){
+        if(this.appearanceFilter || this.rankFilter || this.search || this.date){
+          let cur = '?';
+          var f = false;
+          if(this.rankFilter){
+            if(f) cur += '&';
+            cur += `rank=${this.rankFilter}`;
+            f = true;
+          }
+          if(this.search){
+            if(f) cur += '&';
+            cur += `name=${this.search}`;
+            f = true;
+          }
+          if(this.appearanceFilter){
+            if(f) cur += '&';
+            cur += `appearance_type=${this.appearanceFilter}`;
+            f = true;
+          }
+          if(this.date){
+            if(f) cur += '&';
+            const d1 = this.date[0];
+            const d2 = this.date[1];
+            cur += `start_date=${d1.getFullYear()}-${d1.getMonth()+1}-${d1.getDate()}&end_date=${d2.getFullYear()}-${d2.getMonth()+1}-${d2.getDate()}`
+          }
+          this.filter = cur;
+        }else{
+          this.filter = '';
+        }
+      }
     }
 }
 </script>
