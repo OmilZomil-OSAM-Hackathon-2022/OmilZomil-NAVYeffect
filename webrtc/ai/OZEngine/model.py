@@ -60,7 +60,6 @@ class OmilZomil:
         img = org_img.copy()
         roi_dic = {}
 
-        # for demo
         for name, box_position in info_dic['box_position'].items():
             if name != 'shirt' and box_position is not None:
                 x, y, w, h = box_position
@@ -153,13 +152,6 @@ class OmilZomil:
 
             
         boxed_img, roi_dic = self.boxImage(org_img, result_dic)
-
-        # 최종 debug 여부 확인
-        if self.debug_list:
-            self.debug(roi_dic, msg="roi")
-            self.debug(result_dic['masked_img'], msg="masked")
-            self.debug({"result":boxed_img}, msg="res")
-            self.demo(org_img, result_dic)
             
         self.frame_cnt += 1
-        return {'component':result_dic['component'], 'roi':roi_dic}
+        return {'boxed_img':boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
