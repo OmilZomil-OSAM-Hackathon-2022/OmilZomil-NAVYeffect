@@ -150,6 +150,12 @@ export default {
             colors:["","","#1DCB9D","#4471FB","#44B9FB","#FF5467"],
         };
     },
+    watch:{
+      filter(){
+        console.log(this.filter);
+        this.getRtms();
+      }
+    },
     async mounted(){
       try{
         this.uniforms = (await this.$axios.get('/uniform/')).data;
@@ -182,8 +188,9 @@ export default {
         },
         async getRtms(){
           try{
-            this.rtms = (await this.$axios.get('/rtm/')).data;
-            console.log(this.rtms);
+            this.rtms = (await this.$axios.get('/rtm/'+this.filter)).data;
+            console.log(this.filter);
+            // console.log(this.rtms);
             this.rtmInfo();
           }catch(err){
             console.log(err);

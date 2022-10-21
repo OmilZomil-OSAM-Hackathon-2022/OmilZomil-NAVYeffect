@@ -2,9 +2,8 @@
 <template>
   <div class="wrap">
     <div class="card filter">
-      <form
+      <div
         class="form1"
-        @submit.prevent="filterList()"
       >
         <select v-model="appearanceFilter">
           <option
@@ -13,6 +12,11 @@
             selected
           >
             불량 요소를 선택하세요.
+          </option>
+          <option
+            :value="null"
+          >
+            전체
           </option>
           <option
             v-for="ap in appearances"
@@ -31,6 +35,11 @@
             계급을 선택하세요.
           </option>
           <option
+            :value="null"
+          >
+            전체
+          </option>
+          <option
             v-for="r in ranks"
             :key="r.rank_id"
             :value="r.rank_id"
@@ -47,8 +56,10 @@
           selectText="확인"
           :dark="getDarkMode"
         />
-        <button>필터 적용</button>
-      </form>
+        <button @click="filterList()">
+          필터 적용
+        </button>
+      </div>
       <form
         class="form2"
         @submit.prevent="filterList()"
@@ -74,12 +85,12 @@ import {ref} from 'vue';
 export default {
     components: { Datepicker, ListUp},
     setup(){
-      const date = ref(new Date());
+      const date = ref();
       const format = (date) => {
         console.log(date[0]);
         const d1 = date[0];
         const d2 = date[1];
-        return `${d1.getFullYear()}/${d1.getMonth()}/${d1.getDate()} ~ ${d2.getFullYear()}/${d2.getMonth()}/${d2.getDate()}`;
+        return `${d1.getFullYear()}/${d1.getMonth()+1}/${d1.getDate()} ~ ${d2.getFullYear()}/${d2.getMonth()+1}/${d2.getDate()}`;
       }
       return {
         date,
@@ -107,24 +118,34 @@ export default {
     },
     methods:{
       filterList(){
-        if(this.appearanceFilter || this.rankFilter || !!this.search){
-          this.filter = '?';
+        console.log(this.date);
+        if(this.appearanceFilter || this.rankFilter || this.search || this.date){
+          let cur = '?';
           var f = false;
           if(this.rankFilter){
-            if(f) this.filter += '&';
-            this.filter += `rank=${this.rankFilter}`;
+            if(f) cur += '&';
+            cur += `rank=${this.rankFilter}`;
             f = true;
           }
           if(this.search){
-            if(f) this.filter += '&';
-            this.filter += `name=${this.search}`;
+            if(f) cur += '&';
+            cur += `name=${this.search}`;
             f = true;
           }
           if(this.appearanceFilter){
-            if(f) this.filter += '&';
-            this.filter += `appearance_type=${this.appearanceFilter}`;
+            if(f) cur += '&';
+            cur += `appearance_type=${this.appearanceFilter}`;
             f = true;
           }
+          if(this.date){
+            if(f) cur += '&';
+            const d1 = this.date[0];
+            const d2 = this.date[1];
+            cur += `start_date=${d1.getFullYear()}-${d1.getMonth()+1}-${d1.getDate()}&end_date=${d2.getFullYear()}-${d2.getMonth()+1}-${d2.getDate()}`
+          }
+          this.filter = cur;
+        }else{
+          this.filter = '';
         }
       }
     }
