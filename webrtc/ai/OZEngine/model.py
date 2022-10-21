@@ -43,10 +43,7 @@ class OmilZomil:
                  for name, img in img_dic.items() if img is not None]
             
         for name, img in pairs:
-            if msg:
-                parts_dir = os.path.join(save_path, name, msg)
-            else:
-                parts_dir = os.path.join(save_path, name)
+            parts_dir = os.path.join(save_path, name)
 
             os.makedirs(parts_dir, exist_ok=True)
             dst_path = os.path.join(parts_dir, str(self.frame_cnt) + '.jpg')
