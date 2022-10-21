@@ -41,10 +41,10 @@ class OmilZomil:
 
     def demo(self, img, info_dic=None):
         # morphed_edge, ret = self.morph_engine.detect_edge(img)
-        hed_edge = self.HED_engine.detect_edge(img, 500, 500)
+        
         # self.debug({'demo':morphed_edge}, msg='morphed')
         if info_dic is not None:
-            hed_edge_bgr = cv2.cvtColor(hed_edge, cv2.COLOR_GRAY2BGR)
+            
             hed_boxed_img, roi_dic = self.boxImage(hed_edge_bgr, info_dic)
             self.debug({'demo':hed_boxed_img}, msg='boxed_hed')
         self.debug({'demo':hed_edge}, msg='hed')
@@ -93,6 +93,9 @@ class OmilZomil:
     def detect(self, org_img):
         img = org_img.copy()
         boxed_img = org_img
+        hed_edge = self.HED_engine.detect_edge(img, 500, 500)
+        hed_edge_bgr = cv2.cvtColor(hed_edge, cv2.COLOR_GRAY2BGR)
+        hed_boxed_img = hed_boxed_bgr
 
         self.base_point = [0, 0]
         # 사람인식
@@ -113,6 +116,7 @@ class OmilZomil:
         y += person_box[0][0]
         x += person_box[0][1]
         cv2.rectangle(boxed_img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
+        cv2.rectangle(hed_boxed_img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
         face_img = box2img(img, face_box)
         self.debug({'face':face_img}, msg='roi')
 
@@ -142,5 +146,6 @@ class OmilZomil:
                 result_dic['box_position'][name] = applyBasePoint(pos)
             
         boxed_img, roi_dic = self.boxImage(boxed_img, result_dic)
+        boxed_img, roi_dic = self.boxImage(hed_boxed_img, result_dic)
 
-        return {'boxed_img':boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
+        return {'boxed_img':boxed_img, 'hed_boxed_img': hed_boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
