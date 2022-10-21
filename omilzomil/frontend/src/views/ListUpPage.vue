@@ -51,7 +51,7 @@
         <input placeholder="검색">
       </form>
     </div>
-    <ListUp />
+    <ListUp :filter="filter" />
   </div>
 </template>
 
