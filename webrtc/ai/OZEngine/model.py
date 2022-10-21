@@ -10,7 +10,7 @@ from .lib.utils import plt_imshow, histNorm, box2img, cvtPoint
 
 
 class OmilZomil:
-    def __init__(self, resize=None, check_person=True, save_path=None, train_mode=False):
+    def __init__(self, resize=None, check_person=True, train_mode=False):
         self.HED_engine = HED()
         self.morph_engine = Morph()
         self.uniform_checker = None
@@ -22,7 +22,6 @@ class OmilZomil:
         self.resize = resize
         self.uniform_type = None
         self.check_person = check_person
-        self.save_path = save_path
         self.train_mode = train_mode
         self.frame_cnt = 0
         self.base_point = [0, 0]
@@ -51,13 +50,13 @@ class OmilZomil:
         self.debug({'demo':hed_edge}, msg='hed')
         
 
-    def debug(self, debug_img, msg=""):
+    def debug(self, img_dic, save_path="", msg=""):
         pairs = [(f'{msg} - {name}', img)
-                 for name, img in debug_img.items() if img is not None]
+                 for name, img in img_dic.items() if img is not None]
             
         for name, img in pairs:
             name = name.split(' - ')[1]
-            parts_dir = os.path.join(self.save_path, name)
+            parts_dir = os.path.join(save_path, name)
             if msg:
                 parts_dir = os.path.join(parts_dir, msg)
             os.makedirs(parts_dir, exist_ok=True)
