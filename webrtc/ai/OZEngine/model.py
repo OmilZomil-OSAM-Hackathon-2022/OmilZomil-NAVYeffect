@@ -10,7 +10,7 @@ from .lib.utils import plt_imshow, histNorm, box2img
 
 
 class OmilZomil:
-    def __init__(self, resize=None, check_person=True, debug_list=[], save_path=None, train_mode=False):
+    def __init__(self, resize=None, check_person=True, save_path=None, train_mode=False):
         self.HED_engine = HED()
         self.morph_engine = Morph()
         self.uniform_checker = None
@@ -22,7 +22,6 @@ class OmilZomil:
         self.resize = resize
         self.uniform_type = None
         self.check_person = check_person
-        self.debug_list = debug_list
         self.save_path = save_path
         self.train_mode = train_mode
         self.frame_cnt = 0
@@ -41,20 +40,15 @@ class OmilZomil:
     def debug(self, debug_img, msg=""):
         pairs = [(f'{msg} - {name}', img)
                  for name, img in debug_img.items() if img is not None]
-        if len(pairs):
-            if 'plt' in self.debug_list and self.frame_cnt == 0:
-                names, imgs = zip(*pairs)
-                plt_imshow([*names], [*imgs])
-                
-            if 'imwrite' in self.debug_list and self.save_path:
-                for name, img in pairs:
-                    name = name.split(' - ')[1]
-                    parts_dir = os.path.join(self.save_path, name)
-                    if msg:
-                        parts_dir = os.path.join(parts_dir, msg)
-                    os.makedirs(parts_dir, exist_ok=True)
-                    dst_path = os.path.join(parts_dir, str(self.frame_cnt) + '.jpg')
-                    cv2.imwrite(dst_path, img)
+            
+        for name, img in pairs:
+            name = name.split(' - ')[1]
+            parts_dir = os.path.join(self.save_path, name)
+            if msg:
+                parts_dir = os.path.join(parts_dir, msg)
+            os.makedirs(parts_dir, exist_ok=True)
+            dst_path = os.path.join(parts_dir, str(self.frame_cnt) + '.jpg')
+            cv2.imwrite(dst_path, img)
 
     def boxImage(self, org_img, info_dic):
         img = org_img.copy()
@@ -88,6 +82,7 @@ class OmilZomil:
             img = cv2.resize(img, self.resize)
         
         img = org_img.copy()
+        boxed_img = org_img
 
         base_point = [0, 0]
         # 사람인식
@@ -95,7 +90,6 @@ class OmilZomil:
             person_box = self.person_detector.detect(img)
             if person_box is None:
                 if self.debug_list:
-                    pass
                     self.frame_cnt += 1
                 return None
             base_point[0] += person_box[0][0]
@@ -107,15 +101,12 @@ class OmilZomil:
         # 얼굴인식
         face_box = self.face_detector.detect(img)
         if face_box is None:
-            if self.debug_list:
-                self.debug({"result":org_img}, msg="res")
-                self.frame_cnt += 1
-            return None
+            return {'boxed_img':org_img}
 
         x,y,w,h = face_box[0][1], face_box[0][0], face_box[1][1]-face_box[0][1], face_box[1][0]-face_box[0][0]
         y += person_box[0][0]
         x += person_box[0][1]
-        cv2.rectangle(org_img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
+        cv2.rectangle(boxed_img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
         face_img = box2img(img, face_box)
         self.debug({'face':face_img}, msg='roi')
 
@@ -151,7 +142,7 @@ class OmilZomil:
                 result_dic['box_position'][name] = (x, y, w, h)
 
             
-        boxed_img, roi_dic = self.boxImage(org_img, result_dic)
+        boxed_img, roi_dic = self.boxImage(boxed_img, result_dic)
             
         self.frame_cnt += 1
         return {'boxed_img':boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
