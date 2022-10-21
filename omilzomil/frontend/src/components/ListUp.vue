@@ -53,7 +53,8 @@
         >
           <img
             class="thumb"
-            src="@/assets/images/test.png"
+            :src="rtm.image_path"
+            @error="e => e.target.src = require('@/assets/images/test.png')"
           >
           <div class="info">
             <div
@@ -188,8 +189,7 @@ export default {
         async getRtms(){
           try{
             this.rtms = (await this.$axios.get('/rtm/'+this.filter)).data;
-            // console.log(this.filter);
-            // console.log(this.rtms);
+            console.log(this.rtms);
             this.rtmInfo();
           }catch(err){
             console.log(err);
