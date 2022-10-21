@@ -38,7 +38,7 @@ class OmilZomil:
 
         elif method == '4':
             x, y, w, h = points
-            return x+points[1], y+points[0], w, h
+            return x+self.base_point[1], y+self.base_point[0], w, h
 
     def demo(self, img, info_dic=None):
         # morphed_edge, ret = self.morph_engine.detect_edge(img)
@@ -103,12 +103,11 @@ class OmilZomil:
         if self.check_person:
             person_box = self.person_detector.detect(img)
             if person_box is None:
-                if self.debug_list:
-                    self.frame_cnt += 1
-                return None
+                return {}
             img = box2img(img, person_box)
             self.addBasePoint(person_box)
         
+        self.frame_cnt += 1
         # 얼굴인식
         face_box = self.face_detector.detect(img)
         if face_box is None:
@@ -147,6 +146,5 @@ class OmilZomil:
                 result_dic['box_position'][name] = applyBasePoint(pos)
             
         boxed_img, roi_dic = self.boxImage(boxed_img, result_dic)
-            
-        self.frame_cnt += 1
+
         return {'boxed_img':boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
