@@ -1,51 +1,72 @@
+
 ## 사용법 (Usage)
 
-``` python
-import OZEngine
 
-```
+### 파라미터
 
 먼저 OZEngine 모듈을 import해줍니다.
+``` python
+import OZEngine
+```
+
+다음으로 객체를 생성해줍니다.
 
 ``` python
 detector = OZEngine()
 ```
 
-`resize, img_norm_type, uniform_type, mode, detect_person`
+OZEngine class에는 여러 함수들이 있는데 우리는 분석하기 위해 1개의 함수만 있으면 충분합니다!
+check_person, train_mode 2개의 파라미터를 받고있습니다. 
 
-| Plugin | README |
-| ------ | ------ |
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
-| GitHub | [plugins/github/README.md][PlGh] |
-| Google Drive | [plugins/googledrive/README.md][PlGd] |
-| OneDrive | [plugins/onedrive/README.md][PlOd] |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
+`def detect(check_person=True, train_mode=False):`
 
-Note 1: `['ch_sim','en']` is the list of languages you want to read. You can pass
-several languages at once but not all languages can be used together.
-English is compatible with every language and languages that share common characters are usually compatible with each other.
+| 파라미터 | 기본값 | 설명 |
+| ------ | ------ | ------ |
+| check_person | False | 사람인식모델의 유무를 결정하는 파라미터입니다. |
+| train_mode | False | [plugins/github/README.md][PlGh] |
 
-Note 2: Instead of the filepath `chinese.jpg`, you can also pass an OpenCV image object (numpy array) or an image file as bytes. A URL to a raw image is also acceptable.
+참고 1: `check_person=True` 옵션을 주게 되면 detect함수 내부에 있는 사람인식모델이 동작하게 됩니다. 이 옵션이 필요할까요? 저희 Omil-Zomil에서는 위병소의 데이터를 실시간으로 분석합니다. 실시간으로 분석할 때 갑작스럽게 데이터가 몰려 서버에 부하가 심하게 가해지는 현상을 방지하기 위해 캐시(cache)기술이 적용된 DB를 사용합니다. DB에 저장하고 순차적으로 먼저 들어온 이미지데이터를 처리하기 때문에 처리하는 순간에는 사람인식이 보장되어있는 상태입니다. 결론적으로 저희 Omil-Zomil 서비스 내부에서 실시간 분석을 위해 별도로 만든 옵션입니다.
 
-Note 3: The line `reader = easyocr.Reader(['ch_sim','en'])` is for loading a model into memory. It takes some time but it needs to be run only once.
-
-You can also set `detail=0` for simpler output.
+참고 2: `check_person` 옵션은 현재 Omil-Zomil서비스에서 제공하고 있는 모델(, )에 사용자데이터를 추가하여 학습을 해야 하는 상황이 존재할 때 사용합니다. `check_person=True`로 하게되면 실제 모델 내부에서는 각 파츠들을 분류하는 분류모델을 사용하지 않습니다. 대신 파츠로 추정되는 이미지들을 모두 저장시킵니다. 학습할 때는 이렇게 저장된 이미지들을 사람이 수동으로 분류를 하고 학습모델을 train시키면 됩니다. 
 
 더 많은 정보는, [tutorial](https://www.jaided.ai/easyocr/tutorial)과 [API Documentation](https://www.jaided.ai/easyocr/documentation)를 읽어보세요
 
+### 실행
+
+OZEngine 객체 detector의 멤버함수 detect를 호출합니다.
+호출할 때에 이미지의 numpy 배열도 같이 넘겨줍니다.
 ``` python
-detector.detect()
+detector.detect(img)
 ```
-Result:
+
+#### Result
 ``` bash
-{'': ''}
+{
+	'component': {
+		'rank_tag':'병장',
+		'name_tag':'조준영',
+		'neckerchief': True,
+		'muffler': True
+	},
+	'boxed_img': {
+		[결과 이미지 numpy 배열]
+	},
+	'roi': {
+		'rank_tag': [계급장 이미지 numpy 배열],
+		'name_tag':[계급장 이미지 numpy 배열],
+		'neckerchief': [네카치프 이미지 numpy 배열],
+		'muffler': [마후라 이미지 numpy 배열]
+	}
+}
 ```
 
-Model weights for the chosen language will be automatically downloaded or you can
-download them manually from the [model hub](https://www.jaided.ai/easyocr/modelhub) and put them in the '~/.EasyOCR/model' folder
+결과값은 위와 같이 나옵니다. `component`에는 현재 병사가 착용하고 있는 파츠만 return 됩니다. 각 파츠들은 정복, 전투복, 근무복에 따라 다르게 표시됩니다. 
 
-In case you do not have a GPU, or your GPU has low memory, you can run the model in CPU-only mode by adding `gpu=False`.
+`boxed_img`는 원본 이미지 (detect함수에 들어간 원본 이미지) 위에 인식된 얼굴의 위치와 파츠들의 위치가 bounding box형태로 표시가 된 이미지 입니다. 이 이미지 역시 numpy 배열로 return이 됩니다.
+
+ `roi`는 인식된 파츠 이미지들에 ROI(Region Of Image)가 적용된 이미지입니다. 한마디로 인식된 부분만 잘린 이미지들입니다. 
+
+
 
 ``` python
 reader = easyocr.Reader(['ch_sim','en'], gpu=False)
@@ -59,7 +80,7 @@ reader = easyocr.Reader(['ch_sim','en'], gpu=False)
 $ easyocr -l ch_sim en -f chinese.jpg --detail=1 --gpu=True
 ```
 
-## Train/use your own model
+## 사용자 모델 학습
 
 For recognition model, [Read here](https://github.com/JaidedAI/EasyOCR/blob/master/custom_model.md).
 
@@ -105,7 +126,7 @@ Let's advance humanity together by making AI available to everyone!
 
 **Tech leader/Guru:** If you found this library useful, please spread the word! (See [Yann Lecun's post](https://www.facebook.com/yann.lecun/posts/10157018122787143) about EasyOCR)
 
-## Guideline for new language request
+## GPU가속 지원
 
 To request a new language, we need you to send a PR with the 2 following files:
 
