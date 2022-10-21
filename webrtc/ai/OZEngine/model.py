@@ -19,7 +19,6 @@ class OmilZomil:
         self.face_detector = FaceDetector()
         print('init!')
 
-        self.resize = resize
         self.uniform_type = None
         self.check_person = check_person
         self.train_mode = train_mode
