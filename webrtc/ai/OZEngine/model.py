@@ -127,7 +127,7 @@ class OmilZomil:
 
         for name, pos in result_dic['box_position'].items():
             if pos:
-                result_dic['box_position'][name] = applyBasePoint(pos)
+                result_dic['box_position'][name] = self.applyBasePoint(pos, method='4')
             
         boxed_img, roi_dic = self.boxImage(boxed_img, result_dic)
         boxed_img, roi_dic = self.boxImage(hed_boxed_img, result_dic)
