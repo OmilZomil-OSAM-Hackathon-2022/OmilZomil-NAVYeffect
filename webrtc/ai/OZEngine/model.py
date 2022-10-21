@@ -61,11 +61,8 @@ class OmilZomil:
         roi_dic = {}
 
         # for demo
-        x, y, w, h = info_dic['box_position']['face']
-        cv2.rectangle(img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
-        
         for name, box_position in info_dic['box_position'].items():
-            if name != 'shirt' and name != 'face' and box_position is not None:
+            if name != 'shirt' and box_position is not None:
                 x, y, w, h = box_position
                 roi = org_img[y:y+h, x:x+w]
                 
@@ -104,6 +101,7 @@ class OmilZomil:
                 return None
             base_point[0] += person_box[0][0]
             base_point[1] += person_box[0][1]
+
             img = box2img(img, person_box)
         
         
@@ -111,13 +109,18 @@ class OmilZomil:
         face_box = self.face_detector.detect(img)
         if face_box is None:
             if self.debug_list:
-                self.debug({"result":img})
+                self.debug({"result":org_img}, msg="res")
                 self.frame_cnt += 1
             return None
 
+        x,y,w,h = face_box[0][1], face_box[0][0], face_box[1][1]-face_box[0][1], face_box[1][0]-face_box[0][0]
+        y += person_box[0][0]
+        x += person_box[0][1]
+        cv2.rectangle(org_img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
         face_img = box2img(img, face_box)
-
         self.debug({'face':face_img}, msg='roi')
+
+
         # 셔츠인식
         h, w = img.shape[:2]
         max_y = face_box[1][0]
@@ -149,20 +152,14 @@ class OmilZomil:
                 result_dic['box_position'][name] = (x, y, w, h)
 
             
+        boxed_img, roi_dic = self.boxImage(org_img, result_dic)
+
         # 최종 debug 여부 확인
         if self.debug_list:
-            # for debug
-            result_dic['box_position']['face'] = [face_box[0][1], face_box[0][0], face_box[1][1]-face_box[0][1], face_box[1][0]-face_box[0][0]]
-            result_dic['box_position']['face'][0] += person_box[0][1]
-            result_dic['box_position']['face'][1] += person_box[0][0]
-
-            boxed_img, roi_dic = self.boxImage(org_img, result_dic)
-            
-            # plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic, msg="roi")
             self.debug(result_dic['masked_img'], msg="masked")
             self.debug({"result":boxed_img}, msg="res")
             self.demo(org_img, result_dic)
             
         self.frame_cnt += 1
-        return {'component':result_dic['component'], 'box_position': result_dic['box_position']}
+        return {'component':result_dic['component'], 'roi':roi_dic}
