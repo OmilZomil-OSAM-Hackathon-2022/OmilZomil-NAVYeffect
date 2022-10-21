@@ -23,7 +23,7 @@ def detect(check_person=True, train_mode=False):
 | check_person | False | 사람인식모델의 유무를 결정하는 파라미터입니다. |
 | train_mode | False | 분류모델의 사용유무를 결정하는 파라미터입니다. |
 
-Note 1: `check_person=True` 옵션을 주게 되면 detect함수 내부에 있는 사람인식모델이 동작하게 됩니다. 이 옵션이 필요할까요? 저희 Omil-Zomil에서는 위병소의 데이터를 실시간으로 분석합니다. 실시간으로 분석할 때 갑작스럽게 데이터가 몰려 서버에 부하가 심하게 가해지는 현상을 방지하기 위해 캐시(cache)기술이 적용된 DB를 사용합니다. DB에 저장하고 순차적으로 먼저 들어온 이미지데이터를 처리하기 때문에 처리하는 순간에는 사람인식이 보장되어있는 상태입니다. 결론적으로 저희 Omil-Zomil 서비스 내부에서 실시간 분석을 위해 별도로 만든 옵션입니다.
+Note 1: `check_person=True` 옵션을 주게 되면 detect함수 내부에 있는 사람인식모델이 동작하게 됩니다. 이 옵션이 필요할까요? [참고] 결론적으로 저희 Omil-Zomil 서비스 내부에서 실시간 분석을 위해 별도로 만든 옵션입니다.
 
 Note 2: `check_person` 옵션은 현재 Omil-Zomil서비스에서 제공하고 있는 모델(, )에 사용자데이터를 추가하여 학습을 해야 하는 상황이 존재할 때 사용합니다. `check_person=True`로 하게되면 실제 모델 내부에서는 각 파츠들을 분류하는 분류모델을 사용하지 않습니다. 대신 파츠로 추정되는 이미지들을 모두 저장시킵니다. 학습할 때는 이렇게 저장된 이미지들을 사람이 수동으로 분류를 하고 학습모델을 train시키면 됩니다. 
 
@@ -59,11 +59,11 @@ detector.detect(img)
 }
 ```
 
-결과값은 위와 같이 나옵니다. `component`에는 현재 병사가 착용하고 있는 파츠만 return 됩니다. 각 파츠들은 정복, 전투복, 근무복에 따라 다르게 표시됩니다. 
+결과값은 위와 같이 나옵니다. `component`에는 현재 병사가 착용하고 있는 파츠만 return 됩니다. 각 파츠들은 정복, 전투복, 근무복에 따라 다르게 표시됩니다. 만약 파츠를 착용하고 있지 않으면 빈 dictionary가 반환됩니다. 또는 사람이 인식되지 않거나 군복으로 판단되지 않으면 None값이 반환됩니다.
 
-`boxed_img`는 원본 이미지 (detect함수에 들어간 원본 이미지) 위에 인식된 얼굴의 위치와 파츠들의 위치가 bounding box형태로 표시가 된 이미지 입니다. 이 이미지 역시 numpy 배열로 return이 됩니다.
+`boxed_img`는 원본 이미지 (detect함수에 들어간 원본 이미지) 위에 인식된 얼굴의 위치와 파츠들의 위치가 bounding box형태로 표시가 된 이미지 입니다. 이 이미지 역시 numpy 배열로 return이 됩니다. 만약 사람이 인식되지 않으면 원본 이미지와 같은 이미지가 반환됩니다. (연속된 이미지로 볼 때 끊기지 않게 보기기 위함입니다) 
 
- `roi`는 인식된 파츠 이미지들에 ROI(Region Of Image)가 적용된 이미지입니다. 한마디로 인식된 부분만 잘린 이미지들입니다. 
+ `roi`는 인식된 파츠 이미지들에 ROI(Region Of Image)가 적용된 이미지입니다. 한마디로 인식된 부분만 잘린 이미지들입니다. 만약 파츠를 착용하고 있지 않으면 빈 dictionary가 반환됩니다. 또는 사람이 인식되지 않거나 군복으로 판단되지 않으면 None값이 반환됩니다.
 
 #### Code Example
 
@@ -96,17 +96,38 @@ For recognition model, [Read here](https://github.com/JaidedAI/EasyOCR/blob/mast
 
 For detection model (CRAFT), [Read here](https://github.com/JaidedAI/EasyOCR/blob/master/trainer/craft/README.md).
 
-## Implementation Roadmap
+## 개발자 RoadMap
 
-- Handwritten support
-- Restructure code to support swappable detection and recognition algorithms
-The api should be as easy as
+### 1. check_person 옵션 활용
+
+ 저희 Omil-Zomil에서는 위병소의 데이터를 실시간으로 분석합니다. 실시간으로 분석할 때 갑작스럽게 데이터가 몰려 서버에 부하가 심하게 가해지는 현상을 방지하기 위해 캐시(cache)기술이 적용된 DB를 사용합니다. DB에 저장하고 순차적으로 먼저 들어온 이미지데이터를 처리하기 때문에 처리하는 순간에는 사람인식이 보장되어있는 상태입니다.
+ 
 ``` python
-reader = easyocr.Reader(['en'], detection='DB', recognition = 'Transformer')
-```
-The idea is to be able to plug-in any state-of-the-art model into EasyOCR. There are a lot of geniuses trying to make better detection/recognition models, but we are not trying to be geniuses here. We just want to make their works quickly accessible to the public ... for free. (well, we believe most geniuses want their work to create a positive impact as fast/big as possible) The eline should be something like the below diagram. Grey slots are placeholders for changeable light blue modules.
+import cv2
+import OZEngine
+from OZEngine.person_detectors import PersonDetector
 
-![plan](examples/easyocr_framework.jpeg)
+detector = OZEngine()
+person_detector = PersonDetector() # 사람인식모델 선언
+
+img = cv2.imread('/image/example.jpg')  # 분석할 이미지 대상
+box = person_detector(img) 
+
+result = detector.detect(img, check_person=True)  # check_person값을 True로
+```
+
+### 2. check_person 옵션 활용
+
+
+``` python
+import cv2
+import OZEngine
+
+detector = OZEngine()
+
+img = cv2.imread('/image/example.jpg')  # 분석할 이미지 대상
+result = detector.detect(img, train_mode=True)  # train_mode값을 True로
+```
 
 ## Acknowledgement and References
 
@@ -124,18 +145,6 @@ Data synthesis is based on [TextRecognitionDataGenerator](https://github.com/Bel
 
 And a good read about CTC from distill.pub [here](https://distill.pub/2017/ctc/).
 
-## Want To Contribute?
-
-Let's advance humanity together by making AI available to everyone!
-
-3 ways to contribute:
-
-**Coder:** Please send a PR for small bugs/improvements. For bigger ones, discuss with us by opening an issue first. There is a list of possible bug/improvement issues tagged with ['PR WELCOME'](https://github.com/JaidedAI/EasyOCR/issues?q=is%3Aissue+is%3Aopen+label%3A%22PR+WELCOME%22).
-
-**User:** Tell us how EasyOCR benefits you/your organization to encourage further development. Also post failure cases in [Issue  Section](https://github.com/JaidedAI/EasyOCR/issues) to help improve future models.
-
-**Tech leader/Guru:** If you found this library useful, please spread the word! (See [Yann Lecun's post](https://www.facebook.com/yann.lecun/posts/10157018122787143) about EasyOCR)
-
 ## GPU가속 지원
 
 To request a new language, we need you to send a PR with the 2 following files:
@@ -152,11 +161,3 @@ If your language has unique elements (such as 1. Arabic: characters change form 
 Lastly, please understand that our priority will have to go to popular languages or sets of languages that share large portions of their characters with each other (also tell us if this is the case for your language). It takes us at least a week to develop a new model, so you may have to wait a while for the new model to be released.
 
 See [List of languages in development](https://github.com/JaidedAI/EasyOCR/issues/91)
-
-## Github Issues
-
-Due to limited resources, an issue older than 6 months will be automatically closed. Please open an issue again if it is critical.
-
-## Business Inquiries
-
-For Enterprise Support, [Jaided AI](https://www.jaided.ai/) offers full service for custom OCR/AI systems from implementation, training/finetuning and deployment. Click [here](https://www.jaided.ai/contactus?ref=github) to contact us.
