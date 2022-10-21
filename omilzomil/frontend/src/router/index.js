@@ -57,6 +57,7 @@ const routes = [
   {
     path: "/listup",
     name: "ListUp",
+    beforeEnter:beforeAuth(false),
     component: () => import('../views/ListUpPage.vue'),
   },
   {

@@ -1,6 +1,9 @@
 <template>
   <div class="wrap">
-    <div class="card">
+    <form
+      class="card" 
+      @submit.prevent="unregist()"
+    >
       <div class="unregist">
         회원 탈퇴
       </div>
@@ -22,9 +25,6 @@
           <div class="pw1-box1-msg1">
             비밀번호
           </div>
-          <div class="pw1-box1-msg2">
-            8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.
-          </div>
         </div>
         <div class="box2">
           <div class="inputbox">
@@ -34,12 +34,12 @@
               :type="pw1show ? 'text' : 'password'"
               placeholder="비밀번호"
             >
-            <button
+            <div
               v-if="pw1show===true"
               class="eye-off"
               @click="pw1show=false"
             />
-            <button
+            <div
               v-else
               class="eye-on"
               @click="pw1show=true"
@@ -59,12 +59,12 @@
               :type="pw2show ? 'text' : 'password'"
               placeholder="비밀번호"
             >
-            <button
+            <div
               v-if="pw2show===true"
               class="eye-off"
               @click="pw2show=false"
             />
-            <button
+            <div
               v-else
               class="eye-on"
               @click="pw2show=true"
@@ -74,13 +74,12 @@
       </div>
       <button
         class="button"
-        @click="unregist"
       >
         <div class="button-msg">
           탈퇴하기
         </div>
       </button>
-    </div>
+    </form>
   </div>
 </template>
   
@@ -94,9 +93,34 @@
         pw2show:false,
       }
     },
+    computed:{
+      getUser () {
+        return this.$store.getters.getUser;
+      },
+    },
     methods:{
-      unregist(){
+      async unregist(){
+        if(this.pw1 != this.pw2){
+          alert('비밀번호를 확인하세요');
+        }else{
+          try{
+            const {data} = await this.$axios.delete(`/user/${this.getUser.user_id}`,{
+              password:this.pw1
+            });
+            if(data.success){
+              this.logout();
+            }else{
+              alert('비밀번호를 확인하세요');
+            }
+          }catch(err){
+            alert('비밀번호를 확인하세요');
+          }
+        }
         //탈퇴~
+      },
+      logout(){
+        this.$store.commit('logout');
+        this.$router.push('/')
       }
     }
   }

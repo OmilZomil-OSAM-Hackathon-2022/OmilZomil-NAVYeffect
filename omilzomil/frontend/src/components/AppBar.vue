@@ -162,7 +162,7 @@
             >
               <GroupIcon />
             </IconBase>
-            부대인원조회
+            실시간 감지 현황
           </div>
         </router-link>
         <router-link to="/ranking">
