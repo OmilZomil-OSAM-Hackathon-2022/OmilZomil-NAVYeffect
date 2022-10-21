@@ -25,6 +25,11 @@ class OmilZomil:
         self.save_path = save_path
         self.train_mode = train_mode
         self.frame_cnt = 0
+        self.base_point = [0, 0]
+
+    def addBasePoint(self, box):
+        self.base_point[0] += box[0][0]
+        self.base_point[1] += box[0][1]
 
     def demo(self, img, info_dic=None):
         # morphed_edge, ret = self.morph_engine.detect_edge(img)
@@ -84,7 +89,7 @@ class OmilZomil:
         img = org_img.copy()
         boxed_img = org_img
 
-        base_point = [0, 0]
+        self.base_point = [0, 0]
         # 사람인식
         if self.check_person:
             person_box = self.person_detector.detect(img)
@@ -92,11 +97,8 @@ class OmilZomil:
                 if self.debug_list:
                     self.frame_cnt += 1
                 return None
-            base_point[0] += person_box[0][0]
-            base_point[1] += person_box[0][1]
-
             img = box2img(img, person_box)
-        
+            self.addBasePoint(person_box)
         
         # 얼굴인식
         face_box = self.face_detector.detect(img)
@@ -115,9 +117,8 @@ class OmilZomil:
         h, w = img.shape[:2]
         max_y = face_box[1][0]
         shirt_box = ((max_y, 0), (h, w))
-        base_point[0] += shirt_box[0][0]
-        base_point[1] += shirt_box[0][1]
         shirt_img = box2img(img, shirt_box)
+        self.addBasePoint(shirt_box)
         
         self.debug({'shirt':shirt_img}, msg='roi')
 
