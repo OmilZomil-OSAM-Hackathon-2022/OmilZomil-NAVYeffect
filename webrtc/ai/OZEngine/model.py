@@ -52,14 +52,15 @@ class OmilZomil:
             dst_path = os.path.join(parts_dir, str(self.frame_cnt) + '.jpg')
             cv2.imwrite(dst_path, img)
 
-    def boxImage(self, org_img, info_dic):
+    def boxImage(self, org_img, info_dic, is_roi=False):
         img = org_img.copy()
         roi_dic = {}
 
         for name, box_position in info_dic['box_position'].items():
             if name != 'shirt' and box_position is not None:
                 x, y, w, h = box_position
-                roi = org_img[y:y+h, x:x+w]
+                if is_roi:
+                    roi = org_img[y:y+h, x:x+w]
                 
                 cv2.rectangle(img, (x, y), (x+w, y+h), Color.PARTS_BOX, 5)
                 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -74,8 +75,8 @@ class OmilZomil:
                 if info_dic.get('probability'):
                     probability = round(info_dic['probability'][name]*100, 2)
                     cv2.putText(img, str(probability) + '%', (x, y+30), font, 1, Color.PARTS_BOX, 3)
-                
-                roi_dic[name] = roi
+                if is_roi:
+                    roi_dic[name] = roi
 
         return img, roi_dic
 
