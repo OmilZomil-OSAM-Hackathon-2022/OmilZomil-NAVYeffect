@@ -48,7 +48,10 @@
       </form>
       <form class="form2">
         <button><img src="@/assets/icons/mdi_magnify.svg"></button>
-        <input placeholder="검색">
+        <input
+          v-model="search"
+          placeholder="검색"
+        >
       </form>
     </div>
     <ListUp :filter="filter" />
@@ -83,6 +86,8 @@ export default {
         appearances:[],
         appearanceFilter:null,
         rankFilter:null,
+        filter:'',
+        search:'',
       }
     },
     computed:{

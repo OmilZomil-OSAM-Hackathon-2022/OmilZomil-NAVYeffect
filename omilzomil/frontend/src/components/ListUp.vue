@@ -133,6 +133,10 @@ export default {
       isInDash:{
         type:Boolean,
         default:false,
+      },
+      filter:{
+        type:String,
+        default:'',
       }
     },
     data() {
