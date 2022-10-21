@@ -38,15 +38,16 @@ class OmilZomil:
             x, y, w, h = points
             return x+self.base_point[1], y+self.base_point[0], w, h
 
-    def saveImg(self, img_dic, save_path="", msg=""):
-        pairs = [(f'{msg} - {name}', img)
+    def saveImg(self, img_dic, save_path=""):
+        pairs = [(f'{name}', img)
                  for name, img in img_dic.items() if img is not None]
             
         for name, img in pairs:
-            name = name.split(' - ')[1]
-            parts_dir = os.path.join(save_path, name)
             if msg:
-                parts_dir = os.path.join(parts_dir, msg)
+                parts_dir = os.path.join(save_path, name, msg)
+            else:
+                parts_dir = os.path.join(save_path, name)
+
             os.makedirs(parts_dir, exist_ok=True)
             dst_path = os.path.join(parts_dir, str(self.frame_cnt) + '.jpg')
             cv2.imwrite(dst_path, img)
