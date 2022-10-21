@@ -69,7 +69,7 @@ class OmilZomil:
                 cv2.rectangle(img, (x, y), (x+w, y+h), Color.PARTS_BOX, 5)
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 margin = 30
-                if name == 'mahura':
+                if name == 'muffler':
                     y -= (10 + margin)
                 else:
                     y += h+margin
