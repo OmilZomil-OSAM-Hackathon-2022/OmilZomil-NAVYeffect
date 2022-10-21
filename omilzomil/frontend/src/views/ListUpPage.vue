@@ -3,37 +3,38 @@
   <div class="wrap">
     <div class="card filter">
       <form class="form1">
-        <select>
+        <select v-model="appearanceFilter">
           <option
-            value=""
+            :value="null"
             disabled
             selected
           >
             불량 요소를 선택하세요.
           </option>
-          <option>이름표</option>
-          <option>계급장</option>
-          <option>태극기</option>
-          <option>모자</option>
-          <option>두발</option>
-        </select>
-        <select>
           <option
-            value=""
+            v-for="ap in appearances"
+            :key="ap.appearance_id"
+            :value="ap.appearance_id"
+          >
+            {{ ap.appearance }}
+          </option>
+        </select>
+        <select v-model="rankFilter">
+          <option
+            :value="null"
             disabled
             selected
           >
             계급을 선택하세요.
           </option>
-          <option>이병</option>
-          <option>일병</option>
-          <option>상병</option>
-          <option>병장</option>
+          <option
+            v-for="r in ranks"
+            :key="r.rank_id"
+            :value="r.rank_id"
+          >
+            {{ r.rank }}
+          </option>
         </select>
-        <!-- <input
-          type="date"
-          placeholder="기한을 선택하세요."
-        > -->
         <Datepicker
           v-model="date"
           :format="format"
@@ -60,13 +61,9 @@ import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import ListUp from '@/components/ListUp.vue';
 import {ref} from 'vue';
+
 export default {
     components: { Datepicker, ListUp},
-    // data(){
-    //   return {
-    //     date:null,
-    //   }
-    // },
     setup(){
       const date = ref(new Date());
       const format = (date) => {
@@ -80,10 +77,22 @@ export default {
         format,
       }
     },
+    data(){
+      return {
+        ranks:[],
+        appearances:[],
+        appearanceFilter:null,
+        rankFilter:null,
+      }
+    },
     computed:{
       getDarkMode() {
         return this.$store.getters.getDarkMode;
       },
+    },
+    async mounted(){
+      this.ranks = (await this.$axios.get('/rank/')).data;
+      this.appearances = (await this.$axios.get('/appearance/')).data;
     }
 }
 </script>

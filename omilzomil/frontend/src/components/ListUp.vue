@@ -46,8 +46,8 @@
       </div>
       <div class="list-body">
         <div
-          v-for="(item,index) in isInDash ? dummy.slice(0,4):dummy"
-          :key="index"
+          v-for="rtm in isInDash ? rtms.slice(0,4):rtms"
+          :key="rtm.inspection_id"
           class="list-item"
           :style="{gap:gap+'px'}"
         >
@@ -58,18 +58,22 @@
           <div class="info">
             <div
               class="division"
-              :style="{color:getDivisionColor(item.division)}"
+              :style="{color:colors[rtm.affiliation]}"
             >
-              대한민국 {{ item.division }}
+              {{ rtm.affiliation != 1 ? '대한민국':'' }} {{ rtm.affiliation_title }}
             </div>
             <div class="name">
-              {{ item.uClass }} {{ item.uName }}
+              <!-- <div :style="{color:rtm.rank==1?'rgba(0,0,0,0.2)':''}"></div> -->
+              {{ rtm.rank_title }} {{ rtm.name }}
             </div>
           </div>
           <div class="time">
-            {{ item.time }}
+            {{ rtm.access_time.replace('T',' ') }}
           </div>
-          <div class="dress-type">
+          <div
+            class="dress-type"
+            :style="{color:dressColors[rtm.uniform]}"
+          >
             <IconBase
               :width="16"
               :height="16"
@@ -77,31 +81,30 @@
             >
               <TshirtIcon />
             </IconBase>
-            {{ item.dressType }}
+            {{ rtm.uniform_title }}
           </div>
 
-          <GoodBadTag :is-good="item.hairStatus" />
-          <GoodBadTag :is-good="item.dressStatus" />
+          <GoodBadTag :is-good="rtm.hair_status" />
+          <GoodBadTag :is-good="rtm.appearance_status" />
           <CheckTag
             v-if="!isInDash"
-            :is-check="item.check"
+            :is-check="rtm.is_checked"
           />
           <a
             class="more"
-            @click="openDetail(item)"
+            @click="openDetail(rtm)"
           >
             <img src="@/assets/icons/dots.svg">
           </a>
         </div>
       </div>
     </div>
+    <DetailCard
+      v-if="isDetail"
+      :item="detail"
+      @close="closeDetail"
+    />
   </div>
-
-  <DetailCard
-    v-if="isDetail"
-    :item="detail"
-    @close="closeDetail"
-  />
 </template>
 
 <script>
@@ -111,20 +114,6 @@ import GoodBadTag from "./GoodBadTag.vue";
 import DetailCard from "./DetailCard.vue";
 import CardHead from "./CardHead.vue";
 import CheckTag from "./CheckTag.vue";
-
-class Item{
-  constructor(){
-    this.imageUrl = "@/assets/images/test.png",
-    this.division ="해군",
-    this.uClass = "일병",
-    this.uName= "나해군",
-    this.time= "2020-06-24 22:57:36",
-    this.dressType= "해군 전투복",
-    this.hairStatus= true,
-    this.dressStatus= false
-    this.check = true
-  }
-}
 
 export default {
     components: { TshirtIcon, IconBase, GoodBadTag, DetailCard, CardHead, CheckTag },
@@ -148,17 +137,24 @@ export default {
     },
     data() {
         return {
-            detail: new Item(),
+            detail: null,
             isDetail: false,
-            dummy: [
-                new Item(),
-                new Item(),
-                new Item(),
-                new Item(),
-                new Item(),
-                new Item(),
-            ]
+            rtms:[],
+            uniforms:[],
+            affiliations:[],
+            dressColors:["","","#4471FB","#585767","#1DCB9D"],
+            colors:["","","#1DCB9D","#4471FB","#44B9FB","#FF5467"],
         };
+    },
+    async mounted(){
+      try{
+        this.uniforms = (await this.$axios.get('/uniform/')).data;
+        this.affiliations = (await this.$axios.get('/affiliation/')).data;
+        this.ranks = (await this.$axios.get('/rank/')).data;
+        this.getRtms();
+      }catch(err){
+        console.log(err);
+      }
     },
     methods: {
         getDivisionColor(division) {
@@ -179,6 +175,34 @@ export default {
         openDetail(item){
           this.detail = item;
           this.isDetail = true;
+        },
+        async getRtms(){
+          try{
+            this.rtms = (await this.$axios.get('/rtm/')).data;
+            console.log(this.rtms);
+            this.rtmInfo();
+          }catch(err){
+            console.log(err);
+          }
+        },
+        rtmInfo(){
+          for(var i=0;i<this.rtms.length;i++){
+            if(this.rtms[i].rank != 1){
+              this.rtms[i].rank_title = this.ranks.filter(r=>r.rank_id == this.rtms[i].rank)[0].rank;
+            }else{
+              this.rtms[i].rank_title = '계급 미탐지';
+            }
+            if(this.rtms[i].affiliation != 1){
+              this.rtms[i].affiliation_title = this.affiliations.filter(a=>a.affiliation_id == this.rtms[i].affiliation)[0].affiliation;
+            }else{
+              this.rtms[i].affiliation_title = '소속 미탐지';
+            }
+            if(this.rtms[i].uniform != 1){
+              this.rtms[i].uniform_title = this.uniforms.filter(u=>u.uniform_id == this.rtms[i].uniform)[0].uniform;
+            }else{
+              this.rtms[i].uniform_title = '복장 미탐지';
+            }
+          }
         }
     }
 }
@@ -243,7 +267,7 @@ export default {
 
   letter-spacing: 0.4px;
 
-  color: #528EE9;
+  color: rgba(0,0,0,0.2);
   
   margin-bottom: 8px;
 }
@@ -286,7 +310,7 @@ export default {
   line-height: 16px;
   letter-spacing: 0.25px;
 
-  color: #528EE9;
+  color: rgba(0,0,0,0.2);
 }
 .list-item .hair-state,.dress-state{
   width: 55px;
