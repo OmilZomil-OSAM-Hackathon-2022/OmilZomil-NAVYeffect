@@ -104,8 +104,6 @@ class OmilZomil:
         cv2.rectangle(boxed_img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
         cv2.rectangle(hed_boxed_img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
         face_img = box2img(img, face_box)
-        self.debug({'face':face_img}, msg='roi')
-
 
         # 셔츠인식
         h, w = img.shape[:2]
