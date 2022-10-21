@@ -4,21 +4,19 @@
 
 ### 파라미터
 
-먼저 OZEngine 모듈을 import해줍니다.
+먼저 OZEngine 모듈을 import하고 객체를 생성해줍니다
 ``` python
 import OZEngine
-```
 
-다음으로 객체를 생성해줍니다.
-
-``` python
 detector = OZEngine()
 ```
 
-OZEngine class에는 여러 함수들이 있는데 우리는 분석하기 위해 1개의 함수만 있으면 충분합니다!
-check_person, train_mode 2개의 파라미터를 받고있습니다. 
+OZEngine class에는 여러 함수들이 있는데 우리는 분석하기 위해 detect 함수 1개만 있으면 충분합니다! 
+check_person, train_mode 2개의 파라미터를 받고있습니다. detect 함수 정의는 다음과 같이 되어있습니다.
 
-`def detect(check_person=True, train_mode=False):`
+``` python
+def detect(check_person=True, train_mode=False):
+```
 
 | 파라미터 | 기본값 | 설명 |
 | ------ | ------ | ------ |
@@ -33,6 +31,7 @@ check_person, train_mode 2개의 파라미터를 받고있습니다.
 
 ### 실행
 
+#### Run Code
 OZEngine 객체 detector의 멤버함수 detect를 호출합니다.
 호출할 때에 이미지의 numpy 배열도 같이 넘겨줍니다.
 ``` python
@@ -66,21 +65,32 @@ detector.detect(img)
 
  `roi`는 인식된 파츠 이미지들에 ROI(Region Of Image)가 적용된 이미지입니다. 한마디로 인식된 부분만 잘린 이미지들입니다. 
 
+#### Code Example
 
+아래는 이미지 입력부터 결과값 출력까지 전체적인 코드 예시입니다.
 
 ``` python
-reader = easyocr.Reader(['ch_sim','en'], gpu=False)
+import cv2
+import OZEngine
+
+detector = OZEngine()  # 객체 선언
+img = cv2.imread('/image/example.jpg')  # 분석할 이미지 대상
+result = detector.detect(img)  # detect함수 실행
+
+print(result['component'])  # 파츠여부 값만 출력
+'''
+예상 출력 값
+{
+  'rank_tag':'병장',
+  'name_tag':'조준영',
+  'neckerchief': True,
+  'muffler': True
+}
+'''
 ```
 
 
-
-#### Run on command line
-
-```shell
-$ easyocr -l ch_sim en -f chinese.jpg --detail=1 --gpu=True
-```
-
-## 사용자 모델 학습
+## 사용자 정의 모델 학습
 
 For recognition model, [Read here](https://github.com/JaidedAI/EasyOCR/blob/master/custom_model.md).
 
