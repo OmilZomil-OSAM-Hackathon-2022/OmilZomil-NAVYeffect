@@ -103,7 +103,7 @@ class OmilZomil:
                     self.frame_cnt += 1
                 return None
             base_point[0] += person_box[0][0]
-            base_point[0] += person_box[0][1]
+            base_point[1] += person_box[0][1]
             img = box2img(img, person_box)
         
         
@@ -156,13 +156,13 @@ class OmilZomil:
             result_dic['box_position']['face'][0] += person_box[0][1]
             result_dic['box_position']['face'][1] += person_box[0][0]
 
-            boxed_img, roi_dic = self.boxImage(img, result_dic)
+            boxed_img, roi_dic = self.boxImage(org_img, result_dic)
             
             # plt_imshow(['boxed'], [boxed_img])
             self.debug(roi_dic, msg="roi")
             self.debug(result_dic['masked_img'], msg="masked")
             self.debug({"result":boxed_img}, msg="res")
-            self.demo(img, result_dic)
+            self.demo(org_img, result_dic)
             
         self.frame_cnt += 1
         return {'component':result_dic['component'], 'box_position': result_dic['box_position']}
