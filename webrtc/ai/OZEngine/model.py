@@ -6,7 +6,7 @@ from .edge_detectors import HED, Morph, RCF
 from .person_detectors import PersonDetector
 from .face_detectors import FaceDetector
 from .lib.defines import UniformType, Color
-from .lib.utils import plt_imshow, histNorm, box2img
+from .lib.utils import plt_imshow, histNorm, box2img, cvtPoint
 
 
 class OmilZomil:
@@ -103,7 +103,7 @@ class OmilZomil:
         if face_box is None:
             return {'boxed_img':org_img}
 
-        x,y,w,h = face_box[0][1], face_box[0][0], face_box[1][1]-face_box[0][1], face_box[1][0]-face_box[0][0]
+        x,y,w,h = cvtPoint(face_box, method='2to4')
         y += person_box[0][0]
         x += person_box[0][1]
         cv2.rectangle(boxed_img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
