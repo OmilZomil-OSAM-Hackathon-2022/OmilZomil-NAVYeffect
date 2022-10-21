@@ -81,7 +81,7 @@ class OmilZomil:
         boxed_img = org_img
         hed_edge = self.HED_engine.detect_edge(img, 500, 500)
         hed_edge_bgr = cv2.cvtColor(hed_edge, cv2.COLOR_GRAY2BGR)
-        hed_boxed_img = hed_boxed_bgr
+        hed_boxed_img = hed_edge_bgr
 
         self.base_point = [0, 0]
         # 사람인식
