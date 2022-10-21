@@ -10,7 +10,7 @@ from .lib.utils import plt_imshow, histNorm, box2img, cvtPoint
 
 
 class OmilZomil:
-    def __init__(self, resize=None, check_person=True, train_mode=False):
+    def __init__(self, check_person=True, train_mode=False):
         self.HED_engine = HED()
         self.morph_engine = Morph()
         self.uniform_checker = None
@@ -91,9 +91,6 @@ class OmilZomil:
         return img, roi_dic
 
     def detect(self, org_img):
-        if self.resize is not None:
-            img = cv2.resize(img, self.resize)
-        
         img = org_img.copy()
         boxed_img = org_img
 
