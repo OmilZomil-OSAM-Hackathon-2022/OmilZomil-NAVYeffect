@@ -5,8 +5,8 @@
         <video ref="video" class="video" id="camera--view" autoplay></video>
         <canvas ref="canvas" class="video" style="display:none;"></canvas>
       </div>
-      <button @click="capture">test</button>
-      <img ref="test">
+      <!-- <button @click="capture">test</button>
+      <img ref="test" style="object-fit:contain; width:160px;"> -->
       <div class="leftcontent" style="display:flex; flex-direction:column; height:10vh; gap:2vh;">
         <div class="leftcontent" style="display:flex; flex-direction:row; justify-content: space-between; height:4vh;">
           <button @click="connect">연결하기</button>
@@ -315,7 +315,7 @@ export default {
   },
   mounted() {
     navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "user"}, audio: false
+      video: {width:1920,height:1080}, audio: false
     }).then(stream => {
       this.$refs.video.srcObject = stream;
     })
@@ -347,8 +347,7 @@ export default {
     height:100%;
   }
   .videoview{
-    display:flex;
-    justify-content:center;
+    object-fit:contain;
     width:490px;
     height:38vh;
   }
@@ -357,7 +356,9 @@ export default {
   }
   .video{
     /* transform: rotateY(180deg); */
-    
+    width:490px;
+    height:38vh;
+    object-fit:contain;
   }
   .right{
     display:flex;
@@ -477,6 +478,9 @@ export default {
     height:50vh;
   }
   .videoview{
+    width:300px;
+  }
+  .video{
     width:300px;
   }
   .leftcontent{
