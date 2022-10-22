@@ -15,7 +15,6 @@ def get_logs(
     appearance_type: int = None,
     start_date: date = None,
     end_date: date = None,
-    page: int = 1,
 ):
     subquery = (
         db.query(InspectionLog.inspection_id)
@@ -34,14 +33,7 @@ def get_logs(
         end_date = datetime(*end_date.timetuple()[:6])
         subquery = subquery.filter(InspectionLog.access_time >= start_date).filter(InspectionLog.access_time <= end_date)
 
-    entries = (
-        db.query(InspectionLog)
-        .filter(InspectionLog.inspection_id.in_(subquery))
-        .order_by(InspectionLog.access_time.desc())
-        .offset((page - 1) * 10)
-        .limit(10)
-        .all()
-    )
+    entries = db.query(InspectionLog).filter(InspectionLog.inspection_id.in_(subquery)).order_by(InspectionLog.access_time.desc()).all()
 
     logs = list()
     for entry in entries:
