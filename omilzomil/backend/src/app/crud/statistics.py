@@ -41,7 +41,7 @@ def take_fourth(elem):
     return elem[3]
 
 
-def get_monthly_unit_ranks(db: Session, page: int = None):
+def get_monthly_unit_ranks(db: Session):
     entries = list()
     for unit in get_military_units(db):
         total, count = get_overall_stats(db, date=Date.now(day=False), military_unit=unit.unit_id, status=True)
@@ -63,11 +63,7 @@ def get_monthly_unit_ranks(db: Session, page: int = None):
         }
         ret.append(entry)
 
-    if page is not None:
-        offset = (page - 1) * 10
-        return ret[offset, offset + 10]
-    else:
-        return ret
+    return ret
 
 
 def get_monthly_best_stats(db: Session, military_unit: int, category: str):
