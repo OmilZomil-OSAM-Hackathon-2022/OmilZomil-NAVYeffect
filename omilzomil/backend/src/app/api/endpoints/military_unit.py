@@ -1,5 +1,6 @@
-from typing import List, Optional
+from typing import Optional
 from fastapi import APIRouter, Depends, Body
+from fastapi_pagination import paginate, Page, Params
 from sqlalchemy.orm import Session
 from app.crud import military_unit as crud
 from app.schemas import military_unit as schema
@@ -20,9 +21,9 @@ async def create_military_unit(
     return crud.create_military_unit(db, unit.unit)
 
 
-@router.get("/", response_model=List[schema.MilitaryUnitRead])
-def get_military_units(unit: Optional[str] = None, page: Optional[int] = None, db: Session = Depends(deps.get_db)):
-    return crud.get_military_units(db, unit=unit, page=page)
+@router.get("/", response_model=Page[schema.MilitaryUnitRead])
+async def get_military_units(unit: Optional[str] = None, db: Session = Depends(deps.get_db), params: Params = Depends()):
+    return paginate(crud.get_military_units(db, unit=unit), params)
 
 
 @router.get("/{unit_id}", response_model=schema.MilitaryUnitReadResponse)
