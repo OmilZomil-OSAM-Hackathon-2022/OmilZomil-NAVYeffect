@@ -9,3 +9,4 @@ mysqlclient
 pytest
 requests
 python-dateutil
+fastapi-pagination
