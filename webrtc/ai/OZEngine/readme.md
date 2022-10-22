@@ -101,6 +101,7 @@ For detection model (CRAFT), [Read here](https://github.com/JaidedAI/EasyOCR/blo
 ### 1. check_person 옵션 활용
 
  저희 Omil-Zomil에서는 위병소의 데이터를 실시간으로 분석합니다. 실시간으로 분석할 때 갑작스럽게 데이터가 몰려 서버에 부하가 심하게 가해지는 현상을 방지하기 위해 캐시(cache)기술이 적용된 DB를 사용합니다. DB에 저장하고 순차적으로 먼저 들어온 이미지데이터를 처리하기 때문에 처리하는 순간에는 사람인식이 보장되어있는 상태입니다.
+ 이렇게 사람인식처리가 되어있는 이미지의 경우 사람인식을 더이상 진행하지 않아도 됩니다. 이런 상황에서 check_person옵션은 유용합니다. 아래와 같이 True값을 주고 이미 인식된 이미지를 넣으면 됩니다.
  
 ``` python
 import cv2
