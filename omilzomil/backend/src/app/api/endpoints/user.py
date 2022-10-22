@@ -21,10 +21,11 @@ def get_users(
     military_unit: Optional[int] = None,
     rank: Optional[int] = None,
     is_active: Optional[bool] = None,
+    page: Optional[int] = 1,
     db: Session = Depends(deps.get_db),
 ):
     flt = schema.UserFilter(full_name=full_name, affiliation=affiliation, military_unit=military_unit, rank=rank, is_active=is_active)
-    return crud.get_users(db, flt)
+    return crud.get_users(db, flt, page=page)
 
 
 @router.put("/information/{user_id}", response_model=schema.UserResponse)

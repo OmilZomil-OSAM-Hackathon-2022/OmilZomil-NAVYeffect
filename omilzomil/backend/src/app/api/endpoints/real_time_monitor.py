@@ -26,7 +26,9 @@ def get_logs(
     if not current_user.success:
         return {"success": False, "message": current_user.message}
 
-    return crud.get_logs(db, current_user.military_unit, rank, name, appearance_type, start_date, end_date, page)
+    return crud.get_logs(
+        db, current_user.military_unit, rank=rank, name=name, appearance_type=appearance_type, start_date=start_date, end_date=end_date, page=page
+    )
 
 
 @router.get("/detail/{inspection_id}")
