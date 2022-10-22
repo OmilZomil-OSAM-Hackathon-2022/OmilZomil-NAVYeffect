@@ -13,7 +13,7 @@
           </div>
         </div>
         <div style="display:flex; flex-direction:row; justify-content: space-between; width:490px; height:4vh;">
-          <select v-model="name" style="appearance : none; background: url(@/assets/icons/arrow.svg);">
+          <select v-model="name">
             <option selected="true" hidden value=null>위병소 선택</option>
             <option v-for="item in list" :key="item">{{item}}</option>
           </select>
