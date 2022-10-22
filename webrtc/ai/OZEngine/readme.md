@@ -129,6 +129,36 @@ img = cv2.imread('/image/example.jpg')  # 분석할 이미지 대상
 result = detector.detect(img, train_mode=True)  # train_mode값을 True로
 ```
 
+### 3. 사용자 동영상 분석
+
+``` python
+import os
+import tensorflow as tf
+from tqdm import tqdm
+from OZEngine.lib.utils import *
+from OZEngine import OmilZomil
+
+save_path = os.path.join(os.getcwd(), 'image/res/final_fd')
+os.makedirs(save_path, exist_ok=True)
+model = OmilZomil()
+
+frame_path = 'image/video_frame/fd_1'
+frames = os.listdir(frame_path)
+frame_n = len(frames)
+print('frame n ', frame_n)
+
+for i in tqdm(range(0, frame_n), desc='detecting'):
+	read_path = os.path.join(frame_path, f'{i}.jpg')
+
+	img = cv2.imread(read_path)
+	result = model.detect(img)
+	if result.get('boxed_img') is  not  None:
+		model.saveImg({'result':result['boxed_img']}, save_path=save_path)
+		model.saveImg({'hed_result':result['hed_boxed_img']}, save_path=save_path)
+	if result.get('roi'):
+		model.saveImg(result['roi'], save_path=save_path)
+```
+
 ## 참고 및 참조
 
 This project is based on research and code from several papers and open-source repositories.
