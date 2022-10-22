@@ -1,7 +1,7 @@
 import sqlalchemy.exc
 from sqlalchemy.orm import Session
 from app.models.unit_house_relation import Guardhouse, UnitHouseRelation
-from app.schemas.unit_house_relation import UnitHouseRelationResponse, UnitHouseRelationReadResponse
+from app.schemas.unit_house_relation import UnitHouseRelationResponse
 from app.crud.military_unit import get_military_unit
 from app.crud.guardhouse import get_guardhouse
 
