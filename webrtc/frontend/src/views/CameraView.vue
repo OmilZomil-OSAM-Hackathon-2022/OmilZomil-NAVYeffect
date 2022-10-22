@@ -185,7 +185,7 @@ export default {
         },
         list:[],
         socket : null,
-        url : `wss://117.17.110.220:7737/v1/test`,
+        url : `wss://117.17.110.220:7778/v1/test`,
         img : null,
         setI : null,
         name : null,

@@ -43,6 +43,8 @@ class FullDressUniformChecker(UniformChecker):
 
         self.W = 0
 
+        self.result_dic = {'component':{}, 'box_position':{}, 'masked_img':{}, 'probability':{}}
+
     def getPosition(self, contour):
         center_p = getContourCenterPosition(contour)
         position = 'left' if center_p[0] < (self.W//2) else 'right'
@@ -66,21 +68,17 @@ class FullDressUniformChecker(UniformChecker):
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         H, W = img.shape[: 2]
         self.W = W
-
-        box_position_dic = {}
-        component_dic = {}
-        masked_img_dic = {}
-        probability_dic = {}
+        self.result_dic = {'component':{}, 'box_position':{}, 'masked_img':{}, 'probability':{}}
 
         # 이름표, 마후라 체크
         name = 'name_tag'
-        contours, _,  masked_img_dic[name] = self.getMaskedContours(
+        contours, _,  self.result_dic['masked_img'][name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='name_tag', sort=True)
 
         if contours is not None:
             for contour in contours:
-                is_name_tag = component_dic.get('name_tag')
-                is_muffler = component_dic.get('muffler')
+                is_name_tag = self.result_dic['component'].get('name_tag')
+                is_muffler = self.result_dic['component'].get('muffler')
                 area = cv2.contourArea(contour)
 
                 if is_name_tag and is_muffler or (area < 1000):
@@ -110,18 +108,18 @@ class FullDressUniformChecker(UniformChecker):
                         box_position, component = self.getName(contour, ocr_list)
                         self.name_cache = component
 
-                    box_position_dic['name_tag'] = box_position
-                    component_dic['name_tag'] = component
-                    probability_dic['name_tag'] = probability
+                    self.result_dic['box_position']['name_tag'] = box_position
+                    self.result_dic['component']['name_tag'] = component
+                    self.result_dic['probability']['name_tag'] = probability
                 
                 elif not is_muffler and isCenter and self.isMuffler(kind):
-                    box_position_dic['muffler'] = tmp_box_position
-                    component_dic['muffler'] = True
-                    probability_dic['muffler'] = probability
+                    self.result_dic['box_position']['muffler'] = tmp_box_position
+                    self.result_dic['component']['muffler'] = True
+                    self.result_dic['probability']['muffler'] = probability
 
         # 네카치프 / 네카치프링 체크
         name = 'neckerchief'
-        contours, _, masked_img_dic[name] = self.getMaskedContours(
+        contours, _, self.result_dic['masked_img'][name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name, sort=True)
         
         if contours is not None:
@@ -141,15 +139,14 @@ class FullDressUniformChecker(UniformChecker):
                 else:
                     probability, kind = self.parts_classifier.predict(parts_img)[:2]
                 if self.isNeckerchief(position, kind):
-                    box_position_dic[name] = tmp_box_position
-                    component_dic[name] = True
-                    probability_dic[name] = probability
-                    print('area', area)
+                    self.result_dic['box_position'][name] = tmp_box_position
+                    self.result_dic['component'][name] = True
+                    self.result_dic['probability'][name] = probability
                     break
 
         # 계급장 체크
         name = 'rank_tag'
-        contours, _, masked_img_dic[name] = self.getMaskedContours(
+        contours, _, self.result_dic['masked_img'][name] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind=name, sort=True)
             
         if contours is not None:
@@ -169,10 +166,10 @@ class FullDressUniformChecker(UniformChecker):
                 else:
                     probability, kind = self.parts_classifier.predict(parts_img)[:2]
                 if self.isRankTag(position, kind):
-                    box_position_dic[name] = tmp_box_position
+                    self.result_dic['box_position'][name] = tmp_box_position
                     rank_n = kind.split('+')[1]
-                    component_dic[name] = Classes.dic.get(int(rank_n))
-                    probability_dic[name] = probability
+                    self.result_dic['component'][name] = Classes.dic.get(int(rank_n))
+                    self.result_dic['probability'][name] = probability
                     break
 
-        return {'component':component_dic, 'box_position':box_position_dic, 'masked_img':masked_img_dic, 'probability':probability_dic}
+        return self.result_dic

@@ -18,9 +18,17 @@ def create_military_unit(db: Session, unit: str, unit_id: int = None):
         return MilitaryUnitResponse(success=False, message="unique key constraint fail")
 
 
-def get_military_units(db: Session, unit: str = None):
+def get_military_units(db: Session, unit: str = None, page: int = 1):
     unit = unit and f"%{unit}%" or "%"
-    return db.query(MilitaryUnit).filter(MilitaryUnit.unit_id != 1).filter(MilitaryUnit.unit.like(unit)).order_by(MilitaryUnit.unit).all()
+    return (
+        db.query(MilitaryUnit)
+        .filter(MilitaryUnit.unit_id != 1)
+        .filter(MilitaryUnit.unit.like(unit))
+        .order_by(MilitaryUnit.unit)
+        .offset((page - 1) * 10)
+        .limit(10)
+        .all()
+    )
 
 
 def get_military_unit(db: Session, unit_id: int):
