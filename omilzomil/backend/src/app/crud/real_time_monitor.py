@@ -7,7 +7,16 @@ from app.schemas.inspection_log import InspectionLogUpdateCheck, InspectionLogRe
 from app.schemas.inspection_detail import InspectionDetailUpdateStatus, InspectionDetailUpdateValidity, InspectionDetailResponse
 
 
-def get_logs(db: Session, military_unit: int, rank: int = None, name: str = None, appearance_type: int = None, start_date: date = None, end_date: date = None):
+def get_logs(
+    db: Session,
+    military_unit: int,
+    rank: int = None,
+    name: str = None,
+    appearance_type: int = None,
+    start_date: date = None,
+    end_date: date = None,
+    page: int = 1,
+):
     subquery = (
         db.query(InspectionLog.inspection_id)
         .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
@@ -24,20 +33,22 @@ def get_logs(db: Session, military_unit: int, rank: int = None, name: str = None
         start_date = datetime(*start_date.timetuple()[:6])
         end_date = datetime(*end_date.timetuple()[:6])
         subquery = subquery.filter(InspectionLog.access_time >= start_date).filter(InspectionLog.access_time <= end_date)
-    else:
-        subquery = subquery.filter(InspectionLog.access_time.like(str(date.today()) + "%"))
 
-    query = (
+    entries = (
         db.query(InspectionLog)
-        .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
         .filter(InspectionLog.inspection_id.in_(subquery))
+        .order_by(InspectionLog.access_time.desc())
+        .offset((page - 1) * 10)
+        .limit(10)
+        .all()
     )
 
-    hair_status = query.filter(InspectionDetail.appearance_type == 1).filter(InspectionDetail.status == False).count() == 0
-    appearance_status = query.filter(InspectionDetail.appearance_type > 1).filter(InspectionDetail.status == False).count() == 0
-
     logs = list()
-    for entry in query.order_by(InspectionLog.access_time.desc()).all():
+    for entry in entries:
+        query = db.query(InspectionDetail).filter_by(inspection_id=entry.inspection_id).filter(InspectionDetail.status == False)
+        hair_status = query.filter(InspectionDetail.appearance_type == 1).count() == 0
+        appearance_status = query.filter(InspectionDetail.appearance_type > 1).count() == 0
+
         log = {
             "inspection_id": entry.inspection_id,
             "access_time": entry.access_time,
