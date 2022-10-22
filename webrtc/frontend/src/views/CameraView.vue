@@ -3,21 +3,36 @@
     <div class="left">
       <video ref="video" class="video" id="camera--view" autoplay></video>
       <canvas ref="canvas" class="video" style="display:none;"></canvas>
-      <div style="display:flex; flex-direction:row height:5vh;">
-        <button @click="connect">connect</button>
-        <button @click="listtest">listtest</button>
-        <select v-model="name">
-                  <option v-for="item in list" :key="item">{{item}}</option>
-        </select>
-        <button @click="start">start</button>
-        <button @click="test1">test1</button>
+      <div style="display:flex; flex-direction:column; height:10vh; gap:2vh; width:490px;">
+        <div  style="display:flex; flex-direction:row; justify-content: space-between; width:490px; height:4vh;">
+          <button @click="connect">연결하기</button>
+          <div style="display:flex; flex-direction:row; justify-content:center; align-items:center;">
+            <div style="display:flex; height:4vh; align-items:center; line-height:20px;">연결 상태:</div>
+            <div style="height:2vh; width:2vh; background-color:#1DCB9D; border-radius:10px;" v-if="this.connected===true"></div>
+            <div style="height:2vh; width:2vh; background-color:crimson; border-radius:10px;" v-else></div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:row; justify-content: space-between; width:490px; height:4vh;">
+          <select v-model="name" style="appearance : none; background: url(@/assets/icons/arrow.svg);">
+            <option selected="true" hidden value=null>위병소 선택</option>
+            <option v-for="item in list" :key="item">{{item}}</option>
+          </select>
+          <button @click="start">시작</button>
+        </div>
+        <!-- <button @click="listtest">listtest</button> -->
+        <!-- <button @click="test1">test1</button>
         <button @click="test2">test2</button>
         <button @click="test3">test3</button>
-        <button @click="reset">reset</button>
+        <button @click="reset">reset</button> -->
       </div>
     </div>
-    <div class="right" v-if="this.data['imgview']">
-      <img ref="back" class="back" >
+    <div class="right" v-if="this.connected===false">
+      <div style="display:flex; background-color:#9C9DB2; width:270px; height:80px; font-size:20px; align-items:center; justify-content:center; border-radius:10px; color:#585767; font-weight: 600; ">
+        연결상태를 확인해주세요
+      </div>
+    </div>
+    <div class="right" v-else-if="this.data['imgview']">
+      <img ref="back" class="back">
       <div class="result">
         <div class="content" v-if="data['kind']==='blue'">
           <div class="kind">
@@ -64,7 +79,7 @@
             </div>
             <div class="res-right" style="color: #1DCB9D;">
               <img class="kind-img" src="@/assets/icons/green.svg" />
-              해군 전투복
+              전투복
             </div>
           </div>
           <div class="hair">
@@ -189,39 +204,40 @@ export default {
         img : null,
         setI : null,
         name : null,
+        connected: false,
       }
     },
   methods: {
-    listtest(){
-      this.list=["1정문","2정문","3정문"]
-    },
-    test1(){
-      this.data["imgview"]=true;
-      this.$refs.back.src=this.img
-      this.data["kind"]="blue";
-      this.data["hair"]=true;
-      this.data["nametag"]=false;
-      this.data["level"]=true;
-    },
-    test2(){
-      this.data["imgview"]=true;
-      this.$refs.back.src=this.img
-      this.data["kind"]="green";
-      this.data["hair"]=true;
-      this.data["nametag"]=true;
-      this.data["level"]=false;
-      this.data["flag"]=true;
-    },
-    test3(){
-      this.data["imgview"]=true;
-      this.$refs.back.src=this.img
-      this.data["kind"]="black";
-      this.data["hair"]=true;
-      this.data["nametag"]=true;
-      this.data["level"]=false;
-      this.data["ma"]=true;
-      this.data["neck"]=true;
-    },
+    // listtest(){
+    //   this.list=["1정문","2정문","3정문"]
+    // },
+    // test1(){
+    //   this.data["imgview"]=true;
+    //   this.$refs.back.src=this.img
+    //   this.data["kind"]="blue";
+    //   this.data["hair"]=true;
+    //   this.data["nametag"]=false;
+    //   this.data["level"]=true;
+    // },
+    // test2(){
+    //   this.data["imgview"]=true;
+    //   this.$refs.back.src=this.img
+    //   this.data["kind"]="green";
+    //   this.data["hair"]=true;
+    //   this.data["nametag"]=true;
+    //   this.data["level"]=false;
+    //   this.data["flag"]=true;
+    // },
+    // test3(){
+    //   this.data["imgview"]=true;
+    //   this.$refs.back.src=this.img
+    //   this.data["kind"]="black";
+    //   this.data["hair"]=true;
+    //   this.data["nametag"]=true;
+    //   this.data["level"]=false;
+    //   this.data["ma"]=true;
+    //   this.data["neck"]=true;
+    // },
     reset(){
       this.data["imgview"]=false;
       this.data["kind"]=null;
@@ -265,10 +281,15 @@ export default {
       }
       this.socket.onclose = (msg) => {
         console.log({ type: 'ERROR', msg: 'Closed (Code: ' + msg.code + ', Message: ' + msg.reason + ')' })
+        this.stop();
+        this.reset();
       }
     },
     start(){
       this.setI=setInterval(this.capture,1000);
+    },
+    stop(){
+      clearInterval(this.setI);
     },
     capture() {
       const video = this.$refs.video
@@ -324,12 +345,13 @@ export default {
   .video{
     /* transform: rotateY(180deg); */
     width:490px;
-    height:45vh;
+    height:40vh;
   }
   .right{
     display:flex;
     flex-direction: row;
     align-content: center;
+    align-items: center;
     justify-content: center;
     /* gap: 60px; */
     width:60%;
@@ -347,7 +369,7 @@ export default {
   }
   .content{
     position:relative;
-    width:220px;
+    width:240px;
     height:220px;
     display: flex;
     flex-direction: column;
@@ -422,6 +444,17 @@ export default {
   .loading{
     width:50px;
     animation: load 0.7s linear infinite;
+  }
+  button{
+    border:none; 
+    border-radius: 10px; 
+    background-color:#9C9DB2; 
+    color:black; 
+    font-weight: 600; 
+  }
+  button:hover{
+    transform: scale(1.1); 
+    cursor: pointer;
   }
   @media (max-width: 1200px) {
   .home{
