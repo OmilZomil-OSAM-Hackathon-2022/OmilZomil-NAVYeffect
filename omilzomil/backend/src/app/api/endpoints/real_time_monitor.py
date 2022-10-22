@@ -44,7 +44,7 @@ def get_log_details(
 
 
 @router.put("/check/{inspection_id}")
-def update_log_check(
+async def update_log_check(
     inspection_id: int,
     is_checked: InspectionLogUpdateCheck = Body(),
     db: Session = Depends(deps.get_db),
@@ -57,7 +57,7 @@ def update_log_check(
 
 
 @router.put("/detail/status/{detail_id}")
-def update_log_detail_status(
+async def update_log_detail_status(
     detail_id: int,
     status: InspectionDetailUpdateStatus = Body(),
     db: Session = Depends(deps.get_db),
@@ -70,7 +70,7 @@ def update_log_detail_status(
 
 
 @router.put("/detail/validity/{detail_id}")
-def update_log_detail_validity(
+async def update_log_detail_validity(
     detail_id: int,
     is_valid: InspectionDetailUpdateValidity = Body(),
     db: Session = Depends(deps.get_db),
