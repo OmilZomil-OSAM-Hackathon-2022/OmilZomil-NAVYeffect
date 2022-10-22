@@ -15,9 +15,14 @@ def create_guardhouse(db: Session, house: str):
         return GuardhouseResponse(success=False, message="unique key constraint fail")
 
 
-def get_guardhouses(db: Session, house: str = None, page: int = 1):
+def get_guardhouses(db: Session, house: str = None, page: int = None):
     house = house and f"%{house}%" or "%"
-    return db.query(Guardhouse).filter(Guardhouse.house.like(house)).order_by(Guardhouse.house).offset((page - 1) * 10).limit(10).all()
+    query = db.query(Guardhouse).filter(Guardhouse.house.like(house))
+
+    if page is not None:
+        query = query.order_by(Guardhouse.house).offset((page - 1) * 10).limit(10)
+
+    return query.all()
 
 
 def get_guardhouse(db: Session, house_id: int):
