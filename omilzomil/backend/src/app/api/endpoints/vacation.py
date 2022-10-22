@@ -28,7 +28,7 @@ async def create_vacation(
 
 @router.get("/user/{user_id}", response_model=Page[schema.VacationRead])
 async def get_vacations(
-    user_id: int, db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_user), params: Params = Depends()
+    user_id: int, params: Params = Depends(), db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_user)
 ):
     if not current_user.success:
         return list()
@@ -38,7 +38,7 @@ async def get_vacations(
 
 @router.get("/unit/", response_model=Page[schema.VacationRead])
 async def get_vacations_from_unit(
-    db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_admin), params: Params = Depends()
+    params: Params = Depends(), db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_admin)
 ):
     if not current_user.success:
         return list()

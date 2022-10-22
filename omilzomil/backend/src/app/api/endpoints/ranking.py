@@ -9,5 +9,5 @@ router = APIRouter()
 
 
 @router.get("/")
-async def get_rankings(db: Session = Depends(deps.get_db), params: Params = Depends()):
+async def get_rankings(params: Params = Depends(), db: Session = Depends(deps.get_db)):
     return paginate(crud.get_monthly_unit_ranks(db), params)

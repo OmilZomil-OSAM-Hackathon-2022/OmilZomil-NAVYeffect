@@ -22,7 +22,7 @@ async def create_military_unit(
 
 
 @router.get("/", response_model=Page[schema.MilitaryUnitRead])
-async def get_military_units(unit: Optional[str] = None, db: Session = Depends(deps.get_db), params: Params = Depends()):
+async def get_military_units(unit: Optional[str] = None, params: Params = Depends(), db: Session = Depends(deps.get_db)):
     return paginate(crud.get_military_units(db, unit=unit), params)
 
 

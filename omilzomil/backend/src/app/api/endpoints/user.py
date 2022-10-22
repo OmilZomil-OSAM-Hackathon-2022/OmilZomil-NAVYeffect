@@ -23,9 +23,9 @@ async def get_users(
     military_unit: Optional[int] = None,
     rank: Optional[int] = None,
     is_active: Optional[bool] = None,
+    params: Params = Depends(),
     db: Session = Depends(deps.get_db),
     current_user: UserReadResponse = Depends(deps.get_current_active_admin),
-    params: Params = Depends(),
 ):
     if not current_user.success:
         return list()

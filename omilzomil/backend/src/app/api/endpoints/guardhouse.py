@@ -22,7 +22,7 @@ async def create_guardhouse(
 
 
 @router.get("/", response_model=Page[schema.GuardhouseRead])
-async def get_guardhouses(house: Optional[str] = None, db: Session = Depends(deps.get_db), params: Params = Depends()):
+async def get_guardhouses(house: Optional[str] = None, params: Params = Depends(), db: Session = Depends(deps.get_db)):
     return paginate(crud.get_guardhouses(db, house=house), params)
 
 

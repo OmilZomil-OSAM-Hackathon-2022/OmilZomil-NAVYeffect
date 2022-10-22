@@ -20,9 +20,9 @@ async def get_logs(
     appearance_type: Optional[int] = None,
     start_date: Optional[date] = None,
     end_date: Optional[date] = None,
+    params: Params = Depends(),
     db: Session = Depends(deps.get_db),
     current_user: UserReadResponse = Depends(deps.get_current_active_user),
-    params: Params = Depends(),
 ):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
