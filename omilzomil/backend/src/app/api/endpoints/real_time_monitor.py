@@ -14,7 +14,7 @@ router = APIRouter()
 
 
 @router.get("/")
-def get_logs(
+async def get_logs(
     rank: Optional[int] = None,
     name: Optional[str] = None,
     appearance_type: Optional[int] = None,
