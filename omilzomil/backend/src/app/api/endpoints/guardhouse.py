@@ -1,5 +1,6 @@
-from typing import List, Optional
+from typing import Optional
 from fastapi import APIRouter, Depends, Body
+from fastapi_pagination import paginate, Page, Params
 from sqlalchemy.orm import Session
 from app.crud import guardhouse as crud
 from app.schemas import guardhouse as schema
@@ -20,9 +21,9 @@ async def create_guardhouse(
     return crud.create_guardhouse(db, house.house)
 
 
-@router.get("/", response_model=List[schema.GuardhouseRead])
-def get_guardhouses(house: Optional[str] = None, page: Optional[int] = None, db: Session = Depends(deps.get_db)):
-    return crud.get_guardhouses(db, house=house, page=page)
+@router.get("/", response_model=Page[schema.GuardhouseRead])
+async def get_guardhouses(house: Optional[str] = None, db: Session = Depends(deps.get_db), params: Params = Depends()):
+    return paginate(crud.get_guardhouses(db, house=house), params)
 
 
 @router.put("/{house_id}", response_model=schema.GuardhouseResponse)
