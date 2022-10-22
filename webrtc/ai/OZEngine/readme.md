@@ -129,24 +129,18 @@ img = cv2.imread('/image/example.jpg')  # 분석할 이미지 대상
 result = detector.detect(img, train_mode=True)  # train_mode값을 True로
 ```
 
-## Acknowledgement and References
+## 참고 및 참조
 
 This project is based on research and code from several papers and open-source repositories.
 
-All deep learning execution is based on [Pytorch](https://pytorch.org). :heart:
+저희 분석모델의 전반적인 Deep Learning 알고리즘의 기반은 [Tensorflow](https://pytorch.org):heart: 입니다. 
 
-Detection execution uses the CRAFT algorithm from this [official repository](https://github.com/clovaai/CRAFT-pytorch) and their [paper](https://arxiv.org/abs/1904.01941) (Thanks @YoungminBaek from [@clovaai](https://github.com/clovaai)). We also use their pretrained model. Training script is provided by [@gmuffiness](https://github.com/gmuffiness).
+두발상태인식모델은 HairSegNet을 사용했고 [github 저장소](https://github.com/clovaai/CRAFT-pytorch)에서 확인하실 수 있습니다. [관련 논문](https://arxiv.org/pdf/1712.07168.pdf)도 있으니 참고하여 보실 수 있습니다. (@[thangtran480](https://github.com/thangtran480)님께 감사드립니다 :thanks:) 
 
-The recognition model is a CRNN ([paper](https://arxiv.org/abs/1507.05717)). It is composed of 3 main components: feature extraction (we are currently using [Resnet](https://arxiv.org/abs/1512.03385)) and VGG, sequence labeling ([LSTM](https://www.bioinf.jku.at/publications/older/2604.pdf)) and decoding ([CTC](https://www.cs.toronto.edu/~graves/icml_2006.pdf)). The training pipeline for recognition execution is a modified version of the [deep-text-recognition-benchmark](https://github.com/clovaai/deep-text-recognition-benchmark) framework. (Thanks [@ku21fan](https://github.com/ku21fan) from [@clovaai](https://github.com/clovaai)) This repository is a gem that deserves more recognition.
-
-Beam search code is based on this [repository](https://github.com/githubharald/CTCDecoder) and his [blog](https://towardsdatascience.com/beam-search-decoding-in-ctc-trained-neural-networks-5a889a3d85a7). (Thanks [@githubharald](https://github.com/githubharald))
-
-Data synthesis is based on [TextRecognitionDataGenerator](https://github.com/Belval/TextRecognitionDataGenerator). (Thanks [@Belval](https://github.com/Belval))
-
-And a good read about CTC from distill.pub [here](https://distill.pub/2017/ctc/).
 
 ## GPU가속 지원
 
+저희 오밀조밀 프로젝트에서는 Tensorflow 2.10을 사용하고 있으며 GPU지원이 가능합니다. 
 To request a new language, we need you to send a PR with the 2 following files:
 
 1. In folder [easyocr/character](https://github.com/JaidedAI/EasyOCR/tree/master/easyocr/character),
