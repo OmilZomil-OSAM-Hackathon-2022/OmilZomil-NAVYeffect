@@ -1,10 +1,12 @@
 <template>
   <div class="home">
     <div class="left">
-      <video ref="video" class="video" id="camera--view" autoplay></video>
-      <canvas ref="canvas" class="video" style="display:none;"></canvas>
-      <div style="display:flex; flex-direction:column; height:10vh; gap:2vh; width:490px;">
-        <div  style="display:flex; flex-direction:row; justify-content: space-between; width:490px; height:4vh;">
+      <div style="display:flex; justify-content:center; width:490px;">
+        <video ref="video" class="video" id="camera--view" autoplay></video>
+        <canvas ref="canvas" class="video" style="display:none;"></canvas>
+      </div>
+      <div class="leftcontent" style=" background-color:#1DCB9D; displa:flex; flex-direction:column; height:10vh; gap:2vh; width:490px;">
+        <div class="leftcontent" style="display:flex; flex-direction:row; justify-content: space-between; width:490px; height:4vh;">
           <button @click="connect">연결하기</button>
           <div style="display:flex; flex-direction:row; justify-content:center; align-items:center;">
             <div style="display:flex; height:4vh; align-items:center; line-height:20px;">연결 상태:</div>
@@ -12,7 +14,7 @@
             <div style="height:2vh; width:2vh; background-color:crimson; border-radius:10px;" v-else></div>
           </div>
         </div>
-        <div style="display:flex; flex-direction:row; justify-content: space-between; width:490px; height:4vh;">
+        <div class="leftcontent" style="display:flex; flex-direction:row; justify-content: space-between; width:490px; height:4vh;">
           <select v-model="name">
             <option selected="true" hidden value=null>위병소 선택</option>
             <option v-for="item in list" :key="item">{{item}}</option>
@@ -344,8 +346,10 @@ export default {
   }
   .video{
     /* transform: rotateY(180deg); */
-    width:490px;
+    width:1920px;
+    height:1080px;
     height:40vh;
+    object-fit: contain;
   }
   .right{
     display:flex;
@@ -463,6 +467,12 @@ export default {
   .left{
     width:100%;
     height:50vh;
+  }
+  .videoview{
+    width:300px;
+  }
+  .leftcontent{
+    width:300px;
   }
   .right{
     width:100%;
