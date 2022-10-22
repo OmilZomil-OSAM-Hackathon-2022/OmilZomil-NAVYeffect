@@ -19,20 +19,23 @@ def get_logs(
     appearance_type: Optional[int] = None,
     start_date: Optional[date] = None,
     end_date: Optional[date] = None,
+    page: Optional[int] = 1,
     db: Session = Depends(deps.get_db),
-    current_user: UserReadResponse = Depends(deps.get_current_user),
+    current_user: UserReadResponse = Depends(deps.get_current_active_user),
 ):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
 
-    return crud.get_logs(db, current_user.military_unit, rank, name, appearance_type, start_date, end_date)
+    return crud.get_logs(
+        db, current_user.military_unit, rank=rank, name=name, appearance_type=appearance_type, start_date=start_date, end_date=end_date, page=page
+    )
 
 
 @router.get("/detail/{inspection_id}")
 def get_log_details(
     inspection_id: int,
     db: Session = Depends(deps.get_db),
-    current_user: UserReadResponse = Depends(deps.get_current_user),
+    current_user: UserReadResponse = Depends(deps.get_current_active_user),
 ):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
@@ -45,7 +48,7 @@ def update_log_check(
     inspection_id: int,
     is_checked: InspectionLogUpdateCheck = Body(),
     db: Session = Depends(deps.get_db),
-    current_user: UserReadResponse = Depends(deps.get_current_user),
+    current_user: UserReadResponse = Depends(deps.get_current_active_admin),
 ):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
@@ -58,7 +61,7 @@ def update_log_detail_status(
     detail_id: int,
     status: InspectionDetailUpdateStatus = Body(),
     db: Session = Depends(deps.get_db),
-    current_user: UserReadResponse = Depends(deps.get_current_user),
+    current_user: UserReadResponse = Depends(deps.get_current_active_admin),
 ):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
@@ -71,7 +74,7 @@ def update_log_detail_validity(
     detail_id: int,
     is_valid: InspectionDetailUpdateValidity = Body(),
     db: Session = Depends(deps.get_db),
-    current_user: UserReadResponse = Depends(deps.get_current_user),
+    current_user: UserReadResponse = Depends(deps.get_current_active_admin),
 ):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
