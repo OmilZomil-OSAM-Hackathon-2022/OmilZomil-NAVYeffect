@@ -116,7 +116,7 @@ box = person_detector(img)
 result = detector.detect(img, check_person=True)  # check_person값을 True로
 ```
 
-### 2. check_person 옵션 활용
+### 2. train_mode 옵션 활용
 
 
 ``` python
