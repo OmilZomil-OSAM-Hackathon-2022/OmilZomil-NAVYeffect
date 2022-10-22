@@ -32,12 +32,18 @@ def get_current_user(db: Session = Depends(get_db), token: str = Depends(reusabl
 
 
 def get_current_active_user(current_user: UserReadResponse = Depends(get_current_user)):
-    if current_user.role == "inactive":
+    if not current_user.is_active:
         return UserReadResponse(success=False, message="inactive user")
     return current_user
 
 
-def get_current_active_superuser(current_user: UserReadResponse = Depends(get_current_user)):
-    if current_user.role != "super":
+def get_current_active_admin(current_user: UserReadResponse = Depends(get_current_user)):
+    if not current_user.is_active or current_user.role != 2:
+        return UserReadResponse(success=False, message="not enough privileges")
+    return current_user
+
+
+def get_current_active_super(current_user: UserReadResponse = Depends(get_current_user)):
+    if not current_user.is_active or current_user.role != 3:
         return UserReadResponse(success=False, message="not enough privileges")
     return current_user
