@@ -94,7 +94,7 @@ class OmilZomil:
         # 얼굴인식
         face_box = self.face_detector.detect(img)
         if face_box is None:
-            return {'boxed_img':org_img}
+            return {'boxed_img':org_img, 'hed_boxed_img':hed_boxed_img}
 
         x,y,w,h = cvtPoint(face_box, method='2to4')
         y += person_box[0][0]
@@ -128,6 +128,6 @@ class OmilZomil:
                 result_dic['box_position'][name] = self.applyBasePoint(pos, method='4')
             
         boxed_img, roi_dic = self.boxImage(boxed_img, result_dic, is_roi=True)
-        boxed_img, _ = self.boxImage(hed_boxed_img, result_dic)
+        hed_boxed_img, _ = self.boxImage(hed_boxed_img, result_dic)
 
         return {'boxed_img':boxed_img, 'hed_boxed_img': hed_boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
