@@ -15,8 +15,8 @@ async def create_guardhouse(house: schema.GuardhouseCreate = Body(), db: Session
 
 
 @router.get("/", response_model=List[schema.GuardhouseRead])
-def get_guardhouses(house: Optional[str] = None, db: Session = Depends(deps.get_db)):
-    return crud.get_guardhouses(db, house)
+def get_guardhouses(house: Optional[str] = None, page: Optional[int] = 1, db: Session = Depends(deps.get_db)):
+    return crud.get_guardhouses(db, house, page)
 
 
 @router.put("/{house_id}", response_model=schema.GuardhouseResponse)
