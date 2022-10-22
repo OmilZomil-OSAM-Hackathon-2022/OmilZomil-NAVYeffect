@@ -29,10 +29,41 @@ export default {
 
 <style>
 @import "@/assets/styles/common.css";
-@import url("http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700");
+
 /* background: #32313F; */
 /* :root{
 } */
+
+@font-face {
+  font-family:'Roboto';
+  src: url('assets/fonts/Roboto-Thin.ttf') format('truetype');
+  font-weight: 100;
+}
+@font-face {
+  font-family:'Roboto';
+  src: url('assets/fonts/Roboto-Light.ttf') format('truetype');
+  font-weight: 300;
+}
+@font-face {
+  font-family:'Roboto';
+  src: url('assets/fonts/Roboto-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family:'Roboto';
+  src: url('assets/fonts/Roboto-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+@font-face {
+  font-family:'Roboto';
+  src: url('assets/fonts/Roboto-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+@font-face {
+  font-family:'Roboto';
+  src: url('assets/fonts/Roboto-Black.ttf') format('truetype');
+  font-weight: 900;
+}
 :root {
   color:#585767;
   --color:#585767;
