@@ -135,6 +135,16 @@ def box2img(org_img, box):
     (p1, p2) = box
     return org_img[p1[0]:p2[0], p1[1]:p2[1]]
 
+def cvtPoint(points, method):
+    if method == '2to4':
+        p1, p2 = points
+        x,y,w,h = p1[1], p1[0], p2[1]-p1[1], p2[0]-p1[0]
+        return x, y, w, h
+    elif method == '4to2':
+        x, y, w, h = points
+        p1, p2 = (y, x), (y+h, x+w)
+        return p1, p2
+
 def histNorm(org_img, type):
     if type == 'hsv':
         hsv = cv2.cvtColor(org_img, cv2.COLOR_BGR2HSV)

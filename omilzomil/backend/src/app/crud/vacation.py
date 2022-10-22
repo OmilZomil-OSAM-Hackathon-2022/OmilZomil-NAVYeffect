@@ -27,13 +27,13 @@ def create_vacation(db: Session, user_id: int, vacation: VacationCreate):
         return VacationResponse(success=False, message="foreign key constraint fail")
 
 
-def get_vacations(db: Session, user_id: int = None, unit_id: int = None):
+def get_vacations(db: Session, user_id: int = None, unit_id: int = None, page: int = 1):
     query = db.query(Vacation)
     if user_id is not None:
         query = query.filter_by(user=user_id)
     elif unit_id is not None:
         query = query.join(User, Vacation.user == User.user_id).filter(User.military_unit == unit_id).filter(Vacation.is_approved == None)
-    return query.order_by(Vacation.start_date.desc()).all()
+    return query.order_by(Vacation.start_date.desc()).offset((page - 1) * 10).limit(10).all()
 
 
 def get_unit_names_from_user(db: Session, access_time: datetime, affiliation: int = None, rank: int = None, name: str = None):
