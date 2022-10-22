@@ -1,12 +1,14 @@
 <template>
   <div class="home">
     <div class="left">
-      <div style="display:flex; justify-content:center; width:490px;">
+      <div class="videoview">
         <video ref="video" class="video" id="camera--view" autoplay></video>
         <canvas ref="canvas" class="video" style="display:none;"></canvas>
       </div>
-      <div class="leftcontent" style=" background-color:#1DCB9D; displa:flex; flex-direction:column; height:10vh; gap:2vh; width:490px;">
-        <div class="leftcontent" style="display:flex; flex-direction:row; justify-content: space-between; width:490px; height:4vh;">
+      <button @click="capture">test</button>
+      <img ref="test">
+      <div class="leftcontent" style="display:flex; flex-direction:column; height:10vh; gap:2vh;">
+        <div class="leftcontent" style="display:flex; flex-direction:row; justify-content: space-between; height:4vh;">
           <button @click="connect">연결하기</button>
           <div style="display:flex; flex-direction:row; justify-content:center; align-items:center;">
             <div style="display:flex; height:4vh; align-items:center; line-height:20px;">연결 상태:</div>
@@ -14,7 +16,7 @@
             <div style="height:2vh; width:2vh; background-color:crimson; border-radius:10px;" v-else></div>
           </div>
         </div>
-        <div class="leftcontent" style="display:flex; flex-direction:row; justify-content: space-between; width:490px; height:4vh;">
+        <div class="leftcontent" style="display:flex; flex-direction:row; justify-content: space-between; height:4vh;">
           <select v-model="name">
             <option selected="true" hidden value=null>위병소 선택</option>
             <option v-for="item in list" :key="item">{{item}}</option>
@@ -296,7 +298,6 @@ export default {
     capture() {
       const video = this.$refs.video
       const canvas = this.$refs.canvas
-      const image = this.$refs.image
       const ctx = canvas.getContext('2d')
       let canvas_width=video.videoWidth;
       let canvas_height=video.videoHeight;
@@ -304,6 +305,7 @@ export default {
       canvas.height=canvas_height;
       ctx.drawImage(video, 0, 0, canvas_width, canvas_height);
       this.img = canvas.toDataURL('image/webp')
+      this.$refs.test.src=this.img;
       var msg = {
         name:this.name,
         photo:this.img
@@ -344,12 +346,18 @@ export default {
     width:40%;
     height:100%;
   }
+  .videoview{
+    display:flex;
+    justify-content:center;
+    width:490px;
+    height:38vh;
+  }
+  .leftcontent{
+    width:490px;
+  }
   .video{
     /* transform: rotateY(180deg); */
-    width:1920px;
-    height:1080px;
-    height:40vh;
-    object-fit: contain;
+    
   }
   .right{
     display:flex;
