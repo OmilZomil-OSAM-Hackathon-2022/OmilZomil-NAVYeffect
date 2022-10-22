@@ -21,7 +21,7 @@ async def create_military_unit(
 
 
 @router.get("/", response_model=List[schema.MilitaryUnitRead])
-def get_military_units(unit: Optional[str] = None, page: Optional[int] = 1, db: Session = Depends(deps.get_db)):
+def get_military_units(unit: Optional[str] = None, page: Optional[int] = None, db: Session = Depends(deps.get_db)):
     return crud.get_military_units(db, unit=unit, page=page)
 
 

@@ -90,6 +90,7 @@ def get_user(db: Session, user_id: int):
         rank=user.rank,
         username=user.username,
         role=user.role,
+        is_active=user.is_active,
     )
     return user
 
