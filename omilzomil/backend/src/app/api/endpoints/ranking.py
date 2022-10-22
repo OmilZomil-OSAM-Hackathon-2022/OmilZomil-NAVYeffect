@@ -8,5 +8,5 @@ router = APIRouter()
 
 
 @router.get("/")
-def get_rankings(db: Session = Depends(deps.get_db)):
-    return crud.get_monthly_unit_ranks(db)
+def get_rankings(page: int = 1, db: Session = Depends(deps.get_db)):
+    return crud.get_monthly_unit_ranks(db, page)
