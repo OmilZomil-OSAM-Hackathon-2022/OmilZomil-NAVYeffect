@@ -85,6 +85,7 @@ class UserReadResponse(UserRead, metaclass=AllOptional):
                 "rank": 5,
                 "username": "21-71007011",
                 "role": 3,
+                "is_active": True,
             }
         }
 

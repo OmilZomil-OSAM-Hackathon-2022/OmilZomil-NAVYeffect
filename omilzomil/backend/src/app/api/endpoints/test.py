@@ -8,5 +8,5 @@ router = APIRouter()
 
 
 @router.post("/")
-def create_test_case(db: Session = Depends(deps.get_db)):
+async def create_test_case(db: Session = Depends(deps.get_db)):
     return crud.create_test_case(db)
