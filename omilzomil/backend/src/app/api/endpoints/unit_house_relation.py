@@ -24,7 +24,12 @@ async def create_unit_house_relation(
 
 
 @router.get("/{unit_id}", response_model=List[schema.UnitHouseRelationRead])
-def get_unit_house_relations(unit_id: int, house: Optional[str] = None, db: Session = Depends(deps.get_db)):
+def get_unit_house_relations(
+    unit_id: int, house: Optional[str] = None, db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_admin)
+):
+    if not current_user.success:
+        return list()
+
     return crud.get_unit_house_relations(db, unit_id, house)
 
 
