@@ -18,7 +18,7 @@ async def create_vacation(user_id: int, vacation: schema.VacationCreate = Body()
 
 
 @router.get("/user/{user_id}", response_model=List[schema.VacationRead])
-def get_vacations(user_id: int, page: int = 1, db: Session = Depends(deps.get_db)):
+def get_vacations(user_id: int, page: Optional[int] = 1, db: Session = Depends(deps.get_db)):
     return crud.get_vacations(db, user_id=user_id, page=page)
 
 
