@@ -37,11 +37,13 @@ async def get_vacations(
 
 
 @router.get("/unit/", response_model=Page[schema.VacationRead])
-def get_vacations_from_unit(db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_admin)):
+async def get_vacations_from_unit(
+    db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_admin), params: Params = Depends()
+):
     if not current_user.success:
         return list()
 
-    return paginate(crud.get_vacations(db, unit_id=current_user.military_unit))
+    return paginate(crud.get_vacations(db, unit_id=current_user.military_unit), params)
 
 
 @router.get("/name/", response_model=List[MilitaryUnitRead])
