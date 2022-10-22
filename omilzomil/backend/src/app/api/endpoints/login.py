@@ -17,4 +17,7 @@ def login_access_token(db: Session = Depends(deps.get_db), form_data: OAuth2Pass
 
 @router.post("/test-token/", response_model=UserReadResponse)
 def test_token(current_user: UserReadResponse = Depends(deps.get_current_active_user)):
+    if not current_user.success:
+        return UserReadResponse(success=False, message=current_user.message)
+
     return current_user
