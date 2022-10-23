@@ -17,7 +17,6 @@ from loguru import logger
 import uuid
 
 from app.api import deps
-from app.api.manager.broker import SingleBroker
 from app.api.simple.broker import SimpleBroker
 from app.api.websocket.image import photo_2_img, img_2_photo
 from app.api.db.guardhouse import get_guardhouse, select_guardhouse

@@ -1,8 +1,8 @@
 
 AI_TABLE = {
     'uniform' : {
-        1:"정복",
-        2:"샘당",
+        1:"샘당",
+        2:"정복",
         3:"군복",
     },
 }
@@ -38,9 +38,9 @@ AFFILIATION_TABLE = {
     "군복" : "육군",
 }
 UNIFORM_PARTS = {
-    "샘당" : [ "hair", "nametag", "leveltag" ],
-    "정복" : [ "hair", "nametag", "leveltag", "muffler", "neck" ],
-    "군복" : [ "hair", "nametag", "leveltag", "flag" ],
+    2 : [ "hair", "nametag", "leveltag" ], # 샘당
+    3 : [ "hair", "nametag", "leveltag", "muffler", "neck" ], # 정복
+    4 : [ "hair", "nametag", "leveltag", "flag" ], # 군복
 }
 
 class ImageBox:
@@ -61,7 +61,7 @@ class ImageBox:
         self.old_image_count = 0
         # 데이터 갱신 유무
         self.is_update = False
-        self.parts_update = []  # 갱신할 이미지의 numpy값이 들어감
+        self.parts_update = []  
 
     
     def get_inspection(self):
@@ -101,6 +101,7 @@ class ImageBox:
         # 각 파츠별 데이터 갱신
         for part in UNIFORM_PARTS[self.inspection['uniform']]:
             # 각 파츠가 갱신이 필요한 경우 
+            
             if report['component'][part] and not self.parts[part]:
                 self.parts[part] = True # 양호로 갱신
                 self.parts_image[part] = report['roi'][part]

@@ -12,8 +12,21 @@ from app.api.simple.image_box import ImageBox
 
 
 MAIN_IMAGE_PATH = f"{settings.IMAGE_PATH}/inspection"
+PARTS_IMAGE_PATH = f"{settings.IMAGE_PATH}/detail"
 
 EXPIRATION_COUNT = 5
+
+
+PART_ID = {
+    "hair": 1, 
+    "nametag": 2, 
+    "leveltag": 3, 
+    "flag": 4, 
+    "cap": 5, 
+    "muffler": 6, 
+    "neck": 7, 
+}
+
 
 
 class BaseWorker:
@@ -31,10 +44,10 @@ class BaseWorker:
         self.db = db
         self.image_box = ImageBox(ai=ai, guardhouse=guardhouse)
         self.db_data_id = None
-        self.parts_path = {}
         # 파일 경로 지정
         name = datetime.now().strftime("%H-%M-%S")
-        self.main_image_path = f"{MAIN_IMAGE_PATH}/{guardhouse}_{name}.jpg"
+        self.name = f"{guardhouse}_{name}"
+        self.main_image_path = f"{MAIN_IMAGE_PATH}/{self.name}.jpg"
         # REFRESH_COUNT
         self.expiration_count = EXPIRATION_COUNT
 
@@ -64,7 +77,7 @@ class BaseWorker:
                 inspection_id=self.db_data_id,
                 appearance_type=PART_ID[part_name],
                 status=status,
-                image_path=self.main_image_path,
+                image_path="",
             )
             self.db.add(db_part)
             self.db.commit()
@@ -97,13 +110,19 @@ class BaseWorker:
         if not db_data.count():
             raise NotImplementedError(f"해당 객체를 조회할 수 없음 - {self.db_data_id}")
 
+        part_path = f"{self.name}_{part_name}"
         part_dict = {
             "status": True,
-            "image_path": self.parts_path[part_name]
+            "image_path": part_path
         }
         
         db_data.update(part_dict)
         self.db.commit()
+
+        # 사진 업데이트
+        part_img = self.image_box.parts_image.get(part_name)
+        if part_img:
+            cv2.imwrite(part_path, part_img)
 
         self.expiration_count = EXPIRATION_COUNT
         print(f"파츠 업데이트 완료 - {part_name}")
@@ -114,7 +133,7 @@ class SimpleWorker(BaseWorker):
      def execute(self, img):
 
         # ai에게 처리
-        # print("이미지 처리 시작 ===============================")
+        print("이미지 처리 시작 ===============================")
         error = self.image_box.image_process(image=img)
 
         self.expiration_count -= 1 #인식 횟수 감소
@@ -145,7 +164,7 @@ class SimpleWorker(BaseWorker):
             self.image_box.parts_update.remove(part_name)
 
         # 답장
-        photo  = img_2_photo(result['boxed_img'])
+        photo  = img_2_photo(self.image_box.main_image)
 
 
         # 메세지 제작
@@ -155,7 +174,8 @@ class SimpleWorker(BaseWorker):
         }
 
 
-        msg.update(result['component'])
+        msg.update(self.image_box.get_inspection())
+        msg.update(self.image_box.get_parts())
         return msg
 
  

@@ -29,6 +29,7 @@ class SimpleBroker(BaseBroker):
     def __init__(self, id, db):
         super().__init__(id, db)
         self.ai = OmilZomil()
+
     def __del__(self):
         del self.ai
 
@@ -46,8 +47,8 @@ class SimpleBroker(BaseBroker):
         
         # 오랜만에 사람이 탐지 된 경우
         if work_time - self.last_person_time > timedelta(seconds=EMPTY_PERSON_SECOND):
-            if self.end_detect: # ai 탐지 초기화
-                self.end_detect = False # 일정 시간 뒤 다시 인식
+            if self.end_detect: # 일정 시간 뒤 다시 인식
+                self.end_detect = False # ai 탐지 초기화
             # 새 worker 생성
             self.worker = SimpleWorker(ai=self.ai, db=self.db, guardhouse=data['name'])
 
@@ -60,7 +61,7 @@ class SimpleBroker(BaseBroker):
             }        
         # worker로 이미지 처리
         result_msg = self.worker.execute(img=img)
-
+        # 인식 홧수 초과시 더이상 인식 X
         if self.worker.expiration_count == 0:
             self.end_detect = True
 
