@@ -71,20 +71,6 @@
           <div class="time">
             {{ rtm.access_time.replace('T',' ') }}
           </div>
-          <!-- <div
-            class="dress-type"
-            :style="{color:dressColors[rtm.uniform]}"
-          >
-          
-            <IconBase
-              :width="16"
-              :height="16"
-              :viewBox="'0 0 16 16'"
-            >
-              <TshirtIcon />
-            </IconBase>
-            {{ rtm.uniform_title }}
-          </div> -->
           <div style="width: 100px;display:flex;justify-content:center">
             <DressType
               :dress-type="rtm.uniform"
@@ -106,6 +92,7 @@
         </div>
       </div>
       <PaginationBar
+        v-if="!isInDash"
         :total="total"
         @page="pagination"
       />
@@ -201,12 +188,10 @@ export default {
         },
         async getRtms(){
           try{
-            const {data} = await this.$axios.get(`/rtm/?page=${this.page}`+this.filter);
-            console.log(data);
+            const {data} = await this.$axios.get(`/rtm/?page=${this.page}&size=${this.isInDash ? 4:10}`+this.filter);
             this.rtms = data.items;
-            console.log(this.rtms,`/rtm/?page=${this.page}`+this.filter);
             this.total = parseInt((data.total+9)/10);
-            // this.rtmInfo();
+            this.rtmInfo();
           }catch(err){
             console.log(err);
           }
