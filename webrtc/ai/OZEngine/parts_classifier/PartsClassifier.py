@@ -8,7 +8,7 @@ def distFunc(x):
     return -0.6*x + 1
 class PartsClassifier(FeatureExtractor):
     def __init__(self, dress_kind):
-        project_path = '/config/workspace/WEB_CLOUD_OmilZomil_NAVYeffect/webrtc/ai/OZEngine/parts_classifier'
+        project_path = os.path.join(os.environ['AI_PATH'], 'OZEngine', 'parts_classifier')
         if dress_kind == 'navy_service_uniform':
             base_url = os.path.join(project_path, 'NavyServiceUniform')
         elif dress_kind == 'full_dress_uniform':

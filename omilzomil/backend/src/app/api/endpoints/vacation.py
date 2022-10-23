@@ -1,5 +1,6 @@
 from datetime import datetime
 from typing import List, Optional
+from fastapi_pagination import paginate, Page, Params
 from fastapi import APIRouter, Depends, Body
 from sqlalchemy.orm import Session
 from app.crud import vacation as crud
@@ -25,24 +26,24 @@ async def create_vacation(
     return crud.create_vacation(db, user_id, vacation)
 
 
-@router.get("/user/{user_id}", response_model=List[schema.VacationRead])
-def get_vacations(
-    user_id: int, page: Optional[int] = 1, db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_user)
+@router.get("/user/{user_id}", response_model=Page[schema.VacationRead])
+async def get_vacations(
+    user_id: int, params: Params = Depends(), db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_user)
 ):
     if not current_user.success:
         return list()
 
-    return crud.get_vacations(db, user_id=user_id, page=page)
+    return paginate(crud.get_vacations(db, user_id=user_id), params)
 
 
-@router.get("/unit/", response_model=List[schema.VacationRead])
-def get_vacations_from_unit(
-    page: Optional[int] = 1, db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_admin)
+@router.get("/unit/", response_model=Page[schema.VacationRead])
+async def get_vacations_from_unit(
+    params: Params = Depends(), db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_admin)
 ):
     if not current_user.success:
         return list()
 
-    return crud.get_vacations(db, unit_id=current_user.military_unit, page=page)
+    return paginate(crud.get_vacations(db, unit_id=current_user.military_unit), params)
 
 
 @router.get("/name/", response_model=List[MilitaryUnitRead])

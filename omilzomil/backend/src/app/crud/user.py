@@ -59,7 +59,7 @@ def create_user(db: Session, user: UserCreate):
         raise e
 
 
-def get_users(db: Session, flt: UserFilter, page: int = 1):
+def get_users(db: Session, flt: UserFilter):
     user = db.query(User).filter(User.user_id != 1)
     if flt.full_name is not None:
         user = user.filter(User.full_name.like(f"%{flt.full_name}%"))
@@ -71,7 +71,7 @@ def get_users(db: Session, flt: UserFilter, page: int = 1):
         user = user.filter_by(rank=flt.rank)
     if flt.is_active is not None:
         user = user.filter_by(is_active=flt.is_active)
-    return user.order_by(User.full_name).offset((page - 1) * 10).limit(10).all()
+    return user.order_by(User.full_name).all()
 
 
 def get_user(db: Session, user_id: int):
