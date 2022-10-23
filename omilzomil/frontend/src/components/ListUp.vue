@@ -91,12 +91,17 @@
           </a>
         </div>
       </div>
+    </div>
+    <div 
+      style="padding:0px 61px 28px 61px; width:100%; box-sizing: border-box;"
+    >
       <PaginationBar
         v-if="!isInDash"
         :total="total"
         @page="pagination"
-      />
+      />  
     </div>
+    
     <DetailCard
       v-if="isDetail"
       :item="detail"
@@ -229,7 +234,7 @@ export default {
     height:100%;
     display:flex;
     flex-direction:column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
 }
 
