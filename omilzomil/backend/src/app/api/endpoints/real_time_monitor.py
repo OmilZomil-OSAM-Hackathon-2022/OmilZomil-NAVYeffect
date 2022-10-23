@@ -27,13 +27,13 @@ async def get_logs(
 ):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
-
-    military_unit = current_user.military_unit
     if current_user.role == 3:
-        military_unit = None
+        current_user.military_unit = None
 
     return paginate(
-        crud.get_logs(db, military_unit=military_unit, rank=rank, name=name, appearance_type=appearance_type, start_date=start_date, end_date=end_date),
+        crud.get_logs(
+            db, military_unit=current_user.military_unit, rank=rank, name=name, appearance_type=appearance_type, start_date=start_date, end_date=end_date
+        ),
         params,
     )
 
