@@ -295,6 +295,7 @@ export default {
     },
     stop(){
       clearInterval(this.setI);
+      this.connected=false;
     },
     capture() {
       const video = this.$refs.video
