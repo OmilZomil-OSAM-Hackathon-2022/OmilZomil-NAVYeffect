@@ -165,6 +165,7 @@ export default {
     },
     watch:{
       filter(){
+        this.page = 1;
         this.getRtms();
       }
     },
