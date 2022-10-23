@@ -48,8 +48,8 @@ class NavyServiceUniformChecker(UniformChecker):
 
         # 이름표, 계급장 체크
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
-            is_class_tag = result_dic['component'].get('class_tag')
-            is_name_tag = result_dic['component'].get('name_tag')
+            is_class_tag = self.result_dic['component'].get('class_tag')
+            is_name_tag = self.result_dic['component'].get('name_tag')
 
             if is_name_tag and is_class_tag:
                 break
@@ -99,4 +99,4 @@ class NavyServiceUniformChecker(UniformChecker):
                     self.result_dic['component']['class_tag'] = component
                     self.result_dic['masked_img']['class_tag'] = masked_img
 
-        return result_dic
+        return self.result_dic
