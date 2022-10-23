@@ -18,6 +18,7 @@ import uuid
 
 from app.api import deps
 from app.api.manager.broker import SingleBroker
+from app.api.simple.broker import SimpleBroker
 from app.api.websocket.image import photo_2_img, img_2_photo
 from app.api.db.guardhouse import get_guardhouse, select_guardhouse
 from app.ai.OZEngine.model import OmilZomil
@@ -48,7 +49,7 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
     })
 
     print("소캣 연결 완료")
-    omil_detecter = OmilZomil()
+    broker = SimpleBroker(id=camera_id, db=db)
     
     # 수신 중
     print(" 이미지 수신 시작")
@@ -56,22 +57,12 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
         while True:
             data = await websocket.receive_json()
             work_start = datetime.now()
+            print(f'데이터 수신:- {camera_id} - {work_start}')
 
-            img = photo_2_img(data['photo'])
-            # 임시로 모든 이미지 저장
-            cv2.imwrite(f"./image_list/{camera_id}_{work_start.strftime('%H-%M-%S')}.jpg", img)
+            # 업무 전달
+            msg = broker.add_task(data=data, work_time=work_start)
 
-            print(f'데이터 수신:- {camera_id}')
-            report = omil_detecter.detect(img)
-            print(report)
-            print(report['step'])
-            print(report.get('component'))
-
-            msg = {
-                'type' : "ai",
-                'step' : report['step'],
-                'component' : report.get('component'),
-            }
+            # 프론트에게 전달
             await websocket.send_json(msg)
             # 1차 처리 로그 출력
             print(f'테스크 1차 처리 완료: {camera_id} : {datetime.now() - work_start}')
