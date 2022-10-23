@@ -24,6 +24,8 @@ class NavyServiceUniformChecker(UniformChecker):
         self.name_cache = None
         self.debug_cnt = 0
 
+        self.result_dic = {'component':{}, 'box_position':{}, 'masked_img':{}, 'probability':{}}
+
 
     def isNameTag(self, contour, position, kind):
         return position == 'left' and kind == 'name_tag'
@@ -39,19 +41,15 @@ class NavyServiceUniformChecker(UniformChecker):
         img = org_img
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         H, W = img.shape[: 2]
-
-        box_position_dic = {}
-        component_dic = {}
-        masked_img_dic = {}
-
+        
         # 샘당 filter
-        contours, hierarchy, masked_img_dic['shirt'] = self.getMaskedContours(
+        contours, hierarchy, self.result_dic['masked_img']['shirt'] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='uniform', sort=True)
 
         # 이름표, 계급장 체크
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
-            is_class_tag = component_dic.get('class_tag')
-            is_name_tag = component_dic.get('name_tag')
+            is_class_tag = result_dic['component'].get('class_tag')
+            is_name_tag = result_dic['component'].get('name_tag')
 
             if is_name_tag and is_class_tag:
                 break
@@ -88,8 +86,8 @@ class NavyServiceUniformChecker(UniformChecker):
                         self.name_cache = component
 
                     # return값에 반영
-                    box_position_dic['name_tag'] = box_position
-                    component_dic['name_tag'] = component
+                    self.result_dic['box_position']['name_tag'] = box_position
+                    self.result_dic['component']['name_tag'] = component
 
                 # 계급장 체크
                 elif not is_class_tag and self.isClassTag(contour, position, kind):
@@ -97,9 +95,8 @@ class NavyServiceUniformChecker(UniformChecker):
                         img, hsv_img, contour)
 
                     # return값에 반영
-                    box_position_dic['class_tag'] = box_position
-                    component_dic['class_tag'] = component
-                    masked_img_dic['class_tag'] = masked_img
+                    self.result_dic['box_position']['class_tag'] = box_position
+                    self.result_dic['component']['class_tag'] = component
+                    self.result_dic['masked_img']['class_tag'] = masked_img
 
-        print('debug cnt : ', self.debug_cnt)
-        return component_dic, box_position_dic, masked_img_dic
+        return result_dic
