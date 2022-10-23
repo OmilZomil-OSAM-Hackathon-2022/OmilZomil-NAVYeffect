@@ -14,6 +14,8 @@ from app.api.simple.image_box import ImageBox
 MAIN_IMAGE_PATH = f"{settings.IMAGE_PATH}/inspection"
 
 EXPIRATION_COUNT = 5
+
+
 class BaseWorker:
     """
     이미지 경로를 받음
@@ -62,7 +64,7 @@ class BaseWorker:
                 inspection_id=self.db_data_id,
                 appearance_type=PART_ID[part_name],
                 status=status,
-                image_path="",
+                image_path=self.main_image_path,
             )
             self.db.add(db_part)
             self.db.commit()
@@ -80,6 +82,10 @@ class BaseWorker:
         inspection_dict = self.image_box.get_inspection()
         db_data.update(inspection_dict)
         self.db.commit()
+
+        # 갱신할 이미지가 있으면 덮어쓰기
+        if self.image_box.main_image:
+            cv2.imwrite(self.main_image_path, self.image_box.main_image)
 
         self.expiration_count = EXPIRATION_COUNT
         print(f"업데이트 완료")
@@ -109,24 +115,47 @@ class SimpleWorker(BaseWorker):
 
         # ai에게 처리
         # print("이미지 처리 시작 ===============================")
-        result = self.image_box.image_process(image=img)
+        error = self.image_box.image_process(image=img)
+
         self.expiration_count -= 1 #인식 횟수 감소
+        
         # 군복이 아닌 경우
-        if not result:
+        if error:
             return {
-                "msg" : "no mailtary"
+                "msg" : "no human",
+                "error" : error,
             }
+
+
+
+
+        # 데이터가 없으면 생성
+        if self.db_data_id is None:
+            self.create_data()
+
+        # DB에 반영
+        if self.image_box.is_update:
+            # DB에 데이터 업데이트
+            self.update_data()
+            self.image_box.is_update = False
+
+        # 각 파츠 업데이트
+        for part_name in self.image_box.parts_update:
+            self.update_parts(part_name)
+            self.image_box.parts_update.remove(part_name)
 
         # 답장
         photo  = img_2_photo(result['boxed_img'])
+
 
         # 메세지 제작
         msg =  {
             "type": "result",
             "photo": photo,
         }
-        msg.update(inspection_dict)
-        msg.update(parts_dict)
+
+
+        msg.update(result['component'])
         return msg
 
  

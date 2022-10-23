@@ -63,6 +63,7 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
             msg = broker.add_task(data=data, work_time=work_start)
 
             # 프론트에게 전달
+            print(msg)
             await websocket.send_json(msg)
             # 1차 처리 로그 출력
             print(f'테스크 1차 처리 완료: {camera_id} : {datetime.now() - work_start}')
