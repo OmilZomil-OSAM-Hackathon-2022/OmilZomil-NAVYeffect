@@ -22,6 +22,7 @@
             <option v-for="item in list" :key="item">{{item}}</option>
           </select>
           <button @click="start">시작</button>
+          <button @click="capture">test</button>
         </div>
         <!-- <button @click="listtest">listtest</button> -->
         <!-- <button @click="test1">test1</button>
@@ -305,7 +306,6 @@ export default {
       canvas.height=canvas_height;
       ctx.drawImage(video, 0, 0, canvas_width, canvas_height);
       this.img = canvas.toDataURL('image/webp')
-      this.$refs.test.src=this.img;
       var msg = {
         name:this.name,
         photo:this.img
