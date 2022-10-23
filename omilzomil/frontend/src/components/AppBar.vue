@@ -278,8 +278,8 @@ export default {
 
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
+    font-weight: 900;
+    font-size: 22px;
     line-height: 22px;
 
     color: #9155EB;

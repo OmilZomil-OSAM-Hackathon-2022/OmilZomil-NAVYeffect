@@ -6,7 +6,7 @@
           프로필 수정
         </router-link>
         <router-link
-          v-if="user.role > 2"
+          v-if="user.role >= 2"
           to="/profile/UserManagement"
         >
           사용자 관리
@@ -24,7 +24,7 @@
           위병소 관리
         </router-link>
         <router-link
-          v-if="user.role > 2"
+          v-if="user.role >= 2"
           to="/profile/VacationManagement"
         >
           휴가 관리

@@ -8,7 +8,6 @@
     />
     <router-view />
   </div>
-  <!-- <login-page /> -->
 </template>
 
 <script>
@@ -29,10 +28,6 @@ export default {
 
 <style>
 @import "@/assets/styles/common.css";
-
-/* background: #32313F; */
-/* :root{
-} */
 
 @font-face {
   font-family:'Roboto';

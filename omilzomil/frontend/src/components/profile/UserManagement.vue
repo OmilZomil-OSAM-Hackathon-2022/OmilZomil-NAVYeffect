@@ -131,7 +131,10 @@
               <option value="2">
                 관리자
               </option>
-              <option value="3">
+              <option
+                v-if="getAdmin.role > 2"
+                value="3"
+              >
                 루트 관리자
               </option>
             </select>
@@ -148,14 +151,16 @@
         </tr>
       </tbody>
     </table>
+    <pagination-bar :total="25" />
   </div>
 </template>
 
 <script>
 import SearchInput from '../common/SearchInput.vue';
 import CheckTag from '../CheckTag.vue';
+import PaginationBar from '../common/PaginationBar.vue';
 export default {
-    components: { SearchInput, CheckTag },
+    components: { SearchInput, CheckTag, PaginationBar },
     data(){
       return{
         classFilter:null,
@@ -167,6 +172,11 @@ export default {
         ranks:[],
         users:[],
         roles:[],
+      }
+    },
+    computed:{
+      getAdmin(){
+          return this.$store.getters.getUser;
       }
     },
     async mounted(){
