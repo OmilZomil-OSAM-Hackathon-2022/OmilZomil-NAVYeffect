@@ -90,7 +90,7 @@ class OmilZomil:
         if self.check_person:
             person_box = self.person_detector.detect(img)
             if person_box is None:
-                return {}
+                return {'step':0}
             img = box2img(img, person_box)
             self.addBasePoint(person_box)
         
@@ -99,9 +99,9 @@ class OmilZomil:
         face_box = self.face_detector.detect(img)
         if face_box is None:
             if self.hed_mode:
-                return {'boxed_img':org_img, 'hed_boxed_img':hed_boxed_img}
+                return {'step':1, 'boxed_img':org_img, 'hed_boxed_img':hed_boxed_img}
             else:
-                return {'boxed_img':org_img}
+                return {'step':1, 'boxed_img':org_img}
 
         x,y,w,h = cvtPoint(face_box, method='2to4')
         y += person_box[0][0]
@@ -127,7 +127,7 @@ class OmilZomil:
             elif self.uniform_type == UniformType.dic['FULL_DRESS']:
                 self.uniform_checker = FullDressUniformChecker(self.train_mode)
             else:
-                return None
+                return {'step':2, 'boxed_img':org_img}
 
         # 복장검사모델
         result_dic = self.uniform_checker.checkUniform(shirt_img)
@@ -142,6 +142,6 @@ class OmilZomil:
             hed_boxed_img, _ = self.boxImage(hed_boxed_img, result_dic)
 
         if self.hed_mode:
-            return {'boxed_img':boxed_img, 'hed_boxed_img': hed_boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
+            return {'step':3, 'boxed_img':boxed_img, 'hed_boxed_img': hed_boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
         else:
-            return {'boxed_img':boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
+            return {'step':3, 'boxed_img':boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
