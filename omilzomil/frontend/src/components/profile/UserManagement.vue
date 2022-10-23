@@ -90,7 +90,7 @@
       </select>
       <button
         class="filterbtn"
-        @click="filtering"
+        @click="search(null)"
       >
         필터 적용
       </button>
@@ -151,7 +151,10 @@
         </tr>
       </tbody>
     </table>
-    <pagination-bar :total="25" />
+    <pagination-bar
+      :total="total"
+      @page="pagination"
+    />
   </div>
 </template>
 
@@ -172,6 +175,8 @@ export default {
         ranks:[],
         users:[],
         roles:[],
+        page:1,
+        total:1,
       }
     },
     computed:{
@@ -180,9 +185,21 @@ export default {
       }
     },
     async mounted(){
-      this.getUsers();
+      try{
+        this.affiliations = (await this.$axios.get('/affiliation/')).data;
+        this.ranks = (await this.$axios.get('/rank/')).data;
+        this.units = (await this.$axios.get('/unit/')).data;
+        this.roles = (await this.$axios.get('role')).data;
+        this.getUsers();
+      }catch(err){
+        console.log(err);
+      }
     },
     methods:{
+        pagination(page){
+          this.page = page;
+          this.getUsers();
+        },
         getInfo(){
           for(var i=0;i<this.users.length;i++){
             this.users[i].affiliation_title = this.affiliations.filter(af => af.affiliation_id == this.users[i].affiliation)[0].affiliation;
@@ -190,48 +207,36 @@ export default {
             this.users[i].rank_title = this.ranks.filter(r => r.rank_id == this.users[i].rank)[0].rank;
           }
         },
-        async filtering(){
+        async getUsers(text = null){
           try{
-            let url = '/user/';
-            let cnt = 0;
+            let url = `/user/?page=${this.page}`;
             if(this.classFilter){
-              cnt++;
-              if(cnt == 1) url += '?';
-              else url += '&';
-              url += `rank=${this.classFilter}`;
+              url += `&rank=${this.classFilter}`;
             }
             if(this.divisionFilter){
-              cnt++;
-              if(cnt == 1) url += '?';
-              else url += '&';
-              url += `affiliation=${this.divisionFilter}`;
+              url += `&affiliation=${this.divisionFilter}`;
             }
             if(this.unitFilter){
-              cnt++;
-              if(cnt == 1) url += '?';
-              else url += '&';
-              url += `military_unit=${this.unitFilter}`;
+              url += `&military_unit=${this.unitFilter}`;
             }
             if(this.isActive != null){
-              cnt++;
-              if(cnt == 1) url += '?';
-              else url += '&';
-              url += `is_active=${this.isActive}`;
+              url += `&is_active=${this.isActive}`;
             }
-            this.users = (await this.$axios.get(url)).data;
+            if(text){
+              url += `&full_name=${text}`;
+            }
+            const {data} = await this.$axios.get(url);
+            this.users = data.items;
+            this.total = Math.max(parseInt((data.total+9)/10),1);
+            console.log(this.users,url);
             this.getInfo();
           }catch(err){ 
             console.log(err);
           }
         },
-        async search(text){
-            try{
-              this.users = (await this.$axios.get(`/user/?full_name=${text}`)).data;
-              
-              this.getInfo();
-            }catch(err){
-              console.log(err);
-            }
+        search(text){
+          this.page = 1;
+          this.getUsers(text);
         },
         async changeRole(user_id,role){
           // console.log(role);
@@ -239,21 +244,6 @@ export default {
             await this.$axios.put(`/user/role/${user_id}`,{
               role
             });
-          }catch(err){
-            console.log(err);
-          }
-        },
-        async getUsers(){
-          try{
-            this.users = (await this.$axios.get('/user/')).data;
-            
-            this.affiliations = (await this.$axios.get('/affiliation/')).data;
-            this.ranks = (await this.$axios.get('/rank/')).data;
-            this.units = (await this.$axios.get('/unit/')).data;
-            this.roles = (await this.$axios.get('role')).data;
-            // console.log(this.users);
-            this.getInfo();
-            console.log(this.users);
           }catch(err){
             console.log(err);
           }

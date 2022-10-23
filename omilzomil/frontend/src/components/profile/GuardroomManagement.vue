@@ -25,7 +25,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="room in gaurdrooms"
+          v-for="room in gaurdrooms.slice((page-1)*10,page*10 > gaurdrooms.length ? gaurdrooms.length:page*10)"
           :key="room.house_id"
         >
           <td>{{ room.house }}</td>
@@ -42,6 +42,10 @@
         </tr>
       </tbody>
     </table>
+    <PaginationBar
+      :total="parseInt((gaurdrooms.length+9)/10)"
+      @page="pagination"
+    />
     <EditTitleCard
       v-if="isEdit"
       title="위병소"
@@ -52,11 +56,12 @@
   </div>
 </template>
   
-  <script>
+<script>
   import SearchInput from '../common/SearchInput.vue';
   import EditTitleCard from './EditTitleCard.vue';
+  import PaginationBar from '../common/PaginationBar.vue';
   export default {
-      components: { SearchInput,EditTitleCard },
+      components: { SearchInput,EditTitleCard,PaginationBar },
       data(){
         return{
           gaurdrooms:[],
@@ -64,14 +69,19 @@
           editID:0,
           editText:'',
           isEdit:false,
+          page:1,
         }
       },
       mounted(){
         this.getGaurdrooms();
       },
       methods:{
+          pagination(page){
+            this.page = page;
+          },
           async search(text){
             try{
+              this.page =1;
               this.gaurdrooms = (await this.$axios.get(`/house/?house=${text}`)).data;
             }catch(err){
               console.log(err);

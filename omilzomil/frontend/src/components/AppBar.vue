@@ -79,7 +79,7 @@
                 프로필 수정
               </router-link>
               <div
-                v-if="getUser.role > 2"
+                v-if="getUser.role >= 2"
                 class="admin"
               >
                 <router-link
@@ -89,12 +89,14 @@
                   사용자 관리
                 </router-link>
                 <router-link
+                  v-if="getUser.role >= 3"
                   to="/profile/unitManageMent"
                   @click="closeUserMenu"
                 >
                   부대 관리
                 </router-link>
                 <router-link
+                  v-if="getUser.role >= 3"
                   to="/profile/unitManageMent"
                   @click="closeUserMenu"
                 >

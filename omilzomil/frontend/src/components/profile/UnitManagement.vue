@@ -26,7 +26,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="unit in units"
+          v-for="unit in units.slice((page-1)*10,page*10 > units.length? units.length:page*10)"
           :key="unit.unit_id"
         >
           <td>{{ unit.unit }}</td>
@@ -59,7 +59,10 @@
         </tr>
       </tbody>
     </table>
-
+    <PaginationBar
+      :total="parseInt((units.length+9)/10)"
+      @page="pagination"
+    />
     <EditTitleCard
       v-if="isEdit"
       title="부대"
@@ -80,8 +83,9 @@
 import SearchInput from '../common/SearchInput.vue';
 import EditTitleCard from './EditTitleCard.vue';
 import ConectCard from './ConectCard.vue';
+import PaginationBar from '../common/PaginationBar.vue';
 export default {
-    components: { SearchInput, EditTitleCard, ConectCard },
+    components: { SearchInput, EditTitleCard, ConectCard, PaginationBar },
     data(){
       return{
         classFilter:'',
@@ -93,12 +97,16 @@ export default {
         editUnitID:0,
         newUnit:'',
         isConect:false,
+        page:1,
       }
     },
     mounted(){
       this.getUnits();
     },
     methods:{
+      pagination(page){
+        this.page = page;
+      },
         async getUnits(){
           try{
             const {data} = await this.$axios.get('/unit/');
@@ -159,10 +167,10 @@ export default {
           }
         },
         async search(text){
-          console.log(text);
           try{
             const {data} = await this.$axios.get(`/unit/?unit=${text}`);
             this.units = data;
+            this.page = 1;
           }catch(err){
             console.log(err);
           }

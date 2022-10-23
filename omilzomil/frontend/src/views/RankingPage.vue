@@ -50,79 +50,40 @@
           </tr>
         </tbody>
       </table>
-      <!-- <div class="foot">
-        <tr>
-          <td class="choose">
-            <div class="choosebox">
-              <select v-model.number="page">
-                <option
-                  v-for="i in pageList.length"
-                  :key="i"
-                  value.number="i"
-                >
-                  {{ i }}
-                </option>
-              </select>
-            </div>
-            <div class="max-page">
-              /{{ pageList.length }}
-            </div>
-          </td>
-          <td class="prev-next">
-            <button
-              v-if="page!=1"
-              class="prev"
-              @click="page-=1"
-            />
-            <img
-              v-else
-              class="prev"
-              src="@/assets/icons/prev.svg"
-            >
-            <button
-              v-if="page!=pageList.length"
-              class="next"
-              @click="page+=1"
-            />
-            <img
-              v-else
-              class="next"
-              src="@/assets/icons/next.svg"
-            >
-          </td>
-        </tr>
-      </div> -->
+      <PaginationBar
+        :total="total"
+        @page="pagination"
+      />
     </div>
   </div>
 </template>
 
 <script>
-// class User{
-//     constructor(){
-//         this.name = "계룡대 본부대대";
-//         this.goodNumber = "269";
-//         this.badNumber = "269";
-//         this.percent = "1";
-//     }
-// }
+import PaginationBar from '@/components/common/PaginationBar.vue';
 
 export default {
-    data(){
-        return{
-            page:1,
-            unitList:[]
+    components: { PaginationBar },
+    data() {
+        return {
+            page: 1,
+            unitList: []
+        };
+    },
+    async mounted() {
+        try {
+            const { data } = await this.$axios.get(`/ranking/?page=${this.page}`);
+            this.unitList = data.items;
+            this.total = Math.max(1,parseInt((data.total.length+9)/10));
+            console.log(data);
+        }
+        catch (err) {
+            console.log(err);
         }
     },
-    async mounted(){
-      try{
-        const {data} = await this.$axios.get('/ranking/');
-        this.unitList = data;
-        console.log(data);
-      }catch(err){
-        console.log(err);
+    methods: {
+      pagination(page){
+        this.page = page;
       }
-    },
-    methods:{
     }
 }
 </script>

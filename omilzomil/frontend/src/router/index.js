@@ -1,11 +1,11 @@
 import { createWebHistory, createRouter } from "vue-router";
 import store from "@/stores";
 
-const beforeAuth = allowAdmin => (from, to, next) => {
+const beforeAuth = (allowAdmin,role=2) => (from, to, next) => {
   const isAuthenticated = store.getters["isAuthenticated"]
   if (isAuthenticated) {
     if(allowAdmin){
-      const isAdmin = store.getters["getUser"].role > 2;
+      const isAdmin = store.getters["getUser"].role >= role;
       if(isAdmin){
         return next()
       }else{
@@ -107,7 +107,7 @@ const routes = [
       {
         path:'userManagement',
         name:'UserManagement',
-        beforeEnter:beforeAuth(true),
+        beforeEnter:beforeAuth(true,2),
         meta:{
           enterClass: "animate__animated animate__fadeInLeft",
           leaveClass: "animate__animated animate__fadeOutRight",
@@ -117,7 +117,7 @@ const routes = [
       {
         path:'unitManagement',
         name:'UnitManagement',
-        beforeEnter:beforeAuth(true),
+        beforeEnter:beforeAuth(true,3),
         meta:{
           enterClass: "animate__animated animate__fadeInLeft",
           leaveClass: "animate__animated animate__fadeOutRight",
@@ -127,7 +127,7 @@ const routes = [
       {
         path:'guardroomManagement',
         name:'GuardroomManagement',
-        beforeEnter:beforeAuth(true),
+        beforeEnter:beforeAuth(true,3),
         meta:{
           enterClass: "animate__animated animate__fadeInLeft",
           leaveClass: "animate__animated animate__fadeOutRight",
@@ -137,7 +137,7 @@ const routes = [
       {
         path:'vacationManagement',
         name:'VacationManagement',
-        beforeEnter:beforeAuth(true),
+        beforeEnter:beforeAuth(true,2),
         meta:{
           enterClass: "animate__animated animate__fadeInLeft",
           leaveClass: "animate__animated animate__fadeOutRight",
