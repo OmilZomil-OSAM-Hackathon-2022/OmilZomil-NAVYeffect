@@ -1,10 +1,11 @@
 from datetime import datetime
 from typing import List, Optional
-from fastapi_pagination import paginate, Page, Params
+from fastapi_pagination import paginate, Page
 from fastapi import APIRouter, Depends, Body
 from sqlalchemy.orm import Session
 from app.crud import vacation as crud
 from app.schemas.military_unit import MilitaryUnitRead
+from app.schemas.CustomParams import CustomParams
 from app.schemas import vacation as schema
 from app.api import deps
 from app.schemas.user import UserReadResponse
@@ -28,7 +29,7 @@ async def create_vacation(
 
 @router.get("/user/{user_id}", response_model=Page[schema.VacationRead])
 async def get_vacations(
-    user_id: int, params: Params = Depends(), db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_user)
+    user_id: int, params: CustomParams = Depends(), db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_user)
 ):
     if not current_user.success:
         return list()
@@ -38,7 +39,7 @@ async def get_vacations(
 
 @router.get("/unit/", response_model=Page[schema.VacationRead])
 async def get_vacations_from_unit(
-    params: Params = Depends(), db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_admin)
+    params: CustomParams = Depends(), db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_admin)
 ):
     if not current_user.success:
         return list()

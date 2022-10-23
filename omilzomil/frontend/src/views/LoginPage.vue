@@ -89,25 +89,32 @@ export default {
             if(response.data.success){
               this.$store.commit('login',{accessToken:response.data.access_token});
               this.$axios.post('/login/test-token/').then(async (response)=>{
+                console.log(response.data);
                 try{
-                  const ranks = (await this.$axios.get('/rank/')).data;
-                  const unit = (await this.$axios.get(`/unit/${response.data.military_unit}`)).data.unit;
-                  const affiliations = (await this.$axios.get('/affiliation/')).data;
-                  response.data.unit_title = unit;
-                  for(var key in ranks){
-                    if(ranks[key].rank_id == response.data.rank)
-                      response.data.rank_title = ranks[key].rank;
-                  }
-                  for(var key1 in affiliations){
-                    if(affiliations[key1].affiliation_id == response.data.affiliation)
-                      response.data.affiliation_title = affiliations[key1].affiliation;
+                  if(response.data.success){
+                    const ranks = (await this.$axios.get('/rank/')).data;
+                    const unit = (await this.$axios.get(`/unit/${response.data.military_unit}`)).data.unit;
+                    const affiliations = (await this.$axios.get('/affiliation/')).data;
+                    response.data.unit_title = unit;
+                    for(var key in ranks){
+                      if(ranks[key].rank_id == response.data.rank)
+                        response.data.rank_title = ranks[key].rank;
+                    }
+                    for(var key1 in affiliations){
+                      if(affiliations[key1].affiliation_id == response.data.affiliation)
+                        response.data.affiliation_title = affiliations[key1].affiliation;
+                    }
                   }
                 }catch(err){
                   console.log(err);
+                  this.loginFail = true;
                 }
                 if(response.data.success){
                   this.$store.commit('setUser',response.data);
                   this.$router.push('/');
+                }else{
+                  alert("승인되지 않은 사용자입니다.");
+                  // this.loginFail = true;
                 }
               });
             }else{

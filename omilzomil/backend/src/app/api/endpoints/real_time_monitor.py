@@ -1,11 +1,12 @@
 from datetime import date
 from typing import Optional
 from fastapi import APIRouter, Depends, Body
-from fastapi_pagination import paginate, Params
+from fastapi_pagination import paginate
 from sqlalchemy.orm import Session
 from app.schemas.user import UserReadResponse
 from app.schemas.inspection_log import InspectionLogUpdateInformation, InspectionLogUpdateCheck
 from app.schemas.inspection_detail import InspectionDetailUpdateStatus, InspectionDetailUpdateValidity
+from app.schemas.CustomParams import CustomParams
 from app.crud import real_time_monitor as crud
 from app.api import deps
 
@@ -20,7 +21,7 @@ async def get_logs(
     appearance_type: Optional[int] = None,
     start_date: Optional[date] = None,
     end_date: Optional[date] = None,
-    params: Params = Depends(),
+    params: CustomParams = Depends(),
     db: Session = Depends(deps.get_db),
     current_user: UserReadResponse = Depends(deps.get_current_active_user),
 ):

@@ -19,6 +19,30 @@
       <div class="wrap">
         <div class="soldier-image-wrap">
           <div class="image-back" />
+          <div
+            class="massege-box"
+            style="padding:19px 23px;top:20px;left:-145px;"
+          >
+            출입 인원이 많으면 시간이 지체돼요.
+          </div>
+          <div
+            class="massege-box"
+            style="padding:19px 35px;top:50px;left:250px;"
+          >
+            사람마다 불량 판단 기준이 달라요.
+          </div>
+          <div
+            class="massege-box"
+            style="padding:28px 19px;left: -230px;top:200px;z-index:11"
+          >
+            많은 복장, 두발 규정 모두 알고있기 힘들어요.
+          </div>
+          <div
+            class="massege-box"
+            style="padding:18px 30px;left: 255px;top:240px;z-index:11"
+          >
+            추후 확인할 수 있는 방안이 없어요.
+          </div>
           <img
             class="soldier-image"
             src="@/assets/images/soldier.png"
@@ -139,7 +163,7 @@ export default {
 }
 .problem .soldier-image{
     position:absolute;
-    z-index: 100;
+    z-index: 10;
     top:38px;
     left:39px;
 }
@@ -161,5 +185,22 @@ export default {
     margin-bottom:4px;
 }
 
+.massege-box{
+  position:absolute;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 150%;
+  /* identical to box height, or 22px */
 
+  text-align: center;
+
+  /* Dark1 */
+
+  color: #32313F;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 20px rgba(92, 92, 92, 0.4);
+  border-radius: 20px;
+  white-space: nowrap;
+}
 </style>

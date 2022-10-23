@@ -1,9 +1,10 @@
 from typing import Optional
 from fastapi import APIRouter, Depends, Body
-from fastapi_pagination import paginate, Page, Params
+from fastapi_pagination import paginate, Page
 from sqlalchemy.orm import Session
 from app.crud import user as crud
 from app.schemas import user as schema
+from app.schemas.CustomParams import CustomParams
 from app.api import deps
 from app.schemas.user import UserReadResponse
 
@@ -23,7 +24,7 @@ async def get_users(
     military_unit: Optional[int] = None,
     rank: Optional[int] = None,
     is_active: Optional[bool] = None,
-    params: Params = Depends(),
+    params: CustomParams = Depends(),
     db: Session = Depends(deps.get_db),
     current_user: UserReadResponse = Depends(deps.get_current_active_admin),
 ):
@@ -32,6 +33,14 @@ async def get_users(
 
     flt = schema.UserFilter(full_name=full_name, affiliation=affiliation, military_unit=military_unit, rank=rank, is_active=is_active)
     return paginate(crud.get_users(db, flt), params)
+
+
+@router.get("/{user_id}", response_model=UserReadResponse)
+async def get_user(user_id: int, db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_admin)):
+    if not current_user.success:
+        return schema.UserReadResponse(success=False, message=current_user.message)
+
+    return crud.get_user(db, user_id)
 
 
 @router.put("/information/{user_id}", response_model=schema.UserResponse)

@@ -66,6 +66,10 @@
           </tr>
         </tbody>
       </table>
+      <PaginationBar
+        :total="total"
+        @page="pagination"
+      />
     </div>
   </div>
 </template>
@@ -76,12 +80,13 @@ import '@vuepic/vue-datepicker/dist/main.css'
 
 import {ref} from 'vue';
 import CardHead from '@/components/CardHead.vue';
+import PaginationBar from '@/components/common/PaginationBar.vue';
 
 const format = (date) => {
   return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
 }
   export default { 
-    components:{ Datepicker, CardHead },
+    components:{ Datepicker, CardHead, PaginationBar },
     setup(){
       const startDate = ref();
       const endDate = ref();
@@ -95,7 +100,8 @@ const format = (date) => {
       data(){
           return{
               vacationList:[],
-              g:false,
+              page:1,
+              total:1,
           }
       },
       computed:{
@@ -131,8 +137,9 @@ const format = (date) => {
           },
           async getList(){
             try{
-              const {data} = await this.$axios.get(`/vacation/user/${this.getUser.user_id}`);
-              this.vacationList = data;
+              const {data} = await this.$axios.get(`/vacation/user/${this.getUser.user_id}?page=${this.page}`);
+              this.vacationList = data.items;
+              this.total = parseInt((data.total+9)/10);
               // console.log(data);
             }catch(err){
               console.log(err);

@@ -104,16 +104,20 @@
           alert('비밀번호를 확인하세요');
         }else{
           try{
-            const {data} = await this.$axios.delete(`/user/${this.getUser.user_id}`,{
-              password:this.pw1
+            const data = await this.$axios.delete(`/user/${this.getUser.user_id}`,{
+              data:{
+                password:this.pw1
+              }
             });
-            if(data.success){
+            console.log(data);
+            if(data.data.success){
               this.logout();
             }else{
               alert('비밀번호를 확인하세요');
             }
           }catch(err){
             alert('비밀번호를 확인하세요');
+            console.log(err);
           }
         }
         //탈퇴~

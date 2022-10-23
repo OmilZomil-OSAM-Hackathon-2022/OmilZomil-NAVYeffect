@@ -35,11 +35,17 @@
         </tr>
       </tbody>
     </table>
+    <pagination-bar
+      :total="total"
+      @page="pagination"
+    />
   </div>
 </template>
 
 <script>
+import PaginationBar from '../common/PaginationBar.vue';
 export default {
+  components: { PaginationBar },
   data(){
     return{
       vacations:[],
@@ -47,32 +53,36 @@ export default {
       units:[],
       affiliations:[],
       ranks:[],
+      page:1,
+      total:1,
     }
   },
   async mounted(){
     try{
-      this.users = (await this.$axios.get('/user/')).data;
       this.affiliations = (await this.$axios.get('/affiliation/')).data;
       this.ranks = (await this.$axios.get('/rank/')).data;
       this.units = (await this.$axios.get('/unit/')).data;
-      for(var i=0;i<this.users.length;i++){
-        this.users[i].affiliation_title = this.affiliations.filter(af => af.affiliation_id == this.users[i].affiliation)[0].affiliation;
-        this.users[i].unit_title = this.units.filter(u => u.unit_id == this.users[i].military_unit)[0].unit;
-        this.users[i].rank_title = this.ranks.filter(r => r.rank_id == this.users[i].rank)[0].rank;
-      }
     }catch(err){
       console.log(err);
     }
     this.getVacations();
-    console.log(this.vacations);
   },
   methods:{
+    pagination(page){
+      this.page = page;
+      this.getVacations();
+    },
     async getVacations(){
       try{
-        this.vacations = (await this.$axios.get(`/vacation/unit/`)).data;
-        for(var i=0;i<this.vacations.length;i++){
-          this.vacations[i].user = this.users.filter(u => u.user_id == this.vacations[i].user)[0];
+        const {data} = await this.$axios.get(`/vacation/unit/?page=${this.page}&size=9`);
+        for(var i=0;i<data.items.length;i++){
+          data.items[i].user = (await this.$axios.get(`/user/${data.items[i].user}`)).data;
+          data.items[i].user.affiliation_title = this.affiliations.filter(af => af.affiliation_id == data.items[i].user.affiliation)[0].affiliation;
+          data.items[i].user.unit_title = this.units.filter(u => u.unit_id == data.items[i].user.military_unit)[0].unit;
+          data.items[i].user.rank_title = this.ranks.filter(r => r.rank_id == data.items[i].user.rank)[0].rank;
         }
+        this.vacations = data.items;
+        this.total = Math.max(parseInt((data.total+8)/9));
       }catch(err){ 
         console.log(err);
       }
@@ -105,12 +115,13 @@ export default {
     padding:28px 61px;
     display:flex;
     flex-direction:column;
+    justify-content:space-between;
+    height:770px;
 }
 
 table{
   width:100%;
   border-collapse: collapse; 
-  border-bottom: 1px solid #E1E2E9;
 }
 
 table thead tr{
@@ -132,7 +143,7 @@ tbody td{
   font-size: 14px;
   line-height: 16px;
   letter-spacing: 0.25px;
-  height:70px;
+  height:66px;
 }
 
 a{

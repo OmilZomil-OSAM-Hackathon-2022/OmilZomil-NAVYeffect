@@ -71,20 +71,6 @@
           <div class="time">
             {{ rtm.access_time.replace('T',' ') }}
           </div>
-          <!-- <div
-            class="dress-type"
-            :style="{color:dressColors[rtm.uniform]}"
-          >
-          
-            <IconBase
-              :width="16"
-              :height="16"
-              :viewBox="'0 0 16 16'"
-            >
-              <TshirtIcon />
-            </IconBase>
-            {{ rtm.uniform_title }}
-          </div> -->
           <div style="width: 100px;display:flex;justify-content:center">
             <DressType
               :dress-type="rtm.uniform"
@@ -105,6 +91,11 @@
           </a>
         </div>
       </div>
+      <PaginationBar
+        v-if="!isInDash"
+        :total="total"
+        @page="pagination"
+      />
     </div>
     <DetailCard
       v-if="isDetail"
@@ -120,9 +111,10 @@ import DetailCard from "./DetailCard.vue";
 import CardHead from "./CardHead.vue";
 import CheckTag from "./CheckTag.vue";
 import DressType from './DressType.vue';
+import PaginationBar from "./common/PaginationBar.vue";
 
 export default {
-    components: { GoodBadTag, DetailCard, CardHead, CheckTag, DressType },
+    components: { GoodBadTag, DetailCard, CardHead, CheckTag, DressType, PaginationBar },
     props:{
       gap: {
         type:String,
@@ -154,10 +146,13 @@ export default {
             affiliations:[],
             dressColors:["","","#4471FB","#585767","#1DCB9D"],
             colors:["","","#1DCB9D","#4471FB","#44B9FB","#FF5467"],
+            page:1,
+            total:1,
         };
     },
     watch:{
       filter(){
+        this.page = 1;
         this.getRtms();
       }
     },
@@ -193,12 +188,17 @@ export default {
         },
         async getRtms(){
           try{
-            this.rtms = (await this.$axios.get('/rtm/'+this.filter)).data;
-            console.log(this.rtms);
+            const {data} = await this.$axios.get(`/rtm/?page=${this.page}&size=${this.isInDash ? 4:10}`+this.filter);
+            this.rtms = data.items;
+            this.total = parseInt((data.total+9)/10);
             this.rtmInfo();
           }catch(err){
             console.log(err);
           }
+        },
+        pagination(page){
+          this.page = page;
+          this.getRtms();
         },
         rtmInfo(){
           for(var i=0;i<this.rtms.length;i++){
