@@ -41,15 +41,16 @@ class NavyServiceUniformChecker(UniformChecker):
         img = org_img
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         H, W = img.shape[: 2]
-        
+
+        self.result_dic = {'component':{}, 'box_position':{}, 'masked_img':{}, 'probability':{}} 
         # 샘당 filter
         contours, hierarchy, self.result_dic['masked_img']['shirt'] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='uniform', sort=True)
 
         # 이름표, 계급장 체크
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
-            is_class_tag = result_dic['component'].get('class_tag')
-            is_name_tag = result_dic['component'].get('name_tag')
+            is_class_tag = self.result_dic['component'].get('class_tag')
+            is_name_tag = self.result_dic['component'].get('name_tag')
 
             if is_name_tag and is_class_tag:
                 break
@@ -99,4 +100,6 @@ class NavyServiceUniformChecker(UniformChecker):
                     self.result_dic['component']['class_tag'] = component
                     self.result_dic['masked_img']['class_tag'] = masked_img
 
-        return result_dic
+
+        return self.result_dic
+

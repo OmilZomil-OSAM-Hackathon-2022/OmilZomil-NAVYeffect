@@ -32,5 +32,7 @@ RUN apt-get install -y libgl1-mesa-glx
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
+ENV AI_PATH /ai
+
 # 개발용으로 entrypoint.sh 파일를 연결
 CMD ["sh", "/backend/entrypoint.sh"]
