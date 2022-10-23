@@ -1,23 +1,42 @@
 <template>
   <div class="home">
     <div class="left">
-      <video ref="video" class="video" id="camera--view" autoplay></video>
-      <canvas ref="canvas" class="video" style="display:none;"></canvas>
-      <div style="display:flex; flex-direction:row height:5vh;">
-        <button @click="connect">connect</button>
-        <button @click="listtest">listtest</button>
-        <select v-model="name">
-                  <option v-for="item in list" :key="item">{{item}}</option>
-        </select>
-        <button @click="start">start</button>
-        <button @click="test1">test1</button>
+      <div class="videoview">
+        <video ref="video" class="video" id="camera--view" autoplay></video>
+        <canvas ref="canvas" class="video" style="display:none;"></canvas>
+      </div>
+      <!-- <button @click="capture">test</button>
+      <img ref="test" style="object-fit:contain; width:160px;"> -->
+      <div class="leftcontent" style="display:flex; flex-direction:column; height:10vh; gap:2vh;">
+        <div class="leftcontent" style="display:flex; flex-direction:row; justify-content: space-between; height:4vh;">
+          <button @click="connect">연결하기</button>
+          <div style="display:flex; flex-direction:row; justify-content:center; align-items:center;">
+            <div style="display:flex; height:4vh; align-items:center; line-height:20px;">연결 상태:</div>
+            <div style="height:2vh; width:2vh; background-color:#1DCB9D; border-radius:10px;" v-if="this.connected===true"></div>
+            <div style="height:2vh; width:2vh; background-color:crimson; border-radius:10px;" v-else></div>
+          </div>
+        </div>
+        <div class="leftcontent" style="display:flex; flex-direction:row; justify-content: space-between; height:4vh;">
+          <select v-model="name">
+            <option selected="true" hidden value=null>위병소 선택</option>
+            <option v-for="item in list" :key="item">{{item}}</option>
+          </select>
+          <button @click="start">시작</button>
+        </div>
+        <!-- <button @click="listtest">listtest</button> -->
+        <!-- <button @click="test1">test1</button>
         <button @click="test2">test2</button>
         <button @click="test3">test3</button>
-        <button @click="reset">reset</button>
+        <button @click="reset">reset</button> -->
       </div>
     </div>
-    <div class="right" v-if="this.data['imgview']">
-      <img ref="back" class="back" >
+    <div class="right" v-if="this.connected===false">
+      <div style="display:flex; background-color:#9C9DB2; width:270px; height:80px; font-size:20px; align-items:center; justify-content:center; border-radius:10px; color:#585767; font-weight: 600; ">
+        연결상태를 확인해주세요
+      </div>
+    </div>
+    <div class="right" v-else-if="this.data['imgview']">
+      <img ref="back" class="back">
       <div class="result">
         <div class="content" v-if="data['kind']==='blue'">
           <div class="kind">
@@ -64,7 +83,7 @@
             </div>
             <div class="res-right" style="color: #1DCB9D;">
               <img class="kind-img" src="@/assets/icons/green.svg" />
-              해군 전투복
+              전투복
             </div>
           </div>
           <div class="hair">
@@ -189,39 +208,40 @@ export default {
         img : null,
         setI : null,
         name : null,
+        connected: false,
       }
     },
   methods: {
-    listtest(){
-      this.list=["1정문","2정문","3정문"]
-    },
-    test1(){
-      this.data["imgview"]=true;
-      this.$refs.back.src=this.img
-      this.data["kind"]="blue";
-      this.data["hair"]=true;
-      this.data["nametag"]=false;
-      this.data["level"]=true;
-    },
-    test2(){
-      this.data["imgview"]=true;
-      this.$refs.back.src=this.img
-      this.data["kind"]="green";
-      this.data["hair"]=true;
-      this.data["nametag"]=true;
-      this.data["level"]=false;
-      this.data["flag"]=true;
-    },
-    test3(){
-      this.data["imgview"]=true;
-      this.$refs.back.src=this.img
-      this.data["kind"]="black";
-      this.data["hair"]=true;
-      this.data["nametag"]=true;
-      this.data["level"]=false;
-      this.data["ma"]=true;
-      this.data["neck"]=true;
-    },
+    // listtest(){
+    //   this.list=["1정문","2정문","3정문"]
+    // },
+    // test1(){
+    //   this.data["imgview"]=true;
+    //   this.$refs.back.src=this.img
+    //   this.data["kind"]="blue";
+    //   this.data["hair"]=true;
+    //   this.data["nametag"]=false;
+    //   this.data["level"]=true;
+    // },
+    // test2(){
+    //   this.data["imgview"]=true;
+    //   this.$refs.back.src=this.img
+    //   this.data["kind"]="green";
+    //   this.data["hair"]=true;
+    //   this.data["nametag"]=true;
+    //   this.data["level"]=false;
+    //   this.data["flag"]=true;
+    // },
+    // test3(){
+    //   this.data["imgview"]=true;
+    //   this.$refs.back.src=this.img
+    //   this.data["kind"]="black";
+    //   this.data["hair"]=true;
+    //   this.data["nametag"]=true;
+    //   this.data["level"]=false;
+    //   this.data["ma"]=true;
+    //   this.data["neck"]=true;
+    // },
     reset(){
       this.data["imgview"]=false;
       this.data["kind"]=null;
@@ -265,15 +285,19 @@ export default {
       }
       this.socket.onclose = (msg) => {
         console.log({ type: 'ERROR', msg: 'Closed (Code: ' + msg.code + ', Message: ' + msg.reason + ')' })
+        this.stop();
+        this.reset();
       }
     },
     start(){
       this.setI=setInterval(this.capture,1000);
     },
+    stop(){
+      clearInterval(this.setI);
+    },
     capture() {
       const video = this.$refs.video
       const canvas = this.$refs.canvas
-      const image = this.$refs.image
       const ctx = canvas.getContext('2d')
       let canvas_width=video.videoWidth;
       let canvas_height=video.videoHeight;
@@ -281,6 +305,7 @@ export default {
       canvas.height=canvas_height;
       ctx.drawImage(video, 0, 0, canvas_width, canvas_height);
       this.img = canvas.toDataURL('image/webp')
+      this.$refs.test.src=this.img;
       var msg = {
         name:this.name,
         photo:this.img
@@ -290,7 +315,7 @@ export default {
   },
   mounted() {
     navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "user"}, audio: false
+      video: {width:1920,height:1080}, audio: false
     }).then(stream => {
       this.$refs.video.srcObject = stream;
     })
@@ -321,15 +346,25 @@ export default {
     width:40%;
     height:100%;
   }
+  .videoview{
+    object-fit:contain;
+    width:490px;
+    height:38vh;
+  }
+  .leftcontent{
+    width:490px;
+  }
   .video{
     /* transform: rotateY(180deg); */
     width:490px;
-    height:45vh;
+    height:38vh;
+    object-fit:contain;
   }
   .right{
     display:flex;
     flex-direction: row;
     align-content: center;
+    align-items: center;
     justify-content: center;
     /* gap: 60px; */
     width:60%;
@@ -347,7 +382,7 @@ export default {
   }
   .content{
     position:relative;
-    width:220px;
+    width:240px;
     height:220px;
     display: flex;
     flex-direction: column;
@@ -423,6 +458,17 @@ export default {
     width:50px;
     animation: load 0.7s linear infinite;
   }
+  button{
+    border:none; 
+    border-radius: 10px; 
+    background-color:#9C9DB2; 
+    color:black; 
+    font-weight: 600; 
+  }
+  button:hover{
+    transform: scale(1.1); 
+    cursor: pointer;
+  }
   @media (max-width: 1200px) {
   .home{
     flex-direction: column;
@@ -430,6 +476,15 @@ export default {
   .left{
     width:100%;
     height:50vh;
+  }
+  .videoview{
+    width:300px;
+  }
+  .video{
+    width:300px;
+  }
+  .leftcontent{
+    width:300px;
   }
   .right{
     width:100%;
