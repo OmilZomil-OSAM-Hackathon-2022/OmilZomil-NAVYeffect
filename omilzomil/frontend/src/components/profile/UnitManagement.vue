@@ -1,66 +1,68 @@
 <template>
   <div class="page">
-    <div class="search-div">
-      <form
-        class="add-unit"
-        @submit.prevent="addUnit()"
-      >
-        <input
-          v-model="newUnit"
-          placeholder="부대 이름을 입력하세요."
+    <div>
+      <div class="search-div">
+        <form
+          class="add-unit"
+          @submit.prevent="addUnit()"
         >
-        <button>추가</button>
-      </form>
-      <SearchInput @search="search" />
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>
-            부대이름
-          </th>
-          <th>위병소 관리</th>
-          <th>변경</th>
-          <th>삭제</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="unit in units.slice((page-1)*10,page*10 > units.length? units.length:page*10)"
-          :key="unit.unit_id"
-        >
-          <td>{{ unit.unit }}</td>
-          <td>
-            <div
-              class="tcenter"
-            >
-              <a @click="openConect(unit.unit,unit.unit_id)">관리</a>
-            </div>
-          </td>
-          <td>
-            <div
-              class="tcenter"
-            >
-              <a
-                @click="openEdit(unit.unit,unit.unit_id)"
-              >변경</a>
-            </div>
-          </td>
-          <td>
-            <div
-              class="tcenter"
-            >
-              <a
+          <input
+            v-model="newUnit"
+            placeholder="부대 이름을 입력하세요."
+          >
+          <button>추가</button>
+        </form>
+        <SearchInput @search="search" />
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>
+              부대이름
+            </th>
+            <th>위병소 관리</th>
+            <th>변경</th>
+            <th>삭제</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="unit in units.slice((page-1)*8,page*8 > units.length? units.length:page*8)"
+            :key="unit.unit_id"
+          >
+            <td>{{ unit.unit }}</td>
+            <td>
+              <div
+                class="tcenter"
+              >
+                <a @click="openConect(unit.unit,unit.unit_id)">관리</a>
+              </div>
+            </td>
+            <td>
+              <div
+                class="tcenter"
+              >
+                <a
+                  @click="openEdit(unit.unit,unit.unit_id)"
+                >변경</a>
+              </div>
+            </td>
+            <td>
+              <div
+                class="tcenter"
+              >
+                <a
               
-                @click="deleteUnit(unit.unit_id)"
-              >삭제</a>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+                  @click="deleteUnit(unit.unit_id)"
+                >삭제</a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <PaginationBar
-      :total="parseInt((units.length+9)/10)"
+      :total="parseInt((units.length+7)/8)"
       @page="pagination"
     />
     <EditTitleCard
@@ -111,6 +113,7 @@ export default {
           try{
             const {data} = await this.$axios.get('/unit/');
             this.units = data;
+            console.log(data);
           }catch(err){ 
             console.log(err);
           }
@@ -157,9 +160,11 @@ export default {
         },
         async addUnit(){
           try{
-            await this.$axios.post('/unit/',{
+            const {data} = await this.$axios.post('/unit/',{
               unit:this.newUnit
             });
+
+            console.log(data);
             this.newUnit = '';
             this.getUnits();
           }catch(err){
@@ -184,6 +189,8 @@ export default {
     padding:28px 61px;
     display:flex;
     flex-direction:column;
+    justify-content:space-between;
+    height:770px;
 }
 .search-div{
     width:100%;
@@ -196,7 +203,6 @@ export default {
 table{
   width:100%;
   border-collapse: collapse; 
-  border-bottom: 1px solid #E1E2E9;
 }
 
 table thead tr{

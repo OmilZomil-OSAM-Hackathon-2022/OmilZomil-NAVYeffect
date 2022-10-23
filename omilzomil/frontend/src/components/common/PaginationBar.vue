@@ -84,6 +84,8 @@ select{
     align-items:center;
 }
 .pagenation-section{
+
+  border-top: 1px solid #E1E2E9;
     width:100%;
     display:flex;
     justify-content: flex-end;

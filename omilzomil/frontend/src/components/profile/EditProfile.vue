@@ -304,6 +304,7 @@ export default {
 }
 .page h2{
     margin-bottom:32px;
+    margin-top:50px;
     font-weight: 700;
     font-size: 16px;
     line-height: 19px;

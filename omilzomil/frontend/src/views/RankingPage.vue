@@ -66,11 +66,12 @@ export default {
     data() {
         return {
             page: 1,
-            unitList: []
+            unitList: [],
+            total:1,
         };
     },
     mounted() {
-        
+        this.getRanking();
     },
     methods: {
       pagination(page){

@@ -118,28 +118,20 @@ export default {
     methods:{
       filterList(){
         if(this.appearanceFilter || this.rankFilter || this.search || this.date){
-          let cur = '?';
-          var f = false;
+          let cur = '';
           if(this.rankFilter){
-            if(f) cur += '&';
-            cur += `rank=${this.rankFilter}`;
-            f = true;
+            cur += `&rank=${this.rankFilter}`;
           }
           if(this.search){
-            if(f) cur += '&';
-            cur += `name=${this.search}`;
-            f = true;
+            cur += `&name=${this.search}`;
           }
           if(this.appearanceFilter){
-            if(f) cur += '&';
-            cur += `appearance_type=${this.appearanceFilter}`;
-            f = true;
-          }
+            cur += `&appearance_type=${this.appearanceFilter}`;
+            }
           if(this.date){
-            if(f) cur += '&';
             const d1 = this.date[0];
             const d2 = this.date[1];
-            cur += `start_date=${d1.getFullYear()}-${d1.getMonth()+1}-${d1.getDate()}&end_date=${d2.getFullYear()}-${d2.getMonth()+1}-${d2.getDate()}`
+            cur += `&start_date=${d1.getFullYear()}-${d1.getMonth()+1}-${d1.getDate()}&end_date=${d2.getFullYear()}-${d2.getMonth()+1}-${d2.getDate()}`
           }
           this.filter = cur;
         }else{

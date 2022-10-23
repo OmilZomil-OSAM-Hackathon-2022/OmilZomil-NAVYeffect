@@ -105,6 +105,10 @@
           </a>
         </div>
       </div>
+      <PaginationBar
+        :total="total"
+        @page="pagination"
+      />
     </div>
     <DetailCard
       v-if="isDetail"
@@ -120,9 +124,10 @@ import DetailCard from "./DetailCard.vue";
 import CardHead from "./CardHead.vue";
 import CheckTag from "./CheckTag.vue";
 import DressType from './DressType.vue';
+import PaginationBar from "./common/PaginationBar.vue";
 
 export default {
-    components: { GoodBadTag, DetailCard, CardHead, CheckTag, DressType },
+    components: { GoodBadTag, DetailCard, CardHead, CheckTag, DressType, PaginationBar },
     props:{
       gap: {
         type:String,
@@ -154,6 +159,8 @@ export default {
             affiliations:[],
             dressColors:["","","#4471FB","#585767","#1DCB9D"],
             colors:["","","#1DCB9D","#4471FB","#44B9FB","#FF5467"],
+            page:1,
+            total:1,
         };
     },
     watch:{
@@ -193,12 +200,19 @@ export default {
         },
         async getRtms(){
           try{
-            this.rtms = (await this.$axios.get('/rtm/'+this.filter)).data;
-            console.log(this.rtms);
-            this.rtmInfo();
+            const {data} = await this.$axios.get(`/rtm/?page=${this.page}`+this.filter);
+            console.log(data);
+            this.rtms = data.items;
+            console.log(this.rtms,`/rtm/?page=${this.page}`+this.filter);
+            this.total = parseInt((data.total+9)/10);
+            // this.rtmInfo();
           }catch(err){
             console.log(err);
           }
+        },
+        pagination(page){
+          this.page = page;
+          this.getRtms();
         },
         rtmInfo(){
           for(var i=0;i<this.rtms.length;i++){

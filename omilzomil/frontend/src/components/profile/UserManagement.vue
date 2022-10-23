@@ -1,156 +1,158 @@
 <template>
   <div class="page">
-    <div class="search-div">
-      <SearchInput @search="search" />
-    </div>
-    <div class="filter-wrap">
-      <select v-model="classFilter">
-        <option
-          :value="null"
-          disabled
-          selected
-        >
-          계급을 선택하세요.
-        </option>
-        <option
-          :value="null"
-        >
-          전체
-        </option>
+    <div>
+      <div class="search-div">
+        <SearchInput @search="search" />
+      </div>
+      <div class="filter-wrap">
+        <select v-model="classFilter">
+          <option
+            :value="null"
+            disabled
+            selected
+          >
+            계급을 선택하세요.
+          </option>
+          <option
+            :value="null"
+          >
+            전체
+          </option>
         
-        <option
-          v-for="rank in ranks"
-          :key="rank.rank_id"
-          :value="rank.rank_id"
+          <option
+            v-for="rank in ranks"
+            :key="rank.rank_id"
+            :value="rank.rank_id"
+          >
+            {{ rank.rank }}
+          </option>
+        </select>
+        <select v-model="divisionFilter">
+          <option
+            :value="null"
+            disabled
+            selected
+          >
+            소속을 선택하세요.
+          </option>
+          <option
+            :value="null"
+          >
+            전체
+          </option>
+          <option
+            v-for="affiliation in affiliations"
+            :key="affiliation.affiliation_id"
+            :value="affiliation.affiliation_id"
+          >
+            {{ affiliation.affiliation }}
+          </option>
+        </select>
+        <select v-model="unitFilter">
+          <option
+            :value="null"
+            disabled
+            selected
+          >
+            부대를 선택하세요.
+          </option>
+          <option
+            :value="null"
+          >
+            전체
+          </option>
+          <option
+            v-for="unit in units"
+            :key="unit.unit_id"
+            :value="unit.unit_id"
+          >
+            {{ unit.unit }}
+          </option>
+        </select>
+        <select v-model="isActive">
+          <option
+            :value="null"
+            disabled
+            selected
+          >
+            승인 여부를 선택하세요.
+          </option>
+          <option
+            :value="null"
+          >
+            전체
+          </option>
+          <option value="false">
+            미승인
+          </option>
+          <option value="true">
+            승인
+          </option>
+        </select>
+        <button
+          class="filterbtn"
+          @click="search(null)"
         >
-          {{ rank.rank }}
-        </option>
-      </select>
-      <select v-model="divisionFilter">
-        <option
-          :value="null"
-          disabled
-          selected
-        >
-          소속을 선택하세요.
-        </option>
-        <option
-          :value="null"
-        >
-          전체
-        </option>
-        <option
-          v-for="affiliation in affiliations"
-          :key="affiliation.affiliation_id"
-          :value="affiliation.affiliation_id"
-        >
-          {{ affiliation.affiliation }}
-        </option>
-      </select>
-      <select v-model="unitFilter">
-        <option
-          :value="null"
-          disabled
-          selected
-        >
-          부대를 선택하세요.
-        </option>
-        <option
-          :value="null"
-        >
-          전체
-        </option>
-        <option
-          v-for="unit in units"
-          :key="unit.unit_id"
-          :value="unit.unit_id"
-        >
-          {{ unit.unit }}
-        </option>
-      </select>
-      <select v-model="isActive">
-        <option
-          :value="null"
-          disabled
-          selected
-        >
-          승인 여부를 선택하세요.
-        </option>
-        <option
-          :value="null"
-        >
-          전체
-        </option>
-        <option value="false">
-          미승인
-        </option>
-        <option value="true">
-          승인
-        </option>
-      </select>
-      <button
-        class="filterbtn"
-        @click="search(null)"
-      >
-        필터 적용
-      </button>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>이름</th>
-          <th>소속</th>
-          <th>부대</th>
-          <th>계급</th>
-          <th>군번</th>
-          <th>권한 관리</th>
-          <th>가입 승인</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="user in users"
-          :key="user.user_id"
-        >
-          <td>{{ user.full_name }}</td>
-          <td>{{ user.affiliation_title }}</td>
-          <td>{{ user.unit_title }}</td>
-          <td>{{ user.rank_title }}</td>
-          <td>{{ user.dog_number }}</td>
-          <td>
-            <select
-              v-model="user.role"
-              @change="changeRole(user.user_id,user.role)"
-            >
-              <!-- <option value="0">
+          필터 적용
+        </button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>이름</th>
+            <th>소속</th>
+            <th>부대</th>
+            <th>계급</th>
+            <th>군번</th>
+            <th>권한 관리</th>
+            <th>가입 승인</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="user in users"
+            :key="user.user_id"
+          >
+            <td>{{ user.full_name }}</td>
+            <td>{{ user.affiliation_title }}</td>
+            <td>{{ user.unit_title }}</td>
+            <td>{{ user.rank_title }}</td>
+            <td>{{ user.dog_number }}</td>
+            <td>
+              <select
+                v-model="user.role"
+                @change="changeRole(user.user_id,user.role)"
+              >
+                <!-- <option value="0">
                 미승인 사용자
               </option> -->
-              <option value="1">
-                일반 사용자
-              </option>
-              <option value="2">
-                관리자
-              </option>
-              <option
-                v-if="getAdmin.role > 2"
-                value="3"
-              >
-                루트 관리자
-              </option>
-            </select>
-          </td>
-          <td>
-            <div style="display:flex; justify-content:center">
-              <CheckTag
-                :is-check="user.is_active"
-                style="cursor:pointer"
-                @click="activeUser(user.user_id,user.is_active)"
-              />
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+                <option value="1">
+                  일반 사용자
+                </option>
+                <option value="2">
+                  관리자
+                </option>
+                <option
+                  v-if="getAdmin.role > 2"
+                  value="3"
+                >
+                  루트 관리자
+                </option>
+              </select>
+            </td>
+            <td>
+              <div style="display:flex; justify-content:center">
+                <CheckTag
+                  :is-check="user.is_active"
+                  style="cursor:pointer"
+                  @click="activeUser(user.user_id,user.is_active)"
+                />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <pagination-bar
       :total="total"
       @page="pagination"
@@ -209,7 +211,7 @@ export default {
         },
         async getUsers(text = null){
           try{
-            let url = `/user/?page=${this.page}`;
+            let url = `/user/?page=${this.page}&size=7`;
             if(this.classFilter){
               url += `&rank=${this.classFilter}`;
             }
@@ -227,8 +229,7 @@ export default {
             }
             const {data} = await this.$axios.get(url);
             this.users = data.items;
-            this.total = Math.max(parseInt((data.total+9)/10),1);
-            console.log(this.users,url);
+            this.total = Math.max(parseInt((data.total+6)/7),1);
             this.getInfo();
           }catch(err){ 
             console.log(err);
@@ -271,6 +272,9 @@ export default {
     padding:28px 61px;
     display:flex;
     flex-direction:column;
+
+    justify-content:space-between;
+    height:770px;
 }
 .search-div{
     width:100%;
@@ -333,8 +337,7 @@ select {
 
 table{
   width:100%;
-    border-collapse: collapse; 
-    border-bottom: 1px solid #E1E2E9;
+  border-collapse: collapse; 
 }
 
 table thead tr{

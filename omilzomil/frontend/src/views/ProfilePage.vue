@@ -55,14 +55,14 @@ export default {
 
 <style scoped>
 .card{
-    overflow: hidden;
-    height:812px;
+    /* overflow: hidden; */
     padding:0px 76px;
     box-sizing: border-box;
     flex-direction:column;
     position:relative;
     margin-bottom:40px;
     justify-content: flex-start;
+    height:832px;
 }
 .nav{
     display:flex;
@@ -103,7 +103,6 @@ a{
     top:60px;
     display:flex;
     box-sizing: border-box;
-    height:100%;
 }
 </style>
 <!-- <style>

@@ -1,49 +1,51 @@
 <template>
   <div class="page">
-    <div class="search-div">
-      <form
-        class="add-unit" 
-        @submit.prevent="addGaurdroom()"
-      >
-        <input
-          v-model="newGaurdroom"
-          placeholder="위병소 이름을 입력하세요."
+    <div>
+      <div class="search-div">
+        <form
+          class="add-unit" 
+          @submit.prevent="addGaurdroom()"
         >
-        <button>추가</button>
-      </form>
-      <SearchInput @search="search" />
+          <input
+            v-model="newGaurdroom"
+            placeholder="위병소 이름을 입력하세요."
+          >
+          <button>추가</button>
+        </form>
+        <SearchInput @search="search" />
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>
+              위병소 이름
+            </th>
+            <th>변경</th>
+            <th>삭제</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="room in gaurdrooms.slice((page-1)*8,page*8 > gaurdrooms.length ? gaurdrooms.length:page*8)"
+            :key="room.house_id"
+          >
+            <td>{{ room.house }}</td>
+            <td>
+              <div class="tcenter">
+                <a @click="openEdit(room.house,room.house_id)">변경</a>
+              </div>
+            </td>
+            <td>
+              <div class="tcenter">
+                <a @click="deleteGaurdroom(room.house_id)">삭제</a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>
-            위병소 이름
-          </th>
-          <th>변경</th>
-          <th>삭제</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="room in gaurdrooms.slice((page-1)*10,page*10 > gaurdrooms.length ? gaurdrooms.length:page*10)"
-          :key="room.house_id"
-        >
-          <td>{{ room.house }}</td>
-          <td>
-            <div class="tcenter">
-              <a @click="openEdit(room.house,room.house_id)">변경</a>
-            </div>
-          </td>
-          <td>
-            <div class="tcenter">
-              <a @click="deleteGaurdroom(room.house_id)">삭제</a>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
     <PaginationBar
-      :total="parseInt((gaurdrooms.length+9)/10)"
+      :total="parseInt((gaurdrooms.length+7)/8)"
       @page="pagination"
     />
     <EditTitleCard
@@ -145,6 +147,8 @@
       padding:28px 61px;
       display:flex;
       flex-direction:column;
+    justify-content:space-between;
+    height:770px;
   }
   .search-div{
       width:100%;
@@ -157,7 +161,6 @@
   table{
     width:100%;
     border-collapse: collapse; 
-    border-bottom: 1px solid #E1E2E9;
   }
   
   table thead tr{
