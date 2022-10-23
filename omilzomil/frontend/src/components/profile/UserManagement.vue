@@ -1,161 +1,171 @@
 <template>
   <div class="page">
-    <div class="search-div">
-      <SearchInput @search="search" />
-    </div>
-    <div class="filter-wrap">
-      <select v-model="classFilter">
-        <option
-          :value="null"
-          disabled
-          selected
-        >
-          계급을 선택하세요.
-        </option>
-        <option
-          :value="null"
-        >
-          전체
-        </option>
+    <div>
+      <div class="search-div">
+        <SearchInput @search="search" />
+      </div>
+      <div class="filter-wrap">
+        <select v-model="classFilter">
+          <option
+            :value="null"
+            disabled
+            selected
+          >
+            계급을 선택하세요.
+          </option>
+          <option
+            :value="null"
+          >
+            전체
+          </option>
         
-        <option
-          v-for="rank in ranks"
-          :key="rank.rank_id"
-          :value="rank.rank_id"
+          <option
+            v-for="rank in ranks"
+            :key="rank.rank_id"
+            :value="rank.rank_id"
+          >
+            {{ rank.rank }}
+          </option>
+        </select>
+        <select v-model="divisionFilter">
+          <option
+            :value="null"
+            disabled
+            selected
+          >
+            소속을 선택하세요.
+          </option>
+          <option
+            :value="null"
+          >
+            전체
+          </option>
+          <option
+            v-for="affiliation in affiliations"
+            :key="affiliation.affiliation_id"
+            :value="affiliation.affiliation_id"
+          >
+            {{ affiliation.affiliation }}
+          </option>
+        </select>
+        <select v-model="unitFilter">
+          <option
+            :value="null"
+            disabled
+            selected
+          >
+            부대를 선택하세요.
+          </option>
+          <option
+            :value="null"
+          >
+            전체
+          </option>
+          <option
+            v-for="unit in units"
+            :key="unit.unit_id"
+            :value="unit.unit_id"
+          >
+            {{ unit.unit }}
+          </option>
+        </select>
+        <select v-model="isActive">
+          <option
+            :value="null"
+            disabled
+            selected
+          >
+            승인 여부를 선택하세요.
+          </option>
+          <option
+            :value="null"
+          >
+            전체
+          </option>
+          <option value="false">
+            미승인
+          </option>
+          <option value="true">
+            승인
+          </option>
+        </select>
+        <button
+          class="filterbtn"
+          @click="search(null)"
         >
-          {{ rank.rank }}
-        </option>
-      </select>
-      <select v-model="divisionFilter">
-        <option
-          :value="null"
-          disabled
-          selected
-        >
-          소속을 선택하세요.
-        </option>
-        <option
-          :value="null"
-        >
-          전체
-        </option>
-        <option
-          v-for="affiliation in affiliations"
-          :key="affiliation.affiliation_id"
-          :value="affiliation.affiliation_id"
-        >
-          {{ affiliation.affiliation }}
-        </option>
-      </select>
-      <select v-model="unitFilter">
-        <option
-          :value="null"
-          disabled
-          selected
-        >
-          부대를 선택하세요.
-        </option>
-        <option
-          :value="null"
-        >
-          전체
-        </option>
-        <option
-          v-for="unit in units"
-          :key="unit.unit_id"
-          :value="unit.unit_id"
-        >
-          {{ unit.unit }}
-        </option>
-      </select>
-      <select v-model="isActive">
-        <option
-          :value="null"
-          disabled
-          selected
-        >
-          승인 여부를 선택하세요.
-        </option>
-        <option
-          :value="null"
-        >
-          전체
-        </option>
-        <option value="false">
-          미승인
-        </option>
-        <option value="true">
-          승인
-        </option>
-      </select>
-      <button
-        class="filterbtn"
-        @click="filtering"
-      >
-        필터 적용
-      </button>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>이름</th>
-          <th>소속</th>
-          <th>부대</th>
-          <th>계급</th>
-          <th>군번</th>
-          <th>권한 관리</th>
-          <th>가입 승인</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="user in users"
-          :key="user.user_id"
-        >
-          <td>{{ user.full_name }}</td>
-          <td>{{ user.affiliation_title }}</td>
-          <td>{{ user.unit_title }}</td>
-          <td>{{ user.rank_title }}</td>
-          <td>{{ user.dog_number }}</td>
-          <td>
-            <select
-              v-model="user.role"
-              @change="changeRole(user.user_id,user.role)"
-            >
-              <!-- <option value="0">
+          필터 적용
+        </button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>이름</th>
+            <th>소속</th>
+            <th>부대</th>
+            <th>계급</th>
+            <th>군번</th>
+            <th>권한 관리</th>
+            <th>가입 승인</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="user in users"
+            :key="user.user_id"
+          >
+            <td>{{ user.full_name }}</td>
+            <td>{{ user.affiliation_title }}</td>
+            <td>{{ user.unit_title }}</td>
+            <td>{{ user.rank_title }}</td>
+            <td>{{ user.dog_number }}</td>
+            <td>
+              <select
+                v-model="user.role"
+                @change="changeRole(user.user_id,user.role)"
+              >
+                <!-- <option value="0">
                 미승인 사용자
               </option> -->
-              <option value="1">
-                일반 사용자
-              </option>
-              <option value="2">
-                관리자
-              </option>
-              <option value="3">
-                루트 관리자
-              </option>
-            </select>
-          </td>
-          <td>
-            <div style="display:flex; justify-content:center">
-              <CheckTag
-                :is-check="user.is_active"
-                style="cursor:pointer"
-                @click="activeUser(user.user_id,user.is_active)"
-              />
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+                <option value="1">
+                  일반 사용자
+                </option>
+                <option value="2">
+                  관리자
+                </option>
+                <option
+                  v-if="getAdmin.role > 2"
+                  value="3"
+                >
+                  루트 관리자
+                </option>
+              </select>
+            </td>
+            <td>
+              <div style="display:flex; justify-content:center">
+                <CheckTag
+                  :is-check="user.is_active"
+                  style="cursor:pointer"
+                  @click="activeUser(user.user_id,user.is_active)"
+                />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <pagination-bar
+      :total="total"
+      @page="pagination"
+    />
   </div>
 </template>
 
 <script>
 import SearchInput from '../common/SearchInput.vue';
 import CheckTag from '../CheckTag.vue';
+import PaginationBar from '../common/PaginationBar.vue';
 export default {
-    components: { SearchInput, CheckTag },
+    components: { SearchInput, CheckTag, PaginationBar },
     data(){
       return{
         classFilter:null,
@@ -167,12 +177,31 @@ export default {
         ranks:[],
         users:[],
         roles:[],
+        page:1,
+        total:1,
+      }
+    },
+    computed:{
+      getAdmin(){
+          return this.$store.getters.getUser;
       }
     },
     async mounted(){
-      this.getUsers();
+      try{
+        this.affiliations = (await this.$axios.get('/affiliation/')).data;
+        this.ranks = (await this.$axios.get('/rank/')).data;
+        this.units = (await this.$axios.get('/unit/')).data;
+        this.roles = (await this.$axios.get('role')).data;
+        this.getUsers();
+      }catch(err){
+        console.log(err);
+      }
     },
     methods:{
+        pagination(page){
+          this.page = page;
+          this.getUsers();
+        },
         getInfo(){
           for(var i=0;i<this.users.length;i++){
             this.users[i].affiliation_title = this.affiliations.filter(af => af.affiliation_id == this.users[i].affiliation)[0].affiliation;
@@ -180,48 +209,35 @@ export default {
             this.users[i].rank_title = this.ranks.filter(r => r.rank_id == this.users[i].rank)[0].rank;
           }
         },
-        async filtering(){
+        async getUsers(text = null){
           try{
-            let url = '/user/';
-            let cnt = 0;
+            let url = `/user/?page=${this.page}&size=7`;
             if(this.classFilter){
-              cnt++;
-              if(cnt == 1) url += '?';
-              else url += '&';
-              url += `rank=${this.classFilter}`;
+              url += `&rank=${this.classFilter}`;
             }
             if(this.divisionFilter){
-              cnt++;
-              if(cnt == 1) url += '?';
-              else url += '&';
-              url += `affiliation=${this.divisionFilter}`;
+              url += `&affiliation=${this.divisionFilter}`;
             }
             if(this.unitFilter){
-              cnt++;
-              if(cnt == 1) url += '?';
-              else url += '&';
-              url += `military_unit=${this.unitFilter}`;
+              url += `&military_unit=${this.unitFilter}`;
             }
             if(this.isActive != null){
-              cnt++;
-              if(cnt == 1) url += '?';
-              else url += '&';
-              url += `is_active=${this.isActive}`;
+              url += `&is_active=${this.isActive}`;
             }
-            this.users = (await this.$axios.get(url)).data;
+            if(text){
+              url += `&full_name=${text}`;
+            }
+            const {data} = await this.$axios.get(url);
+            this.users = data.items;
+            this.total = Math.max(parseInt((data.total+6)/7),1);
             this.getInfo();
           }catch(err){ 
             console.log(err);
           }
         },
-        async search(text){
-            try{
-              this.users = (await this.$axios.get(`/user/?full_name=${text}`)).data;
-              
-              this.getInfo();
-            }catch(err){
-              console.log(err);
-            }
+        search(text){
+          this.page = 1;
+          this.getUsers(text);
         },
         async changeRole(user_id,role){
           // console.log(role);
@@ -229,21 +245,6 @@ export default {
             await this.$axios.put(`/user/role/${user_id}`,{
               role
             });
-          }catch(err){
-            console.log(err);
-          }
-        },
-        async getUsers(){
-          try{
-            this.users = (await this.$axios.get('/user/')).data;
-            
-            this.affiliations = (await this.$axios.get('/affiliation/')).data;
-            this.ranks = (await this.$axios.get('/rank/')).data;
-            this.units = (await this.$axios.get('/unit/')).data;
-            this.roles = (await this.$axios.get('role')).data;
-            // console.log(this.users);
-            this.getInfo();
-            console.log(this.users);
           }catch(err){
             console.log(err);
           }
@@ -271,6 +272,9 @@ export default {
     padding:28px 61px;
     display:flex;
     flex-direction:column;
+
+    justify-content:space-between;
+    height:770px;
 }
 .search-div{
     width:100%;
@@ -333,8 +337,7 @@ select {
 
 table{
   width:100%;
-    border-collapse: collapse; 
-    border-bottom: 1px solid #E1E2E9;
+  border-collapse: collapse; 
 }
 
 table thead tr{

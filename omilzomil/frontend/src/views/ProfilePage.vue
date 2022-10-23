@@ -6,7 +6,7 @@
           프로필 수정
         </router-link>
         <router-link
-          v-if="user.role > 2"
+          v-if="user.role >= 2"
           to="/profile/UserManagement"
         >
           사용자 관리
@@ -24,7 +24,7 @@
           위병소 관리
         </router-link>
         <router-link
-          v-if="user.role > 2"
+          v-if="user.role >= 2"
           to="/profile/VacationManagement"
         >
           휴가 관리
@@ -55,14 +55,14 @@ export default {
 
 <style scoped>
 .card{
-    overflow: hidden;
-    height:812px;
+    /* overflow: hidden; */
     padding:0px 76px;
     box-sizing: border-box;
     flex-direction:column;
     position:relative;
     margin-bottom:40px;
     justify-content: flex-start;
+    height:832px;
 }
 .nav{
     display:flex;
@@ -103,7 +103,6 @@ a{
     top:60px;
     display:flex;
     box-sizing: border-box;
-    height:100%;
 }
 </style>
 <!-- <style>

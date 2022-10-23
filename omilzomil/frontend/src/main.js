@@ -14,11 +14,9 @@ import {
   
 // Vue
 const app = createApp(App)
-// axios.defaults.baseURL = 'https://127.0.0.1:8080';
 app.config.globalProperties.$axios = http; 
 app.use(store)
 app.use(VueApexCharts)
-// app.componentx
 app.use(VueNumber)
 app.use(router).mount('#app')
 
