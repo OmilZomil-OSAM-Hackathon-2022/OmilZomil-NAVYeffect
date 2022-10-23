@@ -30,7 +30,7 @@
         <button @click="reset">reset</button> -->
       </div>
     </div>
-    <div class="right" v-if="this.connected===false">
+    <div class="right" v-if="!(this.connected)">
       <div style="display:flex; background-color:#9C9DB2; width:270px; height:80px; font-size:20px; align-items:center; justify-content:center; border-radius:10px; color:#585767; font-weight: 600; ">
         연결상태를 확인해주세요
       </div>
@@ -259,6 +259,7 @@ export default {
       this.socket = new WebSocket(this.url)
       this.socket.onopen = () => {
         console.log({ type: 'INFO', msg: 'CONNECTED' })
+        this.connected=true;
       }
       this.socket.onerror = () => {
         console.log({ type: 'ERROR', msg: 'ERROR:'})
