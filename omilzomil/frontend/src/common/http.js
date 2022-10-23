@@ -5,7 +5,7 @@ import stores from '@/stores'
 //     baseURL:'https://127.0.0.1:80',
 // }):axios.create({});
 
-const http = axios.create();
+const http = axios.create({baseURL:''});
 http.interceptors.request.use(
     config => {
       const isAuthenticated = stores.getters["isAuthenticated"]
