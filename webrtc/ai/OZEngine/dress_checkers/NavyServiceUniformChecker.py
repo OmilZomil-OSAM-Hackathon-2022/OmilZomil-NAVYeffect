@@ -101,5 +101,4 @@ class NavyServiceUniformChecker(UniformChecker):
                     component_dic['class_tag'] = component
                     masked_img_dic['class_tag'] = masked_img
 
-        print('debug cnt : ', self.debug_cnt)
         return component_dic, box_position_dic, masked_img_dic
