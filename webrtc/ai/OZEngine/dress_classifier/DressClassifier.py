@@ -5,7 +5,7 @@ from OZEngine.lib.defines import UniformType
 
 class DressClassifier(FeatureExtractor):
     def __init__(self):
-        project_path = '/config/workspace/WEB_CLOUD_OmilZomil_NAVYeffect/webrtc/ai/OZEngine/dress_classifier'
+        project_path = os.path.join(os.environ['AI_PATH'], 'OZEngine', 'dress_classifier')
         base_url = os.path.join(project_path, 'Dress')
         super().__init__(base_url)
 

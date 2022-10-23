@@ -10,15 +10,17 @@ from .lib.utils import plt_imshow, histNorm, box2img, cvtPoint
 
 
 class OmilZomil:
-    def __init__(self, check_person=True, train_mode=False):
-        self.HED_engine = HED()
-        self.morph_engine = Morph()
+    def __init__(self, check_person=True, train_mode=False, hed_mode=False):
+        if hed_mode:
+            self.HED_engine = HED()
+            self.morph_engine = Morph()
         self.uniform_checker = None
         self.dress_classifier = DressClassifier()
         self.person_detector = PersonDetector()
         self.face_detector = FaceDetector()
         print('init!')
 
+        self.hed_mode = hed_mode
         self.uniform_type = None
         self.check_person = check_person
         self.train_mode = train_mode
@@ -77,16 +79,18 @@ class OmilZomil:
     def detect(self, org_img):
         img = org_img.copy()
         boxed_img = org_img
-        hed_edge = self.HED_engine.detect_edge(img, 500, 500)
-        hed_edge_bgr = cv2.cvtColor(hed_edge, cv2.COLOR_GRAY2BGR)
-        hed_boxed_img = hed_edge_bgr
+
+        if self.hed_mode:
+            hed_edge = self.HED_engine.detect_edge(img, 500, 500)
+            hed_edge_bgr = cv2.cvtColor(hed_edge, cv2.COLOR_GRAY2BGR)
+            hed_boxed_img = hed_edge_bgr
 
         self.base_point = [0, 0]
         # 사람인식
         if self.check_person:
             person_box = self.person_detector.detect(img)
             if person_box is None:
-                return {}
+                return {'step':0}
             img = box2img(img, person_box)
             self.addBasePoint(person_box)
         
@@ -94,13 +98,18 @@ class OmilZomil:
         # 얼굴인식
         face_box = self.face_detector.detect(img)
         if face_box is None:
-            return {'boxed_img':org_img}
+            if self.hed_mode:
+                return {'step':1, 'boxed_img':org_img, 'hed_boxed_img':hed_boxed_img}
+            else:
+                return {'step':1, 'boxed_img':org_img}
 
         x,y,w,h = cvtPoint(face_box, method='2to4')
         y += person_box[0][0]
         x += person_box[0][1]
         cv2.rectangle(boxed_img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
-        cv2.rectangle(hed_boxed_img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
+
+        if self.hed_mode:
+            cv2.rectangle(hed_boxed_img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
         face_img = box2img(img, face_box)
 
         # 셔츠인식
@@ -118,7 +127,7 @@ class OmilZomil:
             elif self.uniform_type == UniformType.dic['FULL_DRESS']:
                 self.uniform_checker = FullDressUniformChecker(self.train_mode)
             else:
-                return None
+                return {'step':2, 'boxed_img':org_img}
 
         # 복장검사모델
         result_dic = self.uniform_checker.checkUniform(shirt_img)
@@ -128,6 +137,11 @@ class OmilZomil:
                 result_dic['box_position'][name] = self.applyBasePoint(pos, method='4')
             
         boxed_img, roi_dic = self.boxImage(boxed_img, result_dic, is_roi=True)
-        boxed_img, _ = self.boxImage(hed_boxed_img, result_dic)
 
-        return {'boxed_img':boxed_img, 'hed_boxed_img': hed_boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
+        if self.hed_mode:
+            hed_boxed_img, _ = self.boxImage(hed_boxed_img, result_dic)
+
+        if self.hed_mode:
+            return {'step':3, 'shirt_img':shirt_img, 'boxed_img':boxed_img, 'dress_kind':self.uniform_type,'hed_boxed_img': hed_boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
+        else:
+            return {'step':3, 'shirt_img':shirt_img, 'boxed_img':boxed_img, 'dress_kind':self.uniform_type, 'component':result_dic['component'], 'roi':roi_dic}
