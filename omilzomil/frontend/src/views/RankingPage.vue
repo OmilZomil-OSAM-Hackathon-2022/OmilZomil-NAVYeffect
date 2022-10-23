@@ -69,20 +69,23 @@ export default {
             unitList: []
         };
     },
-    async mounted() {
-        try {
-            const { data } = await this.$axios.get(`/ranking/?page=${this.page}`);
-            this.unitList = data.items;
-            this.total = Math.max(1,parseInt((data.total.length+9)/10));
-            console.log(data);
-        }
-        catch (err) {
-            console.log(err);
-        }
+    mounted() {
+        
     },
     methods: {
       pagination(page){
         this.page = page;
+        this.getRanking();
+      },
+      async getRanking(){
+        try {
+            const { data } = await this.$axios.get(`/ranking/?page=${this.page}`);
+            this.unitList = data.items;
+            this.total = Math.max(1,parseInt((data.total.length+9)/10));
+        }
+        catch (err) {
+            console.log(err);
+        }
       }
     }
 }
