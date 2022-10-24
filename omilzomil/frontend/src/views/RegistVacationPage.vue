@@ -255,7 +255,7 @@ const format = (date) => {
     height:653px;
       flex-grow:1;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: space-between;
       box-sizing: border-box;
       padding: 28px 61px;
       /* align-items: flex-start; */
@@ -278,7 +278,6 @@ const format = (date) => {
       width:100%;
       /* height:100%; */
       border-collapse: collapse; 
-      border-bottom: 1px solid #E1E2E9;
     /* border-spacing: 0 5px; */
   }
   
@@ -296,7 +295,7 @@ const format = (date) => {
       height:52px;
   }
   table tbody tr{
-      height:54px;
+      height:56px;
   }
   /* .table > :not(:first-child) {
       border-top: 2px solid "#E1E2E9";

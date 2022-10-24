@@ -113,7 +113,6 @@ export default {
           try{
             const {data} = await this.$axios.get('/unit/');
             this.units = data;
-            console.log(data);
           }catch(err){ 
             console.log(err);
           }
@@ -160,11 +159,9 @@ export default {
         },
         async addUnit(){
           try{
-            const {data} = await this.$axios.post('/unit/',{
+            await this.$axios.post('/unit/',{
               unit:this.newUnit
             });
-
-            console.log(data);
             this.newUnit = '';
             this.getUnits();
           }catch(err){

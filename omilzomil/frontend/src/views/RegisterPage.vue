@@ -104,14 +104,37 @@
             <div class="input-label">
               <h3>부대</h3>
               <div
-                v-show="armyUnit.check == 2"
+                v-show="armyUnit.check == 2|| armyUnit.check == 3"
                 class="input-warning"
               >
-                부대를 선택하세요.
+                부대를 확인하세요.
               </div>
             </div>
-
-            <select v-model="armyUnit.data">
+            <div>
+              <input 
+                ref="unit"
+                v-model="armyUnit.data"
+                placeholder="부대를 선택하세요."
+                list="unitlist"
+                :class="{
+                  success: armyUnit.check == 1,
+                  error: armyUnit.check == 2 || armyUnit.check == 3,
+                }"
+                @change="checkUnit"
+              >
+              <datalist
+                v-if="armyUnit.data.length >= 2"
+                id="unitlist"
+              >
+                <option
+                  v-for="u in unitList"
+                  :key="u.unit_id"
+                >
+                  {{ u.unit }}
+                </option>
+              </datalist>
+            </div>
+            <!-- <select v-model="armyUnit.data">
               <option
                 value=""
                 disabled
@@ -127,7 +150,7 @@
               >
                 {{ u.unit }}
               </option>
-            </select>
+            </select> -->
 
             <div class="input-label">
               <h3>계급</h3>
@@ -280,17 +303,30 @@ export default {
         this.dogTag.check == 1 &&
         this.uid.check == 1 &&
         this.division.data != "" &&
-        this.armyUnit.data != "" &&
+        this.armyUnit.check == 1 &&
         this.uClass.data != "" &&
         this.password.check == 1 &&
         this.passwordConfirm.check == 1
       ) {
+
+        const userUnit = this.unitList.filter(u=>this.armyUnit.data == u.unit);
+        console.log({
+            full_name: this.name.data,
+            dog_number: this.dogTag.data,
+            affiliation: this.division.data,
+            // military_unit: this.armyUnit.data,
+            military_unit: userUnit[0].unit,
+            rank: this.uClass.data,
+            username: this.uid.data,
+            password: this.password.data,
+          });
         this.$axios
           .post("/user/", {
             full_name: this.name.data,
             dog_number: this.dogTag.data,
             affiliation: this.division.data,
-            military_unit: this.armyUnit.data,
+            // military_unit: this.armyUnit.data,
+            military_unit: userUnit[0].unit_id,
             rank: this.uClass.data,
             username: this.uid.data,
             password: this.password.data,
@@ -312,6 +348,17 @@ export default {
             console.log(error);
           });
       }
+    },
+    checkUnit(){
+      const userUnit = this.unitList.filter(u=>this.armyUnit.data == u.unit);
+      console.log(userUnit);
+        if(userUnit.length <= 0){
+          this.$refs.unit.focus();
+          this.armyUnit.check = 3;
+          return;
+        }else{
+          this.armyUnit.check = 1;
+        }
     },
     checkName(event) {
       if (event.target.value != "") {
