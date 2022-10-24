@@ -27,7 +27,7 @@ from app.ai.OZEngine.model import OmilZomil
 router = APIRouter()
 
     
-@router.websocket("/test")
+@router.websocket("/t,edsf")
 async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.get_db)):
     """
     ai 요구사항만 맞춰서 실행
@@ -47,7 +47,7 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
         'list' : house_list,
     })
 
-    print("소캣 연결 완료")
+    print("소캣 연결 완료2222")
     broker = SimpleBroker(id=camera_id, db=db)
     
     # 수신 중
@@ -77,8 +77,7 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
     
 
 
-
-@router.websocket("/ai")
+@router.websocket("/test")
 async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.get_db)):
     """
     ai 요구사항만 맞춰서 실행
@@ -107,12 +106,15 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
         while True:
             data = await websocket.receive_json()
             work_start = datetime.now()
-
+            print(f'데이터 수신:- {camera_id} = {datetime.now()}')
             img = photo_2_img(data['photo'])
-            cv2.imwrite(f"./image_list/{camera_id}_{work_start.strftime('%H-%M-%S')}.jpg", img)
-
-            print(f'데이터 수신:- {camera_id}')
             report = omil_detecter.detect(img)
+
+
+            
+            cv2.imwrite(f"./image_list/{report['step']}_{work_start.strftime('%H-%M-%S')}.jpg", img)
+
+            
             print(report)
             print(report['step'])
             print(report.get('component'))
@@ -124,7 +126,7 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
             }
             await websocket.send_json(msg)
             # 1차 처리 로그 출력
-            print(f'테스크 1차 처리 완료: {camera_id} : {datetime.now() - work_start}')
+            print(f'테스크 1차 처리 완료: {camera_id} : {datetime.now()} - {datetime.now() - work_start}')
             print()
             print()
 
