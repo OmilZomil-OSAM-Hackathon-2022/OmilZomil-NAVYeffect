@@ -33,10 +33,9 @@ class SimpleBroker(BaseBroker):
     def __del__(self):
         del self.ai
 
-    def add_task(self, data, work_time):
+    def add_task(self, img, guardhouse, work_time):
 
         # 해당 이미지가 사람인지 판별
-        img = photo_2_img(data['photo'])
         person_result = self.person_detector.detect(img)
 
         # 사람이 아니면 무시
@@ -50,7 +49,7 @@ class SimpleBroker(BaseBroker):
             if self.end_detect: # 일정 시간 뒤 다시 인식
                 self.end_detect = False # ai 탐지 초기화
             # 새 worker 생성
-            self.worker = SimpleWorker(ai=self.ai, db=self.db, guardhouse=data['name'])
+            self.worker = SimpleWorker(ai=self.ai, db=self.db, guardhouse=guardhouse)
 
         self.last_person_time = work_time # 사람이니깐 시간 갱신 - ai 가 탐지 완료후 사람이 탐지된 경우 탐지 시간 갱신
 

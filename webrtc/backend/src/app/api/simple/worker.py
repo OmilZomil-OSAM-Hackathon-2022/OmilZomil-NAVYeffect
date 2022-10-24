@@ -9,6 +9,7 @@ from app.core.config import settings
 
 from app.api.websocket.image import img_2_photo
 from app.api.simple.image_box import ImageBox
+from app.api.db.guardhouse import select_guardhouse
 
 
 MAIN_IMAGE_PATH = f"{settings.IMAGE_PATH}/inspection"
@@ -19,8 +20,8 @@ EXPIRATION_COUNT = 5
 
 PART_ID = {
     "hair": 1, 
-    "nametag": 2, 
-    "leveltag": 3, 
+    "name_tag": 2, 
+    "class_tag": 3, 
     "flag": 4, 
     "cap": 5, 
     "muffler": 6, 
@@ -42,7 +43,7 @@ class BaseWorker:
     """
     def __init__(self, db, ai, guardhouse):
         self.db = db
-        self.image_box = ImageBox(ai=ai, guardhouse=guardhouse)
+        self.image_box = ImageBox(ai=ai, guardhouse=select_guardhouse(db, guardhouse))
         self.db_data_id = None
         # 파일 경로 지정
         name = datetime.now().strftime("%H-%M-%S")
@@ -97,8 +98,9 @@ class BaseWorker:
         self.db.commit()
 
         # 갱신할 이미지가 있으면 덮어쓰기
-        if self.image_box.main_image:
+        if self.image_box.is_best_image:
             cv2.imwrite(self.main_image_path, self.image_box.main_image)
+            self.image_box.is_best_image = False
 
         self.expiration_count = EXPIRATION_COUNT
         print(f"업데이트 완료")
@@ -110,7 +112,7 @@ class BaseWorker:
         if not db_data.count():
             raise NotImplementedError(f"해당 객체를 조회할 수 없음 - {self.db_data_id}")
 
-        part_path = f"{self.name}_{part_name}"
+        part_path = f"{PARTS_IMAGE_PATH}/{self.name}_{part_name}.jpg"
         part_dict = {
             "status": True,
             "image_path": part_path
@@ -121,7 +123,7 @@ class BaseWorker:
 
         # 사진 업데이트
         part_img = self.image_box.parts_image.get(part_name)
-        if part_img:
+        if part_img is not None:
             cv2.imwrite(part_path, part_img)
 
         self.expiration_count = EXPIRATION_COUNT
@@ -159,10 +161,12 @@ class SimpleWorker(BaseWorker):
             self.image_box.is_update = False
 
         # 각 파츠 업데이트
+        print("qqqqqqqqqq")
+        print(self.image_box.parts_update)
         for part_name in self.image_box.parts_update:
+            print(part_name)
             self.update_parts(part_name)
-            self.image_box.parts_update.remove(part_name)
-
+        self.image_box.parts_update = []    # 업데이트 완료후 빈 데이터로 변환
         # 답장
         photo  = img_2_photo(self.image_box.main_image)
 
