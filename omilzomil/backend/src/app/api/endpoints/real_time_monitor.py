@@ -1,7 +1,6 @@
 from datetime import date
 from typing import Optional
 from fastapi import APIRouter, Depends, Body
-from fastapi_pagination import paginate
 from sqlalchemy.orm import Session
 from app.schemas.user import UserReadResponse
 from app.schemas.inspection_log import InspectionLogUpdateInformation, InspectionLogUpdateCheck
@@ -15,7 +14,7 @@ router = APIRouter()
 
 
 @router.get("/")
-async def get_logs(
+def get_logs(
     rank: Optional[int] = None,
     name: Optional[str] = None,
     appearance_type: Optional[int] = None,
@@ -30,11 +29,16 @@ async def get_logs(
     if current_user.role == 3:
         current_user.military_unit = None
 
-    return paginate(
-        crud.get_logs(
-            db, military_unit=current_user.military_unit, rank=rank, name=name, appearance_type=appearance_type, start_date=start_date, end_date=end_date
-        ),
-        params,
+    return crud.get_logs(
+        db,
+        military_unit=current_user.military_unit,
+        rank=rank,
+        name=name,
+        appearance_type=appearance_type,
+        start_date=start_date,
+        end_date=end_date,
+        page=params.page,
+        size=params.size,
     )
 
 
