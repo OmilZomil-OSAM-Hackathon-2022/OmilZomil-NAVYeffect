@@ -56,15 +56,28 @@
         <div class="title">
           부대
         </div>
-        <select v-model="armyUnit.data">
+        <input 
+          ref="unit"
+          v-model="armyUnit.data"
+          placeholder="부대를 선택하세요."
+          list="unitlist"
+          :class="{
+            success: armyUnit.check == 1,
+            error: armyUnit.check == 2 || armyUnit.check == 3,
+          }"
+          @change="checkUnit"
+        >
+        <datalist
+          v-if="armyUnit.data.length >= 2"
+          id="unitlist"
+        >
           <option
             v-for="u in unitList"
             :key="u.unit_id"
-            :value="u.unit_id"
           >
             {{ u.unit }}
           </option>
-        </select>
+        </datalist>
       </div>
       <div class="input-wrap">
         <div class="title">
@@ -172,7 +185,7 @@ export default {
             name: new inputData(1),
             dogTag: new inputData(1),
             division: new inputData(1),
-            armyUnit: new inputData(1),
+            armyUnit: new inputData(),
             uClass: new inputData(1),
             uid: new inputData(1),
             beforePassword: new inputData(),
@@ -201,6 +214,12 @@ export default {
         const classList = await this.$axios.get('/rank/');
 
         this.unitList = unitList.data;
+        if(this.unitList.filter(u => this.armyUnit.data == u.unit_id).length<= 0){
+          this.armyUnit.data = '';
+        }else{
+          this.armyUnit.check = 1;
+          this.armyUnit.data = this.unitList.filter(u => this.armyUnit.data == u.unit_id)[0].unit;
+        }
         this.divisionList = divisionList.data;
         this.classList = classList.data;
       }catch(err){
@@ -208,13 +227,27 @@ export default {
       }
     },
     methods:{
+      checkUnit(){
+        const userUnit = this.unitList.filter(u=>this.armyUnit.data == u.unit);
+        if(userUnit.length <= 0){
+          this.armyUnit.check = 3;
+          return;
+        }else{
+          this.armyUnit.check = 1;
+        }
+      },
       updateUser(){
-        // console.log("Asdfasd");
+        if(this.armyUnit.check != 1){
+          alert("부대를 확인하세요!");
+          return;
+        }
+        const userUnit = this.unitList.filter(u=>this.armyUnit.data == u.unit);
         this.$axios.put(`/user/information/${this.initUser.user_id}`,{
           full_name: this.name.data,
           dog_number: this.dogTag.data,
           affiliation: this.division.data,
-          military_unit: this.armyUnit.data,
+          // military_unit: this.armyUnit.data,
+          military_unit: userUnit[0].unit_id,
           rank: this.uClass.data
         }).then((res)=>{
           if(res.data.success){
