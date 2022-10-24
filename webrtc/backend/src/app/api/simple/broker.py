@@ -65,4 +65,21 @@ class SimpleBroker(BaseBroker):
             self.end_detect = True
 
         return result_msg
+
+    def once_task(self, img, guardhouse, work_time):
+        # 해당 이미지가 사람인지 판별
+        person_result = self.person_detector.detect(img)
+
+        # 사람이 아니면 무시
+        if not person_result:
+            return {
+                "msg" : "no human"
+            }
+        
+        self.worker = SimpleWorker(ai=self.ai, db=self.db, guardhouse=guardhouse)
+
+        # worker로 이미지 처리
+        result_msg = self.worker.execute(img=img)
+        
+        return result_msg
     

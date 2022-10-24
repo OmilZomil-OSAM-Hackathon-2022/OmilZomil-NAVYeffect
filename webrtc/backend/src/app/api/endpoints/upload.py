@@ -30,6 +30,7 @@ async def create_upload_files(files: List[UploadFile] = File(...), db: Session =
     print(" 이미지 수신 시작")
     guardhouse = "계룡대 1정문"
 
+    result_msg = {}
     for file in files:
         print(f"{file.filename} - 처리 시작")
         # img 로 변환
@@ -37,7 +38,11 @@ async def create_upload_files(files: List[UploadFile] = File(...), db: Session =
         img = cv2.imdecode(np.fromstring(contents, np.uint8), cv2.IMREAD_COLOR)
         # broker에게 전달
         work_start = datetime.now()
-        msg = broker.add_task(img=img, guardhouse=guardhouse, work_time=work_start)
+        msg = broker.once_task(img=img, guardhouse=guardhouse, work_time=work_start)
+        msg['working_time'] = datetime.now() - work_start
+        msg.pop('photo')
+        result_msg[file.filename] = msg
     
+    result_msg['total_time'] = datetime.now() - connect_start_time
     print(f"업로드 완료 - {datetime.now() - connect_start_time}")
-    return msg
+    return result_msg
