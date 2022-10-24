@@ -8,7 +8,7 @@ services:
     restart: always
     env_file: .env.lock
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - ./data:/var/lib/mysql 
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-p${MYSQL_ROOT_PASSWORD}"]
       timeout: 10s
