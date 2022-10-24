@@ -83,7 +83,7 @@ class ImageBox:
             return "no milltary"
         
         # 첫 이미지인 경우
-        if not self.main_image:
+        if self.main_image is None:
             # 이미지 저장
             self.main_image = report['boxed_img']
             # 복장 저장
