@@ -40,7 +40,8 @@ async def create_upload_files(files: List[UploadFile] = File(...), db: Session =
         work_start = datetime.now()
         msg = broker.once_task(img=img, guardhouse=guardhouse, work_time=work_start)
         msg['working_time'] = datetime.now() - work_start
-        msg.pop('photo')
+        if 'photo' in msg.keys():
+            msg.pop('photo')
         result_msg[file.filename] = msg
     
     result_msg['total_time'] = datetime.now() - connect_start_time
