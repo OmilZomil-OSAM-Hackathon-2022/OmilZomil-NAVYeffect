@@ -27,7 +27,7 @@ from app.ai.OZEngine.model import OmilZomil
 router = APIRouter()
 
     
-@router.websocket("/t,edsf")
+@router.websocket("/test")
 async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.get_db)):
     """
     ai 요구사항만 맞춰서 실행
@@ -59,7 +59,9 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
             print(f'데이터 수신:- {camera_id} - {work_start}')
 
             # 업무 전달
-            msg = broker.add_task(data=data, work_time=work_start)
+            img = photo_2_img(data['photo'])
+            guardhouse = data['name']
+            msg = broker.add_task(img=img, guardhouse=guardhouse, work_time=work_start)
 
             # 프론트에게 전달
             print(msg)
@@ -77,7 +79,7 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
     
 
 
-@router.websocket("/test")
+@router.websocket("/ai")
 async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.get_db)):
     """
     ai 요구사항만 맞춰서 실행
