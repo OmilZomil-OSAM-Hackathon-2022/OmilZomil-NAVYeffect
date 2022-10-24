@@ -10,6 +10,8 @@ from app.schemas.inspection_detail import InspectionDetailUpdateStatus, Inspecti
 
 def get_logs(
     db: Session,
+    page: int,
+    size: int,
     military_unit: int = None,
     rank: int = None,
     name: str = None,
@@ -32,7 +34,9 @@ def get_logs(
         end_date = datetime(*end_date.timetuple()[:6])
         subquery = subquery.filter(InspectionLog.access_time >= start_date).filter(InspectionLog.access_time <= end_date)
 
-    entries = db.query(InspectionLog).filter(InspectionLog.inspection_id.in_(subquery)).order_by(InspectionLog.access_time.desc()).all()
+    query = db.query(InspectionLog).filter(InspectionLog.inspection_id.in_(subquery)).order_by(InspectionLog.access_time.desc())
+    total = query.count()
+    entries = query.offset((page - 1) * size).limit(size).all()
 
     logs = list()
     for entry in entries:
@@ -55,7 +59,7 @@ def get_logs(
         }
         logs.append(log)
 
-    return logs
+    return {"items": logs, "total": total, "page": page, "size": size}
 
 
 def get_log_details(db: Session, inspection_id: int):
