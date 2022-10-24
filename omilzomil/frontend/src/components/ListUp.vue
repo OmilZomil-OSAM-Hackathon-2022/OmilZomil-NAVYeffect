@@ -237,7 +237,12 @@ export default {
     justify-content: space-between;
     align-items: center;
 }
-
+.list{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  height:100%;
+}
 .list-header{
   display: flex;
   /* gap:100px; */

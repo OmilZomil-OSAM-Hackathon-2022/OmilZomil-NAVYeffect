@@ -252,7 +252,6 @@ export default {
         }).then((res)=>{
           if(res.data.success){
             this.$axios.post('/login/test-token/').then((response)=>{
-              console.log(response.data);
               if(response.data.success){
                 this.$store.commit('setUser',response.data);
                 alert("수정완료");
