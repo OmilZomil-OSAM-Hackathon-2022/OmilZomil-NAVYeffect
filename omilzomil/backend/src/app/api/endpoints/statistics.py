@@ -172,6 +172,8 @@ def get_monthly_data_from_unit(
 ):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
+    if current_user.role == 3:
+        current_user.military_unit = None
 
     status = None
     if category == "hair" or category == "appearance":
@@ -197,6 +199,8 @@ def get_monthly_data_from_unit(
 def get_monthly_pass_from_unit(db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_user)):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
+    if current_user.role == 3:
+        current_user.military_unit = None
 
     ret = {"success": True, "message": "success"}
 
@@ -216,6 +220,8 @@ def get_monthly_pass_from_unit(db: Session = Depends(deps.get_db), current_user:
 def get_monthly_best_from_unit(category: str, db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_user)):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
+    if current_user.role == 3:
+        return {"success": False, "message": "super user is not assigned to an unit"}
 
     if not (category == "unit" or category == "person"):
         return {"success": False, "message": "invalid category"}
@@ -229,6 +235,8 @@ def get_monthly_best_from_unit(category: str, db: Session = Depends(deps.get_db)
 def get_detailed_monthly_fail_from_unit(db: Session = Depends(deps.get_db), current_user: UserReadResponse = Depends(deps.get_current_active_user)):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
+    if current_user.role == 3:
+        current_user.military_unit = None
 
     ret = {"success": True, "message": "success"}
     types = {"이름표": 2, "계급장": 3, "태극기": 4, "모자": 5}

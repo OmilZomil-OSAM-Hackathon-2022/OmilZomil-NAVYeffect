@@ -175,4 +175,8 @@ def authenticate(db: Session, *, username: str, password: str):
 
 
 def is_active(db: Session, user: User):
-    return user.role != "inactive"
+    return user.is_active is True
+
+
+def is_super(db: Session, user: User):
+    return user.role == 3

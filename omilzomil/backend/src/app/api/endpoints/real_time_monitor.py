@@ -1,7 +1,6 @@
 from datetime import date
 from typing import Optional
 from fastapi import APIRouter, Depends, Body
-from fastapi_pagination import paginate
 from sqlalchemy.orm import Session
 from app.schemas.user import UserReadResponse
 from app.schemas.inspection_log import InspectionLogUpdateInformation, InspectionLogUpdateCheck
@@ -15,7 +14,7 @@ router = APIRouter()
 
 
 @router.get("/")
-async def get_logs(
+def get_logs(
     rank: Optional[int] = None,
     name: Optional[str] = None,
     appearance_type: Optional[int] = None,
@@ -27,10 +26,19 @@ async def get_logs(
 ):
     if not current_user.success:
         return {"success": False, "message": current_user.message}
+    if current_user.role == 3:
+        current_user.military_unit = None
 
-    return paginate(
-        crud.get_logs(db, current_user.military_unit, rank=rank, name=name, appearance_type=appearance_type, start_date=start_date, end_date=end_date),
-        params,
+    return crud.get_logs(
+        db,
+        military_unit=current_user.military_unit,
+        rank=rank,
+        name=name,
+        appearance_type=appearance_type,
+        start_date=start_date,
+        end_date=end_date,
+        page=params.page,
+        size=params.size,
     )
 
 
@@ -46,19 +54,6 @@ def get_log_details(
     return crud.get_log_details(db, inspection_id)
 
 
-@router.put("/information/{inspection_id}")
-async def update_log_information(
-    inspection_id: int,
-    information: InspectionLogUpdateInformation = Body(),
-    db: Session = Depends(deps.get_db),
-    current_user: UserReadResponse = Depends(deps.get_current_active_admin),
-):
-    if not current_user.success:
-        return {"success": False, "message": current_user.message}
-
-    return crud.update_log_information(db, inspection_id, information)
-
-
 @router.put("/check/{inspection_id}")
 async def update_log_check(
     inspection_id: int,
@@ -70,6 +65,19 @@ async def update_log_check(
         return {"success": False, "message": current_user.message}
 
     return crud.update_log_check(db, inspection_id, is_checked)
+
+
+@router.put("/information/{inspection_id}")
+async def update_log_information(
+    inspection_id: int,
+    information: InspectionLogUpdateInformation = Body(),
+    db: Session = Depends(deps.get_db),
+    current_user: UserReadResponse = Depends(deps.get_current_active_admin),
+):
+    if not current_user.success:
+        return {"success": False, "message": current_user.message}
+
+    return crud.update_log_information(db, inspection_id, information)
 
 
 @router.put("/detail/status/{detail_id}")
