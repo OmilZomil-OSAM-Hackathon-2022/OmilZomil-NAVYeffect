@@ -19,7 +19,10 @@
           placeholder="위병소 이름을 입력하세요."
           list="list"
         >
-        <datalist id="list">
+        <datalist
+          v-if="newHouse.length >= 2"
+          id="list"
+        >
           <option
             v-for="h in allHouses"
             :key="h.house_id"

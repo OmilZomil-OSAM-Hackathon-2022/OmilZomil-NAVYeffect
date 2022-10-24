@@ -55,7 +55,7 @@ export default {
 
 <style scoped>
 .card{
-    /* overflow: hidden; */
+    overflow: hidden;
     padding:0px 76px;
     box-sizing: border-box;
     flex-direction:column;
