@@ -113,7 +113,9 @@ class ImageBox:
         # 이름 태그가 있으면
         if report['component'].get("name_tag") and self.inspection['name'] == "":
             # 이름 인식
-            self.inspection['name'] = report['component'].get("name_tag")
+            cached_name = report['component'].get("name_tag")
+            self.inspection['name'] = cached_name.replace('cached ', '', 1) #cached  제거
+
             self.is_update = True        
         # 계급장이 있으면
         if report['component'].get("class_tag") and self.inspection['rank'] == 1:
