@@ -97,7 +97,7 @@
                 </router-link>
                 <router-link
                   v-if="getUser.role >= 3"
-                  to="/profile/unitManageMent"
+                  to="/profile/GuardroomManagement"
                   @click="closeUserMenu"
                 >
                   위병소 관리

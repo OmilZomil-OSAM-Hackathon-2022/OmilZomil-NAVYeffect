@@ -106,6 +106,7 @@ export default {
     box-sizing: border-box;
     padding: 28px 61px;
     /* align-items: flex-start; */
+    min-height:670px;
 }
 table{
     width:100%;
