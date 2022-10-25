@@ -128,7 +128,7 @@ class CombatUniformChecker(UniformChecker):
                     self.result_dic['probability']['insignia_tag'] = probability
 
         contours, _,  self.result_dic['masked_img']['flag_tag'] = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind='name_tag', sort=True)
+            img=img, hsv_img=hsv_img, kind='flag_tag', sort=True)
 
         if contours is not None:
             for contour in contours:
