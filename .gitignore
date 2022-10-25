@@ -4,6 +4,7 @@ node_modules
 package-lock.json
 *.pyc
 
+
 # local env files
 .env.local
 .env.*.local
@@ -42,3 +43,7 @@ omilzomil/frontend/dist
 webrtc/frontend/dist
 omilzomil/frontend/dist/
 webrtc/frontend/dist/
+
+
+data/
+image/

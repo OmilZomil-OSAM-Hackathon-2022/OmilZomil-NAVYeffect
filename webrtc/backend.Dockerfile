@@ -10,9 +10,9 @@ COPY ./omilzomil/backend/src  /backend/src/app/omil
 COPY ./omilzomil/backend/src/app/models  /backend/src/app/models
 
 # 
-RUN mkdir -p /omil_image/queue
-RUN mkdir -p /omil_image/inspection
-RUN mkdir -p /omil_image/detail
+RUN mkdir -p /image/queue
+RUN mkdir -p /image/inspection
+RUN mkdir -p /image/detail
 
 # 가중치 파일 다운로드
 RUN wget -q https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights
@@ -31,6 +31,8 @@ RUN apt-get install -y libgl1-mesa-glx
 # 라이브러리 설치
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+
+ENV AI_PATH /ai
 
 # 개발용으로 entrypoint.sh 파일를 연결
 CMD ["sh", "/backend/entrypoint.sh"]

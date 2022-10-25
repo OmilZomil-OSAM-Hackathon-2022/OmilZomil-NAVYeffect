@@ -14,6 +14,11 @@ if [ ! -e ".env.private" ]; then
     exit
 fi
 
+mkdir -p ./image/queue
+mkdir -p ./image/inspection
+mkdir -p ./image/detail
+
+
 DIR_PATH=`pwd`
 
 # 환경변수 파일 정의
@@ -69,8 +74,10 @@ sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up -d db
 
 # DB 테이블 만들기 - omilzomil backend 참조
 echo [+] make db tables
-sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock run --rm omilzomil python src/initial_data.py
-
+if [ ! -e "./data/mysql.sock" ]; then
+    echo [+] DB 초기 세팅을 시작합니다.
+    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock run --rm omilzomil python src/initial_data.py
+fi
 
 # ============== 기타 잔여 파일 컨테이너 캐쉬 삭제
 
