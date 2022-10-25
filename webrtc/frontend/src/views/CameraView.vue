@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <div class="left">
-      <button @click="change">O</button>
       <div class="videoview">
         <video ref="video" class="video" id="camera--view" autoplay></video>
         <canvas ref="canvas" class="video" style="display:none;"></canvas>
@@ -244,9 +243,6 @@ export default {
     //   this.data["ma"]=true;
     //   this.data["neck"]=true;
     // },
-    chagne(){
-
-    },
     reset(){
       this.data["imgview"]=false;
       this.data["kind"]=null;
