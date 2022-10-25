@@ -1,27 +1,28 @@
 from datetime import date, datetime
 from sqlalchemy import or_
+import sqlalchemy.exc
 from sqlalchemy.orm import Session
 from app.models.inspection_log import InspectionLog
 from app.models.inspection_detail import InspectionDetail
-from app.schemas.inspection_log import InspectionLogUpdateCheck, InspectionLogResponse
+from app.schemas.inspection_log import InspectionLogUpdateCheck, InspectionLogUpdateInformation, InspectionLogResponse
 from app.schemas.inspection_detail import InspectionDetailUpdateStatus, InspectionDetailUpdateValidity, InspectionDetailResponse
 
 
 def get_logs(
     db: Session,
-    military_unit: int,
+    page: int,
+    size: int,
+    military_unit: int = None,
     rank: int = None,
     name: str = None,
     appearance_type: int = None,
     start_date: date = None,
     end_date: date = None,
 ):
-    subquery = (
-        db.query(InspectionLog.inspection_id)
-        .join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
-        .filter(or_(InspectionLog.military_unit == 1, InspectionLog.military_unit == military_unit))
-    )
+    subquery = db.query(InspectionLog.inspection_id).join(InspectionDetail, InspectionLog.inspection_id == InspectionDetail.inspection_id)
 
+    if military_unit is not None:
+        subquery = subquery.filter(or_(InspectionLog.military_unit == 1, InspectionLog.military_unit == military_unit))
     if rank is not None:
         subquery = subquery.filter(InspectionLog.rank == rank)
     if name is not None:
@@ -33,7 +34,9 @@ def get_logs(
         end_date = datetime(*end_date.timetuple()[:6])
         subquery = subquery.filter(InspectionLog.access_time >= start_date).filter(InspectionLog.access_time <= end_date)
 
-    entries = db.query(InspectionLog).filter(InspectionLog.inspection_id.in_(subquery)).order_by(InspectionLog.access_time.desc()).all()
+    query = db.query(InspectionLog).filter(InspectionLog.inspection_id.in_(subquery)).order_by(InspectionLog.access_time.desc())
+    total = query.count()
+    entries = query.offset((page - 1) * size).limit(size).all()
 
     logs = list()
     for entry in entries:
@@ -56,7 +59,7 @@ def get_logs(
         }
         logs.append(log)
 
-    return logs
+    return {"items": logs, "total": total, "page": page, "size": size}
 
 
 def get_log_details(db: Session, inspection_id: int):
@@ -103,6 +106,20 @@ def update_log_check(db: Session, inspection_id: int, is_checked: InspectionLogU
         log.update(is_checked.dict())
         db.commit()
         return InspectionLogResponse(success=True, message=inspection_id)
+
+
+def update_log_information(db: Session, inspection_id: int, information: InspectionLogUpdateInformation):
+    log = db.query(InspectionLog).filter_by(inspection_id=inspection_id)
+    if not log.count():
+        return InspectionLogResponse(success=False, message="entry not found")
+
+    try:
+        information = {x: y for x, y in information.dict().items() if y is not None}
+        log.update(information)
+        db.commit()
+        return InspectionLogResponse(success=True, message=inspection_id)
+    except sqlalchemy.exc.IntegrityError:
+        return InspectionLogResponse(success=False, message="foreign key constraint fail")
 
 
 def update_log_detail_status(db: Session, detail_id: int, status: InspectionDetailUpdateStatus):
