@@ -113,7 +113,6 @@
         @page="pagination"
       />  
     </div>
-    <h1>{{ rtms }}</h1>
     <DetailCard
       v-if="isDetail"
       :item="detail"
