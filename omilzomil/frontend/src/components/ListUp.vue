@@ -65,7 +65,7 @@
             </div>
             <div class="name">
               <!-- <div :style="{color:rtm.rank==1?'rgba(0,0,0,0.2)':''}"></div> -->
-              {{ rtm.rank_title }} {{ rtm.name }}
+              {{ rtm.rank_title }} {{ rtm.name ? rtm.name:'이름표 미탐지' }}
             </div>
           </div>
           <div class="time">
@@ -101,7 +101,7 @@
         @page="pagination"
       />  
     </div>
-    
+    <h1>{{ rtms }}</h1>
     <DetailCard
       v-if="isDetail"
       :item="detail"
