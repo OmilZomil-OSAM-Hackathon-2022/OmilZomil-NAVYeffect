@@ -65,7 +65,19 @@
             </div>
             <div class="name">
               <!-- <div :style="{color:rtm.rank==1?'rgba(0,0,0,0.2)':''}"></div> -->
-              {{ rtm.rank_title }} {{ rtm.name ? rtm.name:'이름표 미탐지' }}
+              {{ rtm.rank != 1 ?rtm.rank_title:'' }} {{ rtm.name }}
+              <div
+                v-if="rtm.rank == 1"
+                class="no-info"
+              >
+                계급 미탐지
+              </div>
+              <div
+                v-if="!rtm.name"
+                class="no-info"
+              >
+                이름표 미탐지
+              </div>
             </div>
           </div>
           <div class="time">
@@ -101,7 +113,6 @@
         @page="pagination"
       />  
     </div>
-    <h1>{{ rtms }}</h1>
     <DetailCard
       v-if="isDetail"
       :item="detail"
@@ -295,6 +306,15 @@ export default {
   color: rgba(0,0,0,0.2);
   
   margin-bottom: 8px;
+}
+.no-info{
+  white-space:nowrap;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: rgba(0,0,0,0.2);
 }
 .list-item .time{
   width:65px;
