@@ -20,7 +20,7 @@ class CombatUniformChecker(UniformChecker):
                 'lower': (0, 30, 0), 
                 'upper': (255, 255, 255)
             },
-            'name_tag': {
+            'rank_tag': {
                 'lower': (0, 30, 0), 
                 'upper': (255, 255, 255)
             }
@@ -64,11 +64,14 @@ class CombatUniformChecker(UniformChecker):
         if contours is not None:
             for contour in contours:
                 is_name_tag = self.result_dic['component'].get('name_tag')
-                is_name_tag = self.result_dic['component'].get('name_tag')
+                is_rank_tag = self.result_dic['component'].get('rank_tag')
                 
                 area = cv2.contourArea(contour)
+                if area > 10000:
+                    continue
 
-                if is_name_tag or (area < 500):
+                print('area', area)
+                if is_name_tag and is_rank_tag or (area < 500):
                     break
 
                 
@@ -78,7 +81,11 @@ class CombatUniformChecker(UniformChecker):
                 tmp_box_position = cv2.boundingRect(contour)
                 x,y,w,h = tmp_box_position
                 parts_img = img[y:y+h, x:x+w]
-                plt_imshow('name_tag', parts_img)
+                plt_imshow('parts', parts_img)
+
+                img2 = img.copy()
+                cv2.rectangle(img2, (x,y), (x+w, y+h), (0,0,255), -1)
+                plt_imshow('pp', img2)
 
                 isCenter = x < W//2 < x+w
 
@@ -104,5 +111,13 @@ class CombatUniformChecker(UniformChecker):
                     self.result_dic['box_position']['name_tag'] = box_position
                     self.result_dic['component']['name_tag'] = component
                     self.result_dic['probability']['name_tag'] = probability
+                
+                if not is_rank_tag and self.isRankTag(position, kind):
+                    self.result_dic['box_position']['rank_tag'] = tmp_box_position
+                    rank_n = kind.split('+')[1]
+                    self.result_dic['component']['rank_tag'] = Classes.dic.get(int(rank_n))
+                    self.result_dic['probability']['rank_tag'] = probability
+                    break
+
 
         return self.result_dic
