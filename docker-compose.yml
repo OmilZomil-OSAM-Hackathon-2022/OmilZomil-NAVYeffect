@@ -5,10 +5,10 @@ version: "3.9"
 services:
   db:
     image: mysql
-    restart: always
+    # restart: always
     env_file: .env.lock
-    # volumes:
-    #   - ./data:/var/lib/mysql 
+    volumes:
+      - ./data:/var/lib/mysql 
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-p${MYSQL_ROOT_PASSWORD}"]
       timeout: 10s
