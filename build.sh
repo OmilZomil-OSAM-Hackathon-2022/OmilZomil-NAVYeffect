@@ -14,6 +14,11 @@ if [ ! -e ".env.private" ]; then
     exit
 fi
 
+mkdir -p ./image/queue
+mkdir -p ./image/inspection
+mkdir -p ./image/detail
+
+
 DIR_PATH=`pwd`
 
 # 환경변수 파일 정의

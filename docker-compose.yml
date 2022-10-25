@@ -40,7 +40,7 @@ services:
     volumes:
       - ${OMIL_DIR_PATH:-omil_back}:/backend
       - omil_volume:/backend/src/app/static
-      - ./omil_image:/omil_image
+      - ./image:/image
 
 
     depends_on:
@@ -61,7 +61,7 @@ services:
       - ./webrtc/ai:/ai
       - ${WEBRTC_DIR_PATH:-webrtc_back}:/backend
       - webrtc_volume:/backend/src/app/static
-      - ./omil_image:/omil_image
+      - ./image:/image
 
 
     depends_on:
