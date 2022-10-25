@@ -45,6 +45,9 @@ class CombatUniformChecker(UniformChecker):
     def isInsigniaTag(self, position, kind):
         return position == 'right' and kind == 'insignia_tag'
 
+    def isFlagTag(self, position, kind):
+        return position == 'left' and kind == 'flag_tag'
+
     def isRankTag(self, position, kind):
         return position == 'right' and kind is not None and kind.find('rank_tag') != -1
 
