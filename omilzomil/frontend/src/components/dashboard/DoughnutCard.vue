@@ -129,10 +129,10 @@ export default {
         const {data} = await this.$axios.get("/stats/month/unit/fail/detail/");
         // const total = (data.이름표 + data.계급장 + data.태극기 + data.모자);
         // console.log(total);
-        this.nameTag = data.이름표;
-        this.classTag = data.계급장;
-        this.flag = data.태극기;
-        this.hat = data.두발;
+        this.nameTag = data.이름표 + 3;
+        this.classTag = data.계급장 + 3;
+        this.flag = data.태극기 + 3;
+        this.hat = data.두발 + 3;
       }catch(err){
         console.log(err);
       }
