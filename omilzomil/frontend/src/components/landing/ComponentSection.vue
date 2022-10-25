@@ -10,7 +10,7 @@
       <div
         class="f1"
         style="
-    height:196px;"
+        height:196px;"
       >
         <div class="title">
           👀실시간 소속 부대 불량 상태 변화
@@ -41,20 +41,22 @@
       class="c2"
     >
       <div
-        v-if="isParts"
         class="f2"
       >
         <parts-card
+          v-if="isParts"
           style="height:196px;"
           :parts-type="0"
           :is-in-landing="true"
         />
         <parts-card
+          v-if="isParts"
           style="height:196px;"
           :parts-type="1"
           :is-in-landing="true"
         />
         <parts-card
+          v-if="isParts"
           style="height:196px;"
           :parts-type="2"
           :is-in-landing="true"

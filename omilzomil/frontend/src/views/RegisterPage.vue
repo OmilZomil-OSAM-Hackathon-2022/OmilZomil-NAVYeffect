@@ -61,7 +61,11 @@
                 v-show="dogTag.check == 2 || dogTag.check == 3"
                 class="input-warning"
               >
-                {{ dogTag.check == 2 ? '군번을 입력해주세요.':'이미 가입된 군번입니다.' }}
+                {{
+                  dogTag.check == 2
+                    ? "군번을 입력해주세요."
+                    : "이미 가입된 군번입니다."
+                }}
               </div>
             </div>
             <input
@@ -104,14 +108,14 @@
             <div class="input-label">
               <h3>부대</h3>
               <div
-                v-show="armyUnit.check == 2|| armyUnit.check == 3"
+                v-show="armyUnit.check == 2 || armyUnit.check == 3"
                 class="input-warning"
               >
                 부대를 확인하세요.
               </div>
             </div>
             <div>
-              <input 
+              <input
                 ref="unit"
                 v-model="armyUnit.data"
                 placeholder="부대를 선택하세요."
@@ -182,9 +186,17 @@
             <div class="input-label">
               <h3>아이디</h3>
               <div
-                :class="[uid.check == 1 || uid.check == 0 ? 'input-comment':'input-warning']"
+                :class="[
+                  uid.check == 1 || uid.check == 0
+                    ? 'input-comment'
+                    : 'input-warning',
+                ]"
               >
-                {{ uid.check == 3 ? '이미 가입된 아이디입니다.':'아이디를 6자 이상 입력해주세요.' }}
+                {{
+                  uid.check == 3
+                    ? "이미 가입된 아이디입니다."
+                    : "아이디를 6자 이상 입력해주세요."
+                }}
               </div>
             </div>
             <input
@@ -279,20 +291,20 @@ export default {
       password: new inputData(),
       passwordConfirm: new inputData(),
       unitList: [],
-      classList:[],
-      divisionList:[],
+      classList: [],
+      divisionList: [],
     };
   },
-  async mounted(){
-    try{
-      const unitList = await this.$axios.get('/unit/');
-      const divisionList = await this.$axios.get('/affiliation/');
-      const classList = await this.$axios.get('/rank/');
+  async mounted() {
+    try {
+      const unitList = await this.$axios.get("/unit/");
+      const divisionList = await this.$axios.get("/affiliation/");
+      const classList = await this.$axios.get("/rank/");
 
       this.unitList = unitList.data;
       this.divisionList = divisionList.data;
       this.classList = classList.data;
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
   },
@@ -308,18 +320,19 @@ export default {
         this.password.check == 1 &&
         this.passwordConfirm.check == 1
       ) {
-
-        const userUnit = this.unitList.filter(u=>this.armyUnit.data == u.unit);
+        const userUnit = this.unitList.filter(
+          (u) => this.armyUnit.data == u.unit
+        );
         console.log({
-            full_name: this.name.data,
-            dog_number: this.dogTag.data,
-            affiliation: this.division.data,
-            // military_unit: this.armyUnit.data,
-            military_unit: userUnit[0].unit,
-            rank: this.uClass.data,
-            username: this.uid.data,
-            password: this.password.data,
-          });
+          full_name: this.name.data,
+          dog_number: this.dogTag.data,
+          affiliation: this.division.data,
+          // military_unit: this.armyUnit.data,
+          military_unit: userUnit[0].unit,
+          rank: this.uClass.data,
+          username: this.uid.data,
+          password: this.password.data,
+        });
         this.$axios
           .post("/user/", {
             full_name: this.name.data,
@@ -332,13 +345,13 @@ export default {
             password: this.password.data,
           })
           .then((response) => {
-            if(response.data.success){
-              this.$router.push('/login')
-            }else{
-              if(response.data.message.includes('dog_number')){
+            if (response.data.success) {
+              this.$router.push("/login");
+            } else {
+              if (response.data.message.includes("dog_number")) {
                 this.dogTag.check = 3;
                 this.$refs.dogTag.focus();
-              }else if(response.data.message.includes('username')){
+              } else if (response.data.message.includes("username")) {
                 this.uid.check = 3;
                 this.$refs.username.focus();
               }
@@ -349,16 +362,18 @@ export default {
           });
       }
     },
-    checkUnit(){
-      const userUnit = this.unitList.filter(u=>this.armyUnit.data == u.unit);
+    checkUnit() {
+      const userUnit = this.unitList.filter(
+        (u) => this.armyUnit.data == u.unit
+      );
       console.log(userUnit);
-        if(userUnit.length <= 0){
-          this.$refs.unit.focus();
-          this.armyUnit.check = 3;
-          return;
-        }else{
-          this.armyUnit.check = 1;
-        }
+      if (userUnit.length <= 0) {
+        this.$refs.unit.focus();
+        this.armyUnit.check = 3;
+        return;
+      } else {
+        this.armyUnit.check = 1;
+      }
     },
     checkName(event) {
       if (event.target.value != "") {
@@ -553,7 +568,8 @@ export default {
   color: black;
   -webkit-appearance: none;
 
-  background: url("@/assets/icons/mdi_chevron-down.svg") no-repeat scroll 10px center;
+  background: url("@/assets/icons/mdi_chevron-down.svg") no-repeat scroll 10px
+    center;
   background-position: right 12px center;
 }
 .right select option {

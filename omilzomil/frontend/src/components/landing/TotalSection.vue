@@ -1,6 +1,9 @@
 <template>
   <div class="wrap">
-    <div class="chart-position">
+    <div
+      v-if="isTotal"
+      class="chart-position"
+    >
       <div class="chart-wrap">
         <div class="lock" />
         <apexchart
@@ -13,8 +16,13 @@
       </div>
     </div>
     <div class="circle-dec" />
-    <h1>전군통계</h1>
-    <div style="display: flex; width: 100%; z-index: 100; position: absolute">
+    <h1 ref="total">
+      전군통계
+    </h1>
+    <div
+      v-if="isTotal"
+      style="display: flex; width: 100%; z-index: 100; position: absolute"
+    >
       <div class="f1">
         <div style="display: flex; gap: 24px">
           <radar-card
@@ -62,8 +70,18 @@ import MonthCard from "../totaldash/MonthCard.vue";
 import RadarCard from "../totaldash/RadarCard.vue";
 import UnitCard from "../totaldash/UnitCard.vue";
 import WeekCard from "../totaldash/WeekCard.vue";
+import { ref } from 'vue'
+import { useElementVisibility } from '@vueuse/core'
 export default {
   components: { RadarCard, WeekCard, UnitCard, MonthCard },
+  setup(){
+    const total = ref();
+    const isTotal = useElementVisibility(total);
+    return{
+        total,
+        isTotal
+    }
+  },
   data() {
     return {
       series: [
