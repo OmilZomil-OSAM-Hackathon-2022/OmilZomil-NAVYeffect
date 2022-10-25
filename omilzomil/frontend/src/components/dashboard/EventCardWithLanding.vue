@@ -245,7 +245,7 @@ export default {
   right: 38.33%;
   top: 38.05%;
   bottom: 6.37%;
-  animation: boom 2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  animation: boom 2.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 .card .image .one {
   position: absolute;
@@ -254,7 +254,7 @@ export default {
   right: 61.34%;
   top: 6.41%;
   bottom: 49.74%;
-  animation: scale-up-br 1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  animation: scale-up-br 1.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 .card .image .two {
   position: absolute;
@@ -263,7 +263,7 @@ export default {
   right: 1.1%;
   top: 44.87%;
   bottom: 28.61%;
-  animation: scale-up-bl 1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  animation: scale-up-bl 1.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 .card .image .three {
   position: absolute;
@@ -271,7 +271,7 @@ export default {
   right: 37.47%;
   top: 6.5%;
   bottom: 58.82%;
-  animation: slide-tr 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-tr 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 .card .image .four {
   position: absolute;
@@ -279,7 +279,7 @@ export default {
   right: 8.89%;
   top: 33.87%;
   bottom: 52.7%;
-  animation: slide-right 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-right 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 .card .image .five {
   position: absolute;
@@ -287,7 +287,7 @@ export default {
   right: 80.84%;
   top: 21.58%;
   bottom: 70.9%;
-  animation: ball 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: ball 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 .card .image .six {
   position: absolute;
@@ -295,7 +295,7 @@ export default {
   right: 52.31%;
   top: 6.41%;
   bottom: 86.07%;
-  animation: ball 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: ball 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 .card .image .seven {
   position: absolute;
@@ -303,7 +303,7 @@ export default {
   right: 21.79%;
   top: 18.16%;
   bottom: 74.32%;
-  animation: ball 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: ball 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 .card .image .eight {
   position: absolute;
@@ -311,7 +311,7 @@ export default {
   right: 18.64%;
   top: 67.82%;
   bottom: 24.66%;
-  animation: ball 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: ball 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 .card .image .nine {
   position: absolute;
@@ -319,7 +319,7 @@ export default {
   right: 49.5%;
   top: 46.24%;
   bottom: 46.24%;
-  animation: ball 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: ball 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 .card .x {
   background: url("@/assets/images/x.svg") no-repeat;
@@ -345,7 +345,7 @@ export default {
   filter: blur(16px);
   border-radius: 165px;
   background: rgba(255, 255, 255, 0.5);
-  animation: blink 1s ease-in-out infinite alternate;
+  animation: blink 1.5s ease-in-out infinite alternate;
 }
 .card .photoclap .photo {
   position: absolute;

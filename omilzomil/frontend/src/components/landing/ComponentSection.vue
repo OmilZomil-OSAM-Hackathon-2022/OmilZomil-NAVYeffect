@@ -84,13 +84,18 @@
             style="height:196px;width:384px"
           />
         </div>
-        <div class="event-wrap">
+        <div
+          ref="card"
+          class="event-wrap"
+        >
           <div class="circle-deco" />
           <event-card-with-landing
+            v-if="isCard"
             :photo="1"
             class="unit-card"
           />
           <event-card-with-landing
+            v-if="isCard"
             :photo="2"
             class="user-card"
           />
@@ -114,11 +119,15 @@ export default {
     const isTitleCard = useElementVisibility(titleCard);
     const parts = ref();
     const isParts = useElementVisibility(parts);
+    const card = ref();
+    const isCard = useElementVisibility(card);
     return{
         titleCard,
         isTitleCard,
         parts,
-        isParts
+        isParts,
+        card,
+        isCard,
     }
   }
 }
@@ -171,13 +180,15 @@ export default {
     width:314px;
     height:472px;
     left:180px;
+    top:100px;
 }
 .user-card{
     position:absolute;
     transform:skewY(-30deg);
     width:224px;
     height:336px;
-    top:180px;
+    top:240px;
+    left:-20px;
 }
 .mini-dash{
     width:100%;
