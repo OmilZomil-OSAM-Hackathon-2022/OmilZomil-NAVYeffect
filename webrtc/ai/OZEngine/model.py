@@ -126,6 +126,8 @@ class OmilZomil:
                 self.uniform_checker = NavyServiceUniformChecker(self.train_mode)
             elif self.uniform_type == UniformType.dic['FULL_DRESS']:
                 self.uniform_checker = FullDressUniformChecker(self.train_mode)
+            elif self.uniform_type == UniformType.dic['COMBAT']:
+                self.uniform_checker = CombatUniformChecker(self.train_mode)
             else:
                 return {'step':2, 'boxed_img':org_img}
 
