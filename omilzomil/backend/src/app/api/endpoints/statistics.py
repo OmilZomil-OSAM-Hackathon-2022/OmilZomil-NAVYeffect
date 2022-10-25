@@ -132,7 +132,7 @@ def get_afiiliation_monthly_fail(db: Session = Depends(deps.get_db)):
 @router.get("/month/fail/detail/")
 def get_detailed_monthly_fail(db: Session = Depends(deps.get_db)):
     ret = {"success": True, "message": "success"}
-    types = {"두발": 1, "이름표": 2, "계급장": 3, "태극기": 4, "모자": 5}
+    types = {"두발": 1, "이름표": 2, "계급장": 3, "태극기": 4}
 
     for appearance_type in types.items():
         total, count = crud.get_overall_stats(
@@ -146,6 +146,7 @@ def get_detailed_monthly_fail(db: Session = Depends(deps.get_db)):
             ret[appearance_type[0]] = round(count / total * 100)
         else:
             ret[appearance_type[0]] = 0
+    ret["모자"] = ret["두발"]
 
     return ret
 
