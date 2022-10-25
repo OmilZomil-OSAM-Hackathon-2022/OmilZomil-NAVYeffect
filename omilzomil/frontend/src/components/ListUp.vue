@@ -308,7 +308,7 @@ export default {
   margin-bottom: 8px;
 }
 .no-info{
-
+  white-space:nowrap;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
