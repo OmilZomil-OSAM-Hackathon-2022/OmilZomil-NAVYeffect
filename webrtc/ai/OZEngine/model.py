@@ -142,6 +142,7 @@ class OmilZomil:
             hed_boxed_img, _ = self.boxImage(hed_boxed_img, result_dic)
 
         if self.hed_mode:
-            return {'step':3, 'boxed_img':boxed_img, 'hed_boxed_img': hed_boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
+
+            return {'step':3, 'shirt_img':shirt_img, 'boxed_img':boxed_img, 'dress_kind':self.uniform_type,'hed_boxed_img': hed_boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
         else:
-            return {'step':3, 'boxed_img':boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
+            return {'step':3, 'shirt_img':shirt_img, 'boxed_img':boxed_img, 'dress_kind':self.uniform_type, 'component':result_dic['component'], 'roi':roi_dic}
