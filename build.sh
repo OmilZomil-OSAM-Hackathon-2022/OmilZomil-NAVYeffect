@@ -14,9 +14,9 @@ if [ ! -e ".env.private" ]; then
     exit
 fi
 
-mkdir -p ./omil_image/queue
-mkdir -p ./omil_image/inspection
-mkdir -p ./omil_image/detail
+mkdir -p ./image/queue
+mkdir -p ./image/inspection
+mkdir -p ./image/detail
 
 
 DIR_PATH=`pwd`
