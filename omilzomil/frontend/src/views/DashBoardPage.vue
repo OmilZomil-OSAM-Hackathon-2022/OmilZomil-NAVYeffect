@@ -85,6 +85,9 @@ import LineCard from '@/components/dashboard/LineCard.vue';
 import EventCard from '@/components/dashboard/EventCard.vue';
 export default {
     components: { ListUp, TitleCard, PartsCard, DoughnutCard, LineCard,EventCard},
+    mounted(){
+      window.scrollTo(0, 0);
+    }
 }
 </script>
 

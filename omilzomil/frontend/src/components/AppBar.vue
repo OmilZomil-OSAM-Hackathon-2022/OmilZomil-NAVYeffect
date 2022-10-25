@@ -153,7 +153,7 @@
             >
               <DashboardIcon />
             </IconBase>
-            대쉬보드
+            대시보드
           </div>
         </router-link>
         <router-link to="/ListUp">

@@ -110,6 +110,7 @@
         <img
           class="photoback"
           :src="photo"
+          @error="e => e.target.src = require('@/assets/images/test.png')"
         >
         <img
           class="photo"

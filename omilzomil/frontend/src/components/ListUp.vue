@@ -64,7 +64,6 @@
               {{ rtm.affiliation != 1 ? '대한민국':'' }} {{ rtm.affiliation_title }}
             </div>
             <div class="name">
-              <!-- <div :style="{color:rtm.rank==1?'rgba(0,0,0,0.2)':''}"></div> -->
               {{ rtm.rank != 1 ?rtm.rank_title:'' }} {{ rtm.name }}
               <div
                 v-if="rtm.rank == 1"
