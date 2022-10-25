@@ -44,6 +44,7 @@ async def create_upload_files(files: List[UploadFile] = File(...), db: Session =
         if 'photo' in msg.keys():
             msg.pop('photo')
         result_msg[file.filename] = msg
+
     
     result_msg['total_time'] = datetime.now() - connect_start_time
     print(f"업로드 완료 - {datetime.now() - connect_start_time}")
@@ -64,7 +65,7 @@ async def create_upload_files(files: List[UploadFile] = File(...)):
 
     result_msg = {}
     for file in files:
-        print(f"{file.filename} - 처리 시작")
+        print(f"{file.filename} - 처리 시작 = {datetime.now()}")
         # 파일을 -> img -> photo 로 변환
         contents = await file.read()
         img = cv2.imdecode(np.fromstring(contents, np.uint8), cv2.IMREAD_COLOR)
@@ -77,7 +78,12 @@ async def create_upload_files(files: List[UploadFile] = File(...)):
         # 메세지 정리
         msg['working_time'] = datetime.now() - work_start
         result_msg[file.filename] = msg
+
+        print(broker.receive())
+
     
     result_msg['total_time'] = datetime.now() - connect_start_time
     print(f"업로드 완료 - {datetime.now() - connect_start_time}")
+    while True:
+        print(broker.receive())
     return result_msg

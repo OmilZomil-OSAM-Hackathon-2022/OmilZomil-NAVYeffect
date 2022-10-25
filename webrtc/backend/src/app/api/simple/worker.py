@@ -135,7 +135,7 @@ class SimpleWorker(BaseWorker):
      def execute(self, img):
 
         # ai에게 처리
-        print("이미지 처리 시작 ===============================")
+        print("이미지 처리 시작2 ===============================")
         error = self.image_box.image_process(image=img)
 
         self.expiration_count -= 1 #인식 횟수 감소

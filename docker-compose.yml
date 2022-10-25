@@ -76,6 +76,7 @@ services:
     env_file: .env.lock
     volumes:
       - ./webrtc/ai:/ai
+      - ${WEBRTC_DIR_PATH:-webrtc_back}:/backend
       - ./image:/image
 
 

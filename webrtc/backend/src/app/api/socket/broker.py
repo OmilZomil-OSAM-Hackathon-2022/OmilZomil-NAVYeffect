@@ -2,6 +2,9 @@ from datetime import datetime, timedelta
 import cv2
 import socket
 import json
+import select
+import errno
+import time
 
 from app.ai.OZEngine.person_detectors.PersonDetector import PersonDetector
 from app.core.config import settings
@@ -25,7 +28,10 @@ class SocketBroker:
         self.last_person_time = datetime.now() - timedelta(seconds=EMPTY_PERSON_SECOND) # 처음은 무조건 새로운 사람이니깐
         # 소켓 연결
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        
+
         self.socket.connect((IP, PORT))
+        self.socket.setblocking(0)
         print("소켓 연결 완료")
 
 
@@ -66,4 +72,35 @@ class SocketBroker:
             "msg": msg,
             }
         
-    
+    def receive(self):
+        try:
+            msg = self.socket.recv(1024).strip()
+            # print("no error")
+            # print(msg)
+        except socket.error as e:
+            err = e.args[0]
+            if err == errno.EAGAIN or err == errno.EWOULDBLOCK:    
+                time.sleep(0.5)
+                return "No data"
+            else:
+                # a "real" error occurred
+                print(e)
+                sys.exit(1)
+        
+            # got a message, do something :)
+        else:
+            return msg
+        
+
+
+
+
+        
+        # print(datetime.now())
+        # ready_to_read, ready_to_write, in_error = select.select([self.socket], [], [])
+        # if self.socket in ready_to_read:
+        #     print('aaaaaaaaaaaaaaaaaaaaaaaaa')
+        #     print(datetime.now())
+        #     msg = self.socket.recv(1024).strip()
+        #     print(datetime.now())
+        #     return msg
