@@ -79,7 +79,6 @@ if [ ! -e "./data/mysql.sock" ]; then
     sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock run --rm omilzomil python src/initial_data.py
 fi
 
-
 # ============== 기타 잔여 파일 컨테이너 캐쉬 삭제
 
 
