@@ -17,4 +17,5 @@ if settings.BACKEND_CORS_ORIGINS:
     )
 
 app.include_router(api_router)
+app.mount("/image", SPAStaticFiles(directory="/image", html=True), name="image")
 app.mount("/", SPAStaticFiles(directory="/backend/src/app/static", html=True), name="static")
