@@ -64,6 +64,10 @@
         >
       </div>
     </div>
+    <div class="event-section">
+      <event-card-with-landing :photo="1" />
+      <event-card-with-landing :photo="2" />
+    </div>
   </div>
 </template>
 

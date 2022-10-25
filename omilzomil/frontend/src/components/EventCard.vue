@@ -109,12 +109,11 @@
       >
         <img
           class="photoback"
-          :src="photo"
-          @error="e => e.target.src = require('@/assets/images/test.png')"
         >
         <img
           class="photo"
-          src="@/assets/images/photo.svg"
+          :src="photo"
+          @error="e => e.target.src = require('@/assets/images/test.png')"
         >
         <img
           class="backhand"
