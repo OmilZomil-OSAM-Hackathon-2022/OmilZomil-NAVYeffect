@@ -42,3 +42,6 @@ omilzomil/frontend/dist
 webrtc/frontend/dist
 omilzomil/frontend/dist/
 webrtc/frontend/dist/
+
+# 프론트 BaseURL
+omilzomil/fronted/src/common/http.js
