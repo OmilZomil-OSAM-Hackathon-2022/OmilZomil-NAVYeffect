@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <div class="left">
+      <button @click="change">O</button>
       <div class="videoview">
         <video ref="video" class="video" id="camera--view" autoplay></video>
         <canvas ref="canvas" class="video" style="display:none;"></canvas>
@@ -243,6 +244,9 @@ export default {
     //   this.data["ma"]=true;
     //   this.data["neck"]=true;
     // },
+    chagne(){
+
+    },
     reset(){
       this.data["imgview"]=false;
       this.data["kind"]=null;
@@ -367,7 +371,7 @@ export default {
     width:490px;
   }
   .video{
-    /* transform: rotateY(180deg); */
+    transform: rotateY(180deg);
     width:490px;
     height:38vh;
     object-fit:contain;
