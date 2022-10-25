@@ -103,6 +103,7 @@ export default {
         if(this.isInLanding){
             this.count = Math.floor(Math.random() * 201);
             this.percent = Math.floor(Math.random() * 41) - 20;
+            return;
         }
         try{
             const {data} = await this.$axios.get(url);
