@@ -1,6 +1,6 @@
 import cv2, os
 
-from .dress_checkers import FullDressUniformChecker, NavyServiceUniformChecker
+from .dress_checkers import FullDressUniformChecker, NavyServiceUniformChecker, CombatUniformChecker
 from .dress_classifier import DressClassifier
 from .edge_detectors import HED, Morph, RCF
 from .person_detectors import PersonDetector
