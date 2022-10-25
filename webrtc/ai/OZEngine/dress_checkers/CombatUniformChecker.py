@@ -135,10 +135,17 @@ class CombatUniformChecker(UniformChecker):
                 parts_img = img[y:y+h, x:x+w]
                 plt_imshow('parts', parts_img)
 
-                for contour in contours:
-                    if self.isFlagTag(position, kind):
-                        self.result_dic['box_position']['insignia_tag'] = tmp_box_position
-                        self.result_dic['component']['insignia_tag'] = True
-                        self.result_dic['probability']['insignia_tag'] = probability
+                isCenter = x < W//2 < x+w
+
+                if self.train_mode:
+                    probability, kind = 0, 'name_tag2'
+                else:
+                    probability, kind = self.parts_classifier.predict(parts_img)[:2]
+
+                print(kind)
+                if self.isFlagTag(position, kind):
+                    self.result_dic['box_position']['flag_tag'] = tmp_box_position
+                    self.result_dic['component']['flag_tag'] = True
+                    self.result_dic['probability']['flag_tag'] = probability
 
         return self.result_dic
