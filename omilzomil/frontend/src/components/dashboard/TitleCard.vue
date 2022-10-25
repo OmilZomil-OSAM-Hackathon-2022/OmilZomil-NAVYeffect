@@ -1,11 +1,11 @@
 <template>
   <div class="card title-card">
     <div
-      v-if="isReady"
+      v-if="isReady || isInLanding"
       class="title-wrap"
     >
       <div class="title">
-        필승! <h1>{{ title }}</h1> 입니다
+        필승! <h1>{{ isInLanding ? '계룡대근무지원단 본부대대':title }}</h1> 입니다
       </div>
       <div class="sub-title">
         오늘도 전군 군기확립을 위해 노력하는 오밀조밀이 되겠습니다!
@@ -20,6 +20,12 @@
 
 <script>
 export default {
+  props:{
+    isInLanding:{
+      type:Boolean,
+      default:false,
+    }
+  },
   data(){
     return{
       title:'',
@@ -32,6 +38,7 @@ export default {
       },
   },
   async mounted(){
+    if(this.isInLanding) return;
     try{
       const {data} = await this.$axios.get(`/unit/${this.getUser.military_unit}`);
       this.title = data.unit;
