@@ -14,6 +14,11 @@ if [ ! -e ".env.private" ]; then
     exit
 fi
 
+mkdir -p ./omil_image/queue
+mkdir -p ./omil_image/inspection
+mkdir -p ./omil_image/detail
+
+
 DIR_PATH=`pwd`
 
 # 환경변수 파일 정의
