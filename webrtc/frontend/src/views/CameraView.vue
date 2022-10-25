@@ -291,7 +291,15 @@ export default {
       }
     },
     start(){
-      this.setI=setInterval(this.capture,1000);
+      if(!this.connected){
+        alert("연결상태를 확인하세요")
+      }
+      else if(this.name==null){
+        alert("위병소를 선택하세요")
+      }
+      else{
+        this.setI=setInterval(this.capture,1000);
+      }
     },
     stop(){
       clearInterval(this.setI);
