@@ -239,7 +239,7 @@ def get_detailed_monthly_fail_from_unit(db: Session = Depends(deps.get_db), curr
         current_user.military_unit = None
 
     ret = {"success": True, "message": "success"}
-    types = {"이름표": 2, "계급장": 3, "태극기": 4, "모자": 5}
+    types = {"두발": 1, "이름표": 2, "계급장": 3, "태극기": 4}
 
     counts = list()
     for appearance_type in types.items():
