@@ -63,10 +63,6 @@ class CombatUniformChecker(UniformChecker):
         contours, _,  self.result_dic['masked_img']['name_tag'] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='name_tag', sort=True, reverse=True, morph='erode2dilate')
 
-        img2 = img.copy()
-        cv2.drawContours(img2, contours, -1, (0,255,0), -1)
-        plt_imshow('img2', img2)
-
         if contours is not None:
             for contour in contours:
                 is_name_tag = self.result_dic['component'].get('name_tag')
@@ -85,11 +81,6 @@ class CombatUniformChecker(UniformChecker):
                 tmp_box_position = cv2.boundingRect(contour)
                 x,y,w,h = tmp_box_position
                 parts_img = img[y:y+h, x:x+w]
-                plt_imshow('parts', parts_img)
-
-                img2 = img.copy()
-                cv2.rectangle(img2, (x,y), (x+w, y+h), (0,0,255), -1)
-                plt_imshow('pp', img2)
 
                 isCenter = x < W//2 < x+w
 
