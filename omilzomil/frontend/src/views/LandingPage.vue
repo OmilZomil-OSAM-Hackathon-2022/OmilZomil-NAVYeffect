@@ -115,23 +115,23 @@ export default {
 @keyframes bigger3 {
   0%{
     opacity: 0;
-    transform: translateZ(0px) scale(1) translate(100px,-100px); 
+    transform: scale(1) translate(100px,-100px); 
   }50%{
-    transform: translateZ(15px) scale(1.2);
+    transform: scale(1.2);
   }100%{
     opacity: 1;
-    transform: translateZ(0px) scale(1) translate(0px,0px); 
+    transform: scale(1) translate(0px,0px); 
   }
 }
 @keyframes bigger4 {
   0%{
     opacity: 0;
-    transform: translateZ(0px) scale(1) translate(-100px,-100px); 
+    transform: scale(1) translate(-100px,-100px); 
   }50%{
-    transform: translateZ(15px) scale(1.2);
+    transform: scale(1.2);
   }100%{
     opacity: 1;
-    transform: translateZ(0px) scale(1) translate(0px,0px); 
+    transform: scale(1) translate(0px,0px); 
   }
 }
 

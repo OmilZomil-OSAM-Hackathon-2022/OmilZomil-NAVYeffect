@@ -90,6 +90,7 @@ h1{
     margin-bottom:14px;
 }
 .f1 .go-dash{
+    cursor:pointer;
     width: 141px;
     height: 32px;
     display:flex;
