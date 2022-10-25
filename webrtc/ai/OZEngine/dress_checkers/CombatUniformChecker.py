@@ -89,8 +89,6 @@ class CombatUniformChecker(UniformChecker):
                 else:
                     probability, kind = self.parts_classifier.predict(parts_img)[:2]
 
-                print('kind ', kind)
-
                 if not is_name_tag and self.isNameTag(position, kind):
                     # 이름표 OCR
                     if self.name_cache:
@@ -124,7 +122,6 @@ class CombatUniformChecker(UniformChecker):
         if contours is not None:
             for contour in contours:
                 area = cv2.contourArea(contour)
-                print('area', area)
                 if area < 500:
                     break
 
@@ -133,7 +130,6 @@ class CombatUniformChecker(UniformChecker):
                 tmp_box_position = cv2.boundingRect(contour)
                 x,y,w,h = tmp_box_position
                 parts_img = img[y:y+h, x:x+w]
-                plt_imshow('parts', parts_img)
 
                 isCenter = x < W//2 < x+w
 
@@ -142,7 +138,6 @@ class CombatUniformChecker(UniformChecker):
                 else:
                     probability, kind = self.parts_classifier.predict(parts_img)[:2]
 
-                print(kind)
                 if self.isFlagTag(position, kind):
                     self.result_dic['box_position']['flag_tag'] = tmp_box_position
                     self.result_dic['component']['flag_tag'] = True
