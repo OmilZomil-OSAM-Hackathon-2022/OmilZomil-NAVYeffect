@@ -37,6 +37,10 @@ export default {
         partsType: {
             type: Number,
             default: 0,
+        },
+        isInLanding: {
+            type: Boolean,
+            default: false,
         }
     },
     data(){
@@ -95,6 +99,10 @@ export default {
             this.title = "복장 양호 인원";
         }else{
             this.title = "출입 인원";
+        }
+        if(this.isInLanding){
+            this.count = Math.floor(Math.random() * 201);
+            this.percent = Math.floor(Math.random() * 41) - 20;
         }
         try{
             const {data} = await this.$axios.get(url);

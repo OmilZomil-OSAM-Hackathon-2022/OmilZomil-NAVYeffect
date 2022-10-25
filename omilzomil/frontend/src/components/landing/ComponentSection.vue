@@ -1,8 +1,14 @@
 <template>
   <div class="wrap">
     <h1>대시보드</h1>
-    <div class="c1">
-      <div class="f1">
+    <div
+      class="c1"
+    >
+      <div
+        class="f1"
+        style="
+    height:196px;"
+      >
         <div class="title">
           👀실시간 소속 부대 불량 상태 변화
         </div>
@@ -18,12 +24,44 @@
       </div>
       <div
         ref="titleCard"
+        style="height:196px;"
         class="f1"
       >
         <title-card
           v-if="isTitleCard"
           :is-in-landing="true"
         />
+      </div>
+    </div>
+    <div
+      ref="parts" 
+      class="c2"
+    >
+      <div
+        v-if="isParts"
+        class="f2"
+      >
+        <parts-card
+          style="height:196px;"
+          :parts-type="0"
+          :is-in-landing="true"
+        />
+        <parts-card
+          style="height:196px;"
+          :parts-type="1"
+          :is-in-landing="true"
+        />
+        <parts-card
+          style="height:196px;"
+          :parts-type="2"
+          :is-in-landing="true"
+        />
+      </div>
+      <div class="f2">
+        <img
+          src="@/assets/images/mini-dash.png"
+          class="mini-dash"
+        >
       </div>
     </div>
   </div>
@@ -33,20 +71,44 @@
 import { ref } from 'vue'
 import { useElementVisibility } from '@vueuse/core'
 import TitleCard from '../dashboard/TitleCard.vue'
+import PartsCard from '../dashboard/PartsCard.vue'
 export default {
-  components: { TitleCard },
+  components: { TitleCard, PartsCard },
   setup(){
-    const titleCard = ref(null);
+    const titleCard = ref();
     const isTitleCard = useElementVisibility(titleCard);
+    const parts = ref();
+    const isParts = useElementVisibility(parts);
     return{
         titleCard,
         isTitleCard,
+        parts,
+        isParts
     }
   }
 }
 </script>
 
 <style scoped>
+
+.mini-dash{
+    width:100%;
+}
+
+.c2{
+    width:100%;
+    display:flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap:24px;
+}
+.f2{
+    flex:1;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap:24px;
+}
 .wrap{
     padding-bottom:99px;
 }
@@ -66,10 +128,10 @@ h1{
     display:flex;
     justify-content: center;
     gap:24px;
+    margin-bottom:52px
 }
 .f1{
     flex:1;
-    height:196px;
     display:flex;
     flex-direction:column;
     justify-content: flex-end;
