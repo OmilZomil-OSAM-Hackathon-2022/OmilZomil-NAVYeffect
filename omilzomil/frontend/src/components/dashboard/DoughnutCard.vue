@@ -62,7 +62,7 @@
               style="background:#F5EEFF"
               class="point"
             />
-            모자(<number
+            두발(<number
               :from="0"
               :to="hat"
               :duration="2"
@@ -132,7 +132,7 @@ export default {
         this.nameTag = data.이름표;
         this.classTag = data.계급장;
         this.flag = data.태극기;
-        this.hat = data.모자;
+        this.hat = data.두발;
       }catch(err){
         console.log(err);
       }
