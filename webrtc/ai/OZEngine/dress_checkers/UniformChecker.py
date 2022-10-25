@@ -18,9 +18,12 @@ class UniformChecker:
         res_string = ''.join(filtered_list)
         return res_string
 
-    def getMaskedContours(self, img=None, hsv_img=None, kmeans=None, morph=None, kind=None, sort=False):
+    def getMaskedContours(self, img=None, hsv_img=None, kmeans=None, morph=None, kind=None, sort=False, reverse=False):
         lower, upper = self.filter[kind]['lower'], self.filter[kind]['upper']
         mask = cv2.inRange(hsv_img, lower, upper)
+
+        if reverse:
+            mask = cv2.bitwise_not(mask)
 
         if kmeans:
             img_s = classification2(img, 10)
@@ -31,6 +34,17 @@ class UniformChecker:
 
             k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 2))
             mask = cv2.erode(org_mask, k, iterations=2)
+
+            plt_imshow(['org_mask', 'maskk', 'm2'], [org_mask, mask])
+
+        if morph == 'erode2dilate':
+            org_mask = mask.copy()
+
+            k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 2))
+            mask = cv2.erode(org_mask, k, iterations=2)
+            k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 2))
+            mask = cv2.dilate(mask, k)
+            mask = cv2.dilate(mask, k)
 
             plt_imshow(['org_mask', 'maskk', 'm2'], [org_mask, mask])
 
