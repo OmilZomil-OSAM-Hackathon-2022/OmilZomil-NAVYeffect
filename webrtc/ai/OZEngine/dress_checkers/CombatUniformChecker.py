@@ -20,8 +20,8 @@ class CombatUniformChecker(UniformChecker):
                 'lower': (0, 30, 0), 
                 'upper': (255, 255, 255)
             },
-            'rank_tag': {
-                'lower': (0, 30, 0), 
+            'flag_tag': {
+                'lower': (100, 10, 60), 
                 'upper': (255, 255, 255)
             }
         }
@@ -41,6 +41,9 @@ class CombatUniformChecker(UniformChecker):
 
     def isNameTag(self, position, kind):
         return position == 'left' and kind == 'name_tag'
+
+    def isInsigniaTag(self, position, kind):
+        return position == 'right' and kind == 'insignia_tag'
 
     def isRankTag(self, position, kind):
         return position == 'right' and kind is not None and kind.find('rank_tag') != -1
@@ -65,16 +68,14 @@ class CombatUniformChecker(UniformChecker):
             for contour in contours:
                 is_name_tag = self.result_dic['component'].get('name_tag')
                 is_rank_tag = self.result_dic['component'].get('rank_tag')
+                is_insignia_tag = self.result_dic['component'].get('insignia_tag')
                 
                 area = cv2.contourArea(contour)
                 if area > 10000:
                     continue
 
-                print('area', area)
-                if is_name_tag and is_rank_tag or (area < 500):
+                if is_name_tag and is_rank_tag and is_insignia_tag or (area < 500):
                     break
-
-                
 
                 position = self.getPosition(contour)
 
@@ -117,7 +118,33 @@ class CombatUniformChecker(UniformChecker):
                     rank_n = kind.split('+')[1]
                     self.result_dic['component']['rank_tag'] = Classes.dic.get(int(rank_n))
                     self.result_dic['probability']['rank_tag'] = probability
+
+                if not is_insignia_tag and self.isInsigniaTag(position, kind):
+                    self.result_dic['box_position']['insignia_tag'] = tmp_box_position
+                    self.result_dic['component']['insignia_tag'] = True
+                    self.result_dic['probability']['insignia_tag'] = probability
+
+        contours, _,  self.result_dic['masked_img']['flag_tag'] = self.getMaskedContours(
+            img=img, hsv_img=hsv_img, kind='name_tag', sort=True)
+
+        if contours is not None:
+            for contour in contours:
+                area = cv2.contourArea(contour)
+                print('area', area)
+                if area < 500:
                     break
 
+                position = self.getPosition(contour)
+
+                tmp_box_position = cv2.boundingRect(contour)
+                x,y,w,h = tmp_box_position
+                parts_img = img[y:y+h, x:x+w]
+                plt_imshow('parts', parts_img)
+
+                for contour in contours:
+                    if self.isFlagTag(position, kind):
+                        self.result_dic['box_position']['insignia_tag'] = tmp_box_position
+                        self.result_dic['component']['insignia_tag'] = True
+                        self.result_dic['probability']['insignia_tag'] = probability
 
         return self.result_dic
