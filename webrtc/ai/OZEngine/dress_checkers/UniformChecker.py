@@ -63,11 +63,13 @@ class UniformChecker:
                 mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
             return contours, masked_img
 
-    def getName(self, contour, ocr_list=[]):
+    def getName(self, contour, ocr_list=[], is_strict=False):
         max_xy, min_xy = np.max(contour, axis=0)[
             0], np.min(contour, axis=0)[0]
 
         box_position, name = None, None
+        ocr_min_x, ocr_min_y = 1e9, 1e9
+        ocr_max_x, ocr_max_y = -1, -1
         name_chrs = []
         if ocr_list:
             sorted_orc_list = sorted(ocr_list, key=lambda ocr_res: ocr_res['boxes'][0][0])
@@ -80,14 +82,21 @@ class UniformChecker:
                 ocr_str = self.name_tag_filter(ocr_str)
                 ocr_center_xy = getRectCenterPosition(ocr_box)
                 if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
+                    p1, _, p3, _ = ocr_box
+                    ocr_min_x, ocr_max_y = min(ocr_min_x, p1[0]), max(ocr_max_y, p1[1])
+                    ocr_max_x, ocr_min_y = max(ocr_max_x, p3[0]), min(ocr_min_y, p3[1])
+                    
+                    
                     box_position = cv2.boundingRect(contour)
                     name_chrs.append(ocr_str)
                 else:
                     pass
 
             name = ''.join(name_chrs)
-
-        return box_position, name
+        if is_strict:
+            return (ocr_min_x, ocr_min_y, ocr_max_x - ocr_min_x, ocr_max_y - ocr_min_y), name
+        else:
+            return box_position, name
 
     def getClasses(self, img, hsv_img, contour):
         box_position, class_name, masked_img = None, None, None
