@@ -1,5 +1,8 @@
 <template>
-  <div class="wrap">
+  <div
+    class="wrap"
+    style="padding:0px;"
+  >
     <h1>대시보드</h1>
     <div
       class="c1"

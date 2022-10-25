@@ -66,6 +66,9 @@
     <section class="components">
       <component-section />
     </section>
+    <section class="total">
+      <total-section />
+    </section>
   </div>
 </template>
 
@@ -73,9 +76,10 @@
 import { ref } from 'vue'
 import { useElementVisibility } from '@vueuse/core'
 import ComponentSection from '../components/landing/ComponentSection.vue'
+import TotalSection from '../components/landing/TotalSection.vue'
 // import CameraView from '../components/landing/CameraView.vue'
 export default {
-  components: { ComponentSection },
+  components: { ComponentSection, TotalSection },
   // components: { CameraView },
   setup(){
     const target = ref();
