@@ -44,4 +44,4 @@ omilzomil/frontend/dist/
 webrtc/frontend/dist/
 
 # 프론트 BaseURL
-omilzomil/frontend/src/common/http.js
+http.js
