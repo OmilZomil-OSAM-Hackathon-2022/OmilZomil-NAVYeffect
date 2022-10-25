@@ -25,7 +25,7 @@ class CombatUniformChecker(UniformChecker):
                 'upper': (255, 255, 255)
             }
         }
-        super().__init__(filter, 'full_dress_uniform', train_mode)
+        super().__init__(filter, 'combat_uniform', train_mode)
         self.name_cache = None
         self.debug_cnt = 0
 
@@ -64,6 +64,7 @@ class CombatUniformChecker(UniformChecker):
         if contours is not None:
             for contour in contours:
                 is_name_tag = self.result_dic['component'].get('name_tag')
+                is_name_tag = self.result_dic['component'].get('name_tag')
                 
                 area = cv2.contourArea(contour)
 
@@ -77,7 +78,7 @@ class CombatUniformChecker(UniformChecker):
                 tmp_box_position = cv2.boundingRect(contour)
                 x,y,w,h = tmp_box_position
                 parts_img = img[y:y+h, x:x+w]
-                plt_imshow('pats', parts_img)
+                plt_imshow('name_tag', parts_img)
 
                 isCenter = x < W//2 < x+w
 
@@ -86,17 +87,19 @@ class CombatUniformChecker(UniformChecker):
                 else:
                     probability, kind = self.parts_classifier.predict(parts_img)[:2]
 
+                print('kind ', kind)
+
                 if not is_name_tag and self.isNameTag(position, kind):
                     # 이름표 OCR
                     if self.name_cache:
                         box_position = tmp_box_position
                         component = self.name_cache
                     else:
-                        pass
-                        # ocr_list = OCR(img)
-                        # self.debug_cnt += 1
-                        # box_position, component = self.getName(contour, ocr_list)
-                        # self.name_cache = component
+                        # pass
+                        ocr_list = OCR(img)
+                        self.debug_cnt += 1
+                        box_position, component = self.getName(contour, ocr_list)
+                        self.name_cache = component
 
                     self.result_dic['box_position']['name_tag'] = box_position
                     self.result_dic['component']['name_tag'] = component
