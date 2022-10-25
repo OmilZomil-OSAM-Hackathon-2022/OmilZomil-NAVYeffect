@@ -209,6 +209,7 @@ export default {
         setI : null,
         name : null,
         connected: false,
+        now : new Date()
       }
     },
   methods: {
@@ -265,7 +266,7 @@ export default {
         console.log({ type: 'ERROR', msg: 'ERROR:'})
       }
       this.socket.onmessage = ({ data }) => {
-        console.log({ type: 'RECV', msg: 'RECV:' + data })
+        console.log({ type: 'RECV', msg: 'RECV:' + data },this.now)
         var msg = JSON.parse(data)
         switch(msg.type) {
           case "list":{
@@ -321,6 +322,7 @@ export default {
         photo:this.img
       }
       this.socket.send(JSON.stringify(msg))
+      console.log("send : ",this.now)
     }
   },
   mounted() {
