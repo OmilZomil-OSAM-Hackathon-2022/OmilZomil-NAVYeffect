@@ -60,9 +60,6 @@
         </h1>
       </div>
     </section>
-    <section class="webrtc">
-      <!-- <camera-view /> -->
-    </section>
     <section class="AI">
       <AIProccess />
     </section>
@@ -72,6 +69,9 @@
     <section class="total">
       <total-section />
     </section>
+    <!-- <section class="webrtc">
+      <camera-view />
+    </section> -->
   </div>
 </template>
 
