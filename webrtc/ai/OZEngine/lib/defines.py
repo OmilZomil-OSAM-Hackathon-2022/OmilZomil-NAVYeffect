@@ -2,7 +2,7 @@ import cv2
 
 
 class UniformType:
-    dic = {'FULL_DRESS': 1, 'NAVY_SERVICE': 2, 'MILITERY': 3}
+    dic = {'FULL_DRESS': 1, 'NAVY_SERVICE': 2, 'COMBAT': 3,}
 
 
 class Classes:
