@@ -172,7 +172,7 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
             print(f'데이터 수신:- {camera_id}')
             msg = {
                 'type' : "result",
-                "uniform" : "blue",
+                "kind" : "blue",
                 "photo": data['photo'],
                 'hair' : True,
                 'name_tag' : True,
