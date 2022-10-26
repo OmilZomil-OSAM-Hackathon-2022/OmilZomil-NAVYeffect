@@ -210,6 +210,7 @@ export default {
         setI : null,
         name : null,
         connected: false,
+        now : new Date()
       }
     },
   methods: {
@@ -266,7 +267,7 @@ export default {
         console.log({ type: 'ERROR', msg: 'ERROR:'})
       }
       this.socket.onmessage = ({ data }) => {
-        console.log({ type: 'RECV', msg: 'RECV:' + data })
+        console.log({ type: 'RECV', msg: 'RECV:' + data },this.now)
         var msg = JSON.parse(data)
         switch(msg.type) {
           case "list":{
@@ -292,7 +293,15 @@ export default {
       }
     },
     start(){
-      this.setI=setInterval(this.capture,1000);
+      if(!this.connected){
+        alert("연결상태를 확인하세요")
+      }
+      else if(this.name==null){
+        alert("위병소를 선택하세요")
+      }
+      else{
+        this.setI=setInterval(this.capture,1000);
+      }
     },
     stop(){
       clearInterval(this.setI);
@@ -313,6 +322,7 @@ export default {
         photo:this.img
       }
       this.socket.send(JSON.stringify(msg))
+      console.log("send : ",this.now)
     }
   },
   mounted() {
@@ -357,7 +367,7 @@ export default {
     width:490px;
   }
   .video{
-    /* transform: rotateY(180deg); */
+    transform: rotateY(180deg);
     width:490px;
     height:38vh;
     object-fit:contain;
