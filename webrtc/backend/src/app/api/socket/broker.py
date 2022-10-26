@@ -91,16 +91,3 @@ class SocketBroker:
         else:
             return msg
         
-
-
-
-
-        
-        # print(datetime.now())
-        # ready_to_read, ready_to_write, in_error = select.select([self.socket], [], [])
-        # if self.socket in ready_to_read:
-        #     print('aaaaaaaaaaaaaaaaaaaaaaaaa')
-        #     print(datetime.now())
-        #     msg = self.socket.recv(1024).strip()
-        #     print(datetime.now())
-        #     return msg

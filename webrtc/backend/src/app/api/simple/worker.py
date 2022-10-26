@@ -175,6 +175,7 @@ class SimpleWorker(BaseWorker):
         msg =  {
             "type": "result",
             "photo": photo,
+            "db_data_id": self.db_data_id,
         }
 
 
