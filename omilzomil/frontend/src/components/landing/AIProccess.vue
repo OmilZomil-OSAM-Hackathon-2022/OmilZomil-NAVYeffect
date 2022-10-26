@@ -219,7 +219,7 @@ export default {
         if(this.inViewport){
             setTimeout(()=>{
                 this.step2 = true;
-            }, 5000);
+            }, 6000);
             setTimeout(()=>{
                 this.naka = false;
             }, 4000);

@@ -10,13 +10,14 @@
             <th>부대</th>
             <th>양호수</th>
             <th>위반수</th>
-            <th>위반비율</th>
+            <th>양호비율</th>
           </tr>
         </thead>
         <tbody>
           <tr
             v-for="(unit,index) in unitList"
             :key="index"
+            :class="{'my-unit':(isAuth && getUser.unit_title == unit.unit)}"
           >
             <td class="rank">
               <img
@@ -70,8 +71,16 @@ export default {
             total:1,
         };
     },
+    computed:{
+      isAuth () {
+        return this.$store.getters.isAuthenticated;
+      },
+      getUser () {
+        return this.$store.getters.getUser;
+      },
+    },
     mounted() {
-        this.getRanking();
+      this.getRanking();
     },
     methods: {
       pagination(page){
@@ -83,6 +92,7 @@ export default {
             const { data } = await this.$axios.get(`/ranking/?page=${this.page}`);
             this.unitList = data.items;
             this.total = Math.max(1,parseInt((data.total+9)/10));
+            console.log(data);
         }
         catch (err) {
             console.log(err);
@@ -93,6 +103,10 @@ export default {
 </script>
 
 <style scoped>
+.my-unit{
+  background: rgba(145, 85, 235, 0.1);
+  border-radius: 10px;
+}
 .wrap{
     display:flex;
     flex-direction: column;
