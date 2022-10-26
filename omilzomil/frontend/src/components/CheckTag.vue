@@ -2,6 +2,7 @@
   <div class="check-tag">
     <img
       v-if="isCheck"
+      :class="{big:isBig}"
       src="@/assets/icons/manager-check.svg"
     >
     <img
@@ -17,12 +18,19 @@
         isCheck:{
           type:Boolean,
           default:true,
+        },
+        isBig:{
+          type:Boolean,
+          default:false,
         }
       }
     }
     </script>
     
     <style scoped>
+    .big{
+      width:24px;
+    }
     .check-tag{
       width: 26px;
       height:24px;
