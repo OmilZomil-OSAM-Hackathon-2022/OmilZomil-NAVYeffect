@@ -7,6 +7,7 @@
     >
     <img
       v-else
+      :class="{big:isBig}"
       src="@/assets/icons/manager-nocheck.svg"
     >
   </div>
