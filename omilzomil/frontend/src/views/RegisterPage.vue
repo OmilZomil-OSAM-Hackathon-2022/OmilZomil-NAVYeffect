@@ -323,16 +323,6 @@ export default {
         const userUnit = this.unitList.filter(
           (u) => this.armyUnit.data == u.unit
         );
-        console.log({
-          full_name: this.name.data,
-          dog_number: this.dogTag.data,
-          affiliation: this.division.data,
-          // military_unit: this.armyUnit.data,
-          military_unit: userUnit[0].unit,
-          rank: this.uClass.data,
-          username: this.uid.data,
-          password: this.password.data,
-        });
         this.$axios
           .post("/user/", {
             full_name: this.name.data,
@@ -366,7 +356,6 @@ export default {
       const userUnit = this.unitList.filter(
         (u) => this.armyUnit.data == u.unit
       );
-      console.log(userUnit);
       if (userUnit.length <= 0) {
         this.$refs.unit.focus();
         this.armyUnit.check = 3;
