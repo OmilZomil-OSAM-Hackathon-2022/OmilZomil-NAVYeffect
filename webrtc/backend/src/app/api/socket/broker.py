@@ -73,10 +73,12 @@ class SocketBroker:
             }
         
     def receive(self):
+        print("start receive")
         try:
-            msg = self.socket.recv(1024).strip()
+            data_json = self.socket.recv(1024).strip()
             # print("no error")
-            # print(msg)
+            print("aaaaaaaaaaaaaaaaaaaaaa")
+            print(data_json)
         except socket.error as e:
             err = e.args[0]
             if err == errno.EAGAIN or err == errno.EWOULDBLOCK:    
@@ -89,5 +91,12 @@ class SocketBroker:
         
             # got a message, do something :)
         else:
-            return msg
+            data_str = data_json.decode('ascii')
+
+            # 여러 json을 dict 형태로 변환
+            data_list = data_str.split('{') # json이 여러개인 경우 처리
+            data_list.remove('') # 첫번째 값 제거 - json이 여러개 오는 경우를 처리하기 위함
+            query_list = list(map(lambda x : json.loads("{"+ x), data_list))
+            print(query_list)
+            return query_list
         

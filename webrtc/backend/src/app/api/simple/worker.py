@@ -17,11 +17,16 @@ PARTS_IMAGE_PATH = f"{settings.IMAGE_PATH}/detail"
 
 EXPIRATION_COUNT = 5
 
+FRONT_TABLE = {
+    2 : "blue",
+    3 : "black",
+    4 : "green",
+}
 
 PART_ID = {
     "hair": 1, 
     "name_tag": 2, 
-    "class_tag": 3, 
+    "rank_tag": 3, 
     "flag": 4, 
     "cap": 5, 
     "muffler": 6, 
@@ -174,13 +179,14 @@ class SimpleWorker(BaseWorker):
         # 메세지 제작
         msg =  {
             "type": "result",
-            "photo": photo,
+            # "photo": photo,
             "db_data_id": self.db_data_id,
         }
 
 
         msg.update(self.image_box.get_inspection())
         msg.update(self.image_box.get_parts())
+        msg['uniform'] = FRONT_TABLE[msg['uniform']]
         return msg
 
  
