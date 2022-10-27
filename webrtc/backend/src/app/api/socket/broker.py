@@ -12,6 +12,7 @@ from app.api.websocket.image import photo_2_img, img_2_photo
 
 
 EMPTY_PERSON_SECOND = 10
+EXPIRATION_COUNT = 5
 
 
 IP, PORT = settings.WORKER_SERVER
@@ -31,6 +32,9 @@ class SocketBroker:
         self.socket.connect((IP, PORT))
         self.socket.setblocking(0)
         print("소켓 연결 완료")
+
+        # 5번 이상 업데이트
+        self.is_send_task = True
 
     def add_task(self, photo, guardhouse, work_time):
 
@@ -99,12 +103,23 @@ class SocketBroker:
             query_list = list(map(lambda x : json.loads("{"+ x), data_list))
 
             print(f"수신된 데이터 : {query_list}")
-            # 처리 결과에 이미지가 있는지 확인합니다.
+
+            result_msg_list = []
             for query in query_list:
-                # 처리 결과에 메인 이미지가 있는 경우 파일을 읽어와 결과 메세지에 첨부한다.
-                if "main_path" in query.keys():
-                    img = cv2.imread(query['main_path'])
-                    query['photo'] = img_2_photo(img)                
-                
-            return query_list
+                result_msg_list.append(self.report(query))
+            return result_msg_list
+        
+    def report(self, query):
+        # ai 처리 결과에 따라 broker가 판단
+        if query['ai'] == "stop":
+            return query    # "ai" : "stop", "step" : ai_step,
+        
+        # 데이터가 갱신시 count 감소
+        if query['ai'] == "update":
+            self.is_send_task -= 1
+        
+
+        # 메인 이미지 파일을 읽어와 결과 메세지에 첨부한다.
+        img = cv2.imread(query['main_path'])
+        query['photo'] = img_2_photo(img)      
         

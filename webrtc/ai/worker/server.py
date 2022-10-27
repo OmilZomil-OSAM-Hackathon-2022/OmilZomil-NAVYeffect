@@ -7,7 +7,7 @@ from multiprocessing import Process, Queue
 
 
 from OZEngine.model import OmilZomil
-from app.api.simple.worker import SimpleWorker
+from app.api.socket.worker import SocketWorker
 from app.api import deps
 from app.db.session import SessionLocal
 
@@ -18,7 +18,8 @@ def master(q, socket):
     db = SessionLocal()
     ai = OmilZomil()
     
-    
+    worker = None
+
     while True:
         # queue에서 데이터 가져오기
         data_json = q.get()
@@ -37,20 +38,25 @@ def master(q, socket):
         query_list = list(map(lambda x : json.loads("{"+ x), data_list))
         print(query_list)
 
-        # 각 요청별 처리
+        # 각 요청별 처리    
         for query in query_list:
+            """
+            요청 dict
+            path - queue에 저장된 이미지 경로
+            guardhouse - worker생성시 필요한 위병소 데이터
+            """
             # 위병소 데이터가 있는 경우 새 worker 를 생성
             if 'guardhouse' in query.keys():
                 worker = SimpleWorker(ai=ai, db=db, guardhouse=query['guardhouse'])
 
             # 이미지 열기
             img = cv2.imread(query['path'])
+
             # ai 처리
             result_msg = worker.execute(img=img)
-            result_msg['path'] = query['path']
 
             # 메세지 전송
-            print(f" 메세지 전송 직전{result_msg}")
+            print(f"ai 처리 결과를 webrtc로 전달 {result_msg}")
             json_msg = json.dumps(result_msg)
             socket.sendall(bytes(json_msg, 'ascii'))
             
@@ -69,9 +75,6 @@ class TaskHandler(socketserver.BaseRequestHandler):
         )
         self.master.start()
 
-
-
-
     def handle(self):
         """
         클라이언트와 연결될 때 호출되는 함수
@@ -80,8 +83,17 @@ class TaskHandler(socketserver.BaseRequestHandler):
             # 데이터 수신
             data_json = self.request.recv(1024).strip()
             
-            if data_json != b'':
-                self.q.put(data_json)
-                print(data_json.decode())
-                self.request.sendall(data_json)  
-            
+            # 빈 데이터는 무시
+            if data_json == b'':
+                continue
+
+            # master에게 업무 추가
+            self.q.put(data_json)
+            print(f"master에게 업무 전달 완료 - {data_json}")
+
+            # print(data_json.decode())
+            # self.request.sendall(data_json)  
+        
+    def finish(self):
+        # 프로세스 종료
+        self.master.join()
