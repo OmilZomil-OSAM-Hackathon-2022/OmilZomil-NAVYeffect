@@ -179,17 +179,3 @@ This project is based on research and code from several papers and open-source r
 ## GPU가속 지원
 
 저희 오밀조밀 프로젝트에서는 Tensorflow 2.10을 사용하고 있으며 GPU지원이 가능합니다. 
-To request a new language, we need you to send a PR with the 2 following files:
-
-1. In folder [easyocr/character](https://github.com/JaidedAI/EasyOCR/tree/master/easyocr/character),
-we need 'yourlanguagecode_char.txt' that contains list of all characters. Please see format examples from other files in that folder.
-2. In folder [easyocr/dict](https://github.com/JaidedAI/EasyOCR/tree/master/easyocr/dict),
-we need 'yourlanguagecode.txt' that contains list of words in your language.
-On average, we have ~30000 words per language with more than 50000 words for more popular ones.
-More is better in this file.
-
-If your language has unique elements (such as 1. Arabic: characters change form when attached to each other + write from right to left 2. Thai: Some characters need to be above the line and some below), please educate us to the best of your ability and/or give useful links. It is important to take care of the detail to achieve a system that really works.
-
-Lastly, please understand that our priority will have to go to popular languages or sets of languages that share large portions of their characters with each other (also tell us if this is the case for your language). It takes us at least a week to develop a new model, so you may have to wait a while for the new model to be released.
-
-See [List of languages in development](https://github.com/JaidedAI/EasyOCR/issues/91)
