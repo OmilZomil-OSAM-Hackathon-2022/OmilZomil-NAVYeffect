@@ -98,7 +98,7 @@ class CombatUniformChecker(UniformChecker):
                         # pass
                         ocr_list = OCR(img)
                         self.debug_cnt += 1
-                        box_position, component = self.getName(contour, ocr_list)
+                        box_position, component = self.getName(contour, ocr_list, is_strict=True)
                         self.name_cache = component
 
                     self.result_dic['box_position']['name_tag'] = box_position
