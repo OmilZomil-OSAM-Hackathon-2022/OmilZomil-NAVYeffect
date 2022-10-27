@@ -1,4 +1,4 @@
-from lib.defines import *
+from OZEngine.lib.defines import *
 from sys import path as syspath
 from os.path import abspath, join, dirname
 from requests.exceptions import ConnectionError
@@ -38,6 +38,7 @@ def draw_rectangle(image, p1, p3, color, border, padding):
 
 
 def OCR(img):
+    print('[+] OCR request')
     headers = {'Authorization': 'KakaoAK {}'.format(KEY)}
     jpeg_img = cv2.imencode(".jpg", img)[1]
     data = jpeg_img.tobytes()
@@ -50,15 +51,3 @@ def OCR(img):
 
 
     return outputs
-
-    # for output in outputs:
-    #     padding = 10  # 10
-    #     p1, p2, p3, p4 = output['boxes']  # LU RU RD LD
-    #     boxes.append((p1, p2, p3, p4))
-    #     #
-
-    #     if not output['recognition_words'] == '':
-    #         res += " ".join(output['recognition_words']) + " "
-
-    # res = res.strip().replace(' ', '_')
-    # return str_encoder(res), boxes

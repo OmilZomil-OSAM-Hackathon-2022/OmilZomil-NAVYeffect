@@ -1,9 +1,13 @@
 <template>
-  <div :class="[getDarkMode ? 'dark-mode' : '', 'main']">
-    <AppBar v-if="!$route.meta.hideAppBar" />
+  <div
+    :class="[getDarkMode ? 'dark-mode' : '', 'main']"
+  >
+    <AppBar
+      v-if="!$route.meta.hideAppBar"
+      :style="{'margin-bottom':$route.meta.isLanding ? '0px':''}"
+    />
     <router-view />
   </div>
-  <!-- <login-page /> -->
 </template>
 
 <script>
@@ -24,12 +28,40 @@ export default {
 
 <style>
 @import "@/assets/styles/common.css";
-@import url("http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700");
-/* background: #32313F; */
-/* :root{
-} */
+
+@font-face {
+  font-family:'Roboto';
+  src: url('assets/fonts/Roboto-Thin.ttf') format('truetype');
+  font-weight: 100;
+}
+@font-face {
+  font-family:'Roboto';
+  src: url('assets/fonts/Roboto-Light.ttf') format('truetype');
+  font-weight: 300;
+}
+@font-face {
+  font-family:'Roboto';
+  src: url('assets/fonts/Roboto-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family:'Roboto';
+  src: url('assets/fonts/Roboto-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+@font-face {
+  font-family:'Roboto';
+  src: url('assets/fonts/Roboto-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+@font-face {
+  font-family:'Roboto';
+  src: url('assets/fonts/Roboto-Black.ttf') format('truetype');
+  font-weight: 900;
+}
 :root {
   color:#585767;
+  --color:#585767;
   --color-background: #f4f5fa;
   --color-appbar: #ffffff;
   --color-card: #ffffff;
@@ -45,6 +77,7 @@ export default {
   --color-input-border: #78798D;
   --color-state-card:#2C2845;
   color: white;
+  --color:white;
 }
 html,
 body,
@@ -53,7 +86,7 @@ body,
   height: 100%;
 }
 #app {
-  font-family: 'Roboto', Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', Avenir, Helvetica, Arial, sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -68,5 +101,10 @@ body,
 
   background: var(--color-background);
   width: 100%;
+}
+
+
+a{
+  text-decoration:none;
 }
 </style>

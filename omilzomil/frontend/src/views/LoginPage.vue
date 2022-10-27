@@ -17,7 +17,7 @@
         <h2>오밀조밀<br>복장과 두발을 검사하다</h2>
         <div class="title">
           <img
-            width="52px"
+            width="65px"
             src="@/assets/logo.svg"
           >
           <h1>OMIL-ZOMIL</h1>
@@ -36,10 +36,12 @@
       <div class="right-wrap">
         <form @submit.prevent="buttonClick">
           <input
+            v-model="username"
             class="user"
             placeholder="아이디"
           >
           <input
+            v-model="password"
             class="password"
             type="password"
             placeholder="비밀번호"
@@ -69,17 +71,60 @@
 </template>
 
 <script>
+import qs from 'qs';
 export default {
   data(){
     return{
       loginFail:false,
+      username:'',
+      password:'',
     }
   },
   methods:{
     buttonClick(){
-      this.loginFail = true;
+      this.$axios.post('/login/access-token/',qs.stringify({
+        username:this.username,
+        password:this.password,
+      })).then((response) => {
+            if(response.data.success){
+              this.$store.commit('login',{accessToken:response.data.access_token});
+              this.$axios.post('/login/test-token/').then(async (response)=>{
+                try{
+                  if(response.data.success){
+                    const ranks = (await this.$axios.get('/rank/')).data;
+                    const unit = (await this.$axios.get(`/unit/${response.data.military_unit}`)).data.unit;
+                    const affiliations = (await this.$axios.get('/affiliation/')).data;
+                    response.data.unit_title = unit;
+                    for(var key in ranks){
+                      if(ranks[key].rank_id == response.data.rank)
+                        response.data.rank_title = ranks[key].rank;
+                    }
+                    for(var key1 in affiliations){
+                      if(affiliations[key1].affiliation_id == response.data.affiliation)
+                        response.data.affiliation_title = affiliations[key1].affiliation;
+                    }
+                  }
+                }catch(err){
+                  console.log(err);
+                  this.loginFail = true;
+                }
+                if(response.data.success){
+                  this.$store.commit('setUser',response.data);
+                  this.$router.push('/');
+                }else{
+                  alert("승인되지 않은 사용자입니다.");
+                }
+              });
+            }else{
+              alert("승인되지 않은 사용자입니다.");
+              this.loginFail = true;
+            }
+          })
+          .catch(() => {
+            this.loginFail = true;
+          });
     }
-  }
+  },
 };
 </script>
 
@@ -148,7 +193,7 @@ export default {
   align-items: center;
 }
 .wrap-title .title img {
-  margin-right: 10px;
+  /* margin-right: 10px; */
 }
 .wrap-title .title h1 {
   margin: 0px;

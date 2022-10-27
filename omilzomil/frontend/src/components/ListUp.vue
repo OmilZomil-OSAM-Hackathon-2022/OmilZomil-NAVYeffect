@@ -46,88 +46,90 @@
       </div>
       <div class="list-body">
         <div
-          v-for="(item,index) in isInDash ? dummy.slice(0,4):dummy"
-          :key="index"
+          v-for="rtm in isInDash ? rtms.slice(0,4):rtms"
+          :key="rtm.inspection_id"
           class="list-item"
           :style="{gap:gap+'px'}"
         >
           <img
             class="thumb"
-            src="@/assets/images/test.png"
+            :src="rtm.image_path"
+            @error="e => e.target.src = require('@/assets/images/test.png')"
           >
           <div class="info">
             <div
               class="division"
-              :style="{color:getDivisionColor(item.division)}"
+              :style="{color:colors[rtm.affiliation]}"
             >
-              대한민국 {{ item.division }}
+              {{ rtm.affiliation != 1 ? '대한민국':'' }} {{ rtm.affiliation_title }}
             </div>
             <div class="name">
-              {{ item.uClass }} {{ item.uName }}
+              {{ rtm.rank != 1 ?rtm.rank_title:'' }} {{ rtm.name }}
+              <div
+                v-if="rtm.rank == 1"
+                class="no-info"
+              >
+                계급 미탐지
+              </div>
+              <div
+                v-if="!rtm.name"
+                class="no-info"
+              >
+                이름표 미탐지
+              </div>
             </div>
           </div>
           <div class="time">
-            {{ item.time }}
+            {{ rtm.access_time.replace('T',' ') }}
           </div>
-          <div class="dress-type">
-            <IconBase
-              :width="16"
-              :height="16"
-              :viewBox="'0 0 16 16'"
-            >
-              <TshirtIcon />
-            </IconBase>
-            {{ item.dressType }}
+          <div style="width: 100px;display:flex;justify-content:center">
+            <DressType
+              :dress-type="rtm.uniform"
+              :title="rtm.uniform_title"
+            />
           </div>
-
-          <GoodBadTag :is-good="item.hairStatus" />
-          <GoodBadTag :is-good="item.dressStatus" />
+          <GoodBadTag :is-good="rtm.hair_status" />
+          <GoodBadTag :is-good="rtm.appearance_status" />
           <CheckTag
             v-if="!isInDash"
-            :is-check="item.check"
+            :is-check="rtm.is_checked"
           />
           <a
             class="more"
-            @click="openDetail(item)"
+            @click="openDetail(rtm)"
           >
             <img src="@/assets/icons/dots.svg">
           </a>
         </div>
       </div>
     </div>
+    <div 
+      style="padding:0px 61px 28px 61px; width:100%; box-sizing: border-box;"
+    >
+      <PaginationBar
+        v-if="!isInDash"
+        :total="total"
+        @page="pagination"
+      />  
+    </div>
+    <DetailCard
+      v-if="isDetail"
+      :item="detail"
+      @close="closeDetail"
+    />
   </div>
-
-  <DetailCard
-    v-if="isDetail"
-    :item="detail"
-    @close="closeDetail"
-  />
 </template>
 
 <script>
-import TshirtIcon from "../assets/icons/tshirt-icon.vue";
-import IconBase from "./IconBase.vue";
 import GoodBadTag from "./GoodBadTag.vue";
 import DetailCard from "./DetailCard.vue";
 import CardHead from "./CardHead.vue";
 import CheckTag from "./CheckTag.vue";
-
-class Item{
-  constructor(){
-    this.imageUrl = "@/assets/images/test.png",
-    this.division ="해군",
-    this.uClass = "일병",
-    this.uName= "나해군",
-    this.time= "2020-06-24 22:57:36",
-    this.dressType= "해군 전투복",
-    this.hairStatus= true,
-    this.dressStatus= false
-    this.check = true
-  }
-}
+import DressType from './DressType.vue';
+import PaginationBar from "./common/PaginationBar.vue";
 
 export default {
-    components: { TshirtIcon, IconBase, GoodBadTag, DetailCard, CardHead, CheckTag },
+    components: { GoodBadTag, DetailCard, CardHead, CheckTag, DressType, PaginationBar },
     props:{
       gap: {
         type:String,
@@ -144,21 +146,40 @@ export default {
       isInDash:{
         type:Boolean,
         default:false,
+      },
+      filter:{
+        type:String,
+        default:'',
       }
     },
     data() {
         return {
-            detail: new Item(),
+            detail: null,
             isDetail: false,
-            dummy: [
-                new Item(),
-                new Item(),
-                new Item(),
-                new Item(),
-                new Item(),
-                new Item(),
-            ]
+            rtms:[],
+            uniforms:[],
+            affiliations:[],
+            dressColors:["","","#4471FB","#585767","#1DCB9D"],
+            colors:["","","#1DCB9D","#4471FB","#44B9FB","#FF5467"],
+            page:1,
+            total:1,
         };
+    },
+    watch:{
+      filter(){
+        this.page = 1;
+        this.getRtms();
+      }
+    },
+    async mounted(){
+      try{
+        this.uniforms = (await this.$axios.get('/uniform/')).data;
+        this.affiliations = (await this.$axios.get('/affiliation/')).data;
+        this.ranks = (await this.$axios.get('/rank/')).data;
+        this.getRtms();
+      }catch(err){
+        console.log(err);
+      }
     },
     methods: {
         getDivisionColor(division) {
@@ -179,6 +200,39 @@ export default {
         openDetail(item){
           this.detail = item;
           this.isDetail = true;
+        },
+        async getRtms(){
+          try{
+            const {data} = await this.$axios.get(`/rtm/?page=${this.page}&size=${this.isInDash ? 4:10}`+this.filter);
+            this.rtms = data.items;
+            this.total = parseInt((data.total+9)/10);
+            this.rtmInfo();
+          }catch(err){
+            console.log(err);
+          }
+        },
+        pagination(page){
+          this.page = page;
+          this.getRtms();
+        },
+        rtmInfo(){
+          for(var i=0;i<this.rtms.length;i++){
+            if(this.rtms[i].rank != 1){
+              this.rtms[i].rank_title = this.ranks.filter(r=>r.rank_id == this.rtms[i].rank)[0].rank;
+            }else{
+              this.rtms[i].rank_title = '계급 미탐지';
+            }
+            if(this.rtms[i].affiliation != 1){
+              this.rtms[i].affiliation_title = this.affiliations.filter(a=>a.affiliation_id == this.rtms[i].affiliation)[0].affiliation;
+            }else{
+              this.rtms[i].affiliation_title = '소속 미탐지';
+            }
+            if(this.rtms[i].uniform != 1){
+              this.rtms[i].uniform_title = this.uniforms.filter(u=>u.uniform_id == this.rtms[i].uniform)[0].uniform;
+            }else{
+              this.rtms[i].uniform_title = '복장 미탐지';
+            }
+          }
         }
     }
 }
@@ -190,10 +244,15 @@ export default {
     height:100%;
     display:flex;
     flex-direction:column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
 }
-
+.list{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  height:100%;
+}
 .list-header{
   display: flex;
   /* gap:100px; */
@@ -243,9 +302,18 @@ export default {
 
   letter-spacing: 0.4px;
 
-  color: #528EE9;
+  color: rgba(0,0,0,0.2);
   
   margin-bottom: 8px;
+}
+.no-info{
+  white-space:nowrap;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: rgba(0,0,0,0.2);
 }
 .list-item .time{
   width:65px;
@@ -262,31 +330,6 @@ export default {
   /* Dark4 */
 
   color: #78798D;
-}
-.list-item .dress-type{
-  display:flex;
-  align-items: center;
-  justify-content:center;
-  box-sizing: border-box;
-  /* padding: 4px 5px; */
-  gap: 5px;
-
-  width: 100px;
-  height: 24px;
-
-  /* Dark9 */
-
-  background: var(--color-state-card);
-  border-radius: 4px;
-
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 16px;
-  letter-spacing: 0.25px;
-
-  color: #528EE9;
 }
 .list-item .hair-state,.dress-state{
   width: 55px;

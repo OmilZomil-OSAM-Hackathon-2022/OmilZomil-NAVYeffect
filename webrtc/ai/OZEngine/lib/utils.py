@@ -99,7 +99,10 @@ def drawPoint(org_img, position, color, thick):
 
 def getContourCenterPosition(contour):
     moments = cv2.moments(contour)
-    return (int(moments["m10"] / moments["m00"]), int(moments["m01"] / moments["m00"]))
+    if moments["m00"] != 0:
+        return (int(moments["m10"] / moments["m00"]), int(moments["m01"] / moments["m00"]))
+    else:
+        return 0, 0
 
 def sortContoursByArea(contours, hierarchy=[]):
     if len(hierarchy):
@@ -127,6 +130,20 @@ def isPointInBox(center_xy, box_min_max_xy):
     min_x, min_y = box_min_xy
     max_x, max_y = box_max_xy
     return min_x < center_x < max_x and min_y < center_y < max_y
+
+def box2img(org_img, box):
+    (p1, p2) = box
+    return org_img[p1[0]:p2[0], p1[1]:p2[1]]
+
+def cvtPoint(points, method):
+    if method == '2to4':
+        p1, p2 = points
+        x,y,w,h = p1[1], p1[0], p2[1]-p1[1], p2[0]-p1[0]
+        return x, y, w, h
+    elif method == '4to2':
+        x, y, w, h = points
+        p1, p2 = (y, x), (y+h, x+w)
+        return p1, p2
 
 def histNorm(org_img, type):
     if type == 'hsv':

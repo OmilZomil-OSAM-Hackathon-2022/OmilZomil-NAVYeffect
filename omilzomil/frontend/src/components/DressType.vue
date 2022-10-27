@@ -1,7 +1,7 @@
 <template>
   <div
     class="dress-type"
-    :style="{color:getColor}"
+    :style="{color:dressColors[dressType]}"
   >
     <IconBase
       :width="16"
@@ -10,7 +10,7 @@
     >
       <TshirtIcon />
     </IconBase>
-    {{ dressType }}
+    {{ title }}
   </div>
 </template>
 
@@ -21,20 +21,19 @@ export default {
     components: { TshirtIcon, IconBase },
     props:{
         dressType:{
+          type:Number,
+          default:0,
+        },
+        title:{
             type:String,
             default:null
-        }
+        },
     },
-    computed:{
-        getColor(){
-            // console.log(this.dressType)
-            if(['해군 전투복','육군 전투복','공군 전투복'].includes(this.dressType)) return '#1DCB9D';
-            else if(this.dressType == '해군 샘당') return '#4471FB';
-            else if(this.dressType == '해군 동정복') return '#585767;';
-            else if(this.dressType == '해군 하정복') return '#ABACC0';
-            return '';
-        }
-    }
+    data(){
+      return{
+        dressColors:["","","#4471FB","#585767","#1DCB9D"],
+      }
+    },
 }
 </script>
 
@@ -50,5 +49,6 @@ export default {
   font-size: 14px;
   line-height: 16px;
   letter-spacing: 0.25px;
+  color: rgba(0,0,0,0.2);
 }
 </style>

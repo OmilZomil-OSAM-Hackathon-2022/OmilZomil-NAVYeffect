@@ -2,56 +2,51 @@
 
 # 스크립트 설명: 서비스를 시작
 # 재시작시 백앤드에서 코드를 수정하면 반영이 되지만 프론트 앤드는 반영이 안되어서 build.sh부터 실행시켜줘야함
+#
+# --build - 프론트만 다시 빌드 - 백앤드와는 연관이 없도록 작성
+# --server - 서버 배포용 - host의 폴더와 상관없이 동작하도록 구성 bind 항목을 제거
+# =-dev-back - 백앤드 개발용 - 백앤드 빌드와 실행을 동시에 동작, 프론트는 영향 없음
+args_2=$2
+PROJECT_NAME=${args_2:-omil}
 
+DIR_PATH=`pwd`
 
 input=$1
 if [ "$input" = "--build" ]; then
-    # 프론트 빌드 폴더 구성
-    mkdir -p ./omilzomil/frontend/dist/css
-    mkdir -p ./omilzomil/frontend/dist/img
-    mkdir -p ./omilzomil/frontend/dist/js
-    mkdir -p ./webrtc/frontend/dist/css
-    mkdir -p ./webrtc/frontend/dist/img
-    mkdir -p ./webrtc/frontend/dist/js
-    # 프론트 빌드
-    echo [+] frontend build
-    sudo docker-compose --env-file .env.lock build web_vue camera_vue  
-    sudo docker-compose --env-file .env.lock up web_vue
-    sudo docker-compose --env-file .env.lock up camera_vue
+    # 프론트 빌드 - 단지 프론트 백앤드 빌드만 다시함
+    echo [+] frontend build 프론트 재빌드 - 백앤드 실행 X
+    sudo docker-compose --env-file .env.lock build omilzomil_front webrtc_front
+    sudo docker-compose --env-file .env.lock up omilzomil_front
+    sudo docker-compose --env-file .env.lock up webrtc_front
 
     echo [+] frontend build 대기
 
-    while sudo docker-compose --env-file .env.lock ps --services --filter status=running | grep -q 'vue'; do
+    while sudo docker-compose --env-file .env.lock ps --services --filter status=running | grep -q 'front'; do
         echo `sudo docker-compose --env-file .env.lock ps --services --filter status=running`
         wait_time=`date +%T`
         echo frontend $wait_time
         sleep 1;
     done;
 
+elif [ "$input" = "--server" ]; then
+    echo [+] run omilzomil webrtc 서버환경
+    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.private up -d omilzomil webrtc
 
-    echo [+] Checking build files...
-    while [ ! -f ./omilzomil/frontend/dist/index.html ] ; do
-        wait_time=`date +%T`
-        echo [!] omilzomil 프론트 빌드 실패 - $wait_time
-        sleep 1;
-    done
-    while [ ! -f ./webrtc/frontend/dist/index.html ] ; do
-        wait_time=`date +%T`
-        echo [!] webrtc 프론트 빌드 실패 - $wait_time
-        sleep 1;
-    done
-fi
+elif [ "$input" = "--dev-back" ]; then
+    # 백앤드 개발용 코드 - 라이브러리 재설치 및 apt install 에 따른 build가 필요한 경우 사용
+    echo [+] run omilzomil webrtc 백앤드 개발환경
+    sudo docker-compose --env-file .env.lock up --build omilzomil webrtc    
 
-echo [+] Checking build files...
-if [ ! -f ./omilzomil/frontend/dist/index.html ] ; then
-    echo "[!] Please run 'build.sh' first! - omilzomil front NONE"
-    exit
-fi
-if [ ! -f ./webrtc/frontend/dist/index.html ] ; then
-    echo "[!] Please run 'build.sh' first! - webrtc front NONE"
-    exit
+elif [ "$input" = "--name" ]; then
+    # 백앤드 개발용 코드 - 라이브러리 재설치 및 apt install 에 따른 build가 필요한 경우 사용
+    echo [+] run omilzomil webrtc 플젝명 직접 지정 ${PROJECT_NAME}
+    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up omilzomil webrtc
+
+else
+    echo [+] run omilzomil webrtc 개발환경 ${PROJECT_NAME}
+
+    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up omilzomil webrtc
+
 fi
 
 
-echo [+] run web camera
-sudo docker-compose --env-file .env.lock up web camera

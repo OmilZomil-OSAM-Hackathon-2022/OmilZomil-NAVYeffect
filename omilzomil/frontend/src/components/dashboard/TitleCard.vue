@@ -1,8 +1,11 @@
 <template>
   <div class="card title-card">
-    <div class="title-wrap">
+    <div
+      v-if="isReady || isInLanding"
+      class="title-wrap"
+    >
       <div class="title">
-        필승! <h1>{{ title }}</h1> 입니다
+        필승! <h1>{{ isInLanding ? '계룡대근무지원단 본부대대':title }}</h1> 입니다
       </div>
       <div class="sub-title">
         오늘도 전군 군기확립을 위해 노력하는 오밀조밀이 되겠습니다!
@@ -10,7 +13,7 @@
     </div>
     <img
       class="thumb"
-      src="@/assets/images/Thumb_up.svg"
+      src="@/assets/images/Thumb_up.png"
     >
   </div>
 </template>
@@ -18,9 +21,30 @@
 <script>
 export default {
   props:{
-    title:{
-      type:String,
-      default:null,
+    isInLanding:{
+      type:Boolean,
+      default:false,
+    }
+  },
+  data(){
+    return{
+      title:'',
+      isReady:false,
+    }
+  },
+  computed:{
+    getUser () {
+        return this.$store.getters.getUser;
+      },
+  },
+  async mounted(){
+    if(this.isInLanding) return;
+    try{
+      const {data} = await this.$axios.get(`/unit/${this.getUser.military_unit}`);
+      this.title = data.unit;
+      this.isReady = true;
+    }catch(err){
+      console.log(err);
     }
   }
 }

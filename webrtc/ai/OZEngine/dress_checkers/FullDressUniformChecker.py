@@ -1,210 +1,175 @@
+import time
 import sys
 import numpy as np
 import re
+from .UniformChecker import UniformChecker
 from OZEngine.dress_classifier import classification2
-from lib.utils import sortContoursByArea, getVertexCnt, getContourCenterPosition, getRectCenterPosition, isPointInBox
-from lib.defines import *
-from lib.ocr import OCR
-from lib.utils import plt_imshow
+from OZEngine.lib.utils import sortContoursByArea, getVertexCnt, getContourCenterPosition, getRectCenterPosition, isPointInBox
+from OZEngine.lib.defines import *
+from OZEngine.lib.ocr import OCR
+from OZEngine.lib.utils import plt_imshow
 
 # (동)정복 검사
 
 
-class FullDressUniformChecker():
-    def __init__(self):
+class FullDressUniformChecker(UniformChecker):
+    def __init__(self, train_mode):
         # hyperparameter
-        self.uniform_filter = {'lower': (12, 0, 0), 'upper': (197, 255, 116)}
-        self.anchor_filter = {'lower': (20, 100, 100), 'upper': (30, 255, 255)}
-        self.classes_filter = {
-            'lower': (140, 120, 50), 'upper': (190, 255, 255)}
-        self.mahura_filter = {
-            'lower': (140, 120, 50), 'upper': (190, 255, 255)}
+        filter = {
+            'name_tag': {
+                'lower': (25, 0, 210), 
+                'upper': (255, 15, 255)
+            },
+            'uniform': {
+                'lower': (0, 0, 0),
+                'upper': (255, 255, 50)
+            },
+            'rank_tag': {
+                'lower': (140, 60, 60),
+                'upper': (190, 255, 255)
+            },
+            'neckerchief': {
+                'lower': (20, 100, 100),
+                'upper': (30, 255, 255)
+            },
+            'muffler': {
+                'lower': (140, 120, 50), 
+                'upper': (190, 255, 255)
+            }
+        }
+        super().__init__(filter, 'full_dress_uniform', train_mode)
+        self.name_cache = None
+        self.debug_cnt = 0
 
-        self.name_tag_pattern = re.compile('[가-힣]+')
+        self.W = 0
 
-    def name_tag_filter(self, string):
-        print('str', string)
-        filtered_list = self.name_tag_pattern.findall(string)
-        res_string = ''.join(filtered_list)
-        return res_string
+        self.result_dic = {'component':{}, 'box_position':{}, 'masked_img':{}, 'probability':{}}
 
-    def getMaskedContours(self, img=None, hsv_img=None, morph=None, kmeans=None, kind=None, sort=True):
-        if hsv_img is None:
-            hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        if kind == 'uniform':
-            lower, upper = self.uniform_filter['lower'], self.uniform_filter['upper']
-        elif kind == 'classes':
-            lower, upper = self.classes_filter['lower'], self.classes_filter['upper']
-        elif kind == 'anchor':
-            lower, upper = self.anchor_filter['lower'], self.anchor_filter['upper']
-        else:
-            pass
+    def getPosition(self, contour):
+        center_p = getContourCenterPosition(contour)
+        position = 'left' if center_p[0] < (self.W//2) else 'right'
+        return position
+    
 
-        mask = cv2.inRange(hsv_img, lower, upper)
+    def isNameTag(self, position, kind):
+        return position == 'left' and kind == 'name_tag'
 
-        if kmeans:
-            img_s = classification2(img)
-            plt_imshow(['origin', 's'], [img, img_s])
-            img = classification2(img)
+    def isRankTag(self, position, kind):
+        return position == 'left' and kind is not None and kind.find('rank_tag') != -1
 
-        if morph == 'erode':
-            kernel = np.ones((3, 3), np.uint8)
-            org_mask = mask.copy()
+    def isNeckerchief(self, position, kind):
+        return kind == 'neckerchief'
 
-            k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 2))
-            mask = cv2.erode(org_mask, k, iterations=2)
-
-            plt_imshow(['org_mask', 'maskk', 'm2'], [org_mask, mask])
-
-        masked_img = cv2.bitwise_and(img, img, mask=mask)
-
-        if sort:
-            contours, hierarchy = cv2.findContours(
-                mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
-            sorted_contours, sorted_hierarchy = sortContoursByArea(
-                contours, hierarchy)
-            return sorted_contours, sorted_hierarchy, masked_img
-        else:
-            contours, _ = cv2.findContours(
-                mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-            return contours, masked_img
-
-    def getName(self, img, contours, hierarchy):
-        h, w = img.shape[:2]
-        shirt_contour, res_box_position, res_content = None, None, None
-        ocr_list = OCR(img)
-
-        # 이름표
-        shirt_node = None
-        for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
-            cur_node, next_node, prev_node, first_child, parent = lev
-            if i == 0:  # 정복
-                img2 = img.copy()
-                shirt_contour = contour
-                cv2.drawContours(img2, [contour], -1, Color.RED, -1)
-                plt_imshow('img2', img2)
-                shirt_node = cur_node
-                continue
-
-            # 정복 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표)
-            # 이름표 체크
-            if not res_content and parent == shirt_node and 4 <= getVertexCnt(contour) <= 10 and cv2.contourArea(contour) > 300:
-                center_p = getContourCenterPosition(contour)
-                max_xy, min_xy = np.max(contour, axis=0)[
-                    0], np.min(contour, axis=0)[0]
-
-                # 이름표 체크
-                if center_p[0] < (w//2):
-                    name_chrs = []
-
-                    sorted_orc_list = sorted(
-                        ocr_list, key=lambda ocr_res: ocr_res['boxes'][0][0])
-                    for ocr_res in sorted_orc_list:
-                        ocr_str, ocr_box = ocr_res['recognition_words'][0], ocr_res['boxes']
-                        ocr_str = self.name_tag_filter(ocr_str)
-                        p1, p2, p3, p4 = ocr_box
-                        (x1, y1), (x2, y2) = p1, p3
-                        if x2 < w//2:
-                            roi = img[y1:y2, x1:x2]
-
-                            ocr_center_xy = getRectCenterPosition(ocr_box)
-                            if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
-                                name_chrs.append(ocr_str)
-                                cv2.rectangle(img, p1, p3, Color.GREEN, 3)
-                            else:
-                                pass
-                        else:
-                            break
-                            # cv2.rectangle(img, p1, p3, Color.RED, 3)
-                    res_box_position, res_content = cv2.boundingRect(
-                        contour), ''.join(name_chrs)
-
-        return cv2.boundingRect(shirt_contour), res_box_position, res_content
-
-    def getClasses(self, masked_img, contours, hierarchy):
-        h, w = masked_img.shape[:2]
-        res_box_position, res_content, small_mask = None, None, None
-
-        box_position = None
-        for contour in contours:  # contours : 계급장이라 판별되는 contour
-            if cv2.contourArea(contour) > 300:
-                center_p = getContourCenterPosition(contour)
-                if center_p[0] < (w//2) and not res_content:
-                    box_position = cv2.boundingRect(contour)
-                    x, y, w, h = box_position
-                    roi = masked_img[y:y+h, x:x+w]
-
-                    small_contours, small_mask = self.getMaskedContours(
-                        img=roi, kind='classes', sort=False)
-
-                    classes_n = 0
-                    for small_contour in small_contours:
-                        if 10 < cv2.contourArea(small_contour):
-                            classes_n += 1
-                            cv2.drawContours(
-                                small_mask, [small_contour], 0, Color.BLUE, 1)
-
-                    if 1 <= classes_n <= 4:
-                        res_box_position, res_content = box_position, Classes.dic[classes_n]
-        return res_box_position, res_content, small_mask
-
-    def getAnchor(self, contours, hierarchy):
-        res_box_position, res_content = None, None
-        for contour in contours:
-            if cv2.contourArea(contour) > 100:
-                center_p = getContourCenterPosition(contour)
-                if not res_content:
-                    res_box_position, res_content = cv2.boundingRect(
-                        contour), True
-        return res_box_position, res_content
-
-    def getMahura(self, contours, hierarchy):
-        res_box_position, res_content = None, None
-        for contour in contours:
-            if cv2.contourArea(contour) > 300:
-                center_p = getContourCenterPosition(contour)
-                if not res_content:
-                    res_box_position, res_content = cv2.boundingRect(
-                        contour), True
-        return res_box_position, res_content
+    def isMuffler(self, kind):
+        return kind == 'muffler'
 
     def checkUniform(self, org_img):
         img = org_img
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        H, W = img.shape[: 2]
+        self.W = W
+        self.result_dic = {'component':{}, 'box_position':{}, 'masked_img':{}, 'probability':{}}
 
-        # half_line_p1, half_line_p2 = (w//2, 0), (w//2, h)
-        # cv2.line(img, half_line_p1, half_line_p2, Color.WHITE, 5)
+        # 이름표, 마후라 체크
+        name = 'name_tag'
+        contours, _,  self.result_dic['masked_img'][name] = self.getMaskedContours(
+            img=img, hsv_img=hsv_img, kind='name_tag', sort=True)
 
-        box_position_dic = {}
-        component_dic = {}
-        masked_img = {}
+        if contours is not None:
+            for contour in contours:
+                is_name_tag = self.result_dic['component'].get('name_tag')
+                is_muffler = self.result_dic['component'].get('muffler')
+                area = cv2.contourArea(contour)
 
-        # 이름표 체크
-        name = 'name'
-        contours, sorted_hierarchy, masked_img[name] = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind='uniform', sort=True)
-        box_position_dic['shirt'], box_position_dic[name], component_dic[name] = self.getName(
-            img, contours, sorted_hierarchy)
+                if is_name_tag and is_muffler or (area < 1000):
+                    break
+
+                position = self.getPosition(contour)
+
+                tmp_box_position = cv2.boundingRect(contour)
+                x,y,w,h = tmp_box_position
+                parts_img = img[y:y+h, x:x+w]
+
+                isCenter = x < W//2 < x+w
+
+                if self.train_mode:
+                    probability, kind = 0, name
+                else:
+                    probability, kind = self.parts_classifier.predict(parts_img)[:2]
+
+                if not is_name_tag and self.isNameTag(position, kind):
+                    # 이름표 OCR
+                    if self.name_cache:
+                        box_position = tmp_box_position
+                        component = self.name_cache
+                    else:
+                        ocr_list = OCR(img)
+                        self.debug_cnt += 1
+                        box_position, component = self.getName(contour, ocr_list)
+                        self.name_cache = component
+
+                    self.result_dic['box_position']['name_tag'] = box_position
+                    self.result_dic['component']['name_tag'] = component
+                    self.result_dic['probability']['name_tag'] = probability
+                
+                elif not is_muffler and isCenter and self.isMuffler(kind):
+                    self.result_dic['box_position']['muffler'] = tmp_box_position
+                    self.result_dic['component']['muffler'] = True
+                    self.result_dic['probability']['muffler'] = probability
 
         # 네카치프 / 네카치프링 체크
-        name = 'anchor'
-        contours, masked_img[name] = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind=name, sort=False)
-        box_position_dic[name], component_dic[name] = self.getAnchor(
-            contours, None)
+        name = 'neckerchief'
+        contours, _, self.result_dic['masked_img'][name] = self.getMaskedContours(
+            img=img, hsv_img=hsv_img, kind=name, sort=True)
+        
+        if contours is not None:
+            for contour in contours:
+                area = cv2.contourArea(contour)
+
+                if area < 100:
+                    break
+
+                position = self.getPosition(contour)
+                tmp_box_position = cv2.boundingRect(contour)
+                x,y,w,h = tmp_box_position
+                parts_img = img[y:y+h, x:x+w]
+
+                if self.train_mode:
+                    kind = name
+                else:
+                    probability, kind = self.parts_classifier.predict(parts_img)[:2]
+                if self.isNeckerchief(position, kind):
+                    self.result_dic['box_position'][name] = tmp_box_position
+                    self.result_dic['component'][name] = True
+                    self.result_dic['probability'][name] = probability
+                    break
 
         # 계급장 체크
-        name = 'classes'
-        contours, masked_img[name] = self.getMaskedContours(
-            img=img, hsv_img=hsv_img, kind=name, sort=False)
-        box_position_dic[name], component_dic[name], masked_img['classes_roi'] = self.getClasses(
-            img, contours, None)
+        name = 'rank_tag'
+        contours, _, self.result_dic['masked_img'][name] = self.getMaskedContours(
+            img=img, hsv_img=hsv_img, kind=name, sort=True)
+            
+        if contours is not None:
+            for contour in contours:
+                area = cv2.contourArea(contour)
 
-        # 마후라 체크
-        # name = 'mahura'
-        # contours = self.getMaskedContours(
-        #     img=img, hsv_img=hsv_img, kind=name, sort=False)
-        # box_position_dic[name], component_dic[name] = self.getMahura(
-        #     img, contours, None)
+                if area < 100:
+                    break
+                position = self.getPosition(contour)
 
-        return component_dic, box_position_dic, masked_img
+                tmp_box_position = cv2.boundingRect(contour)
+                x,y,w,h = tmp_box_position
+                parts_img = img[y:y+h, x:x+w]
+
+                if self.train_mode:
+                    kind = name
+                else:
+                    probability, kind = self.parts_classifier.predict(parts_img)[:2]
+                if self.isRankTag(position, kind):
+                    self.result_dic['box_position'][name] = tmp_box_position
+                    rank_n = kind.split('+')[1]
+                    self.result_dic['component'][name] = Classes.dic.get(int(rank_n))
+                    self.result_dic['probability'][name] = probability
+                    break
+
+        return self.result_dic

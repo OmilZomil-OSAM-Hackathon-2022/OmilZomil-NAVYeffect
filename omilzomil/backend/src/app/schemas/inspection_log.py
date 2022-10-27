@@ -1,18 +1,28 @@
+from datetime import datetime
 from pydantic import BaseModel, Field
-from app.db.base_schema import Response, AllOptional
+from typing import Optional
+from app.db.base_schema import Response
 
 
 class InspectionLogBase(BaseModel):
-    access_id: int = Field(None, description="access id")
-    affiliation: str = Field(None, description="affiliation")
+    guardhouse: int = Field(None, description="guardhouse")
+    affiliation: int = Field(None, description="affiliation")
+    rank: int = Field(None, description="rank")
     name: str = Field(None, description="name")
-    rank: str = Field(None, description="rank")
-    uniform: str = Field(None, description="uniform")
-    has_name: bool = Field(None, description="has name")
-    has_rank: bool = Field(None, description="has rank")
-    has_neckerchief: bool = Field(None, description="has neckerchief and neckerchief ring")
-    has_muffler: bool = Field(None, description="has muffler")
-    has_flag: bool = Field(None, description="has flag")
+    uniform: int = Field(None, description="uniform")
+    image_path: str = Field(None, description="image path")
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "guardhouse": 1,
+                "affiliation": 3,
+                "rank": 5,
+                "name": "정의철",
+                "uniform": 2,
+                "image_path": "image_path_url",
+            }
+        }
 
 
 class InspectionLogCreate(InspectionLogBase):
@@ -21,33 +31,52 @@ class InspectionLogCreate(InspectionLogBase):
 
 class InspectionLogRead(InspectionLogBase):
     inspection_id: int = Field(None, description="primary key")
+    access_time: datetime = Field(None, description="access time")
+    military_unit: int = Field(None, description="military unit")
+    is_checked: bool = Field(None, description="is_checked")
 
     class Config:
         schema_extra = {
             "example": {
                 "inspection_id": 1,
-                "access_id": 1,
-                "army_type": "해군",
+                "guardhouse": 1,
+                "access_time": datetime.now(),
+                "affiliation": 3,
+                "military_unit": 1,
+                "rank": 5,
                 "name": "정의철",
-                "rank": "병장",
-                "uniform_type": "샘당",
-                "has_name": True,
-                "has_rank": True,
-                "has_neckerchief": False,
-                "has_muffler": False,
-                "has_flag": False,
+                "uniform": 2,
+                "image_path": "image_path_url",
+                "is_checked": False,
             }
         }
         orm_mode = True
 
 
-class InspectionLogUpdate(InspectionLogBase, metaclass=AllOptional):
+class InspectionLogUpdateInformation(BaseModel):
+    affiliation: Optional[int] = Field(None, description="affiliation")
+    military_unit: Optional[int] = Field(None, description="military unit")
+    rank: Optional[int] = Field(None, description="rank")
+    name: Optional[str] = Field(None, description="name")
+    uniform: Optional[int] = Field(None, description="uniform")
+
     class Config:
         schema_extra = {
             "example": {
-                "uniform_type": "정복",
-                "has_neckerchief": True,
-                "has_muffler": True,
+                "military_unit": 2,
+                "name": "정의철",
+                "uniform": 2,
+            }
+        }
+
+
+class InspectionLogUpdateCheck(BaseModel):
+    is_checked: bool = Field(None, description="is_checked")
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "is_checked": True,
             }
         }
 

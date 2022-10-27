@@ -5,12 +5,8 @@ import numpy as np
 import pathlib
 import os
 
-cur_file_path = pathlib.Path().absolute()
-print(cur_file_path)
-
 if __file__:
     cur_dir = os.path.dirname(os.path.realpath(__file__))
-    print(cur_dir)
     MODEL_PATH = os.path.join(
         cur_dir, 'weights', 'hed_pretrained_bsds.caffemodel')
     PROTO_TXT_PATH = os.path.join(cur_dir, 'deploy.prototxt')
@@ -52,12 +48,13 @@ class HED():
         cv2.dnn_registerLayer('Crop', CropLayer)
         print('[RCF] finished loading (%.4f sec)' % (time.time() - tstamp))
 
-    def detect_edge(self, img, width=256, height=256):
+    def detect_edge(self, img, width=256, height=256, verbose=0):
         org_width = img.shape[1]
         org_height = img.shape[0]
 
-        start_time = datetime.datetime.now()
-        print('시작시간 : {}'.format(start_time))
+        if verbose == 1:
+            start_time = datetime.datetime.now()
+            print('시작시간 : {}'.format(start_time))
         img = cv2.resize(img, (width, height))
         inp = cv2.dnn.blobFromImage(img, scalefactor=1.0, size=(width, height),
                                     mean=(104.00698793, 116.66876762,
@@ -72,10 +69,11 @@ class HED():
         out = 255 * out
         out = out.astype(np.uint8)
 
-        end_time = datetime.datetime.now()
-        print('종료시간 : {}'.format(end_time))
+        if verbose == 1:
+            end_time = datetime.datetime.now()
+            print('종료시간 : {}'.format(end_time))
 
-        time_delta = end_time - start_time
-        print('수행시간 : {} 초'.format(time_delta.seconds) + "\n")
+            time_delta = end_time - start_time
+            print('수행시간 : {} 초'.format(time_delta.seconds) + "\n")
 
         return out
