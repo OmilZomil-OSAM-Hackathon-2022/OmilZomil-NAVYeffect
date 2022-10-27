@@ -12,7 +12,7 @@ detector = OZEngine()
 ```
 
 OZEngine class에는 여러 함수들이 있는데 우리는 분석하기 위해 detect 함수 1개만 있으면 충분합니다! 
-check_person, train_mode 2개의 파라미터를 받고있습니다. detect 함수 정의는 다음과 같이 되어있습니다.
+check_person, train_mode, hed_mode, box_padding, roi_padding 이렇게 5개의 파라미터를 받고있습니다. detect 함수 정의는 다음과 같이 되어있습니다.
 
 ``` python
 def detect(check_person=True, train_mode=False, hed_mode=False, box_padding=0, roi_padding=0):
@@ -106,7 +106,7 @@ print(result['component'])  # 파츠여부 값만 출력
 
 ## 사용자 정의 모델 학습
 
-For recognition model, [Read here](https://github.com/JaidedAI/EasyOCR/blob/master/custom_model.md).
+데이터 추가 및 학습 방법 [Read here](https://github.com/JaidedAI/EasyOCR/blob/master/custom_model.md).
 
 For detection model (CRAFT), [Read here](https://github.com/JaidedAI/EasyOCR/blob/master/trainer/craft/README.md).
 
@@ -133,6 +133,7 @@ result = detector.detect(img, check_person=True)  # check_person값을 True로
 
 ### 2. train_mode 옵션 활용
 
+데이터가 없을 때에는 파츠인식모델을 동작시킬 수 없습니다. 이러한 경우 train_mode의 값을 false로 주어서 모델을 사용하지 않고 파츠로 추정되는 이미지들을 저장할 수 있습니다. 아래는 train_mode를 활용하는 예시이입니다.
 
 ``` python
 import cv2
