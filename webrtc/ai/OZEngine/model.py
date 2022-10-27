@@ -54,7 +54,7 @@ class OmilZomil:
             dst_path = os.path.join(parts_dir, str(self.frame_cnt) + '.jpg')
             cv2.imwrite(dst_path, img)
 
-    def boxImage(self, org_img, info_dic, is_roi=False):
+    def boxImage(self, org_img, info_dic, box_padding=0, roi_padding=0, is_roi=False,):
         img = org_img.copy()
         roi_dic = {}
 
@@ -62,8 +62,17 @@ class OmilZomil:
             if name != 'shirt' and box_position is not None:
                 x, y, w, h = box_position
                 if is_roi:
-                    roi = org_img[y:y+h, x:x+w]
+                    roi_x, roi_y, roi_w, roi_h = x, y, w, h
+                    roi_x = roi_x - roi_padding
+                    roi_y = roi_y - roi_padding
+                    roi_w = roi_w + (roi_padding*2)
+                    roi_h = roi_h + (roi_padding*2)
+                    roi = org_img[roi_y:roi_y+roi_h, roi_x:roi_x+roi_w]
                 
+                x = x - box_padding
+                y = y - box_padding
+                w = w + (box_padding*2)
+                h = h + (box_padding*2)
                 cv2.rectangle(img, (x, y), (x+w, y+h), Color.PARTS_BOX, 5)
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 margin = 30
