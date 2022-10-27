@@ -10,7 +10,7 @@ from .lib.utils import plt_imshow, histNorm, box2img, cvtPoint
 
 
 class OmilZomil:
-    def __init__(self, check_person=True, train_mode=False, hed_mode=False):
+    def __init__(self, check_person=True, train_mode=False, hed_mode=False, box_padding=0, roi_padding=0):
         if hed_mode:
             self.HED_engine = HED()
             self.morph_engine = Morph()
@@ -26,6 +26,9 @@ class OmilZomil:
         self.train_mode = train_mode
         self.frame_cnt = 0
         self.base_point = [0, 0]
+
+        self.box_padding = box_padding
+        self.roi_padding = roi_padding
 
     def addBasePoint(self, box):
         self.base_point[0] += box[0][0]
@@ -138,7 +141,7 @@ class OmilZomil:
             if pos:
                 result_dic['box_position'][name] = self.applyBasePoint(pos, method='4')
             
-        boxed_img, roi_dic = self.boxImage(boxed_img, result_dic, is_roi=True)
+        boxed_img, roi_dic = self.boxImage(boxed_img, result_dic, box_padding=self.box_padding, roi_padding=self.roi_padding, is_roi=True)
 
         if self.hed_mode:
             hed_boxed_img, _ = self.boxImage(hed_boxed_img, result_dic)
