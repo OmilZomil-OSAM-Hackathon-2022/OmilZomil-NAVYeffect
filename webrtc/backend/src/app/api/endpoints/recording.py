@@ -170,17 +170,23 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
             data = await websocket.receive_json()
             work_start = datetime.now()
             print(f'데이터 수신:- {camera_id}')
-            msg = {
-                'type' : "result",
-                "kind" : "blue",
-                "photo": data['photo'],
-                'hair' : True,
-                'name_tag' : True,
-                'level_tag' : True,
-                'muffler' : True,
-                'neck' : True,
+            # msg = {
+            #     'type' : "result",
+            #     "kind" : "blue",
+            #     "photo": data['photo'],
+            #     'hair' : True,
+            #     'name_tag' : True,
+            #     'level_tag' : True,
+            #     'muffler' : True,
+            #     'neck' : True,
 
+            # }
+
+            msg = {
+                "type" : "status",
+                "status" : "ready"
             }
+
             await websocket.send_json(msg)
             # 1차 처리 로그 출력
             print(f'테스크 1차 처리 완료: {camera_id} : {datetime.now() - work_start}')
