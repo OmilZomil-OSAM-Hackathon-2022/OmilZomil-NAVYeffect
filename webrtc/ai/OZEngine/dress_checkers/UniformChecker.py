@@ -35,7 +35,7 @@ class UniformChecker:
             k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (10, 2))
             mask = cv2.erode(org_mask, k, iterations=2)
 
-            plt_imshow(['org_mask', 'maskk', 'm2'], [org_mask, mask])
+            # plt_imshow(['org_mask', 'maskk', 'm2'], [org_mask, mask])
 
         if morph == 'erode2dilate':
             org_mask = mask.copy()
@@ -46,7 +46,7 @@ class UniformChecker:
             mask = cv2.dilate(mask, k)
             mask = cv2.dilate(mask, k)
 
-            plt_imshow(['org_mask', 'maskk', 'm2'], [org_mask, mask])
+            # plt_imshow(['org_mask', 'maskk', 'm2'], [org_mask, mask])
 
         masked_img = cv2.bitwise_and(img, img, mask=mask)
 
@@ -82,12 +82,13 @@ class UniformChecker:
                 ocr_str = self.name_tag_filter(ocr_str)
                 ocr_center_xy = getRectCenterPosition(ocr_box)
                 if isPointInBox(ocr_center_xy, (min_xy, max_xy)):
-                    p1, _, p3, _ = ocr_box
-                    ocr_min_x, ocr_max_y = min(ocr_min_x, p1[0]), max(ocr_max_y, p1[1])
-                    ocr_max_x, ocr_min_y = max(ocr_max_x, p3[0]), min(ocr_min_y, p3[1])
+                    if is_strict:
+                        p1, _, p3, _ = ocr_box
+                        ocr_min_x, ocr_min_y = min(ocr_min_x, p1[0]), min(ocr_min_y, p1[1])
+                        ocr_max_x, ocr_max_y = max(ocr_max_x, p3[0]), max(ocr_max_y, p3[1])
                     
-                    
-                    box_position = cv2.boundingRect(contour)
+                    else:
+                        box_position = cv2.boundingRect(contour)
                     name_chrs.append(ocr_str)
                 else:
                     pass
