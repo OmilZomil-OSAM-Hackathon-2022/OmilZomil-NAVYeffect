@@ -87,17 +87,16 @@
 
 ### AI(back-end)
  + lib : <img src="https://img.shields.io/badge/TensolFlow-FF6F00?style=for-the-badge&logo=TensorFlow&logoColor=white"> <img src="https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=OpenCV&logoColor=white">
+
  + model : <img src="https://img.shields.io/badge/YOLO-00FFFF?style=for-the-badge&logo=YOLO&logoColor=white"> v4, swit-transformer, HED(Holistically-Nested Edge Dataset), MobileNet
  + dataset : MS-COCO, Pascal VOC Dataset Mirror, CelebAMask-HQ, Figaro-1k, Lft
 
 ### Front end
  + <img src="https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=Vue.js&logoColor=white">
  + <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
-
 <h2 id="install"> :arrow_down: 설치 안내 (How to download)</h2>
 
 **어느 것 다운받아서 어느 주소로 들어가야 사용 가능한지 설명. 추후 링크 공지 예정**
-
 <h2 id="team"> :kissing_heart: 팀원 정보 (Meet the team)</h2>
 
 > 팀 NAVY효과
@@ -122,4 +121,3 @@ This project is licensed under the terms of the MIT license.
 > 개발 문서
 
 + wiki 항목 참고 (여기 개인 레포에선 일단 docs 폴더 만들어서 그 안에 images.md 만듬)
-
