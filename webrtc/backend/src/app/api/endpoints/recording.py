@@ -149,7 +149,8 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
         pass
 
     
-@router.websocket("/socket")
+# @router.websocket("/socket")
+@router.websocket("/test")
 async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.get_db)):
     """
     소켓으로 worker와 연결
@@ -183,13 +184,17 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
             response_msg = broker.add_task(photo=data['photo'], guardhouse= data['name'], work_time=work_start)
             
             # 메세지 정리 및 응답 반환
-            response_msg['working_time'] = datetime.now() - work_start
+            response_msg['working_time'] = str(datetime.now() - work_start)
+            print(response_msg)
             await websocket.send_json(response_msg)
-
+            print("=======================================")
             # 메세지 수신
             result_msg_list = broker.receive()
-            print(f"========================================================{result_list}")
-
+            
+            print(f"전달해야 하는 메세지 {result_msg_list}")
+            
+            if not result_msg_list:
+                continue
             # 메세지 전송
             for result_msg in result_msg_list:
                 await websocket.send_json(result_msg)
