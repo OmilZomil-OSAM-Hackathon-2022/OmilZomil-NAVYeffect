@@ -77,6 +77,9 @@
                           show:false,
                       },
                   },
+                  tooltip:{
+                    theme:this.$store.getters.getDarkMode?'dark':'light';
+                  },
                   colors:["#9155EB",this.$store.getters.getDarkMode ? "#2C2845":"#F3F3F3"],
                   plotOptions: {
                     pie: {

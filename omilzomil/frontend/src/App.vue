@@ -82,11 +82,6 @@ export default {
   --color:white;
 }
 
-.apexcharts-tooltip {
-  background: var(--color-card);
-  color: var(--color);
-}
-
 html,
 body,
 #app {
