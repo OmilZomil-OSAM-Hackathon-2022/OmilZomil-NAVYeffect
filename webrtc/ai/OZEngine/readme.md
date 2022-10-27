@@ -15,13 +15,19 @@ OZEngine class에는 여러 함수들이 있는데 우리는 분석하기 위해
 check_person, train_mode 2개의 파라미터를 받고있습니다. detect 함수 정의는 다음과 같이 되어있습니다.
 
 ``` python
-def detect(check_person=True, train_mode=False):
+def detect(check_person=True, train_mode=False, hed_mode=False, box_padding=0, roi_padding=0):
 ```
 
-| 파라미터 | 기본값 | 설명 |
-| ------ | ------ | ------ |
-| check_person | False | 사람인식모델의 유무를 결정하는 파라미터입니다. |
-| train_mode | False | 분류모델의 사용유무를 결정하는 파라미터입니다. |
+| 파라미터 | 자료형 | 기본값 | 설명 |
+| ------ | ------ | ------ | ------ |
+| check_person | Boolean | False | 사람인식모델의 유무를 결정하는 파라미터입니다. |
+| train_mode | Boolean | False | 분류모델의 사용유무를 결정하는 파라미터입니다. |
+| hed_mode | Boolean | False | HED모듈의 결과값을 받을지 여부를 결정하는 파라미터 입니다. |
+| box_padding | Integer | 0 | boxed_img의 박스 padding값을 결정하는 파라미터입니다. |
+| roi_padding | Integer | 0 | 잘린 이미지들의 paading값을 결정하는 파라미터 입니다. |
+
+
+
 
 Note 1: `check_person=True` 옵션을 주게 되면 detect함수 내부에 있는 사람인식모델이 동작하게 됩니다. 이 옵션이 필요할까요? [참고] 결론적으로 저희 Omil-Zomil 서비스 내부에서 실시간 분석을 위해 별도로 만든 옵션입니다.
 
@@ -34,6 +40,7 @@ Note 2: `check_person` 옵션은 현재 Omil-Zomil서비스에서 제공하고 �
 #### Run Code
 OZEngine 객체 detector의 멤버함수 detect를 호출합니다.
 호출할 때에 이미지의 numpy 배열도 같이 넘겨줍니다.
+
 ``` python
 detector.detect(img)
 ```
