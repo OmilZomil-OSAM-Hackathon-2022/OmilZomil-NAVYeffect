@@ -69,11 +69,7 @@ HairMatte모델에는 Depthwise Convolution Layer가 사용되었습니다.
 | ***Figure 3.*** *architecture of HairMatteNet* |
 
 
-아래는 학습할 때 사용한 데이터 셋(원본이미지 - mask 이미지) 입니다.
-
-| | 
-|:--:|:--: |
-| ***Figure 3.*** *architecture of HairMatteNet* |
+아래는 학습할 때 사용한 데이터 셋(원본이미지 - mask 이미지)중 일부 이미지입니다.
 
 | 원본 이미지 | mask 이미지 |
 | ------ | ------ |
@@ -81,8 +77,6 @@ HairMatte모델에는 Depthwise Convolution Layer가 사용되었습니다.
 | ![origin 2](https://user-images.githubusercontent.com/37208901/198698130-d272c1e0-a440-498e-8343-a6df40950893.png) | ![mask 2](https://user-images.githubusercontent.com/37208901/198698152-94cd3ee8-9214-4b0f-87f3-1d5adcf2ec54.png) |
 | ![origin 3](https://user-images.githubusercontent.com/37208901/198698103-97caeb2c-45ca-4532-9632-57a2c06d21c1.png) | ![mask 3](https://user-images.githubusercontent.com/37208901/198698098-e6fc27b6-1616-4e70-962b-2f0be598abdc.png) |
 | ![origin 4](https://user-images.githubusercontent.com/37208901/198698117-4aa9bab9-a00d-4325-979c-e12a4c4d3457.png) | ![mask 4](https://user-images.githubusercontent.com/37208901/198698126-cc20f774-dd9b-4117-9ed7-c84d16c1707d.png) |
-
-
 
 | ***Figure 4.*** *hair-segmentation examples* |
 
