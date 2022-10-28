@@ -1,5 +1,5 @@
 # WEB_CLOUD_OmilJomil_NAVYeffect
-![Slide 16_9 - 37](https://user-images.githubusercontent.com/59905641/193630489-e5327446-01fe-4ae2-9787-cbe77f0aeea1.png)
+![1  타이틀](https://user-images.githubusercontent.com/59905641/198581773-d1f0b268-8a9c-46b9-8ba9-909eb4a1a172.png)
 # :sunglasses: 오밀조밀 : 외적 군기 디텍팅 솔루션 :whale:
 
 ### 기지 정문에 카메라를 설치, 외적 군기 불량 여부를 판단해 부대 관리자 및 병들이 볼 수 있는 체계에 제공한다.
@@ -39,17 +39,20 @@
 
 <h2 id="features"> :mag: 기능 설명 및 프로젝트 사용법 (Features)</h2>
 
+
+![5  프로젝트 상세  구조도](https://user-images.githubusercontent.com/59905641/198606538-941de90b-358c-4b2b-b2dd-bdd42d771104.png)
+
 ### :computer: UX/UI
 > 완성 후 와이어프레임들 대체 필요
  + 로그인 및 회원가입 기능입니다. 각 부대 담당자들은 부여받은 계정으로 접근 가능합니다.
  ![Slide 16_9 - 37](https://user-images.githubusercontent.com/59905641/193630489-e5327446-01fe-4ae2-9787-cbe77f0aeea1.png)
  
  + 부대별 대시보드입니다. 실시간으로 출입자 정보가 리스트업되며, 각 요소 별 불량 비율이나 월간 양호 빈도 등을 제공합니다.
->여러 가지 기능들 있는거 클릭해서 보여주는 gif로 추후 변경 필요.
+> 여러 가지 기능들 있는거 클릭해서 보여주는 gif로 추후 변경 필요.
  ![Slide 16_9 - 36](https://user-images.githubusercontent.com/59905641/193630811-aafc8f62-a53d-43d0-8bdd-55182489bd55.png)
 
  + 부대 인원 조회 페이지입니다. 실시간 감지되는 리스트 중 한 컴포넌트 클릭 시 상세보기 창이 팝업됩니다.
->gif 변경 필요
+> gif 변경 필요
  ![부대 인원 조회 페이지-4 2](https://user-images.githubusercontent.com/59905641/193631247-77354eec-01c4-40cd-8a2f-5dd60f037057.png)
  ![부대인원조회_자세히보기](https://user-images.githubusercontent.com/59905641/194754317-0d71336a-ad51-4e24-a1bc-53a583bf13ff.png)
  
