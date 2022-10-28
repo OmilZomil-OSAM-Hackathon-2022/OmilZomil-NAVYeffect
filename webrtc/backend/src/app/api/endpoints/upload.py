@@ -29,8 +29,7 @@ async def create_upload_files(files: List[UploadFile] = File(...), db: Session =
     
     # 수신 중
     print(" 이미지 수신 시작")
-    guardhouse = "계룡대 1정문"
-
+    
     result_msg = {}
     for file in files:
         print(f"{file.filename} - 처리 시작")

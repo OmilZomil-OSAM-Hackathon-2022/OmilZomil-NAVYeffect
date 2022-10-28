@@ -12,7 +12,7 @@ from app.api import deps
 from app.db.session import SessionLocal
 
 
-
+# 종료 옵션을 추가해야함
 def master(q, socket):
     # 프로세서에 필요한 객체 구성
     db = SessionLocal()
