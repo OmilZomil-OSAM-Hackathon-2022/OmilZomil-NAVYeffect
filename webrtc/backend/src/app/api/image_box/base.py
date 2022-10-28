@@ -1,16 +1,22 @@
 
 UNIFORM_PARTS = {
     'blue' : [ "hair", "name_tag", "rank_tag" ], # 샘당
-    'black' : [ "hair", "name_tag", "rank_tag", "muffler", "neck" ], # 정복
+    'black' : [ "hair", "name_tag", "rank_tag", "muffler", "neckerchief" ], # 정복
     'green' : [ "hair", "name_tag", "rank_tag", "flag" ], # 군복
+}
+
+AFFILIATION_TABLE = {
+    "blue" : "navy",
+    "black" : "navy",
+    "green" : "army",
 }
 class BaseImageBox:
 
     def __init__(self, uniform, guardhouse):
         self.inspection = {
             'guardhouse': guardhouse,  # 위병소
-            'affiliation' : 1,      # 소속
-            'rank' : 1,             # 계급
+            'affiliation' : AFFILIATION_TABLE[uniform],      # 소속
+            'rank' : "",             # 계급
             'name' : "",            # 이름
             'uniform' : uniform,          # 복장
         }
@@ -20,4 +26,7 @@ class BaseImageBox:
         # 이미지
         self.main_image = None
         self.parts_images = {}
+
+        # update 
+        self.image_count = -1
 

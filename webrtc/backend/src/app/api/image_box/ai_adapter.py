@@ -32,6 +32,9 @@ UNIFORM = {
     2 : "blue",
     3 : "green",
 }
+PART_NAME = {
+    'neck' : 'aasdf'
+}
 
 def ai_2_worker(report:dict):
     # 이름 변경 및 숫자를 문자로 변경
