@@ -1,2 +1,2 @@
-# python main.py
-python test.py
+python main.py
+# python test.py

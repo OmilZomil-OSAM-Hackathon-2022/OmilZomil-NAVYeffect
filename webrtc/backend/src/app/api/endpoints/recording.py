@@ -32,6 +32,7 @@ router = APIRouter()
 
 
 @router.websocket("/ai")
+@router.websocket("/test")
 async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.get_db)):
     """
     ai 요구사항만 맞춰서 실행
@@ -68,13 +69,16 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
             
             cv2.imwrite(f"./image_list/{report['step']}_{work_start.strftime('%H-%M-%S')}.jpg", img)
 
-            
-            print(report)
-            print(report['step'])
-            print(report.get('component'))
+            print(f"step - {report['step']}")
+            if 'component' in report.keys():
+                print(f"component - {report['component']}")
+
+            if 'dress_kind' in report.keys():
+                print(f"dress_kind - {report['dress_kind']}")
+
 
             msg = {
-                'type' : "ai",
+                'type' : "ai only",
                 'step' : report['step'],
                 'component' : report.get('component'),
             }
@@ -149,7 +153,7 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
         pass
 
     
-# @router.websocket("/socket")
+@router.websocket("/socket")
 @router.websocket("/test")
 async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.get_db)):
     """

@@ -58,7 +58,7 @@ services:
       dockerfile: webrtc/backend.Dockerfile
     env_file: .env.lock
     volumes:
-      - ./webrtc/ai:/ai
+      - ./ai:/ai
       - ${WEBRTC_DIR_PATH:-webrtc_back}:/backend
       - webrtc_volume:/backend/src/app/static
       - ./image:/image
