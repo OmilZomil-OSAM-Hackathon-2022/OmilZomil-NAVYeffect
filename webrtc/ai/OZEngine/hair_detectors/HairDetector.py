@@ -10,7 +10,7 @@ class HairDetector():
         model_path = os.path.join(os.environ['AI_PATH'], 'OZEngine', 'hair_detectors', 'weights', 'weight_5.hdf5')
         self.model = tensorflow.keras.models.load_model(model_path)
 
-    def predict(image, height=224, width=224):
+    def predict(self, image, height=224, width=224):
         im = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         im = im / 255
@@ -25,7 +25,14 @@ class HairDetector():
     
     def detect(self, img):
         st = time.time()
-        dmask = predict(img)
+        dmask = self.predict(img)
         d1 = time.time()
+        print('shape :', dmask.dtype)
+        print(dmask)
+        # dmask = dmask.astype()
+        contours, hierarchy = cv2.findContours(dmask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+        contours, hierarchy = sortContoursByArea(contours, hierarchy)
+        area = cv2.contourArea(contours[0])
+        print('area', area)
 
         print(f"segment: {d1-st}, color:%f")
