@@ -37,7 +37,7 @@ async def send_guardhous(websocket: WebSocket, db: Session):
     })
 
 
-@router.websocket("/ai")
+@router.websocket("/single")
 async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.get_db)):
     """
     ai 요구사항만 맞춰서 실행
