@@ -92,7 +92,6 @@ export default {
             const { data } = await this.$axios.get(`/ranking/?page=${this.page}`);
             this.unitList = data.items;
             this.total = Math.max(1,parseInt((data.total+9)/10));
-            console.log(data);
         }
         catch (err) {
             console.log(err);
