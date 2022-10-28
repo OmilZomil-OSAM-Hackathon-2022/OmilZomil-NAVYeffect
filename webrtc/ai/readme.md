@@ -55,7 +55,7 @@ O-Net(Output-Net)은 P-Net과 R-Net과 유사하지만 깊이가 더 깊어진 �
 
 
 ### 2. 두발영역 인식
-두발인식모델은 ~데이터로 학습한 HairMatte모델을 이용합니다. HairMatte모델은 이미지 속에서 두발의 영역을 인식하는 End-to-End(종단간 학습)모델입니다. 원본 이미지와 이미지 속 두발영역이 표시가 된 이미지 두 쌍을 입력데이터로 받아 학습을 진행합니다. 아래는 HairMatte모델의 구조입니다.
+두발인식모델은 ~데이터로 학습한 HairMatte모델을 이용합니다. HairMatte모델은 이미지 속에서 두발의 영역을 인식하는 End-to-End(종단간 학습)모델입니다. 원본 이미지와 이미지 속 두발영역이 표시가 된 이미지(이하 mask 이미지) 두 쌍을 입력데이터로 받아 학습을 진행합니다. 아래는 HairMatte모델의 구조입니다.
 
 | ![Group 632617](https://user-images.githubusercontent.com/37208901/198690015-29fd94ba-84d5-4480-8bab-10ed9c485944.png) | 
 |:--:| 
@@ -69,10 +69,21 @@ HairMatte모델에는 Depthwise Convolution Layer가 사용되었습니다.
 | ***Figure 3.*** *architecture of HairMatteNet* |
 
 
-아래는 테스트 데이터로 학습한 결과물 입니다.
+아래는 학습할 때 사용한 데이터 셋(원본이미지 - mask 이미지) 입니다.
 
-![hair-segmantation-1 sample](https://github.com/thangtran480/hair-segmentation/raw/master/assets/output3.jpg) ![hair-segmantation-2 sample](https://github.com/thangtran480/hair-segmentation/raw/master/assets/output2.jpg)![hair-segmantation3 sample](https://github.com/thangtran480/hair-segmentation/raw/master/assets/output1.jpg) | 
-|:--:| 
+| | 
+|:--:|:--: |
+| ***Figure 3.*** *architecture of HairMatteNet* |
+
+| 원본 이미지 | mask 이미지 |
+| ------ | ------ |
+| ![origin 1](https://user-images.githubusercontent.com/37208901/198698083-b0bbd3b4-57cc-4711-91ea-221b0290a954.png) | ![00142](https://user-images.githubusercontent.com/37208901/198698096-cd777353-ab22-413a-a825-b0ed5f3474ea.png) |
+| ![origin 2](https://user-images.githubusercontent.com/37208901/198698130-d272c1e0-a440-498e-8343-a6df40950893.png) | ![mask 2](https://user-images.githubusercontent.com/37208901/198698152-94cd3ee8-9214-4b0f-87f3-1d5adcf2ec54.png) |
+| ![origin 3](https://user-images.githubusercontent.com/37208901/198698103-97caeb2c-45ca-4532-9632-57a2c06d21c1.png) | ![mask 3](https://user-images.githubusercontent.com/37208901/198698098-e6fc27b6-1616-4e70-962b-2f0be598abdc.png) |
+| ![origin 4](https://user-images.githubusercontent.com/37208901/198698117-4aa9bab9-a00d-4325-979c-e12a4c4d3457.png) | ![mask 4](https://user-images.githubusercontent.com/37208901/198698126-cc20f774-dd9b-4117-9ed7-c84d16c1707d.png) |
+
+
+
 | ***Figure 4.*** *hair-segmentation examples* |
 
 ##### Dataset
