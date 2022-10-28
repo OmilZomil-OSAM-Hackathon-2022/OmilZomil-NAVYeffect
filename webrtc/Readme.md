@@ -77,7 +77,7 @@ Web Real-Time Communications의 약어. 별도의 플러그인 없이 음성, �
    6.2. 일정 시간 이상 AI 처리결과가 동일한 경우 해당 사람에 대해 더이상 AI가 처리하지 않습니다.
 
 <h2 id="links"> :arrows_counterclockwise: 함께 보기 (External Links)</h2>
-Main README.md
+<a href="https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/README.md"<Main README.md></a>
 
 Project Omil-Zomil README.md
 
