@@ -11,9 +11,6 @@ class ImageBox(BaseImageBox):
         super().__init__(uniform, guardhouse)
 
 
-    def create_part_list(self):
-        pass
-
     def update(self, result):
 
         # 이미지 갱신

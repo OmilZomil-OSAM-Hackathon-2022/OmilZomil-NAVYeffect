@@ -18,18 +18,6 @@ class AIWorker(BaseWorker):
         self.image_box = None
     
     def execute(self, img, guardhouse):
-        # 받은 이미지에 따라 이미지 박스 업데이트
-        report = self.update_image_box(img=img, guardhouse=guardhouse)
-
-        # ai 인식 결과에 따라 처리
-        if report['ai'] == 'stop':
-            return report
-        # DB 저장 없이 바로 프론트에게 반환
-        else:
-            return report
-        
-        
-    def update_image_box(self, img, guardhouse):
         # ai 실행
         report = self.ai.detect(org_img=img)
 
@@ -40,6 +28,19 @@ class AIWorker(BaseWorker):
                 "step" : report['step'],
             }
 
+        # ai 결과에 따라 이미지 박스 업데이트
+        report = self.update_image_box(report=report, guardhouse=guardhouse)
+
+        # ai 인식 결과에 따라 처리
+        if report['ai'] == 'stop':
+            return report
+        # DB 저장 없이 바로 프론트에게 반환
+        else:
+            return report
+        
+        
+    def update_image_box(self, report, guardhouse):
+      
         # 이미지 박스가 없으면 생성
         result = ai_2_worker(report)
 
@@ -51,11 +52,15 @@ class AIWorker(BaseWorker):
             self.image_box.update(result)
             return {
                 'ai' : "new",
+                'inspection' : self.image_box.inspection,
+                'parts' : self.image_box.parts,
             }
         else:
-            
+            self.image_box.update(result)
             return {
-                'ai' : "update"
+                'ai' : "update", 
+                'inspection' : self.image_box.inspection,
+                'parts' : self.image_box.parts,
             }
 
 
