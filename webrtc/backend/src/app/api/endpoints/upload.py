@@ -17,7 +17,7 @@ router = APIRouter()
 
 
 @router.post("/image")
-async def create_upload_files(guardhouse = Body, files: List[UploadFile] = File(...), db: Session = Depends(deps.get_db)):
+async def create_upload_files(guardhouse = Body(), files: List[UploadFile] = File(...), db: Session = Depends(deps.get_db)):
     # 기본 데이터
     connect_start_time = datetime.now()
     camera_id = str(uuid.uuid4())

@@ -1,6 +1,13 @@
-from app.api.worker.base import BaseWorker
+
 
 from app.ai.OZEngine.model import OmilZomil
+
+
+from app.api.worker.base import BaseWorker
+from app.api.image_box.db_adapter import ai_2_db
+from app.api.image_box.ai_adapter import ai_2_worker
+from app.api.image_box.image_box import ImageBox
+
 
 UPDATE_COUNT = 5
 
@@ -10,9 +17,9 @@ class AIWorker(BaseWorker):
         self.ai = OmilZomil()
         self.image_box = None
     
-    def execute(self, img):
+    def execute(self, img, guardhouse):
         # 받은 이미지에 따라 이미지 박스 업데이트
-        report = self.update_image_box(img=img)
+        report = self.update_image_box(img=img, guardhouse=guardhouse)
 
         # ai 인식 결과에 따라 처리
         if report['ai'] == 'stop':
@@ -22,7 +29,7 @@ class AIWorker(BaseWorker):
             return report
         
         
-    def update_image_box(self, img):
+    def update_image_box(self, img, guardhouse):
         # ai 실행
         report = self.ai.detect(org_img=img)
 
@@ -34,9 +41,14 @@ class AIWorker(BaseWorker):
             }
 
         # 이미지 박스가 없으면 생성
+        result = ai_2_worker(report)
 
         if self.image_box is None:
-            print(report)
+            self.image_box = ImageBox(
+                uniform=result['uniform'], 
+                guardhouse=guardhouse
+                )
+            self.image_box.update(result)
             return {
                 'ai' : "new",
             }

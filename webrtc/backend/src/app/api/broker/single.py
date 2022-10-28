@@ -23,7 +23,7 @@ class SingleBroker(BaseBroker):
         self.update_worker(work_time=work_time)
         
         # 업무 지시
-        result_msg = self.now_worker.execute(img=img)
+        result_msg = self.now_worker.execute(img=img, guardhouse=guardhouse)
         return result_msg
 
 
