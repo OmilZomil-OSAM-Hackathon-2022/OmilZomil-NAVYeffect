@@ -32,17 +32,26 @@ A[사람 및 얼굴인식] --> B[두발상태확인] --> C[복장분류] --> D[�
 
 병사의 얼굴은 MTCNN을 사용하여 인식하고 있습니다. MTCNN은 P-Net, R-Net, O-Net 이렇게 총 3가지의 CNN네트워크로 이루워져있습니다. 다음은 MTCNN의 구조입니다. 그림에는 나타나있지 않았지만 MTCNN은 하나의 이미지를 입력받으면 다양한 크기(입력 이미지의 크기보다 더 작은)로 resize하여 이미지 피라미드를 만듭니다. 이렇게 해야 작은 얼굴도 검출하기 쉽기 때문입니다.
 
-| ![mtcnn](https://user-images.githubusercontent.com/37208901/198681423-f60aea65-d14f-42c9-a7fa-2a441aa7134d.png) | 
+| ![MTCNN](https://user-images.githubusercontent.com/37208901/198687071-170fc4fc-9330-4ecf-9c79-070a9f5e4c72.png) | 
 |:--:| 
 | ***Figure 3.*** *architecture of MTCNN* |
 
 아래부터 MTCNN에 대한 상세설명입니다.
 
-P-Net은 ~입니다
+P-Net(Proposal-Net)은 얼굴 랜드마크 좌표를 얻기 위한 모델입니다. BBR(Bounding Box Regression)과 NMS(Non-Maximum Suppression)를 진행하여 가장 확률이 높은 box값들을 남깁니다.
+| ![P-Net](https://user-images.githubusercontent.com/37208901/198687071-170fc4fc-9330-4ecf-9c79-070a9f5e4c72.png) | 
+|:--:| 
+| ***Figure 3.*** *architecture of P-Net in MTCNN* |
 
-R-Net은 ~입니다
+R-Net(Refine-Net)은 P-Net과 유사하지만 마지막에 FC-Layer가 추가된 모델입니다. P-Net에서 추정한 box들에 대해 더욱 정교하게 작업을 수행합니다. R-Net또한 BBR과 NMS를 수행합니다.
+| ![Group 632615](https://user-images.githubusercontent.com/37208901/198687071-170fc4fc-9330-4ecf-9c79-070a9f5e4c72.png) | 
+|:--:| 
+| ***Figure 3.*** *architecture of R-Net in MTCNN* |
 
-O-Net은 ~입니다
+O-Net(Output-Net)은 P-Net과 R-Net과 유사하지만 깊이가 더 깊어진 모델입니다. 입력 이미지의 크기도 48x48로 더 커졌습니다. 이 모델의 결과값이 얼굴인식의 최종값이 됩니다.
+| ![Group 632615](https://user-images.githubusercontent.com/37208901/198687071-170fc4fc-9330-4ecf-9c79-070a9f5e4c72.png) | 
+|:--:| 
+| ***Figure 3.*** *architecture of O-Net in MTCNN* |
 
 
 ### 2. 두발상태 확인
