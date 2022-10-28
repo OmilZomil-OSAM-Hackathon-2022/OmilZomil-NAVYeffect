@@ -99,6 +99,13 @@ graph LR
 
 A[외곽선추출] --> B[Contour추출] --> C[Masking] --> D[OCR]
 ```
+
+아래 그림은 외곽선추출과 Contour를 추출하는 과정을 도식화한 그림입니다.
+| ![Group 632620](https://user-images.githubusercontent.com/37208901/198703449-81c46e11-2e0f-4335-b2cb-abec77b33d13.png) |
+|:--:|
+| ***Figure 5.*** *HED model example* |
+
+
 #### 4-1. 외곽선 추출
 Morphology연산과 MS COCO dataset으로 학습한 HED(Holistically-Nested Edge Detection)으로 외곽선을 구합니다. 아래는 각각의 방법으로 추출한 윤곽선입니다.
 | ![HED sample](https://blog.kakaocdn.net/dn/kHShf/btrsTcrSSL1/9vi4F5h9lB2jn0H4qdl5Mk/img.jpg) | 
