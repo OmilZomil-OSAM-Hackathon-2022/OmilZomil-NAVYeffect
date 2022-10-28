@@ -23,16 +23,14 @@ Web Real-Time Communications의 약어. 별도의 플러그인 없이 음성, �
 
   
 <h2 id="mechanism"> :grey_question: 동작 과정(How it works)</h2>
+<img src="https://user-images.githubusercontent.com/59905641/198444532-6a9e04ca-22d7-4344-93df-5f3118bef4c1.png" align="left" width="450px"/>
+1. <i>WebRTC</i>를 사용, 웹 브라우저와 카메라가 있는 pc면 <b>특별한 프로그램 설치 없이</b> 해당 카메라로 촬영한다.<br></br>
+2. 촬영한 이미지는 <i>WebSocket</i>을 통해 서버로 전달한다.<br><br/>
+3. 이미지 1차 분석, 사람이 나온 경우만 파일로 저장 후 해당 경로를 AI 처리 프로세서에 전달한다.<br></br>
+4. AI 프로세서는 그 경로를 queue 형식으로 저장, 선입선출 방식으로 하나씩 이미지를 분석한다.<br><br/>
+5. 이후 분석 완료된 이미지는 <i>WebSocket</i>을 통해 빠르게 프론트 엔드(클라이언트)에 전달하고, DB에 저장한다.<br></br>
 
-1. *WebRTC*를 사용, 웹 브라우저와 카메라가 있는 pc면 **특별한 프로그램 설치 없이** 해당 카메라로 촬영한다.
-
-2. 촬영한 이미지는 *WebSocket*을 통해 서버로 전달한다.
-
-3. 이미지 1차 분석, 사람이 나온 경우만 파일로 저장 후 해당 경로를 AI 처리 프로세서에 전달한다.
-
-4. AI 프로세서는 그 경로를 queue 형식으로 저장, 선입선출 방식으로 하나씩 이미지를 분석한다.
-
-5. 이후 분석 완료된 이미지는 *WebSocket*을 통해 빠르게 프론트 엔드(클라이언트)에 전달하고, DB에 저장한다.
+<br clear="left"/>
 
   
 <h2 id="features"> :grey_question: 핵심 기능 (Features)</h2>
