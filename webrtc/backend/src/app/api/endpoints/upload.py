@@ -40,9 +40,7 @@ async def create_upload_files(guardhouse = Body(), files: List[UploadFile] = Fil
         work_start = datetime.now()
         msg = broker.add_task(img=img, guardhouse=guardhouse, work_time=work_start)
         
-        msg['working_time'] = datetime.now(
-            
-        ) - work_start
+        msg['working_time'] = datetime.now() - work_start
         if 'photo' in msg.keys():
             msg.pop('photo')
         result_msg[file.filename] = msg

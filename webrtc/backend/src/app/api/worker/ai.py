@@ -50,6 +50,7 @@ class AIWorker(BaseWorker):
     def update_image_box(self, report):
         self.image_box.update(report)
         return {
+            "type" : "result",
             'inspection' : self.image_box.inspection,
             'parts' : self.image_box.parts,
         }
@@ -59,7 +60,9 @@ class FrontAIWorker(AIWorker):
 
     def update_image_box(self, report):
         self.image_box.update(report)
-        msg = {}
+        msg = {
+            "type" : "result",
+        }
         msg.update(self.image_box.inspection)
         msg.update(self.image_box.parts)
         msg = worker_2_front(msg)

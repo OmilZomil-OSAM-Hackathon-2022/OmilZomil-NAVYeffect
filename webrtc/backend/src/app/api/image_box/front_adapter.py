@@ -1,6 +1,7 @@
 
 PART_NAME = {
-    'rank_tag' : 'level_tag',
+    'rank_tag' : 'leveltag',
+    'name_tag' : 'nametag',
     'neckerchief' : 'neck',
 }
 

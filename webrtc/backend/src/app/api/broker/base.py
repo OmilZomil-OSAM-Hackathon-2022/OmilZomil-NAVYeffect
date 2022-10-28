@@ -8,7 +8,7 @@ from app.core.config import settings
 from app.ai.OZEngine.person_detectors.PersonDetector import PersonDetector
 from app.api.websocket.image import photo_2_img, img_2_photo
 
-EMPTY_PERSON_SECOND = 10
+EMPTY_PERSON_SECOND = 100
 EXPIRATION_COUNT = 5
 
 
@@ -28,6 +28,7 @@ class BaseBroker:
         # 1. 오랜만에 온 사람인 경우 
         if work_time - self.last_person_time > timedelta(seconds=EMPTY_PERSON_SECOND):
             self.now_worker = self.worker_creater(**args)
+            self.last_person_time = work_time
 
     def check_person(self, img):
         
