@@ -18,11 +18,7 @@ Web Real-Time Communications의 약어. 별도의 플러그인 없이 음성, �
 이를 통해 우리 프로젝트에서는 모든 PC마다 설치되어있는 웹 브라우저와 카메라로 촬영을 할 것입니다.
 
   
-
-위 두 블록 쓰고, 동작 과정은 피그마로 그림 만들어야겠는데? 그리곤 밑에 설명 적고. 핵심 기능이랑 이미지 처리 과정  적고 오밀조밀, AI, 메인 리드미 가는 링크 걸어놓고.
-
-  
-<h2 id="mechanism"> :grey_question: 동작 과정(How it works)</h2>
+<h2 id="mechanism"> :gear: 동작 과정(How it works)</h2>
 <img src="https://user-images.githubusercontent.com/59905641/198444532-6a9e04ca-22d7-4344-93df-5f3118bef4c1.png" align="left" width="450px"/>
 1. <i>WebRTC</i>를 사용, 웹 브라우저와 카메라가 있는 pc면 <b>특별한 프로그램 설치 없이</b> 해당 카메라로 촬영한다.<br></br>
 2. 촬영한 이미지는 <i>WebSocket</i>을 통해 서버로 전달한다.<br><br/>
@@ -33,7 +29,7 @@ Web Real-Time Communications의 약어. 별도의 플러그인 없이 음성, �
 <br clear="left"/>
 
   
-<h2 id="features"> :grey_question: 핵심 기능 (Features)</h2>
+<h2 id="features"> :gem: 핵심 기능 (Features)</h2>
 
 이러한 일련의 동작 과정에서 주목할 만한 부분이 몇 개 있습니다.
 
@@ -50,7 +46,7 @@ Web Real-Time Communications의 약어. 별도의 플러그인 없이 음성, �
  - 방지 위해 백엔드가 버퍼처럼 파일 시스템에 우선 이미지를 저장함. 중간에 queue 이벤트 문을 두어, 선입선출 식으로 AI 처리 프로세스가 파일을 읽은 후 이미지 한 장씩 처리하고(판단 후 송신) 지우기를 반복한다.
 
   
-<h2 id="image-processing"> :grey_question: 이미지 처리 과정 (Image Processing)</h2>
+<h2 id="image-processing"> :movie_camera: 이미지 처리 과정 (Image Processing)</h2>
 
 >구간별로 AI 처리 결과에 따라 이미지 처리.
   
@@ -80,7 +76,7 @@ Web Real-Time Communications의 약어. 별도의 플러그인 없이 음성, �
    6.1. 데이터가 갱신된 경우만 DB를 접근합니다.
    6.2. 일정 시간 이상 AI 처리결과가 동일한 경우 해당 사람에 대해 더이상 AI가 처리하지 않습니다.
 
-<h2 id="links"> :grey_question: 함께 보기 (External Links)</h2>
+<h2 id="links"> :arrows_counterclockwise: 함께 보기 (External Links)</h2>
 Main README.md
 
 Project Omil-Zomil README.md
