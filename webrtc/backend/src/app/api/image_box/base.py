@@ -1,0 +1,4 @@
+class BaseImageBox:
+    pass
+
+    def 
