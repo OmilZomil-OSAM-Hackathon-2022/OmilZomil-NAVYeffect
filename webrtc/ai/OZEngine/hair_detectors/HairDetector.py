@@ -7,7 +7,7 @@ import tensorflow
 
 class HairDetector():
     def __init__(self):
-        model_path = os.path.join(os.environ['AI_PATH'], 'OZEngine', 'hair_detectors', 'weights', 'weights_5.hdf5')
+        model_path = os.path.join(os.environ['AI_PATH'], 'OZEngine', 'hair_detectors', 'weights', 'weight_5.hdf5')
         self.model = tensorflow.keras.models.load_model(model_path)
 
     def predict(image, height=224, width=224):
