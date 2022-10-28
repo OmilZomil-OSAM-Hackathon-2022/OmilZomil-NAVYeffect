@@ -93,6 +93,8 @@ HairMatte모델에는 Depthwise Convolution Layer가 사용되었습니다.
 | ------ | ------ | ------ |
 | ![person detect](https://user-images.githubusercontent.com/37208901/198707606-77b012e0-5c70-4c11-9a21-78961bb17d18.png) | ![face detect](https://user-images.githubusercontent.com/37208901/198707586-3ca1d7b4-35d0-4285-9ae9-5a0f0a2c918e.png) | ![shirt detect](https://user-images.githubusercontent.com/37208901/198707600-76d0be2b-bfd1-4c25-8ab9-2551d4ca89ac.png)|  |
 
+복장영역을 확보한 뒤 해당 영역만을 잘라낸 이미지를 활용하여 복장의 종류를 예측합니다. 이때 MobiLenet으로 이미지 분류하게 됩니다. 현재까지는 전투복, 근무복, 정복인식이 가능한 생태입니다. 이렇게 복장을 분류하는 이유는 복장마다 부착물(이하 파츠)들이 다르고 이에 맞추어 다른 분류모델을 사용해야하기 때문입니다. 
+
 ### 4. 복장상태확인
 
 복장상태를 확인하는 과정은 다음과 같습니다. 
@@ -101,7 +103,7 @@ HairMatte모델에는 Depthwise Convolution Layer가 사용되었습니다.
 
 graph LR
 
-A[외곽선추출] --> B[Contour추출] --> C[Masking] --> D[OCR]
+A[외곽선추출] --> B[Contour추출] --> C[Masking] --> D[파츠여부확인]
 ```
 
 아래 그림은 외곽선추출과 Contour를 추출하는 과정을 도식화한 그림입니다.
