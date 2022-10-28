@@ -1,10 +1,11 @@
 from app.api.broker.base import BaseBroker
 
+from app.api.worker.ai import AIWorker
 
 
 class SingleBroker(BaseBroker):
     is_save_queue = False
-    worker_creater = None
+    worker_creater = AIWorker
     
     def __init__(self, id, db):
         super().__init__(id)
@@ -18,9 +19,11 @@ class SingleBroker(BaseBroker):
             return person_msg
         
         # worker 업데이트
-        self.update_worker(db=self.db)
+        # self.update_worker(db=self.db)
+        self.update_worker(work_time=work_time)
         
         # 업무 지시
         result_msg = self.now_worker.execute(img=img)
         return result_msg
+
 

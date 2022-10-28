@@ -24,7 +24,7 @@ class BaseBroker:
         self.last_person_time = datetime.now() - timedelta(seconds=EMPTY_PERSON_SECOND) # 처음은 무조건 새로운 사람이니깐
         self.now_worker = None
 
-    def update_worker(self, **args):
+    def update_worker(self, work_time, **args):
         # 1. 오랜만에 온 사람인 경우 
         if work_time - self.last_person_time > timedelta(seconds=EMPTY_PERSON_SECOND):
             self.now_worker = self.worker_creater(**args)
