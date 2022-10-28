@@ -161,6 +161,7 @@ cython_debug/
 /.venv
 
 /OZEngine/person_detectors/refs/weights
+/OZEngine/hair_detectors/weights
 /demo/video
 /demo/image
 /demo/main.ipynb
