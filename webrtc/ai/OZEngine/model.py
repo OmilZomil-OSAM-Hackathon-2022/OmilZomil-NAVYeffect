@@ -5,7 +5,7 @@ from .dress_classifier import DressClassifier
 from .edge_detectors import HED, Morph, RCF
 from .person_detectors import PersonDetector
 from .face_detectors import FaceDetector
-from .hai_detectors import HairDetector
+from .hair_detectors import HairDetector
 from .lib.defines import UniformType, Color
 from .lib.utils import plt_imshow, histNorm, box2img, cvtPoint
 
