@@ -14,7 +14,9 @@ A[사람 및 얼굴인식] --> B[두발상태확인] --> C[복장분류] --> D[�
 
 ## 구현 방법
 
-### 1. 사람인식
+### 1. 사람 및 얼굴인식
+
+#### 1-1. 사람인식
 현재 사람인식은 Yolo V4를 이용하고 있습니다. v4는 v3보다 초당 프레임 수가 더 높으면서 정확하게 물체를 인식할 수 있기 때문에 사용했습니다. 아래는 v3와 v4의 성능을 비교한 지표입니다. v4가 mAP, FPS 두 평가항목 모두 v3보다 우수하여 real-time 환경에 최적화 되있는 것을 알 수 있습니다.
   
 | ![](https://miro.medium.com/max/1400/1*H3QlBG3U0s5XpOsI6xwsag.jpeg) | 
@@ -25,6 +27,23 @@ A[사람 및 얼굴인식] --> B[두발상태확인] --> C[복장분류] --> D[�
 | ![output (1)](https://user-images.githubusercontent.com/37208901/193527340-d6c9bfb7-f228-4a35-8d5f-3a8132886159.png) | 
 |:--:| 
 | ***Figure 2.*** *result of Yolo* |
+
+#### 1-2. 얼굴인식
+
+병사의 얼굴은 MTCNN을 사용하여 인식하고 있습니다. MTCNN은 P-Net, R-Net, O-Net 이렇게 총 3가지의 CNN네트워크로 이루워져있습니다. 다음은 MTCNN의 구조입니다. 그림에는 나타나있지 않았지만 MTCNN은 하나의 이미지를 입력받으면 다양한 크기(입력 이미지의 크기보다 더 작은)로 resize하여 이미지 피라미드를 만듭니다. 이렇게 해야 작은 얼굴도 검출하기 쉽기 때문입니다.
+
+| ![mtcnn](https://user-images.githubusercontent.com/37208901/198681423-f60aea65-d14f-42c9-a7fa-2a441aa7134d.png) | 
+|:--:| 
+| ***Figure 3.*** *architecture of MTCNN* |
+
+아래부터 MTCNN에 대한 상세설명입니다.
+
+P-Net은 ~입니다
+
+R-Net은 ~입니다
+
+O-Net은 ~입니다
+
 
 ### 2. 두발상태 확인
 두발인식모델은 ~데이터로 학습한 HairMatte모델을 이용합니다.
