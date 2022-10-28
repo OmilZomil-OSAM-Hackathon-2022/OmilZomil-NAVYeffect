@@ -87,7 +87,11 @@ HairMatte모델에는 Depthwise Convolution Layer가 사용되었습니다.
 
 ### 3. 복장분류
 	
-사람인식과 얼굴인식 단계가 완료가 되면 병사의 복장의 영역을 예측할 수 있습니다. 보통 복장은 얼굴 아래부분에 있기 때문입니다. 따라서 사람이 인식된 영역안쪽에서 얼굴영역 아래쪽 전부가 복장이라 가정할 수 있습니다.
+사람인식과 얼굴인식 단계가 완료가 되면 병사의 복장의 영역을 예측할 수 있습니다. 보통 복장은 얼굴 아래부분에 있기 때문입니다. 따라서 사람이 인식된 영역안쪽에서 얼굴영역 아래쪽 전부가 복장이라 가정할 수 있습니다. 아래는 복장분류를 학기 위해 복장영역을 인식하는 과정 중의 결과 이미지들입니다.
+
+| 사람인식 | 얼굴인식 | 복장영역인식 |
+| ------ | ------ | ------ |
+| ![person detect](https://user-images.githubusercontent.com/37208901/198707606-77b012e0-5c70-4c11-9a21-78961bb17d18.png) | ![face detect](https://user-images.githubusercontent.com/37208901/198707586-3ca1d7b4-35d0-4285-9ae9-5a0f0a2c918e.png) | ![shirt detect](https://user-images.githubusercontent.com/37208901/198707600-76d0be2b-bfd1-4c25-8ab9-2551d4ca89ac.png)|  |
 
 ### 4. 복장상태확인
 
@@ -107,14 +111,19 @@ A[외곽선추출] --> B[Contour추출] --> C[Masking] --> D[OCR]
 
 
 #### 4-1. 외곽선 추출
-Morphology연산과 MS COCO dataset으로 학습한 HED(Holistically-Nested Edge Detection)으로 외곽선을 구합니다. 아래는 각각의 방법으로 추출한 윤곽선입니다.
+CED(Cany Edge Detection)와 MS COCO dataset으로 학습한 HED(Holistically-Nested Edge Detection)으로 외곽선을 구합니다. 아래는 각각의 방법으로 추출한 윤곽선입니다.
 | ![HED sample](https://blog.kakaocdn.net/dn/kHShf/btrsTcrSSL1/9vi4F5h9lB2jn0H4qdl5Mk/img.jpg) | 
 |:--:| 
 | ***Figure 5.*** *HED model example* |
 
+
+
 ##### Dataset
 - [Pascal VOC Dataset Mirror (pjreddie.com)](https://pjreddie.com/projects/pascal-voc-dataset-mirror/)
 - [COCO - Common Objects in Context (cocodataset.org)](https://cocodataset.org/#home)
+
+#### 4-2. Contour 추출
+
 
 #### 4-2. Masking
 
