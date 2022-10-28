@@ -137,7 +137,7 @@ class OmilZomil:
         y = max(0, y - padding)
         w = min(self.W, w + (padding*2))
         h = min(self.H, h + (padding*2))
-        roi = org_img[roi_y:roi_y+roi_h, roi_x:roi_x+roi_w]
+        roi = org_img[y:y+h, x:x+w]
         hai_detector(roi)
 
         # 셔츠인식
