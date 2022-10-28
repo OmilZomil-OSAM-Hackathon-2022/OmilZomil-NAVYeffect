@@ -5,6 +5,7 @@ from .dress_classifier import DressClassifier
 from .edge_detectors import HED, Morph, RCF
 from .person_detectors import PersonDetector
 from .face_detectors import FaceDetector
+from .hai_detectors import HairDetector
 from .lib.defines import UniformType, Color
 from .lib.utils import plt_imshow, histNorm, box2img, cvtPoint
 
@@ -18,6 +19,7 @@ class OmilZomil:
         self.dress_classifier = DressClassifier()
         self.person_detector = PersonDetector()
         self.face_detector = FaceDetector()
+        self.hai_detector = HairDetector()
         print('init!')
 
         self.hed_mode = hed_mode
@@ -73,7 +75,7 @@ class OmilZomil:
                     roi = org_img[roi_y:roi_y+roi_h, roi_x:roi_x+roi_w]
                 
                 x = max(0, x - box_padding)
-                y = max(y - box_padding)
+                y = max(0, y - box_padding)
                 w = min(self.W, w + (box_padding*2))
                 h = min(self.H, h + (box_padding*2))
                 cv2.rectangle(img, (x, y), (x+w, y+h), Color.PARTS_BOX, 5)
@@ -128,6 +130,15 @@ class OmilZomil:
         if self.hed_mode:
             cv2.rectangle(hed_boxed_img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
         face_img = box2img(img, face_box)
+
+        # 두발인식
+        padding = 30
+        x = max(0, x - padding)
+        y = max(0, y - padding)
+        w = min(self.W, w + (padding*2))
+        h = min(self.H, h + (padding*2))
+        roi = org_img[roi_y:roi_y+roi_h, roi_x:roi_x+roi_w]
+        hai_detector(roi)
 
         # 셔츠인식
         h, w = img.shape[:2]

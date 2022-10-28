@@ -1,13 +1,14 @@
 # import dlib
-from mtcnn import MTCNN
 import time
 import cv2
+import os
 from OZEngine.lib.utils import *
+import tensorflow
 
 class HairDetector():
     def __init__(self):
-        self.model = keras.models.load_model('checkpoints/new/checkpoint.hdf5')
-        self.detector = detector = MTCNN()
+        model_path = os.path.join(os.environ['AI_PATH'], 'OZEngine', 'hair_detectors', 'weights', 'weights_5.hdf5')
+        self.model = tensorflow.keras.models.load_model(model_path)
 
     def predict(image, height=224, width=224):
         im = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
