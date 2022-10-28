@@ -19,7 +19,7 @@ class OmilZomil:
         self.dress_classifier = DressClassifier()
         self.person_detector = PersonDetector()
         self.face_detector = FaceDetector()
-        self.hai_detector = HairDetector()
+        self.hair_detector = HairDetector()
         print('init!')
 
         self.hed_mode = hed_mode
@@ -138,7 +138,7 @@ class OmilZomil:
         w = min(self.W, w + (padding*2))
         h = min(self.H, h + (padding*2))
         roi = org_img[y:y+h, x:x+w]
-        hai_detector(roi)
+        self.hair_detector.detect(roi)
 
         # 셔츠인식
         h, w = img.shape[:2]
