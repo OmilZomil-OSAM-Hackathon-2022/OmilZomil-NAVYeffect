@@ -44,6 +44,9 @@ webrtc/frontend/dist
 omilzomil/frontend/dist/
 webrtc/frontend/dist/
 
-
+# DB 데이터 공유 
 data/
 image/
+
+# 테스트 파일
+*/test.py
