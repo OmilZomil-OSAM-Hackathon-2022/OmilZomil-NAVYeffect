@@ -54,15 +54,20 @@ O-Net(Output-Net)은 P-Net과 R-Net과 유사하지만 깊이가 더 깊어진 �
 | ***Figure 3.*** *architecture of O-Net in MTCNN* |
 
 
-### 2. 두발상태 확인
-두발인식모델은 ~데이터로 학습한 HairMatte모델을 이용합니다.
+### 2. 두발영역 인식
+두발인식모델은 ~데이터로 학습한 HairMatte모델을 이용합니다. HairMatte모델은 이미지 속에서 두발의 영역을 인식하는 End-to-End(종단간 학습)모델입니다. 원본 이미지와 이미지 속 두발영역이 표시가 된 이미지 두 쌍을 입력데이터로 받아 학습을 진행합니다. 아래는 HairMatte모델의 구조입니다.
 
-
-
-
-![hair-segmantation-1 sample](https://user-images.githubusercontent.com/37208901/193512117-b482b92a-59d1-45f0-bbc8-20d29d8f1013.png)  | 
+| ![Group 632617](https://user-images.githubusercontent.com/37208901/198690015-29fd94ba-84d5-4480-8bab-10ed9c485944.png) | 
 |:--:| 
 | ***Figure 3.*** *architecture of HairMatteNet* |
+
+
+HairMatte모델에는 Depthwise Convolution Layer가 사용되었습니다.
+~
+| ![Group 632618](https://user-images.githubusercontent.com/37208901/198690598-584d4002-2d96-4bc0-89c8-b33d6b7b981c.png) | 
+|:--:| 
+| ***Figure 3.*** *architecture of HairMatteNet* |
+
 
 아래는 테스트 데이터로 학습한 결과물 입니다.
 
