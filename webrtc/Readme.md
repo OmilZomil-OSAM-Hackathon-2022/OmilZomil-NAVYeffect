@@ -79,3 +79,9 @@ Web Real-Time Communications의 약어. 별도의 플러그인 없이 음성, �
 6. 연속적인 이미지인 경우 이전 이미지를 참조하여 데이터를 갱신합니다.
    6.1. 데이터가 갱신된 경우만 DB를 접근합니다.
    6.2. 일정 시간 이상 AI 처리결과가 동일한 경우 해당 사람에 대해 더이상 AI가 처리하지 않습니다.
+
+<h2 id="links"> :grey_question: 함께 보기 (External Links)</h2>
+Main README.md
+
+Project Omil-Zomil README.md
+
