@@ -119,6 +119,12 @@ CED(Cany Edge Detection)와 MS COCO dataset으로 학습한 HED(Holistically-Nes
 | ![HED sample](https://blog.kakaocdn.net/dn/kHShf/btrsTcrSSL1/9vi4F5h9lB2jn0H4qdl5Mk/img.jpg) | ![HED sample](https://blog.kakaocdn.net/dn/kHShf/btrsTcrSSL1/9vi4F5h9lB2jn0H4qdl5Mk/img.jpg) |
 | ***Figure 5.*** *CED, HED* |
 
+##### Dataset
+- [Pascal VOC Dataset Mirror (pjreddie.com)](https://pjreddie.com/projects/pascal-voc-dataset-mirror/)
+- [COCO - Common Objects in Context (cocodataset.org)](https://cocodataset.org/#home)
+
+#### 4-2. Contour 추출
+
 CED와 HED를 이용하여 외곽선을 구하고 구한 외곽선 정보를 바탕으로 Contour를 추출합니다. Contour정보는 쉽게 말해 물체의 외형입니다. 아래는 추출된 Contour를 시각적으로 표현한 이미지입니다.
 | ![hed_edge_bgr](https://user-images.githubusercontent.com/37208901/198711601-f13fb687-8468-4bec-bf3a-a033b0421546.png)| 
 |:--:| 
@@ -128,13 +134,6 @@ CED와 HED를 이용하여 외곽선을 구하고 구한 외곽선 정보를 바
 
 | ![hed_edge_bgr](https://user-images.githubusercontent.com/37208901/198711601-f13fb687-8468-4bec-bf3a-a033b0421546.png)| 
 |:--:| 
-
-##### Dataset
-- [Pascal VOC Dataset Mirror (pjreddie.com)](https://pjreddie.com/projects/pascal-voc-dataset-mirror/)
-- [COCO - Common Objects in Context (cocodataset.org)](https://cocodataset.org/#home)
-
-#### 4-2. Contour 추출
-
 
 #### 4-2. Masking
 
