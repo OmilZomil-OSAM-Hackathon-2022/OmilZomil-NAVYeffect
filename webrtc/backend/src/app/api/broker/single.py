@@ -1,11 +1,11 @@
 from app.api.broker.base import BaseBroker
 
-from app.api.worker.ai import AIWorker
+from app.api.worker.ai import AIWorker, FrontAIWorker
 
 
 class SingleBroker(BaseBroker):
     is_save_queue = False
-    worker_creater = AIWorker
+    worker_creater = FrontAIWorker
     
     def __init__(self, id, db):
         super().__init__(id)

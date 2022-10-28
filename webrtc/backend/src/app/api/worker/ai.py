@@ -6,6 +6,7 @@ from app.ai.OZEngine.model import OmilZomil
 from app.api.worker.base import BaseWorker
 from app.api.image_box.db_adapter import ai_2_db
 from app.api.image_box.ai_adapter import ai_2_worker
+from app.api.image_box.front_adapter import worker_2_front
 from app.api.image_box.image_box import ImageBox
 
 
@@ -29,40 +30,37 @@ class AIWorker(BaseWorker):
             }
 
         # ai 결과에 따라 이미지 박스 업데이트
-        report = self.update_image_box(report=report, guardhouse=guardhouse)
+        report = ai_2_worker(report)
 
-        # ai 인식 결과에 따라 처리
-        if report['ai'] == 'stop':
-            return report
-        # DB 저장 없이 바로 프론트에게 반환
-        else:
-            return report
-        
-        
-    def update_image_box(self, report, guardhouse):
-      
         # 이미지 박스가 없으면 생성
-        result = ai_2_worker(report)
-
         if self.image_box is None:
             self.image_box = ImageBox(
-                uniform=result['uniform'], 
+                uniform=report['uniform'], 
                 guardhouse=guardhouse
                 )
-            self.image_box.update(result)
-            return {
-                'ai' : "new",
-                'inspection' : self.image_box.inspection,
-                'parts' : self.image_box.parts,
-            }
+            msg = {'ai': 'new'}
         else:
-            self.image_box.update(result)
-            return {
-                'ai' : "update", 
-                'inspection' : self.image_box.inspection,
-                'parts' : self.image_box.parts,
-            }
+            msg = {'ai': 'update'}
+        
+        report = self.update_image_box(report=report)
+        msg.update(report)
+        return msg 
+                
+        
+    def update_image_box(self, report):
+        self.image_box.update(report)
+        return {
+            'inspection' : self.image_box.inspection,
+            'parts' : self.image_box.parts,
+        }
 
 
-class DBWorker(AIWorker):
-    pass
+class FrontAIWorker(AIWorker):
+
+    def update_image_box(self, report):
+        self.image_box.update(report)
+        msg = {}
+        msg.update(self.image_box.inspection)
+        msg.update(self.image_box.parts)
+        msg = worker_2_front(msg)
+        return msg
