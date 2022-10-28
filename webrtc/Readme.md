@@ -19,7 +19,7 @@ Web Real-Time Communications의 약어. 별도의 플러그인 없이 음성, �
 
   
 <h2 id="mechanism"> :gear: 동작 과정(How it works)</h2>
-<img src="https://user-images.githubusercontent.com/59905641/198444532-6a9e04ca-22d7-4344-93df-5f3118bef4c1.png" align="left" width="450px"/>
+<img src="https://user-images.githubusercontent.com/59905641/198444532-6a9e04ca-22d7-4344-93df-5f3118bef4c1.png" align="left" width="300px" height="300px"/>
 1. <i>WebRTC</i>를 사용, 웹 브라우저와 카메라가 있는 pc면 <b>특별한 프로그램 설치 없이</b> 해당 카메라로 촬영한다.<br></br>
 2. 촬영한 이미지는 <i>WebSocket</i>을 통해 서버로 전달한다.<br><br/>
 3. 이미지 1차 분석, 사람이 나온 경우만 파일로 저장 후 해당 경로를 AI 처리 프로세서에 전달한다.<br></br>
