@@ -10,6 +10,10 @@
   <ol>
     <li><a href="#intro"> ᐅ 프로젝트 소개 (Intro)</a></li>
     <li><a href="#features"> ᐅ 기능 설명 및 사용법 (Features)</a></li>
+      <ol>
+        <li><a href="Structures">  ᐅ 구조 설명 (Structures)</a></li>
+        <li><a href="ux/ui">  ᐅ UX / UI</a></li>
+      </ol>
     <li><a href="#pre-required"> ᐅ 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</a></li>
     <li><a href="#technique"> ᐅ 기술 스택 (Technique used)</a></li>
     <li><a href="#install"> ᐅ 설치 안내 (How to download)</a></li>
@@ -39,13 +43,24 @@
 
 <h2 id="features"> :mag: 기능 설명 및 프로젝트 사용법 (Features)</h2>
 
-
+<h3 id="Structures"> :gear: 구조 설명 (Structures)</h3>
 ![5  프로젝트 상세  구조도](https://user-images.githubusercontent.com/59905641/198606538-941de90b-358c-4b2b-b2dd-bdd42d771104.png)
-https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/webrtc/Readme.md
-WebRTC readme
+> 프로젝트 상세 구조도
+ + 저희 프로젝트는 크게 *세 가지의 컨테이너로 구성*되어 있습니다.  
+각각 카메라로 찍은 사진을 가져오고 저장해 모듈화된 AI로 판별하는 **WebRTC Backend 컨테이너**, 그렇게 만들어진 DB를 담은 **DB 컨테이너**, 그리고 그 안의 데이터를 파싱해서 저희 오밀-조밀 웹 서비스에 대시보드나 통계 자료를 볼 수 있게 하는 **Omil-Zomil Backend 컨테이너**입니다.  
+따라서 *메인 리드미 파일 말고도 WebRTC 리드미 파일, 오밀-조밀 리드미 파일 또한 존재*하니 필독 부탁드립니다.  
+ https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/webrtc/Readme.md
+ WebRTC readme
 
-### :computer: UX/UI
-> 완성 후 와이어프레임들 대체 필요
+<h3 id="ux/ui"> :computer: UX / UI</h3>
+> 완성 후 와이어프레임들 대체 필요. 웹 서비스 핵심 기능의 간략한 설명. 자세한 것은 OmilZomil의 리드미 파일 참고 바랍니다.
+
+ + 대시보드 : 부대별 대시보드입니다. 실시간으로 출입자 정보가 리스트업되며, 각 요소 별 불량 비율이나 월간 양호 빈도 등을 제공합니다.
+![17  프로젝트 상세  사용자기능](https://user-images.githubusercontent.com/59905641/198816658-e15f9c3f-22f0-487f-9f85-4927ab828f76.png)
+![21  사용기술및오픈소스](https://user-images.githubusercontent.com/59905641/198816673-be370969-93a8-4f35-952e-144f5394db3d.png)
+![22  깃허브](https://user-images.githubusercontent.com/59905641/198816675-e67b4f42-93a2-436c-9d28-be39604e000e.png)
+![18  프로젝트 상세  프로필 수정2](https://user-images.githubusercontent.com/59905641/198816687-9e13d999-afef-440a-8c59-3a4bc35d6883.jpg)
+
  + 로그인 및 회원가입 기능입니다. 각 부대 담당자들은 부여받은 계정으로 접근 가능합니다.
  ![Slide 16_9 - 37](https://user-images.githubusercontent.com/59905641/193630489-e5327446-01fe-4ae2-9787-cbe77f0aeea1.png)
  
