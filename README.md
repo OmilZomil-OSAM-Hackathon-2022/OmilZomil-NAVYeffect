@@ -44,15 +44,18 @@
 <h2 id="features"> :mag: 기능 설명 및 프로젝트 사용법 (Features)</h2>
 
 <h3 id="Structures"> :gear: 구조 설명 (Structures)</h3>
+
+### :gear: 구조 설명 (Structures) 왜 중간에 html 좀 섞어쓰면 markdown 깨지고 안 돌아오는거야ㅠㅠ
 ![5  프로젝트 상세  구조도](https://user-images.githubusercontent.com/59905641/198606538-941de90b-358c-4b2b-b2dd-bdd42d771104.png)
 > 프로젝트 상세 구조도
  + 저희 프로젝트는 크게 *세 가지의 컨테이너로 구성*되어 있습니다.  
 각각 카메라로 찍은 사진을 가져오고 저장해 모듈화된 AI로 판별하는 **WebRTC Backend 컨테이너**, 그렇게 만들어진 DB를 담은 **DB 컨테이너**, 그리고 그 안의 데이터를 파싱해서 저희 오밀-조밀 웹 서비스에 대시보드나 통계 자료를 볼 수 있게 하는 **Omil-Zomil Backend 컨테이너**입니다.  
 따라서 *메인 리드미 파일 말고도 WebRTC 리드미 파일, 오밀-조밀 리드미 파일 또한 존재*하니 필독 부탁드립니다.  
- https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/webrtc/Readme.md
- WebRTC readme
 
 <h3 id="ux/ui"> :computer: UX / UI</h3>
+
+
+### :computer: UX / UI
 > 완성 후 와이어프레임들 대체 필요. 웹 서비스 핵심 기능의 간략한 설명. 자세한 것은 OmilZomil의 리드미 파일 참고 바랍니다.
 
  + 대시보드 : 부대별 대시보드입니다. 실시간으로 출입자 정보가 리스트업되며, 각 요소 별 불량 비율이나 월간 양호 빈도 등을 제공합니다.
@@ -151,3 +154,5 @@ This project is licensed under the terms of the MIT license.
 > 개발 문서
 
 + wiki 항목 참고 (여기 개인 레포에선 일단 docs 폴더 만들어서 그 안에 images.md 만듬)
++ [WebRTC readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/webrtc/Readme.md)
++ [Omil-Zomil readme] -> N/A(yet)
