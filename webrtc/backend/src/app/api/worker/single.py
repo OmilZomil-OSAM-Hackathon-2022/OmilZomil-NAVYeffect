@@ -36,7 +36,15 @@ class SingleWorker(DBWorker):
         else:
             # 이미지 박스 업데이트
             report = self.update_image_box(report=report)
+            if 'main' in self.image_box.update_list:
+                self.update_main()
+                self.image_box.update_list.discard('main')
 
+            for part_name in self.image_box.update_list:
+                self.update_parts(part_name=part_name)
+
+            # 업데이트 내역 초기화
+            self.image_box.update_list.clear()    
             msg = {'ai': 'update'}
         
         

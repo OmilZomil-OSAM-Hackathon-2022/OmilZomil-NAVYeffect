@@ -4,7 +4,7 @@ from datetime import datetime
 from app.core.config import settings
 
 from app.api.worker.ai import AIWorker
-from app.api.image_box.db_adapter import ai_2_db_main
+from app.api.image_box.db_adapter import ai_2_db_main, get_part_id
 
 from app.api.db.guardhouse import select_guardhouse
 from app.crud.unit_house_relation import get_unit_from_house
@@ -33,6 +33,7 @@ class FileWorker(AIWorker):
         img = self.image_box.parts_images[part_name]
         self.part_image_path[part_name] = f"{PARTS_IMAGE_PATH}/{self.file_name}_{part_name}.jpg"
         cv2.imwrite(self.part_image_path[part_name], img)
+        return self.part_image_path[part_name]
 
 
 
@@ -79,6 +80,26 @@ class DBWorker(FileWorker):
         self.db_data_id = db_data.inspection_id  
 
 
+        # 각 파츠도 DB에 생성
+        part_list = self.image_box.parts
+        for part_name, status in part_list.items():
+            if self.image_box.parts_images.get(part_name) is not None:
+                path = self.save_part_img(part_name)
+            else:
+                path = ""
+
+            db_part = InspectionDetail(
+                inspection_id=self.db_data_id,
+                appearance_type=get_part_id(part_name),
+                status=status,
+                image_path="",
+            )
+            self.db.add(db_part)
+            self.db.commit()
+            self.db.refresh(db_part)
+        print("DB에 데이터 생성 완료")
+
+
 
     def update_main(self):
         pass
@@ -86,3 +107,4 @@ class DBWorker(FileWorker):
 
     def update_parts(self):
         pass
+    
