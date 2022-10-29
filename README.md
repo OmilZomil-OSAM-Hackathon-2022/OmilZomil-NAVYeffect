@@ -134,8 +134,10 @@ This project is licensed under the terms of the MIT license.
 
 > 개발 문서
 
+리드미들 링크는 머지한 다음에 main 브랜치로 다시 링크 걸어야 할 것!
+
 + [WebRTC readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/webrtc/Readme.md)
-+ [Omil-Zomil readme] -> N/A(yet)
++ [Omil-Zomil readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/omilzomil/Readme.md)
 + [Figma.com] -> N/A(yet) 이건 맨 위에 뱃지로 해도 좋을듯?
 + Wireframes 모음집(Wiki 참고)
 + 멘토링 준비-결과 자료집(Wiki 참고) 아직
