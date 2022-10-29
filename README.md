@@ -135,7 +135,7 @@ This project is licensed under the terms of the MIT license.
 
 + [WebRTC readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/webrtc/Readme.md)
 + [Omil-Zomil readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/omilzomil/Readme.md)
-+ <a href="https://www.figma.com/file/SWq5gdsKhBOHZJrDL5Qjr8/%EC%98%A4%EB%B0%80%EC%A1%B0%EB%B0%80-(NAVY%ED%9A%A8%EA%B3%BC)?node-id=1199%3A4300"><img src="https://img.shields.io/badge/Figma-#F24E1E?style=for-the-badge&logo=Figma&logoColor=white"/></a>
++ <a href="https://www.figma.com/file/SWq5gdsKhBOHZJrDL5Qjr8/%EC%98%A4%EB%B0%80%EC%A1%B0%EB%B0%80-(NAVY%ED%9A%A8%EA%B3%BC)?node-id=1199%3A4300"><img src="https://img.shields.io/badge/Figma-#F24E1E?style=for-the-badge&logo=Figma&logoColor=white"></a>
 + Wireframes 모음집(Wiki 참고)
 + 멘토링 준비-결과 자료집(Wiki 참고) 아직
 + 발표자료 ppt(Wiki 참고) 아직
