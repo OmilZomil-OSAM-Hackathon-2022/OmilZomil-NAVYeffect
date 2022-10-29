@@ -21,7 +21,7 @@ A[사람 및 얼굴인식] --> B[두발상태확인] --> C[복장분류] --> D[�
   
 | ![](https://miro.medium.com/max/1400/1*H3QlBG3U0s5XpOsI6xwsag.jpeg) | 
 |:--:| 
-| ***Figure1*** *FPS-mAP 지표* |
+| ***Figure 1*** *FPS-mAP 지표* |
 
 아래는 Omil-Zomil 서비스에서 Yolo 모델을 적용한 결과물 입니다.
 | ![person detect](https://user-images.githubusercontent.com/37208901/198707606-77b012e0-5c70-4c11-9a21-78961bb17d18.png) | 
@@ -39,17 +39,17 @@ A[사람 및 얼굴인식] --> B[두발상태확인] --> C[복장분류] --> D[�
 아래부터 MTCNN에 대한 상세설명입니다.
 
 P-Net(Proposal-Net)은 얼굴 랜드마크 좌표를 얻기 위한 모델입니다. BBR(Bounding Box Regression)과 NMS(Non-Maximum Suppression)를 진행하여 가장 확률이 높은 box값들을 남깁니다.
-| ![P-Net](https://user-images.githubusercontent.com/37208901/198687071-170fc4fc-9330-4ecf-9c79-070a9f5e4c72.png) | 
+| ![P-Net](https://user-images.githubusercontent.com/37208901/198792698-f85605a5-d766-46b6-8182-2d68c3347c2a.png) | 
 |:--:| 
 | ***Figure 3.*** *architecture of P-Net in MTCNN* |
 
 R-Net(Refine-Net)은 P-Net과 유사하지만 마지막에 FC-Layer가 추가된 모델입니다. P-Net에서 추정한 box들에 대해 더욱 정교하게 작업을 수행합니다. R-Net또한 BBR과 NMS를 수행합니다.
-| ![Group 632615](https://user-images.githubusercontent.com/37208901/198687071-170fc4fc-9330-4ecf-9c79-070a9f5e4c72.png) | 
+| ![R-Net](https://user-images.githubusercontent.com/37208901/198792711-cf3c264f-be83-48ca-9a38-4cb75b69d9a4.png) | 
 |:--:| 
 | ***Figure 3.*** *architecture of R-Net in MTCNN* |
 
 O-Net(Output-Net)은 P-Net과 R-Net과 유사하지만 깊이가 더 깊어진 모델입니다. 입력 이미지의 크기도 48x48로 더 커졌습니다. 이 모델의 결과값이 얼굴인식의 최종값이 됩니다.
-| ![Group 632615](https://user-images.githubusercontent.com/37208901/198687071-170fc4fc-9330-4ecf-9c79-070a9f5e4c72.png) | 
+| ![O-Net](https://user-images.githubusercontent.com/37208901/198792718-f419f66b-d17d-4897-8a10-b70603c9d197.png) | 
 |:--:| 
 | ***Figure 3.*** *architecture of O-Net in MTCNN* |
 
