@@ -116,7 +116,7 @@ A[외곽선추출] --> B[Contour추출] --> C[Masking] --> D[파츠여부확인]
 CED(Cany Edge Detection)와 MS COCO dataset으로 학습한 HED(Holistically-Nested Edge Detection)으로 외곽선을 구합니다. 아래는 각각의 방법으로 추출한 윤곽선입니다.
 | Cany Edge Detection | Holistically-Nested Edge Detection |
 | ----- | ----- |
-| ![HED sample](https://blog.kakaocdn.net/dn/kHShf/btrsTcrSSL1/9vi4F5h9lB2jn0H4qdl5Mk/img.jpg) | ![HED sample](https://blog.kakaocdn.net/dn/kHShf/btrsTcrSSL1/9vi4F5h9lB2jn0H4qdl5Mk/img.jpg) |
+| ![CED result](https://user-images.githubusercontent.com/37208901/198776405-56037c3b-ee10-4eee-a964-9f951f3ea9b6.jpg) | ![HED result](https://user-images.githubusercontent.com/37208901/198776405-56037c3b-ee10-4eee-a964-9f951f3ea9b6.jpg) |
 | ***Figure 5.*** *CED, HED* |
 
 ##### Dataset
@@ -166,12 +166,25 @@ E --> F
 
 아래는 VGG Net을 이용하여 학습하고 활용하는 과정을 도식화 한 그림입니다.
 
-| ![hed_edge_bgr](https://user-images.githubusercontent.com/37208901/198711601-f13fb687-8468-4bec-bf3a-a033b0421546.png)| 
+| ![Group 632624](https://user-images.githubusercontent.com/37208901/198782037-f676278e-c567-407f-b418-d2ce915f361e.png) | 
 |:--:| 
+
+`Figure`의 위쪽은 모델을 학습하는 과정입니다. 먼저 각 파츠의 이지미 데이터와 그에 맞는 레잉블링을 진행하여 VGG-Net에 학습을 시킵니다. VGG-Net에는 합성곱 레이어(Convolution layer)와 풀링 레이어(Pooling layer)가 몇 겹 있고 이런 레이어들을 거쳐서 해당 이미지를 잘 설명할 수 있는 특성맵(Feature map)이 출력이 됩니다. 이 특성맵을 전결합층(FC-layer / Dense layer)을 거쳐 분류를 하게 됩니다. 학습이 되면 합성곱 레이어와 풀링 레이어의 가중치들이 학습이 되고 이렇게 학습된 레이어들로 얻어진 특성맵을 FC-layer로 입력시키고 나온 출력물 즉 Feature Vector를 DB에 저장합니다.
+
+`Figure`의 아래쪽은 학습된 모델을 이용하여 실제 서비스에 적용하는 과정입니다. 학습된 VGG-Net에 "3.파츠추출"과정을 거친 "파츠로 인식되는" 이미지들을 입력시킵니다. 입력시키면 합성곱 레이어와 풀링레이어를 거치고 동일하게 특성맵이 나옵니다. 이 특성맵이 최종적으로 전결합층에 입력되어 Feature Vector가 나옵니다. 이 Feature Vector를 DB에 학습이 왼료된 모델의 출력물인 Feature Vector와 비교를 하여 파츠여부를 최종적으로 판단을 합니다.
+
+아래는 `Figure`의 과정을 더욱 간소화 하여 나타낸 그림입니다.
+
+
+| ![Group 632624](https://user-images.githubusercontent.com/37208901/198782037-f676278e-c567-407f-b418-d2ce915f361e.png) | 
+|:--:| 
+
 
 만약 파츠각 이름표라면 추가적으로 OCR을 진행하여 이름표의 이름을 텍스트 데이터로 추출합니다.
 
 마지막으로 OCR을 진행하여 이름표 또는 (대한민국 해군) 등의 파츠들에서 글씨를 추출합니다. 이렇게 얻어낸 결과물들로 양호, 불량을 판단할 수 있습니다. 아래는 각 파츠에 OCR을 적용하여 추출한 text와 결과물입니다. 
+
+
 
 ![output](https://user-images.githubusercontent.com/37208901/193526989-e08418b5-a4cc-4523-aabb-422cc3132ed7.png) | 
 |:--:| 
@@ -180,4 +193,6 @@ E --> F
 Reference
 
  [[1504.06375] Holistically-Nested Edge Detection (arxiv.org)](https://arxiv.org/abs/1504.06375)
+ 
  [[1712.07168] Real-time deep hair matting on mobile devices (arxiv.org)](https://arxiv.org/abs/1712.07168)
+
