@@ -70,7 +70,7 @@
 
 
 ![17  프로젝트 상세  사용자기능](https://user-images.githubusercontent.com/59905641/198816658-e15f9c3f-22f0-487f-9f85-4927ab828f76.png)
-![21  사용기술및오픈소스](https://user-images.githubusercontent.com/59905641/198816673-be370969-93a8-4f35-952e-144f5394db3d.png)
+
 ![22  깃허브](https://user-images.githubusercontent.com/59905641/198816675-e67b4f42-93a2-436c-9d28-be39604e000e.png)
 ![18  프로젝트 상세  프로필 수정2](https://user-images.githubusercontent.com/59905641/198816687-9e13d999-afef-440a-8c59-3a4bc35d6883.jpg)
 
@@ -111,6 +111,8 @@
 
 <h2 id="technique"> :technologist: 기술 스택 (Technique used)</h>
 
+
+
 ### Back end
  + <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">
  + <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=FastAPI&logoColor=white">
@@ -127,9 +129,11 @@
 ### Front end
  + <img src="https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=Vue.js&logoColor=white">
  + <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
+------------------------------------------------------------------------------------------------------------------------------------------
+![21  사용기술및오픈소스](https://user-images.githubusercontent.com/59905641/198816673-be370969-93a8-4f35-952e-144f5394db3d.png)
 <h2 id="install"> :arrow_down: 설치 안내 (How to download)</h2>
 
-**어느 것 다운받아서 어느 주소로 들어가야 사용 가능한지 설명. 추후 링크 공지 예정**
+**생활반 가서 오밀조밀 주소로 변경**
 <h2 id="team"> :kissing_heart: 팀원 정보 (Meet the team)</h2>
 
 > 팀 NAVY효과
