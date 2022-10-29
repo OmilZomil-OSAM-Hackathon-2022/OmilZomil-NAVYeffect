@@ -107,7 +107,8 @@
 ![21  사용기술및오픈소스](https://user-images.githubusercontent.com/59905641/198816673-be370969-93a8-4f35-952e-144f5394db3d.png)
 <h2 id="install"> :arrow_down: 설치 안내 (How to download)</h2>
 
-**생활반 가서 오밀조밀 주소로 변경**
+[별도의 플러그인을 설치할 필요가 없습니다. 지금 당장 눌러서 오밀-조밀을 만나보세요!](https://117.17.110.220:7776)
+
 <h2 id="team"> :kissing_heart: 팀원 정보 (Meet the team)</h2>
 
 > 팀 NAVY효과
