@@ -78,8 +78,8 @@ Web Real-Time Communications의 약어. 별도의 플러그인 없이 음성, �
 
 <h2 id="links"> :arrows_counterclockwise: 함께 보기 (External Links)</h2>
 :arrow_down_small: <b>README.md of Main</b><br>
-https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/README.md</br>
+[README.md - Main](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/README.md)
 
 :arrow_down_small: <b>READMD.md of Project Omil-Zomil</b><br>
-N/A(yet)
+[README.md - Omil-Zomil](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/omilzomil/Readme.md)
 
