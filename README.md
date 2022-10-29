@@ -56,6 +56,16 @@
 > 완성 후 와이어프레임들 대체 필요. 웹 서비스 핵심 기능의 간략한 설명. 자세한 것은 OmilZomil의 리드미 파일 참고 바랍니다.
 
  + 대시보드 : 부대별 대시보드입니다. 실시간으로 출입자 정보가 리스트업되며, 각 요소 별 불량 비율이나 월간 양호 빈도 등을 제공합니다.
+![Slide 16_9 - 36](https://user-images.githubusercontent.com/59905641/193630811-aafc8f62-a53d-43d0-8bdd-55182489bd55.png)
+
+ + 실시간 감지 현황 : 부대 인원 조회 페이지입니다. 자세히 보기 클릭 시 상세 정보 팝업창이 뜹니다.
+![부대 인원 조회 페이지-4 2](https://user-images.githubusercontent.com/59905641/193631247-77354eec-01c4-40cd-8a2f-5dd60f037057.png)
+![부대인원조회_자세히보기](https://user-images.githubusercontent.com/59905641/194754317-0d71336a-ad51-4e24-a1bc-53a583bf13ff.png)
+
+ + 전군 통계 : 전군 통계 대시보드입니다. 각군별, 시간대별, 요소 별 불량 여부 등의 통계적 데이터로 넓은 범위에서의 추이를 볼 수 있습니다.
+![전군통계](https://user-images.githubusercontent.com/59905641/194753907-dc546fd1-81f1-4e42-b2f8-f0d0efea910c.png)
+
+
 ![17  프로젝트 상세  사용자기능](https://user-images.githubusercontent.com/59905641/198816658-e15f9c3f-22f0-487f-9f85-4927ab828f76.png)
 ![21  사용기술및오픈소스](https://user-images.githubusercontent.com/59905641/198816673-be370969-93a8-4f35-952e-144f5394db3d.png)
 ![22  깃허브](https://user-images.githubusercontent.com/59905641/198816675-e67b4f42-93a2-436c-9d28-be39604e000e.png)
@@ -66,7 +76,7 @@
  
  + 부대별 대시보드입니다. 실시간으로 출입자 정보가 리스트업되며, 각 요소 별 불량 비율이나 월간 양호 빈도 등을 제공합니다.
 > 여러 가지 기능들 있는거 클릭해서 보여주는 gif로 추후 변경 필요.
- ![Slide 16_9 - 36](https://user-images.githubusercontent.com/59905641/193630811-aafc8f62-a53d-43d0-8bdd-55182489bd55.png)
+ 
 
  + 부대 인원 조회 페이지입니다. 실시간 감지되는 리스트 중 한 컴포넌트 클릭 시 상세보기 창이 팝업됩니다.
 > gif 변경 필요
