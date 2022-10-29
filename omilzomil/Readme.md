@@ -13,17 +13,13 @@
 -->
 
 <h2 id="intro"> :grey_question: Project Omil-Zomil (Intro)</h2>
-그림
 
 
-<img src=“https://user-images.githubusercontent.com/59905641/198840302-070fa67e-1fa9-44a3-9970-dcdd4107fc6f.png” align=“left” width=“300px” height=“300px”/>
-
-
-
+<img src="https://user-images.githubusercontent.com/59905641/198840302-070fa67e-1fa9-44a3-9970-dcdd4107fc6f.png" align="left" width="300" height="400"/>
 사진을 찍고 나서 AI로 판단한 WebRTC 컨테이너가 그 데이터를 DB 컨테이너에 저장하면, 다시 DB 컨테이너에서 데이터를 받아와 Omil-Zomil Backend 컨테이너에서 파싱한다.<br></br>
 이를 **웹 서비스에서 대시보드, 통계적 추이 등으로 사용자에게 보여주는 구조**이다. 본 문서에서는 그 페이지들에 대한 설명을 적어두었다.<br></br>
 
-<br clear=“left/>
+<br clear="left"/>
 
 <h2 id="features"> :star2: 핵심 기능 (Features):stars:</h2>
 
