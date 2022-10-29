@@ -30,3 +30,4 @@ class ImageBox(BaseImageBox):
         for part_name, status in result['component'].items():
             if status and self.parts[part_name] == False:
                 self.parts[part_name] = True # 양호로 갱신
+                self.parts_images[part_name] = result['roi'][part_name]

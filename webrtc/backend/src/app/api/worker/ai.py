@@ -4,7 +4,6 @@ from app.ai.OZEngine.model import OmilZomil
 
 
 from app.api.worker.base import BaseWorker
-from app.api.image_box.db_adapter import ai_2_db
 from app.api.image_box.ai_adapter import ai_2_worker
 from app.api.image_box.front_adapter import worker_2_front
 from app.api.image_box.image_box import ImageBox
