@@ -32,7 +32,10 @@ class SingleWorker(DBWorker):
             report = self.update_image_box(report=report)
             # 객체 생성
             self.create_main(work_time=work_time)
-            msg = {'ai': 'new'}
+            msg = {
+                "type" : "result",
+                'ai': 'new',
+            }
         else:
             # 이미지 박스 업데이트
             report = self.update_image_box(report=report)
@@ -45,8 +48,13 @@ class SingleWorker(DBWorker):
 
             # 업데이트 내역 초기화
             self.image_box.update_list.clear()    
-            msg = {'ai': 'update'}
+            msg = {
+                "type" : "result",
+                'ai': 'update',
+                }
         
         
-        msg.update(report)
+        msg.update(self.image_box.inspection)
+        msg.update(self.image_box.parts)
+        msg = worker_2_front(msg)
         return msg 

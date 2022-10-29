@@ -3,6 +3,7 @@ PART_NAME = {
     'rank_tag' : 'leveltag',
     'name_tag' : 'nametag',
     'neckerchief' : 'neck',
+    'uniform' : 'kind',
 }
 
 def worker_2_front(msg:dict):
