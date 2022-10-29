@@ -61,43 +61,21 @@
  + 대시보드 : 부대별 대시보드입니다. 실시간으로 출입자 정보가 리스트업되며, 각 요소 별 불량 비율이나 월간 양호 빈도 등을 제공합니다.
 ![Slide 16_9 - 36](https://user-images.githubusercontent.com/59905641/193630811-aafc8f62-a53d-43d0-8bdd-55182489bd55.png)
 
- + 실시간 감지 현황 : 부대 인원 조회 페이지입니다. 자세히 보기 클릭 시 상세 정보 팝업창이 뜹니다.
+ + 실시간 감지 현황 : 부대 인원 조회 페이지입니다. 자세히 보기 클릭 시 상세 정보 팝업창이 뜹니다. 사진변경해야!!!
 ![부대 인원 조회 페이지-4 2](https://user-images.githubusercontent.com/59905641/193631247-77354eec-01c4-40cd-8a2f-5dd60f037057.png)
 ![부대인원조회_자세히보기](https://user-images.githubusercontent.com/59905641/194754317-0d71336a-ad51-4e24-a1bc-53a583bf13ff.png)
 
- + 전군 통계 : 전군 통계 대시보드입니다. 각군별, 시간대별, 요소 별 불량 여부 등의 통계적 데이터로 넓은 범위에서의 추이를 볼 수 있습니다.
+ + 전군 통계 : 전군 통계 대시보드입니다. 각군별, 시간대별, 요소 별 불량 여부 등의 통계적 데이터로 넓은 범위에서의 추이를 볼 수 있습니다. 사진변경해야!!!
 ![전군통계](https://user-images.githubusercontent.com/59905641/194753907-dc546fd1-81f1-4e42-b2f8-f0d0efea910c.png)
+
+ + 랭킹페이지입니다. 위반 요소별 리스트업 및 상위 부대 꾸미기 기능으로 상승 욕구를 돋울 수 있습니다.
+ ![랭킹](https://user-images.githubusercontent.com/59905641/194753760-d9a72b5d-0fcc-4e74-8467-b82ef967490e.png)
 
 
 ![17  프로젝트 상세  사용자기능](https://user-images.githubusercontent.com/59905641/198816658-e15f9c3f-22f0-487f-9f85-4927ab828f76.png)
 
 ![22  깃허브](https://user-images.githubusercontent.com/59905641/198816675-e67b4f42-93a2-436c-9d28-be39604e000e.png)
 ![18  프로젝트 상세  프로필 수정2](https://user-images.githubusercontent.com/59905641/198816687-9e13d999-afef-440a-8c59-3a4bc35d6883.jpg)
-
- + 로그인 및 회원가입 기능입니다. 각 부대 담당자들은 부여받은 계정으로 접근 가능합니다.
- ![Slide 16_9 - 37](https://user-images.githubusercontent.com/59905641/193630489-e5327446-01fe-4ae2-9787-cbe77f0aeea1.png)
- 
- + 부대별 대시보드입니다. 실시간으로 출입자 정보가 리스트업되며, 각 요소 별 불량 비율이나 월간 양호 빈도 등을 제공합니다.
-> 여러 가지 기능들 있는거 클릭해서 보여주는 gif로 추후 변경 필요.
- 
-
- + 부대 인원 조회 페이지입니다. 실시간 감지되는 리스트 중 한 컴포넌트 클릭 시 상세보기 창이 팝업됩니다.
-> gif 변경 필요
- ![부대 인원 조회 페이지-4 2](https://user-images.githubusercontent.com/59905641/193631247-77354eec-01c4-40cd-8a2f-5dd60f037057.png)
- ![부대인원조회_자세히보기](https://user-images.githubusercontent.com/59905641/194754317-0d71336a-ad51-4e24-a1bc-53a583bf13ff.png)
- 
- + 랭킹페이지입니다. 위반 비율을 따져 1순위부터 전 부대를 확인할 수 있습니다.
- ![랭킹](https://user-images.githubusercontent.com/59905641/194753760-d9a72b5d-0fcc-4e74-8467-b82ef967490e.png)
-
- + 전군 통계 대시보드입니다. 부대별 현황과 다르게 훨씬 넓은 범위에서의 추이를 보여줍니다.
- ![전군통계](https://user-images.githubusercontent.com/59905641/194753907-dc546fd1-81f1-4e42-b2f8-f0d0efea910c.png)
- 
- + 인공지능이 외적 군기 위반 여부를 판별하는 모습입니다.
- ![인공지능-1](https://user-images.githubusercontent.com/59905641/193634048-a2baab28-9483-4dde-b421-dc74c0c96a04.png)
- 
- + 휴가 관리 페이지입니다. 출타 장병이 관리자를 선택하면 그들의 정보를 관리자dp게 보냅니다.
-![휴가관리](https://user-images.githubusercontent.com/59905641/194754384-5cdd25d6-cb44-4ac5-bae3-25733897314a.png)
-![휴가관리_상세보기](https://user-images.githubusercontent.com/59905641/194754409-c2de29e7-1d16-45f7-aa91-91cdd17f2dcd.png)
  
  + 수정/관리 페이지입니다. 루트 관리자, 일반 관리자(부대 관리자)에게 서로 다른 페이지를 보여줍니다. 프로필 등을 수정하는 기능 및 회원 탈퇴가 가능합니다.
 ![루트관리자-프로필수정](https://user-images.githubusercontent.com/59905641/194754473-8e47d034-b061-4ad2-b1fd-14480a3874fb.png)
@@ -105,13 +83,12 @@
 
 <h2 id="pre-required"> :dash: 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</h2>
 
+> WebRTC 사용 덕에 타 플러그인 필요 없음. 웹 브라우저로 바로 접속 가능. 한 줄 설명하고 가능한 브라우저 종류, 버전 등 적기(개발진문의)
  + ECMAScript 6 지원 브라우저 사용
  + 권장: Google Chrome 버전 77 이상
  + Internet Explorer 미사용 추천 등
 
 <h2 id="technique"> :technologist: 기술 스택 (Technique used)</h>
-
-
 
 ### Back end
  + <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">
@@ -157,6 +134,9 @@ This project is licensed under the terms of the MIT license.
 
 > 개발 문서
 
-+ wiki 항목 참고 (여기 개인 레포에선 일단 docs 폴더 만들어서 그 안에 images.md 만듬)
 + [WebRTC readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/webrtc/Readme.md)
 + [Omil-Zomil readme] -> N/A(yet)
++ [Figma.com] -> N/A(yet) 이건 맨 위에 뱃지로 해도 좋을듯?
++ Wireframes 모음집(Wiki 참고)
++ 멘토링 준비-결과 자료집(Wiki 참고) 아직
++ 발표자료 ppt(Wiki 참고) 아직
