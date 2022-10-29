@@ -67,16 +67,16 @@
 ![전군통계](https://user-images.githubusercontent.com/59905641/194753907-dc546fd1-81f1-4e42-b2f8-f0d0efea910c.png)
 
  + #### 랭킹 페이지 : 위반 요소별 리스트업 및 상위 부대 꾸미기 기능으로 상승 욕구를 돋울 수 있습니다.
-![랭킹 페이지](https://user-images.githubusercontent.com/59905641/198837991-9da0682c-e55d-401c-b051-72f589e37e3b.png)
+![랭킹 페이지](https://user-images.githubusercontent.com/59905641/198837991-9da0682c-e55d-401c-b051-72f589e37e3b.png)  
 
+> 위의 데이터를 이용한 페이지 이외에도, 다양한 기능을 제공합니다.  
+
+ + #### 로그인 / 회원 가입 페이지, 일반 사용자의 프로필 수정 페이지, 휴가 관리 및 신청을 위한 페이지 등, 다양한 사옹자 기능을 내포한 프로젝트입니다.
 ![17  프로젝트 상세  사용자기능](https://user-images.githubusercontent.com/59905641/198816658-e15f9c3f-22f0-487f-9f85-4927ab828f76.png)
-
-![22  깃허브](https://user-images.githubusercontent.com/59905641/198816675-e67b4f42-93a2-436c-9d28-be39604e000e.png)
+ + 루트 관리자, 일반 관리자는 일반 사용자와 달리 프로필 수정 페이지에 사용자 관리, 부대 관리 등의 탭이 추가되어 있습니다. 자세한 것은 부록의 링크를 통해 Omil-Zomil 리드미 파일에서 확인하시기 바랍니다!
 ![18  프로젝트 상세  프로필 수정2](https://user-images.githubusercontent.com/59905641/198816687-9e13d999-afef-440a-8c59-3a4bc35d6883.jpg)
  
- + 수정/관리 페이지입니다. 루트 관리자, 일반 관리자(부대 관리자)에게 서로 다른 페이지를 보여줍니다. 프로필 등을 수정하는 기능 및 회원 탈퇴가 가능합니다.
-![루트관리자-프로필수정](https://user-images.githubusercontent.com/59905641/194754473-8e47d034-b061-4ad2-b1fd-14480a3874fb.png)
-![일반관리자-프로필수정](https://user-images.githubusercontent.com/59905641/194754528-4380629c-4117-4296-a9e0-60df82ff5704.png)
+![22  깃허브](https://user-images.githubusercontent.com/59905641/198816675-e67b4f42-93a2-436c-9d28-be39604e000e.png)
 
 <h2 id="pre-required"> :dash: 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</h2>
 
@@ -85,6 +85,15 @@
  + 권장: Google Chrome 버전 77 이상
  + Internet Explorer 미사용 추천 등
 
+:white_check_mark: 사용 가능 웹 브라우저 안내. 별도의 플러그인을 다운로드할 필요가 없습니다.
+ + <img src="https://img.shields.io/badge/Chrome-4285F4?style=for-the-badge&logo=Chrome&logoColor=white">
+ + <img src="https://img.shields.io/badge/Firefox-FF7139?style=for-the-badge&logo=Firefox&logoColor=white">
+ + <img src="https://img.shields.io/badge/Edge-0078D7?style=for-the-badge&logo=Edge&logoColor=white">
+ + <img src="https://img.shields.io/badge/Explorer-0076D6?style=for-the-badge&logo=Explorer&logoColor=white">
+ + <img src="https://img.shields.io/badge/Safari-000000?style=for-the-badge&logo=Safari&logoColor=white">
+
+
+
 <h2 id="technique"> :technologist: 기술 스택 (Technique used)</h>
 
 ### Back end
@@ -92,7 +101,7 @@
  + <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=FastAPI&logoColor=white">
 
 ### DB(back-end)
- + <img src="https://img.shields.io/badge/MySQL-#4479A1?style=for-the-badge&logo=MySQL&logoColor=white">
+ + <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">
 
 ### AI(back-end)
  + lib : <img src="https://img.shields.io/badge/TensolFlow-FF6F00?style=for-the-badge&logo=TensorFlow&logoColor=white"> <img src="https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=OpenCV&logoColor=white">
@@ -105,6 +114,7 @@
  + <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
 ------------------------------------------------------------------------------------------------------------------------------------------
 ![21  사용기술및오픈소스](https://user-images.githubusercontent.com/59905641/198816673-be370969-93a8-4f35-952e-144f5394db3d.png)
+
 <h2 id="install"> :arrow_down: 설치 안내 (How to download)</h2>
 
 [별도의 플러그인을 설치할 필요가 없습니다. 지금 당장 눌러서 오밀-조밀을 만나보세요!](https://117.17.110.220:7776)
@@ -130,13 +140,12 @@ This project is licensed under the terms of the MIT license.
 
 <h2 id="appendex"> :card_index: 부록 (Appendex)</h2>
 
-> 개발 문서
+> 개발 문서. 리드미들 링크는 머지한 다음에 main 브랜치로 다시 링크 걸어야 할 것!
 
-리드미들 링크는 머지한 다음에 main 브랜치로 다시 링크 걸어야 할 것!
-
++ <a href="https://www.figma.com/file/SWq5gdsKhBOHZJrDL5Qjr8/%EC%98%A4%EB%B0%80%EC%A1%B0%EB%B0%80-(NAVY%ED%9A%A8%EA%B3%BC)?node-id=1199%3A4300"><img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white"></a>
 + [WebRTC readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/webrtc/Readme.md)
 + [Omil-Zomil readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/omilzomil/Readme.md)
-+ <a href="https://www.figma.com/file/SWq5gdsKhBOHZJrDL5Qjr8/%EC%98%A4%EB%B0%80%EC%A1%B0%EB%B0%80-(NAVY%ED%9A%A8%EA%B3%BC)?node-id=1199%3A4300"><img src="https://img.shields.io/badge/Figma-#F24E1E?style=for-the-badge&logo=Figma&logoColor=white"></a>
-+ Wireframes 모음집(Wiki 참고)
-+ 멘토링 준비-결과 자료집(Wiki 참고) 아직
-+ 발표자료 ppt(Wiki 참고) 아직
++ Wiki 참고
+  + [Wireframes 모음집](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/wiki/Appendix#wireframes)
+  + 멘토링 준비 및 결과 자료집
+  + 발표자료 ppt
