@@ -5,9 +5,13 @@ ENV PYTHONUNBUFFERED=1
 # 작업 폴더 설정
 WORKDIR /ai
 COPY ./ai /ai
+COPY ./ai /ai
+COPY ./omilzomil/backend/src  /omil
+COPY ./omilzomil/backend/src/app/models  /backend/src/app/models
+
 
 # 가중치 파일 다운로드
-RUN wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights 
+RUN wget -q https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights 
 RUN mkdir -p /ai/OZEngine/person_detectors/refs/weights/
 RUN mv yolov4.weights /ai/OZEngine/person_detectors/refs/weights/yolov4.weights
 

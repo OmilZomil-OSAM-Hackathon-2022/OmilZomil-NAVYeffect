@@ -7,7 +7,7 @@ from multiprocessing import Process, Queue
 
 
 from OZEngine.model import OmilZomil
-from app.api.socket.worker import SocketWorker
+from worker.worker import SocketWorker
 from app.api import deps
 from app.db.session import SessionLocal
 
