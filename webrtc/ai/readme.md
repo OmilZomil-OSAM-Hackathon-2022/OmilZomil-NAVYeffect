@@ -128,12 +128,13 @@ CED(Cany Edge Detection)와 MS COCO dataset으로 학습한 HED(Holistically-Nes
 CED와 HED를 이용하여 외곽선을 구하고 구한 외곽선 정보를 바탕으로 Contour를 추출합니다. Contour정보는 쉽게 말해 물체의 외형입니다. 아래는 추출된 Contour를 시각적으로 표현한 이미지입니다.
 | ![hed_edge_bgr](https://user-images.githubusercontent.com/37208901/198711601-f13fb687-8468-4bec-bf3a-a033b0421546.png)| 
 |:--:| 
-| ***Figure 5.*** *Contours |
+| ***Figure 5.*** *Contours* |
 
 이렇게 추출된 Contour들은 각각 x,y좌표값을 가지고 있습니다. 즉, 각 영역의 위치와 모양을 알 수 있다는 뜻입니다. 이 데이터들을 활용하여 추후에 파츠여부를 판별할 수 있습니다. 아래는 이렇게 추출된 Contour들의 예시 이미지 입니다.
 
 | ![hed_edge_bgr](https://user-images.githubusercontent.com/37208901/198711601-f13fb687-8468-4bec-bf3a-a033b0421546.png)| 
-|:--:| 
+|:--:|
+| ***Figure 5.*** *Contours* |
 
 #### 4-2. Masking
 
@@ -156,8 +157,7 @@ E --> F
 
 | RGB | HSV |
 | ----- | ----- |
-| ![pngwing com](https://user-images.githubusercontent.com/37208901/198724360-5d971dc5-dea4-4ff1-9c5c-d91bea680134.png) | ![HED sample](https://t1.daumcdn.net/cfile/tistory/99862A405B12329701) | 
-|:--:| |
+| ![pngwing com](https://user-images.githubusercontent.com/37208901/198724360-5d971dc5-dea4-4ff1-9c5c-d91bea680134.png) | ![HED sample](https://t1.daumcdn.net/cfile/tistory/99862A405B12329701) |
 | ***Figure 6.*** *RGB vs HSV* |
 
 #### 4-4. 파츠 분류
@@ -193,6 +193,6 @@ E --> F
 Reference
 
  [[1504.06375] Holistically-Nested Edge Detection (arxiv.org)](https://arxiv.org/abs/1504.06375)
- 
+
  [[1712.07168] Real-time deep hair matting on mobile devices (arxiv.org)](https://arxiv.org/abs/1712.07168)
 
