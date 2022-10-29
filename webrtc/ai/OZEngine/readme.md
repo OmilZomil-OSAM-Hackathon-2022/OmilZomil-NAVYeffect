@@ -12,16 +12,22 @@ detector = OZEngine()
 ```
 
 OZEngine class에는 여러 함수들이 있는데 우리는 분석하기 위해 detect 함수 1개만 있으면 충분합니다! 
-check_person, train_mode 2개의 파라미터를 받고있습니다. detect 함수 정의는 다음과 같이 되어있습니다.
+check_person, train_mode, hed_mode, box_padding, roi_padding 이렇게 5개의 파라미터를 받고있습니다. detect 함수 정의는 다음과 같이 되어있습니다.
 
 ``` python
-def detect(check_person=True, train_mode=False):
+def detect(check_person=True, train_mode=False, hed_mode=False, box_padding=0, roi_padding=0):
 ```
 
-| 파라미터 | 기본값 | 설명 |
-| ------ | ------ | ------ |
-| check_person | False | 사람인식모델의 유무를 결정하는 파라미터입니다. |
-| train_mode | False | 분류모델의 사용유무를 결정하는 파라미터입니다. |
+| 파라미터 | 자료형 | 기본값 | 설명 |
+| ------ | ------ | ------ | ------ |
+| check_person | Boolean | False | 사람인식모델의 유무를 결정하는 파라미터입니다. |
+| train_mode | Boolean | False | 분류모델의 사용유무를 결정하는 파라미터입니다. |
+| hed_mode | Boolean | False | HED모듈의 결과값을 받을지 여부를 결정하는 파라미터 입니다. |
+| box_padding | Integer | 0 | boxed_img의 박스 padding값을 결정하는 파라미터입니다. |
+| roi_padding | Integer | 0 | 잘린 이미지들의 paading값을 결정하는 파라미터 입니다. |
+
+
+
 
 Note 1: `check_person=True` 옵션을 주게 되면 detect함수 내부에 있는 사람인식모델이 동작하게 됩니다. 이 옵션이 필요할까요? [참고] 결론적으로 저희 Omil-Zomil 서비스 내부에서 실시간 분석을 위해 별도로 만든 옵션입니다.
 
@@ -34,6 +40,7 @@ Note 2: `check_person` 옵션은 현재 Omil-Zomil서비스에서 제공하고 �
 #### Run Code
 OZEngine 객체 detector의 멤버함수 detect를 호출합니다.
 호출할 때에 이미지의 numpy 배열도 같이 넘겨줍니다.
+
 ``` python
 detector.detect(img)
 ```
@@ -41,6 +48,7 @@ detector.detect(img)
 #### Result
 ``` bash
 {
+    'step':3,
 	'component': {
 		'rank_tag':'병장',
 		'name_tag':'조준영',
@@ -59,7 +67,13 @@ detector.detect(img)
 }
 ```
 
-결과값은 위와 같이 나옵니다. `component`에는 현재 병사가 착용하고 있는 파츠만 return 됩니다. 각 파츠들은 정복, 전투복, 근무복에 따라 다르게 표시됩니다. 만약 파츠를 착용하고 있지 않으면 빈 dictionary가 반환됩니다. 또는 사람이 인식되지 않거나 군복으로 판단되지 않으면 None값이 반환됩니다.
+결과값은 위와 같이 나옵니다. `step`은 AI의 처리가 어디까지 진행되었는지를 정수값으로 나타낸 값입니다. 각 단계별 설명은 다음과 같습니다.
+
+1. 사람인식이 되지 않은 상태
+2. 사람은 인식되었지만 얼굴인식이 되지 않은 상태
+3. 얼굴까지 인식되었고 복장분류까지 완료된 상태
+
+`component`에는 현재 병사가 착용하고 있는 파츠만 return 됩니다. 각 파츠들은 정복, 전투복, 근무복에 따라 다르게 표시됩니다. 만약 파츠를 착용하고 있지 않으면 빈 dictionary가 반환됩니다. 또는 사람이 인식되지 않거나 군복으로 판단되지 않으면 None값이 반환됩니다.
 
 `boxed_img`는 원본 이미지 (detect함수에 들어간 원본 이미지) 위에 인식된 얼굴의 위치와 파츠들의 위치가 bounding box형태로 표시가 된 이미지 입니다. 이 이미지 역시 numpy 배열로 return이 됩니다. 만약 사람이 인식되지 않으면 원본 이미지와 같은 이미지가 반환됩니다. (연속된 이미지로 볼 때 끊기지 않게 보기기 위함입니다) 
 
@@ -92,7 +106,7 @@ print(result['component'])  # 파츠여부 값만 출력
 
 ## 사용자 정의 모델 학습
 
-For recognition model, [Read here](https://github.com/JaidedAI/EasyOCR/blob/master/custom_model.md).
+데이터 추가 및 학습 방법 [Read here](https://github.com/JaidedAI/EasyOCR/blob/master/custom_model.md).
 
 For detection model (CRAFT), [Read here](https://github.com/JaidedAI/EasyOCR/blob/master/trainer/craft/README.md).
 
@@ -119,6 +133,7 @@ result = detector.detect(img, check_person=True)  # check_person값을 True로
 
 ### 2. train_mode 옵션 활용
 
+데이터가 없을 때에는 파츠인식모델을 동작시킬 수 없습니다. 이러한 경우 train_mode의 값을 false로 주어서 모델을 사용하지 않고 파츠로 추정되는 이미지들을 저장할 수 있습니다. 아래는 train_mode를 활용하는 예시이입니다.
 
 ``` python
 import cv2
@@ -172,17 +187,3 @@ This project is based on research and code from several papers and open-source r
 ## GPU가속 지원
 
 저희 오밀조밀 프로젝트에서는 Tensorflow 2.10을 사용하고 있으며 GPU지원이 가능합니다. 
-To request a new language, we need you to send a PR with the 2 following files:
-
-1. In folder [easyocr/character](https://github.com/JaidedAI/EasyOCR/tree/master/easyocr/character),
-we need 'yourlanguagecode_char.txt' that contains list of all characters. Please see format examples from other files in that folder.
-2. In folder [easyocr/dict](https://github.com/JaidedAI/EasyOCR/tree/master/easyocr/dict),
-we need 'yourlanguagecode.txt' that contains list of words in your language.
-On average, we have ~30000 words per language with more than 50000 words for more popular ones.
-More is better in this file.
-
-If your language has unique elements (such as 1. Arabic: characters change form when attached to each other + write from right to left 2. Thai: Some characters need to be above the line and some below), please educate us to the best of your ability and/or give useful links. It is important to take care of the detail to achieve a system that really works.
-
-Lastly, please understand that our priority will have to go to popular languages or sets of languages that share large portions of their characters with each other (also tell us if this is the case for your language). It takes us at least a week to develop a new model, so you may have to wait a while for the new model to be released.
-
-See [List of languages in development](https://github.com/JaidedAI/EasyOCR/issues/91)
