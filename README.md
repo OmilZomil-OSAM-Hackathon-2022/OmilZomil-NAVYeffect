@@ -45,7 +45,7 @@
 
 <h3 id="Structures"> :gear: 구조 설명 (Structures)</h3>
 
-### :gear: 구조 설명 (Structures) 왜 중간에 html 좀 섞어쓰면 markdown 깨지고 안 돌아오는거야ㅠㅠ
+
 ![5  프로젝트 상세  구조도](https://user-images.githubusercontent.com/59905641/198606538-941de90b-358c-4b2b-b2dd-bdd42d771104.png)
 > 프로젝트 상세 구조도
  + 저희 프로젝트는 크게 *세 가지의 컨테이너로 구성*되어 있습니다.  
@@ -55,22 +55,19 @@
 <h3 id="ux/ui"> :computer: UX / UI</h3>
 
 
-### :computer: UX / UI
-> 완성 후 와이어프레임들 대체 필요. 웹 서비스 핵심 기능의 간략한 설명. 자세한 것은 OmilZomil의 리드미 파일 참고 바랍니다.
+> 프로젝트 핵심 기능들입니다. 상세 설명 및 그 외 다양한 페이지 설명은 부록의 Omil-Zomoli readme.md를 필히 참고하여 주시기 바랍니다.
 
- + 대시보드 : 부대별 대시보드입니다. 실시간으로 출입자 정보가 리스트업되며, 각 요소 별 불량 비율이나 월간 양호 빈도 등을 제공합니다.
-![Slide 16_9 - 36](https://user-images.githubusercontent.com/59905641/193630811-aafc8f62-a53d-43d0-8bdd-55182489bd55.png)
+  + #### 대시보드 : 부대별 대시보드입니다. 실시간으로 출입자 정보가 리스트업되며, 각 요소 별 불량 비율이나 월간 양호 빈도 등을 제공합니다.
+![대시보드](https://user-images.githubusercontent.com/59905641/198835988-dbbb25c4-9aa0-4412-b985-21f7232fc773.gif)
 
- + 실시간 감지 현황 : 부대 인원 조회 페이지입니다. 자세히 보기 클릭 시 상세 정보 팝업창이 뜹니다. 사진변경해야!!!
-![부대 인원 조회 페이지-4 2](https://user-images.githubusercontent.com/59905641/193631247-77354eec-01c4-40cd-8a2f-5dd60f037057.png)
-![부대인원조회_자세히보기](https://user-images.githubusercontent.com/59905641/194754317-0d71336a-ad51-4e24-a1bc-53a583bf13ff.png)
+ + #### 실시간 감지 현황 : 부대 인원 조회 페이지입니다. 자세히 보기 클릭 시 상세 정보 팝업창이 뜹니다.
+![실시간 감지 현황](https://user-images.githubusercontent.com/59905641/198836560-3cce9488-ff6e-48e0-a826-6417643aae68.gif)
 
- + 전군 통계 : 전군 통계 대시보드입니다. 각군별, 시간대별, 요소 별 불량 여부 등의 통계적 데이터로 넓은 범위에서의 추이를 볼 수 있습니다. 사진변경해야!!!
+ + #### 전군 통계 : 전군 통계 대시보드입니다. 각군별, 시간대별, 요소 별 불량 여부 등의 통계적 데이터로 넓은 범위에서의 추이를 볼 수 있습니다. 사진변경해야!!!
 ![전군통계](https://user-images.githubusercontent.com/59905641/194753907-dc546fd1-81f1-4e42-b2f8-f0d0efea910c.png)
 
- + 랭킹페이지입니다. 위반 요소별 리스트업 및 상위 부대 꾸미기 기능으로 상승 욕구를 돋울 수 있습니다.
- ![랭킹](https://user-images.githubusercontent.com/59905641/194753760-d9a72b5d-0fcc-4e74-8467-b82ef967490e.png)
-
+ + #### 랭킹 페이지 : 위반 요소별 리스트업 및 상위 부대 꾸미기 기능으로 상승 욕구를 돋울 수 있습니다.
+![랭킹 페이지](https://user-images.githubusercontent.com/59905641/198837991-9da0682c-e55d-401c-b051-72f589e37e3b.png)
 
 ![17  프로젝트 상세  사용자기능](https://user-images.githubusercontent.com/59905641/198816658-e15f9c3f-22f0-487f-9f85-4927ab828f76.png)
 
