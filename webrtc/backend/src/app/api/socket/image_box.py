@@ -25,13 +25,7 @@ DB_TABLE = {
         "병장": 5,
     },
 }
-FRONT_TABLE = {
-    "uniform" : {
-        "샘당" : "blue",
-        "정복" : "black",
-        "군복" : "green",
-    }
-}
+
 AFFILIATION_TABLE = {
     "샘당" : "해군",
     "정복" : "해군",
@@ -73,15 +67,14 @@ class ImageBox:
     
 
     def image_process(self, image):
+        # ai 처리
         report = self.ai.detect(org_img=image)
-        print(report)
-
-        if report['step'] == 1:
-            return "no face"
-
-        if report['step'] == 2:
-            return "no milltary"
         
+
+        # 인식이 안되면 그냥 싹 무시 
+        if report['step'] != 3:
+            return report['step']
+
         # 첫 이미지인 경우
         if self.main_image is None:
             # 이미지 저장
@@ -100,8 +93,6 @@ class ImageBox:
         self.best_image(report=report) 
         
         # 각 파츠별 데이터 갱신
-        print("Aaaaaaaaaaaaaaaa")
-        print(self.parts)
         for part_name, status in report['component'].items():
             if status and self.parts[part_name] == False:
                 self.parts[part_name] = True # 양호로 갱신

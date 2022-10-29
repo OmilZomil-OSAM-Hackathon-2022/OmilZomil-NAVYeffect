@@ -30,22 +30,22 @@ if [ "$input" = "--build" ]; then
 
 elif [ "$input" = "--server" ]; then
     echo [+] run omilzomil webrtc 서버환경
-    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.private up -d omilzomil webrtc
+    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.private up -d omilzomil webrtc worker
 
 elif [ "$input" = "--dev-back" ]; then
     # 백앤드 개발용 코드 - 라이브러리 재설치 및 apt install 에 따른 build가 필요한 경우 사용
     echo [+] run omilzomil webrtc 백앤드 개발환경
-    sudo docker-compose --env-file .env.lock up --build omilzomil webrtc    
+    sudo docker-compose --env-file .env.lock up --build omilzomil webrtc worker
 
 elif [ "$input" = "--name" ]; then
     # 백앤드 개발용 코드 - 라이브러리 재설치 및 apt install 에 따른 build가 필요한 경우 사용
     echo [+] run omilzomil webrtc 플젝명 직접 지정 ${PROJECT_NAME}
-    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up omilzomil webrtc
+    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up omilzomil webrtc worker
 
 else
     echo [+] run omilzomil webrtc 개발환경 ${PROJECT_NAME}
 
-    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up omilzomil webrtc
+    sudo docker-compose -p ${PROJECT_NAME} --env-file .env.lock up omilzomil webrtc worker
 
 fi
 

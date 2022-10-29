@@ -1,6 +1,12 @@
 import sys
 
 sys.path.append("/ai/OZEngine/.")
+sys.path.append("/backend/src/.")
+sys.path.append("/backend/src/app/omil/.")
+sys.path.append("/backend/src/app/.")
+sys.path.append("/omil/.")
+
+
 import socketserver
 
 from worker.manager import Manager

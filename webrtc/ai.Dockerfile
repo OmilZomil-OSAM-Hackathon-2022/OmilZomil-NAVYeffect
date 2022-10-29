@@ -4,7 +4,9 @@ ENV PYTHONUNBUFFERED=1
 
 # 작업 폴더 설정
 WORKDIR /ai
-COPY ./ai /ai
+COPY ./webrtc/ai /ai
+COPY ./webrtc/backend /backend
+COPY ./omilzomil/backend/src  /backend/src/app/omil
 
 # 가중치 파일 다운로드
 RUN wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights 
@@ -19,7 +21,10 @@ RUN apt-get -y install libgl1-mesa-glx
 
 # 라이브러리 설치
 RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install -r worker/requirements.txt
+
+ENV AI_PATH /ai
+
 
 # 개발용으로 entrypoint.sh 파일를 연결
 CMD ["sh", "/ai/entrypoint.sh"]
