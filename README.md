@@ -75,8 +75,6 @@
 ![17  프로젝트 상세  사용자기능](https://user-images.githubusercontent.com/59905641/198816658-e15f9c3f-22f0-487f-9f85-4927ab828f76.png)
  + 루트 관리자, 일반 관리자는 일반 사용자와 달리 프로필 수정 페이지에 사용자 관리, 부대 관리 등의 탭이 추가되어 있습니다. 자세한 것은 부록의 링크를 통해 Omil-Zomil 리드미 파일에서 확인하시기 바랍니다!
 ![18  프로젝트 상세  프로필 수정2](https://user-images.githubusercontent.com/59905641/198816687-9e13d999-afef-440a-8c59-3a4bc35d6883.jpg)
- 
-![22  깃허브](https://user-images.githubusercontent.com/59905641/198816675-e67b4f42-93a2-436c-9d28-be39604e000e.png)
 
 <h2 id="pre-required"> :dash: 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</h2>
 
@@ -89,7 +87,7 @@
  + <img src="https://img.shields.io/badge/Chrome-4285F4?style=for-the-badge&logo=Chrome&logoColor=white">
  + <img src="https://img.shields.io/badge/Firefox-FF7139?style=for-the-badge&logo=Firefox&logoColor=white">
  + <img src="https://img.shields.io/badge/Edge-0078D7?style=for-the-badge&logo=Edge&logoColor=white">
- + <img src="https://img.shields.io/badge/Explorer-0076D6?style=for-the-badge&logo=Explorer&logoColor=white">
+ + <img src="https://img.shields.io/badge/Explorer-0076D6?style=for-the-badge&logo=Explorer&logoColor=white"> -> 11 이상!
  + <img src="https://img.shields.io/badge/Safari-000000?style=for-the-badge&logo=Safari&logoColor=white">
 
 
