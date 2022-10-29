@@ -78,18 +78,12 @@
 
 <h2 id="pre-required"> :dash: 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</h2>
 
-> WebRTC 사용 덕에 타 플러그인 필요 없음. 웹 브라우저로 바로 접속 가능. 한 줄 설명하고 가능한 브라우저 종류, 버전 등 적기(개발진문의)
- + ECMAScript 6 지원 브라우저 사용
- + 권장: Google Chrome 버전 77 이상
- + Internet Explorer 미사용 추천 등
-
 :white_check_mark: 사용 가능 웹 브라우저 안내. 별도의 플러그인을 다운로드할 필요가 없습니다.
  + <img src="https://img.shields.io/badge/Chrome-4285F4?style=for-the-badge&logo=Chrome&logoColor=white">
  + <img src="https://img.shields.io/badge/Firefox-FF7139?style=for-the-badge&logo=Firefox&logoColor=white">
  + <img src="https://img.shields.io/badge/Edge-0078D7?style=for-the-badge&logo=Edge&logoColor=white">
  + <img src="https://img.shields.io/badge/Explorer-0076D6?style=for-the-badge&logo=Explorer&logoColor=white"> -> 11 이상!
  + <img src="https://img.shields.io/badge/Safari-000000?style=for-the-badge&logo=Safari&logoColor=white">
-
 
 
 <h2 id="technique"> :technologist: 기술 스택 (Technique used)</h>
@@ -132,13 +126,13 @@
 
 <h2 id="copyright"> :books: 저작권 및 사용권 정보 (Copyright & License)</h2>
 
- + MIT
-This project is licensed under the terms of the MIT license.
+ + GNU General Public License version 3.0
+This project is licensed under the terms of the GNU General Public License version 3.0 license.
 
 
 <h2 id="appendex"> :card_index: 부록 (Appendex)</h2>
 
-> 개발 문서. 리드미들 링크는 머지한 다음에 main 브랜치로 다시 링크 걸어야 할 것!
+> 개발 문서.
 
 + <a href="https://www.figma.com/file/SWq5gdsKhBOHZJrDL5Qjr8/%EC%98%A4%EB%B0%80%EC%A1%B0%EB%B0%80-(NAVY%ED%9A%A8%EA%B3%BC)?node-id=1199%3A4300"><img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white"></a>
 + [WebRTC readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/webrtc/Readme.md)
