@@ -60,12 +60,18 @@
         </h1>
       </div>
     </section>
-    <section class="webrtc">
-      <!-- <camera-view /> -->
+    <section class="AI">
+      <AIProccess />
     </section>
     <section class="components">
       <component-section />
     </section>
+    <section class="total">
+      <total-section />
+    </section>
+    <!-- <section class="webrtc">
+      <camera-view />
+    </section> -->
   </div>
 </template>
 
@@ -73,9 +79,11 @@
 import { ref } from 'vue'
 import { useElementVisibility } from '@vueuse/core'
 import ComponentSection from '../components/landing/ComponentSection.vue'
+import TotalSection from '../components/landing/TotalSection.vue'
+import AIProccess from '../components/landing/AIProccess.vue'
 // import CameraView from '../components/landing/CameraView.vue'
 export default {
-  components: { ComponentSection },
+  components: { ComponentSection, TotalSection, AIProccess },
   // components: { CameraView },
   setup(){
     const target = ref();

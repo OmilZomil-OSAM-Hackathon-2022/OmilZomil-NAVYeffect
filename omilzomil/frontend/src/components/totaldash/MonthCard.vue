@@ -44,9 +44,12 @@
   
   export default {
       components: { CardHead, PercentTag },
-      // props:{
-  
-      // }
+      props:{
+        isInLanding:{
+          type:Boolean,
+          default:false,
+        }
+      }, 
     //   data(){
     //       return{
     //           series: [{
@@ -103,6 +106,14 @@
         }
       },
       async mounted(){
+        if(this.isInLanding){
+          this.count = 342;
+          this.before = 3;
+          this.percent = 35;
+          this.series = [this.percent, 100 - this.percent]
+          this.isLoading = false;
+          return;
+        }
         try{
           const {data} = await this.$axios.get('stats/week/fail/');
           this.count = data.count;

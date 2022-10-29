@@ -10,7 +10,7 @@ from .lib.utils import plt_imshow, histNorm, box2img, cvtPoint
 
 
 class OmilZomil:
-    def __init__(self, check_person=True, train_mode=False, hed_mode=False):
+    def __init__(self, check_person=True, train_mode=False, hed_mode=False, box_padding=0, roi_padding=0):
         if hed_mode:
             self.HED_engine = HED()
             self.morph_engine = Morph()
@@ -26,6 +26,12 @@ class OmilZomil:
         self.train_mode = train_mode
         self.frame_cnt = 0
         self.base_point = [0, 0]
+
+        self.W = 0
+        self.H = 0
+
+        self.box_padding = box_padding
+        self.roi_padding = roi_padding
 
     def addBasePoint(self, box):
         self.base_point[0] += box[0][0]
@@ -51,7 +57,7 @@ class OmilZomil:
             dst_path = os.path.join(parts_dir, str(self.frame_cnt) + '.jpg')
             cv2.imwrite(dst_path, img)
 
-    def boxImage(self, org_img, info_dic, is_roi=False):
+    def boxImage(self, org_img, info_dic, box_padding=0, roi_padding=0, is_roi=False,):
         img = org_img.copy()
         roi_dic = {}
 
@@ -59,8 +65,17 @@ class OmilZomil:
             if name != 'shirt' and box_position is not None:
                 x, y, w, h = box_position
                 if is_roi:
-                    roi = org_img[y:y+h, x:x+w]
+                    roi_x, roi_y, roi_w, roi_h = x, y, w, h
+                    roi_x = max(0, roi_x - roi_padding)
+                    roi_y = max(0, roi_y - roi_padding)
+                    roi_w = min(self.W, roi_w + (roi_padding*2))
+                    roi_h = min(self.H, roi_h + (roi_padding*2))
+                    roi = org_img[roi_y:roi_y+roi_h, roi_x:roi_x+roi_w]
                 
+                x = max(0, x - box_padding)
+                y = max(y - box_padding)
+                w = min(self.W, w + (box_padding*2))
+                h = min(self.H, h + (box_padding*2))
                 cv2.rectangle(img, (x, y), (x+w, y+h), Color.PARTS_BOX, 5)
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 margin = 30
@@ -79,6 +94,8 @@ class OmilZomil:
     def detect(self, org_img):
         img = org_img.copy()
         boxed_img = org_img
+
+        self.W, self.H = boxed_img.shape[:2]
 
         if self.hed_mode:
             hed_edge = self.HED_engine.detect_edge(img, 500, 500)
@@ -138,7 +155,7 @@ class OmilZomil:
             if pos:
                 result_dic['box_position'][name] = self.applyBasePoint(pos, method='4')
             
-        boxed_img, roi_dic = self.boxImage(boxed_img, result_dic, is_roi=True)
+        boxed_img, roi_dic = self.boxImage(boxed_img, result_dic, box_padding=self.box_padding, roi_padding=self.roi_padding, is_roi=True)
 
         if self.hed_mode:
             hed_boxed_img, _ = self.boxImage(hed_boxed_img, result_dic)

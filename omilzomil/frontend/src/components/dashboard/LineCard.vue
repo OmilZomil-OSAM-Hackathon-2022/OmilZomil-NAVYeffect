@@ -6,7 +6,6 @@
         v-if="isEnd"
         type="area"
         :options="getOption"
-
         :series="getSeries"
         height="320"
         width="680"
