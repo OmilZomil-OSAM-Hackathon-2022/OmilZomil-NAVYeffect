@@ -109,8 +109,6 @@ class BaseWorker:
             name=inspection_dict['affiliation'] if inspection_dict['affiliation'] == 1 else None, 
         )         
 
-
-
         db_data.update(inspection_dict)
         self.db.commit()
 

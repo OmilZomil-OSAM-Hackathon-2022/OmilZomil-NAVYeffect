@@ -30,6 +30,9 @@ class FileWorker(AIWorker):
         cv2.imwrite(self.main_image_path, img)
 
     def save_part_img(self, part_name):
+        if self.image_box.parts_images.get(part_name) is None:
+            return ""
+        
         img = self.image_box.parts_images[part_name]
         self.part_image_path[part_name] = f"{PARTS_IMAGE_PATH}/{self.file_name}_{part_name}.jpg"
         cv2.imwrite(self.part_image_path[part_name], img)
@@ -44,11 +47,8 @@ class DBWorker(FileWorker):
         self.db = db
         self.db_data_id = None
     
-   
-    def create_main(self, work_time):
-        # 이미지 저장
-        self.save_main_img()
 
+    def get_inspection(self, work_time):
         # 생성할 정보 가져오기
         data_dict = self.image_box.inspection
         data_dict = ai_2_db_main(data_dict)
@@ -62,8 +62,15 @@ class DBWorker(FileWorker):
             affiliation= data_dict['affiliation'] if data_dict['affiliation'] == 1 else None, 
             rank=data_dict['rank'] if data_dict['rank'] == 1 else None, 
             name=data_dict['name'] if data_dict['name'] == 1 else None, 
-        )         
+        )
+        return data_dict     
 
+   
+    def create_main(self, work_time):
+        # 이미지 저장
+        self.save_main_img()
+
+        data_dict = self.get_inspection(work_time=work_time)
         # DB에 저장
         db_data = InspectionLog(
             guardhouse=data_dict['guardhouse'],
@@ -83,16 +90,14 @@ class DBWorker(FileWorker):
         # 각 파츠도 DB에 생성
         part_list = self.image_box.parts
         for part_name, status in part_list.items():
-            if self.image_box.parts_images.get(part_name) is not None:
-                path = self.save_part_img(part_name)
-            else:
-                path = ""
-
+            # 이미지가 있으면 저장
+            path = self.save_part_img(part_name=part_name)
+            # DB 생성
             db_part = InspectionDetail(
                 inspection_id=self.db_data_id,
                 appearance_type=get_part_id(part_name),
                 status=status,
-                image_path="",
+                image_path=path,
             )
             self.db.add(db_part)
             self.db.commit()
@@ -101,10 +106,33 @@ class DBWorker(FileWorker):
 
 
 
-    def update_main(self):
-        pass
+    def update_main(self, work_time):
+        db_data = self.db.query(InspectionLog).filter_by(inspection_id=self.db_data_id)
+        if not db_data.count():
+            raise NotImplementedError(f"해당 객체를 조회할 수 없음 - {self.db_data_id}")
+
+        data_dict = self.get_inspection(work_time=work_time)    
+        db_data.update(data_dict)
+        self.db.commit()
+
+        # 이미지 덮어쓰기
+        self.save_main_img()
+        print(f"업데이트 완료")
 
 
-    def update_parts(self):
-        pass
+    
+    def update_parts(self, part_name):
+        db_data = self.db.query(InspectionDetail).filter_by(inspection_id=self.db_data_id).filter_by(appearance_type=PART_ID[part_name])
+        if not db_data.count():
+            raise NotImplementedError(f"해당 객체를 조회할 수 없음 - {self.db_data_id}")
+
+        part_path = self.save_part_img(part_name=part_name)
+        part_dict = {
+            "status": self.image_box.parts[part_name],
+            "image_path": part_path,
+        }
+        
+        db_data.update(part_dict)
+        self.db.commit()
+        print(f"파츠 업데이트 완료 - {part_name}")
     
