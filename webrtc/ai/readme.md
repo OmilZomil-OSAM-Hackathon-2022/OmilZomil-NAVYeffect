@@ -24,7 +24,7 @@ A[사람 및 얼굴인식] --> B[두발상태확인] --> C[복장분류] --> D[�
 | ***Figure1*** *FPS-mAP 지표* |
 
 아래는 Omil-Zomil 서비스에서 Yolo 모델을 적용한 결과물 입니다.
-| ![output (1)](https://user-images.githubusercontent.com/37208901/193527340-d6c9bfb7-f228-4a35-8d5f-3a8132886159.png) | 
+| ![person detect](https://user-images.githubusercontent.com/37208901/198707606-77b012e0-5c70-4c11-9a21-78961bb17d18.png) | 
 |:--:| 
 | ***Figure 2.*** *result of Yolo* |
 
