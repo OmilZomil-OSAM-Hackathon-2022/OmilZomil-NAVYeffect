@@ -16,7 +16,6 @@ MAIN_IMAGE_PATH = f"{settings.IMAGE_PATH}/inspection"
 PARTS_IMAGE_PATH = f"{settings.IMAGE_PATH}/detail"
 
 
-
 class FileWorker(AIWorker):
     def __init__(self, guardhouse):
         super().__init__()
