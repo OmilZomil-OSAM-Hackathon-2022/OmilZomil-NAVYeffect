@@ -41,17 +41,17 @@ A[사람 및 얼굴인식] --> B[두발상태확인] --> C[복장분류] --> D[�
 P-Net(Proposal-Net)은 얼굴 랜드마크 좌표를 얻기 위한 모델입니다. BBR(Bounding Box Regression)과 NMS(Non-Maximum Suppression)를 진행하여 가장 확률이 높은 box값들을 남깁니다.
 | ![P-Net](https://user-images.githubusercontent.com/37208901/198792698-f85605a5-d766-46b6-8182-2d68c3347c2a.png) | 
 |:--:| 
-| ***Figure 3.*** *architecture of P-Net in MTCNN* |
+| ***Figure 4*** *architecture of P-Net in MTCNN* |
 
 R-Net(Refine-Net)은 P-Net과 유사하지만 마지막에 FC-Layer가 추가된 모델입니다. P-Net에서 추정한 box들에 대해 더욱 정교하게 작업을 수행합니다. R-Net또한 BBR과 NMS를 수행합니다.
 | ![R-Net](https://user-images.githubusercontent.com/37208901/198792711-cf3c264f-be83-48ca-9a38-4cb75b69d9a4.png) | 
 |:--:| 
-| ***Figure 3.*** *architecture of R-Net in MTCNN* |
+| ***Figure 5.*** *architecture of R-Net in MTCNN* |
 
 O-Net(Output-Net)은 P-Net과 R-Net과 유사하지만 깊이가 더 깊어진 모델입니다. 입력 이미지의 크기도 48x48로 더 커졌습니다. 이 모델의 결과값이 얼굴인식의 최종값이 됩니다.
 | ![O-Net](https://user-images.githubusercontent.com/37208901/198792718-f419f66b-d17d-4897-8a10-b70603c9d197.png) | 
 |:--:| 
-| ***Figure 3.*** *architecture of O-Net in MTCNN* |
+| ***Figure 6.*** *architecture of O-Net in MTCNN* |
 
 
 ### 2. 두발영역 인식
@@ -59,14 +59,14 @@ O-Net(Output-Net)은 P-Net과 R-Net과 유사하지만 깊이가 더 깊어진 �
 
 | ![Group 632617](https://user-images.githubusercontent.com/37208901/198690015-29fd94ba-84d5-4480-8bab-10ed9c485944.png) | 
 |:--:| 
-| ***Figure 3.*** *architecture of HairMatteNet* |
+| ***Figure 7.*** *architecture of HairMatteNet* |
 
 
 HairMatte모델에는 Depthwise Convolution Layer가 사용되었습니다.
 ~
 | ![Group 632618](https://user-images.githubusercontent.com/37208901/198690598-584d4002-2d96-4bc0-89c8-b33d6b7b981c.png) | 
 |:--:| 
-| ***Figure 3.*** *architecture of HairMatteNet* |
+| ***Figure 8.*** *architecture of HairMatteNet* |
 
 
 아래는 학습할 때 사용한 데이터 셋(원본이미지 - mask 이미지)중 일부 이미지입니다.
@@ -78,7 +78,7 @@ HairMatte모델에는 Depthwise Convolution Layer가 사용되었습니다.
 | ![origin 3](https://user-images.githubusercontent.com/37208901/198698103-97caeb2c-45ca-4532-9632-57a2c06d21c1.png) | ![mask 3](https://user-images.githubusercontent.com/37208901/198698098-e6fc27b6-1616-4e70-962b-2f0be598abdc.png) |
 | ![origin 4](https://user-images.githubusercontent.com/37208901/198698117-4aa9bab9-a00d-4325-979c-e12a4c4d3457.png) | ![mask 4](https://user-images.githubusercontent.com/37208901/198698126-cc20f774-dd9b-4117-9ed7-c84d16c1707d.png) |
 
-| ***Figure 4.*** *hair-segmentation examples* |
+| ***Figure 9.*** *hair-segmentation examples* |
 
 ##### Dataset
 - [CelebAMask-HQ](https://github.com/switchablenorms/CelebAMask-HQ)  
@@ -109,7 +109,7 @@ A[외곽선추출] --> B[Contour추출] --> C[Masking] --> D[파츠여부확인]
 아래 그림은 외곽선추출과 Contour를 추출하는 과정을 도식화한 그림입니다.
 | ![Group 632620](https://user-images.githubusercontent.com/37208901/198703449-81c46e11-2e0f-4335-b2cb-abec77b33d13.png) |
 |:--:|
-| ***Figure 5.*** *HED model example* |
+| ***Figure 10.*** *HED model example* |
 
 
 #### 4-1. 외곽선 추출
@@ -117,7 +117,7 @@ CED(Cany Edge Detection)와 MS COCO dataset으로 학습한 HED(Holistically-Nes
 | Cany Edge Detection | Holistically-Nested Edge Detection |
 | ----- | ----- |
 | ![CED result](https://user-images.githubusercontent.com/37208901/198776405-56037c3b-ee10-4eee-a964-9f951f3ea9b6.jpg) | ![HED result](https://user-images.githubusercontent.com/37208901/198776405-56037c3b-ee10-4eee-a964-9f951f3ea9b6.jpg) |
-| ***Figure 5.*** *CED, HED* |
+| ***Figure 11.*** *CED, HED* |
 
 ##### Dataset
 - [Pascal VOC Dataset Mirror (pjreddie.com)](https://pjreddie.com/projects/pascal-voc-dataset-mirror/)
@@ -128,13 +128,13 @@ CED(Cany Edge Detection)와 MS COCO dataset으로 학습한 HED(Holistically-Nes
 CED와 HED를 이용하여 외곽선을 구하고 구한 외곽선 정보를 바탕으로 Contour를 추출합니다. Contour정보는 쉽게 말해 물체의 외형입니다. 아래는 추출된 Contour를 시각적으로 표현한 이미지입니다.
 | ![hed_edge_bgr](https://user-images.githubusercontent.com/37208901/198711601-f13fb687-8468-4bec-bf3a-a033b0421546.png)| 
 |:--:| 
-| ***Figure 5.*** *Contours* |
+| ***Figure 12.*** *Contours* |
 
 이렇게 추출된 Contour들은 각각 x,y좌표값을 가지고 있습니다. 즉, 각 영역의 위치와 모양을 알 수 있다는 뜻입니다. 이 데이터들을 활용하여 추후에 파츠여부를 판별할 수 있습니다. 아래는 이렇게 추출된 Contour들의 예시 이미지 입니다.
 
 | ![hed_edge_bgr](https://user-images.githubusercontent.com/37208901/198711601-f13fb687-8468-4bec-bf3a-a033b0421546.png)| 
 |:--:|
-| ***Figure 5.*** *Contours* |
+| ***Figure 13.*** *Contours* |
 
 #### 4-2. Masking
 
@@ -158,7 +158,7 @@ E --> F
 | RGB | HSV |
 | ----- | ----- |
 | ![pngwing com](https://user-images.githubusercontent.com/37208901/198724360-5d971dc5-dea4-4ff1-9c5c-d91bea680134.png) | ![HED sample](https://t1.daumcdn.net/cfile/tistory/99862A405B12329701) |
-| ***Figure 6.*** *RGB vs HSV* |
+| ***Figure 14.*** *RGB vs HSV* |
 
 #### 4-4. 파츠 분류
 
@@ -188,7 +188,7 @@ E --> F
 
 ![output](https://user-images.githubusercontent.com/37208901/193526989-e08418b5-a4cc-4523-aabb-422cc3132ed7.png) | 
 |:--:| 
-| ***Figure 8.*** *result of OCR* |
+| ***Figure 15.*** *result of OCR* |
 
 Reference
 
