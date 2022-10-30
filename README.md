@@ -158,14 +158,14 @@ sh reset.sh # 초기화
 
 > 팀 NAVY효과
 
-| Photo | Name | Role | Contect |   
-|:---:|:---:|:---:|:---:| 
+| Photo | Name | Role | Contect | Github |  
+|:---:|:---:|:---:|:---:| :---: |
 |<center><img src="https://user-images.githubusercontent.com/32426765/198881189-aca4cf12-9dda-4467-9989-15b6da4fe796.png" width="150" height="150"></center>|조남훈| 팀장, 기획자 | lovin6109@gmail.com |   
-|<center><img src="https://user-images.githubusercontent.com/32426765/198881322-382642ea-001a-4e8e-98cb-fec99ab9ce1a.png" width="150" height="150"></center>|조준영| AI 개발자, 웹 디자이너 | joon0zo1022@gmail.com |
-|<center><img src="https://user-images.githubusercontent.com/32426765/198881192-d2b1a8db-e694-4df2-abd6-2aad6c77492f.png" width="150" height="150"></center>|정의철| 백엔드 개발자 | com.dos.m0nk3y@gmail.com |
-|<center><img src="https://user-images.githubusercontent.com/32426765/198881195-1c8f4fcd-1f86-451b-a8ab-a273b5f6d854.png" width="150" height="150"></center>|김대원| DevOps 담당자 | kdwkd0078@gmail.com |   
-|<center><img src="https://user-images.githubusercontent.com/32426765/198881197-f171df2a-e5c2-4f64-bd7a-650bc7e0c2cf.png" width="150" height="150"></center>|허태량| 프론트 엔드 개발자 | cake0702@naver.com |   
-|<center><img src="https://user-images.githubusercontent.com/32426765/198881201-cf0327e7-f23e-450b-adde-0a886ce439bc.png" width="150" height="150"></center>|김민섭| 프론트 엔드 개발자 | tjqtjq0516@gmail.com |
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881322-382642ea-001a-4e8e-98cb-fec99ab9ce1a.png" width="150" height="150"></center>|조준영| AI 개발자, 웹 디자이너 | joon0zo1022@gmail.com | joon0zo1022 |  
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881192-d2b1a8db-e694-4df2-abd6-2aad6c77492f.png" width="150" height="150"></center>|정의철| 백엔드 개발자 | com.dos.m0nk3y@gmail.com | kevin961119 |  
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881195-1c8f4fcd-1f86-451b-a8ab-a273b5f6d854.png" width="150" height="150"></center>|김대원| DevOps 담당자 | kdwkd0078@gmail.com | greenrain |  
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881197-f171df2a-e5c2-4f64-bd7a-650bc7e0c2cf.png" width="150" height="150"></center>|허태량| 프론트 엔드 개발자 | cake0702@naver.com | xofid0702 |  
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881201-cf0327e7-f23e-450b-adde-0a886ce439bc.png" width="150" height="150"></center>|김민섭| 프론트 엔드 개발자 | tjqtjq0516@gmail.com | tjqtjq0516 |  
 
 <h2 id="copyright"> :books: 저작권 및 사용권 정보 (Copyright & License)</h2>
 
