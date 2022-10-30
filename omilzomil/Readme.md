@@ -107,4 +107,4 @@
 
 :arrow_down_small: [README.md - Main](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/README.md)  
 :arrow_down_small: [README.md - WebRTC](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/webrtc/Readme.md)  
-:arrow_down_small: [README.md - AI](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/ai/OZEngine/readme.md)
+:arrow_down_small: [README.md - AI](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/webrtc/ai/readme.md)
