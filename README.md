@@ -1,5 +1,6 @@
 # WEB_CLOUD_OmilJomil_NAVYeffect
-![1  타이틀](https://user-images.githubusercontent.com/59905641/198581773-d1f0b268-8a9c-46b9-8ba9-909eb4a1a172.png)
+[![Group 4](https://user-images.githubusercontent.com/59905641/198581773-d1f0b268-8a9c-46b9-8ba9-909eb4a1a172.png)](https://www.youtube.com/watch?v=QhGQSoqZJTE)
+
 # :sunglasses: 오밀조밀 : 외적 군기 디텍팅 솔루션 :whale:
 
 ### 기지 정문에 카메라를 설치, 외적 군기 불량 여부를 판단해 부대 관리자 및 병들이 볼 수 있는 체계에 제공한다.
