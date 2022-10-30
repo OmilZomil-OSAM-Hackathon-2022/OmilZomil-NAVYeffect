@@ -84,6 +84,9 @@
 ![17  프로젝트 상세  사용자기능](https://user-images.githubusercontent.com/59905641/198816658-e15f9c3f-22f0-487f-9f85-4927ab828f76.png)
  + 루트 관리자, 일반 관리자는 일반 사용자와 달리 프로필 수정 페이지에 사용자 관리, 부대 관리 등의 탭이 추가되어 있습니다. 자세한 것은 부록의 링크를 통해 Omil-Zomil 리드미 파일에서 확인하시기 바랍니다!
 ![18  프로젝트 상세  프로필 수정2](https://user-images.githubusercontent.com/59905641/198816687-9e13d999-afef-440a-8c59-3a4bc35d6883.jpg)
+ + 저희 페이지는 다크 모드 또한 제공합니다. 사용자에게 더 익숙하고 편한 모드를 선택해 사용하시면 됩니다.
+ ![IMG_0186](https://user-images.githubusercontent.com/59905641/198875747-8d97f1cd-7871-4a6e-8c59-14e45158503d.png)
+
 
 <h2 id="pre-required"> :dash: 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</h2>
 
