@@ -21,7 +21,7 @@ A[사람 및 얼굴인식] --> B[두발상태확인] --> C[복장분류] --> D[�
   
 | ![](https://miro.medium.com/max/1400/1*H3QlBG3U0s5XpOsI6xwsag.jpeg) | 
 |:--:| 
-| ***Figure 1*** *FPS-mAP 지표* |
+| ***Figure 1*** *FPS-mAP* |
 
 아래는 Omil-Zomil 서비스에서 Yolo 모델을 적용한 결과물 입니다.
 | <img src="https://user-images.githubusercontent.com/37208901/198707606-77b012e0-5c70-4c11-9a21-78961bb17d18.png" with="200px"> | 
@@ -55,7 +55,7 @@ O-Net(Output-Net)은 P-Net과 R-Net과 유사하지만 깊이가 더 깊어진 �
 
 
 ### 2. 두발영역 인식
-두발인식모델은 ~데이터로 학습한 HairMatte모델을 이용합니다. HairMatte모델은 이미지 속에서 두발의 영역을 인식하는 End-to-End(종단간 학습)모델입니다. 원본 이미지와 이미지 속 두발영역이 표시가 된 이미지(이하 mask 이미지) 두 쌍을 입력데이터로 받아 학습을 진행합니다. 아래는 HairMatte모델의 구조입니다.
+두발인식모델은 두발영역을 마스킹 한 이미지 데이터로 학습한 HairMatte모델을 이용합니다. HairMatte모델은 이미지 속에서 두발의 영역을 인식하는 End-to-End(종단간 학습)모델입니다. 원본 이미지와 이미지 속 두발영역이 표시가 된 이미지(이하 mask 이미지) 두 쌍을 입력데이터로 받아 학습을 진행합니다. 아래는 HairMatte모델의 구조입니다.
 
 | ![Group 632617](https://user-images.githubusercontent.com/37208901/198690015-29fd94ba-84d5-4480-8bab-10ed9c485944.png) | 
 |:--:| 
@@ -66,7 +66,7 @@ HairMatte모델에는 Depthwise Convolution Layer가 사용되었습니다.
 ~
 | <img src="https://user-images.githubusercontent.com/37208901/198690598-584d4002-2d96-4bc0-89c8-b33d6b7b981c.png" width="300px"> | 
 |:--:| 
-| ***Figure 8.*** *architecture of HairMatteNet* |
+| ***Figure 8.*** *Depthwise Convolution Layer* |
 
 
 아래는 학습할 때 사용한 데이터 셋(원본이미지 - mask 이미지)중 일부 이미지입니다.
@@ -78,7 +78,7 @@ HairMatte모델에는 Depthwise Convolution Layer가 사용되었습니다.
 | ![origin 3](https://user-images.githubusercontent.com/37208901/198698103-97caeb2c-45ca-4532-9632-57a2c06d21c1.png) | ![mask 3](https://user-images.githubusercontent.com/37208901/198698098-e6fc27b6-1616-4e70-962b-2f0be598abdc.png) |
 | ![origin 4](https://user-images.githubusercontent.com/37208901/198698117-4aa9bab9-a00d-4325-979c-e12a4c4d3457.png) | ![mask 4](https://user-images.githubusercontent.com/37208901/198698126-cc20f774-dd9b-4117-9ed7-c84d16c1707d.png) |
 
-| ***Figure 9.*** *hair-segmentation examples* |
+| ***Figure 9.*** *hair-segmentation train-set examples* |
 
 ##### Dataset
 - [CelebAMask-HQ](https://github.com/switchablenorms/CelebAMask-HQ)  
@@ -168,6 +168,7 @@ E --> F
 
 | ![Group 632624](https://user-images.githubusercontent.com/37208901/198782037-f676278e-c567-407f-b418-d2ce915f361e.png) | 
 |:--:| 
+| ***Figure 15.*** *pretrained VGG-Net* |
 
 `Figure`의 위쪽은 모델을 학습하는 과정입니다. 먼저 각 파츠의 이지미 데이터와 그에 맞는 레잉블링을 진행하여 VGG-Net에 학습을 시킵니다. VGG-Net에는 합성곱 레이어(Convolution layer)와 풀링 레이어(Pooling layer)가 몇 겹 있고 이런 레이어들을 거쳐서 해당 이미지를 잘 설명할 수 있는 특성맵(Feature map)이 출력이 됩니다. 이 특성맵을 전결합층(FC-layer / Dense layer)을 거쳐 분류를 하게 됩니다. 학습이 되면 합성곱 레이어와 풀링 레이어의 가중치들이 학습이 되고 이렇게 학습된 레이어들로 얻어진 특성맵을 FC-layer로 입력시키고 나온 출력물 즉 Feature Vector를 DB에 저장합니다.
 
@@ -178,7 +179,7 @@ E --> F
 
 | ![Group 632627 (1)](https://user-images.githubusercontent.com/37208901/198865474-999cbead-488a-4760-840a-16f6952986ae.png) | 
 |:--:| 
-
+| ***Figure 16.*** *pretrained VGG-Net* |
 
 만약 파츠각 이름표라면 추가적으로 OCR을 진행하여 이름표의 이름을 텍스트 데이터로 추출합니다.
 
@@ -188,7 +189,7 @@ E --> F
 
 ![output](https://user-images.githubusercontent.com/37208901/193526989-e08418b5-a4cc-4523-aabb-422cc3132ed7.png) | 
 |:--:| 
-| ***Figure 15.*** *result of OCR* |
+| ***Figure 17.*** *result of OCR* |
 
 Reference
 
