@@ -2,22 +2,22 @@
 # AI / Image-Processing Technical Documentation
 
 
-
-저희 Omil-Zomil은 ~하는 서비스입니다. 저희 서비스에서의 핵심은 병사의 복장상태, 두발상태를 검출하여 양호/불량의 여부를 파악하는 것입니다. 이를 검출하기 위해서 사람인식, 두발상태확인, 복장분류, 복장상태확인 순으로 분석을 진행합니다.
+해당 문서는 Omil-Zomil서비스의 핵심 기능 중 하나인 AI 영상처리의 동작과정을 자세히 기술한 문서입니다. 저희 AI 영상처리의 핵심은 병사의 복장상태, 두발상태를 검출하여 양호/불량의 여부를 파악하는 것입니다. 이를 검출하기 위해서 사람인식, 두발상태확인, 복장분류, 복장상태확인 순으로 분석을 진행합니다.
 
 ```mermaid
 graph LR 
 A[사람 및 얼굴인식] --> B[두발상태확인] --> C[복장분류] --> D[복장상태확인]
 ```
 
-<details open="open">
+### 동작 과정
+<div open="open">
   <ol>
     <li><a href="#person_detect"> ᐅ 1. 사람 및 얼굴 인식</a></li>
     <li><a href="#hair_detect"> ᐅ 2. 두발 영역 인식</a></li>
     <li><a href="#dress_classify"> ᐅ 3. 복장 분류</a></li>
     <li><a href="#check_dress"> ᐅ 4. 복장 상태 확인</a></li>
   </ol>
-</details>
+</div>
 
 <h2 id="person_detect"> 1. 사람 및 얼굴인식 </h2>
 
@@ -175,19 +175,25 @@ E --> F
 |:--:| 
 | ***Figure 15.*** *pretrained VGG-Net* |
 
-`Figure`의 위쪽은 모델을 학습하는 과정입니다. 먼저 각 파츠의 이지미 데이터와 그에 맞는 레잉블링을 진행하여 VGG-Net에 학습을 시킵니다. VGG-Net에는 합성곱 레이어(Convolution layer)와 풀링 레이어(Pooling layer)가 몇 겹 있고 이런 레이어들을 거쳐서 해당 이미지를 잘 설명할 수 있는 특성맵(Feature map)이 출력이 됩니다. 이 특성맵을 전결합층(FC-layer / Dense layer)을 거쳐 분류를 하게 됩니다. 학습이 되면 합성곱 레이어와 풀링 레이어의 가중치들이 학습이 되고 이렇게 학습된 레이어들로 얻어진 특성맵을 FC-layer로 입력시키고 나온 출력물 즉 Feature Vector를 DB에 저장합니다.
+`Figure 15`의 위쪽은 모델을 학습하는 과정입니다. 먼저 각 파츠의 이지미 데이터와 그에 맞는 레잉블링을 진행하여 VGG-Net에 학습을 시킵니다. VGG-Net에는 합성곱 레이어(Convolution layer)와 풀링 레이어(Pooling layer)가 몇 겹 있고 이런 레이어들을 거쳐서 해당 이미지를 잘 설명할 수 있는 특성맵(Feature map)이 출력이 됩니다. 이 특성맵을 전결합층(FC-layer / Dense layer)을 거쳐 분류를 하게 됩니다. 학습이 되면 합성곱 레이어와 풀링 레이어의 가중치들이 학습이 되고 이렇게 학습된 레이어들로 얻어진 특성맵을 FC-layer로 입력시키고 나온 출력물 즉 Feature Vector를 DB에 저장합니다.
 
-`Figure`의 아래쪽은 학습된 모델을 이용하여 실제 서비스에 적용하는 과정입니다. 학습된 VGG-Net에 "3.파츠추출"과정을 거친 "파츠로 인식되는" 이미지들을 입력시킵니다. 입력시키면 합성곱 레이어와 풀링레이어를 거치고 동일하게 특성맵이 나옵니다. 이 특성맵이 최종적으로 전결합층에 입력되어 Feature Vector가 나옵니다. 이 Feature Vector를 DB에 학습이 왼료된 모델의 출력물인 Feature Vector와 비교를 하여 파츠여부를 최종적으로 판단을 합니다.
+`Figure 15` 의 아래쪽은 학습된 모델을 이용하여 실제 서비스에 적용하는 과정입니다. 학습된 VGG-Net에 "3.파츠추출"과정을 거친 "파츠로 인식되는" 이미지들을 입력시킵니다. 입력시키면 합성곱 레이어와 풀링레이어를 거치고 동일하게 특성맵이 나옵니다. 이 특성맵이 최종적으로 전결합층에 입력되어 Feature Vector가 나옵니다. 이 Feature Vector를 DB에 학습이 왼료된 모델의 출력물인 Feature Vector와 비교를 하여 파츠여부를 최종적으로 판단을 합니다.
 
-아래는 `Figure`의 과정을 더욱 간소화 하여 나타낸 그림입니다.
+아래는 `Figure 15`의 과정을 더욱 간소화 하여 나타낸 그림입니다.
 
 
 | ![Group 632627 (1)](https://user-images.githubusercontent.com/37208901/198865474-999cbead-488a-4760-840a-16f6952986ae.png) | 
 |:--:| 
 | ***Figure 16.*** *pretrained VGG-Net* |
 
-만약 파츠각 이름표라면 추가적으로 OCR을 진행하여 이름표의 이름을 텍스트 데이터로 추출합니다.
+파츠여부를 VGG-Net 모델을 이용하여 어떤 영역이 어떤 파츠인지 파악할 수 있습니다. 아래는 최종적으로 각 파츠로 추정되는 영역들 중 실제 파츠로 분류된 것들을 박스처리한 이미지 입니다.
 
+| ![Group 632627 (1)](https://user-images.githubusercontent.com/37208901/198865474-999cbead-488a-4760-840a-16f6952986ae.png) | 
+|:--:| 
+| ***Figure 17.*** *pretrained VGG-Net* |
+
+
+만약 파츠가 이름표라면 추가적으로 OCR을 진행하여 이름표의 이름을 텍스트 데이터로 추출합니다.
 마지막으로 OCR을 진행하여 이름표 또는 (대한민국 해군) 등의 파츠들에서 글씨를 추출합니다. 이렇게 얻어낸 결과물들로 양호, 불량을 판단할 수 있습니다. 아래는 각 파츠에 OCR을 적용하여 추출한 text와 결과물입니다. 
 
 
@@ -196,7 +202,8 @@ E --> F
 |:--:| 
 | ***Figure 17.*** *result of OCR* |
 
-Reference
+
+## Reference
 
  [[1504.06375] Holistically-Nested Edge Detection (arxiv.org)](https://arxiv.org/abs/1504.06375)
 
