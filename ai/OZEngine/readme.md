@@ -181,7 +181,7 @@ This project is based on research and code from several papers and open-source r
 
 저희 분석모델의 전반적인 Deep Learning 알고리즘의 기반은 [Tensorflow](https://pytorch.org):heart: 입니다. 
 
-두발상태인식모델은 HairSegNet을 사용했고 [github 저장소](https://github.com/clovaai/CRAFT-pytorch)에서 확인하실 수 있습니다. [관련 논문](https://arxiv.org/pdf/1712.07168.pdf)도 있으니 참고하여 보실 수 있습니다. (@[thangtran480](https://github.com/thangtran480)님께 감사드립니다 :thanks:) 
+두발상태인식모델은 HairSegNet을 사용했고 [github 저장소](https://github.com/thangtran480/hair-segmentation)에서 확인하실 수 있습니다. [관련 논문](https://arxiv.org/pdf/1712.07168.pdf)도 있으니 참고하여 보실 수 있습니다. (@[thangtran480](https://github.com/thangtran480)님께 감사드립니다 :thanks:) 
 
 
 ## GPU가속 지원
