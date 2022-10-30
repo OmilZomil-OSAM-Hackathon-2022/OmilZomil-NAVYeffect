@@ -1,1 +1,0 @@
-from .HairDetector import HairDetector
