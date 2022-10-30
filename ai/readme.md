@@ -176,7 +176,7 @@ E --> F
 아래는 `Figure`의 과정을 더욱 간소화 하여 나타낸 그림입니다.
 
 
-| ![Group 632624](https://user-images.githubusercontent.com/37208901/198782037-f676278e-c567-407f-b418-d2ce915f361e.png) | 
+| ![Group 632627 (1)](https://user-images.githubusercontent.com/37208901/198865474-999cbead-488a-4760-840a-16f6952986ae.png) | 
 |:--:| 
 
 
