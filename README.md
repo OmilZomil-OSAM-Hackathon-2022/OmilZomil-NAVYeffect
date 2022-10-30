@@ -11,7 +11,7 @@
     <li><a href="#intro"> ᐅ 프로젝트 소개 (Intro)</a></li>
     <li><a href="#features"> ᐅ 기능 설명 및 사용법 (Features)</a></li>
       <ol>
-        <li><a href="Structures">  ᐅ 구조 설명 (Structures)</a></li>
+        <li><a href="structures">  ᐅ 구조 설명 (Structures)</a></li>
         <li><a href="ux/ui">  ᐅ UX / UI</a></li>
       </ol>
     <li><a href="#pre-required"> ᐅ 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</a></li>
@@ -19,7 +19,7 @@
     <li><a href="#install"> ᐅ 설치 안내 (How to download)</a></li>
     <li><a href="#team"> ᐅ 팀원 정보 (Meet the team)</a></li>
     <li><a href="#copyright"> ᐅ 저작권 및 사용권 정보 (Copyright and License)</a></li>
-    <li><a href="#appendex"> ᐅ 부록 (Appendex)</a></li>
+    <li><a href="#appendix"> ᐅ 부록 (Appendix)</a></li>
   </ol>
 </details>
 
@@ -43,7 +43,7 @@
 
 <h2 id="features"> :mag: 기능 설명 및 프로젝트 사용법 (Features)</h2>
 
-<h3 id="Structures"> :gear: 구조 설명 (Structures)</h3>
+<h3 id="structures"> :gear: 구조 설명 (Structures)</h3>
 
 
 ![5  프로젝트 상세  구조도](https://user-images.githubusercontent.com/59905641/198606538-941de90b-358c-4b2b-b2dd-bdd42d771104.png)
@@ -141,7 +141,7 @@
 This project is licensed under the terms of the GNU General Public License version 3.0 license.
 
 
-<h2 id="appendex"> :card_index: 부록 (Appendex)</h2>
+<h2 id="appendix"> :card_index: 부록 (Appendix)</h2>
 
 > 개발 문서.
 
