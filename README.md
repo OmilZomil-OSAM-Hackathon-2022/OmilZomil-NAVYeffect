@@ -41,10 +41,6 @@
 
 우리 **NAVY효과의 "오밀조밀"은 이러한 사례들을 수집해 관리자, 일반 사병, 군사 경찰 할 것 없이 기지 내 장병들에게 편의와 인사이트를 제공하는 솔루션**이 될 것입니다.
 
-[데모 페이지](http://omil-zomil.kro.ko)
-
-+ 유저 저니 확인을 위한 일반 관리자 계정입니다. :star2: ID : administrator, PW : Admin12! :stars: 좌측 계정으로 들어가셔서, 일반 사용자로서 회원 가입 신청을 한 후 이 계정으로 승인하시면 됩니다.
-
 <h2 id="features"> :mag: 기능 설명 및 프로젝트 사용법 (Features)</h2>
 
 <h3 id="structures"> :gear: 구조 설명 (Structures)</h3>
@@ -146,7 +142,7 @@ sh reset.sh # 초기화
 
  > 자, 클릭 한 번만 남았습니다. 아래 링크로 접속해주세요.  
 
-[당신을 기다려왔습니다. 이제 오밀-조밀을 만나보세요!](http://omil-zomil.kro.ko)
+[당신을 기다려왔습니다. 이제 오밀-조밀을 만나보세요!](http://omil-zomil.com)
 
 + 유저 저니 확인을 위한 일반 관리자 계정입니다. :star2: ID : administrator, PW : Admin12! :stars: 좌측 계정으로 들어가셔서, 일반 사용자로서 회원 가입 신청을 한 후 이 계정으로 승인하시면 됩니다.
 
@@ -155,14 +151,14 @@ sh reset.sh # 초기화
 
 > 팀 NAVY효과
 
-| Name | Role | Contect |   
-|:---:|:---:|:---:| 
-|조남훈| 팀장, 기획자 | lovin6109@gmail.com |   
-|조준영| AI 개발자, 웹 디자이너 | joon0zo1022@gmail.com |
-|정의철| 백엔드 개발자 | com.dos.m0nk3y@gmail.com |
-|김대원| DevOps 담당자 | kdwkd0078@gmail.com |   
-|허태량| 프론트 엔드 개발자 | cake0702@naver.com |   
-|김민섭| 프론트 엔드 개발자 | tjqtjq0516@gmail.com |
+| Photo | Name | Role | Contect |   
+|:---:|:---:|:---:|:---:| 
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881189-aca4cf12-9dda-4467-9989-15b6da4fe796.png" width="150" height="150"></center>|조남훈| 팀장, 기획자 | lovin6109@gmail.com |   
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881322-382642ea-001a-4e8e-98cb-fec99ab9ce1a.png" width="150" height="150"></center>|조준영| AI 개발자, 웹 디자이너 | joon0zo1022@gmail.com |
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881192-d2b1a8db-e694-4df2-abd6-2aad6c77492f.png" width="150" height="150"></center>|정의철| 백엔드 개발자 | com.dos.m0nk3y@gmail.com |
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881195-1c8f4fcd-1f86-451b-a8ab-a273b5f6d854.png" width="150" height="150"></center>|김대원| DevOps 담당자 | kdwkd0078@gmail.com |   
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881197-f171df2a-e5c2-4f64-bd7a-650bc7e0c2cf.png" width="150" height="150"></center>|허태량| 프론트 엔드 개발자 | cake0702@naver.com |   
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881201-cf0327e7-f23e-450b-adde-0a886ce439bc.png" width="150" height="150"></center>|김민섭| 프론트 엔드 개발자 | tjqtjq0516@gmail.com |
 
 <h2 id="copyright"> :books: 저작권 및 사용권 정보 (Copyright & License)</h2>
 
