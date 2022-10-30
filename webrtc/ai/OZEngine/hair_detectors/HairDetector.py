@@ -3,6 +3,7 @@ import time
 import cv2
 import os
 from OZEngine.lib.utils import *
+from OZEngine.lib.defines import HairCondition
 import tensorflow
 
 class HairDetector():
@@ -24,15 +25,10 @@ class HairDetector():
         return mask
     
     def detect(self, img):
-        st = time.time()
         dmask = self.predict(img)
-        d1 = time.time()
-        print('shape :', dmask.dtype)
-        print(dmask)
-        # dmask = dmask.astype()
-        contours, hierarchy = cv2.findContours(dmask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
-        contours, hierarchy = sortContoursByArea(contours, hierarchy)
-        area = cv2.contourArea(contours[0])
-        print('area', area)
-
-        print(f"segment: {d1-st}, color:%f")
+        print(sum(sum(dmask)))
+        area = sum(sum(dmask))
+        if area > 14315:
+            return HairCondition.dic['BAD']
+        else:
+            return HairCondition.dic['GOOD']
