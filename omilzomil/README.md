@@ -97,5 +97,5 @@
 
 <h2 id="links"> :grey_question: 함께 보기 (External Links)</h2>
 
-:arrow_down_small: [README.md - Main](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/README.md)  
-:arrow_down_small: [README.md - WebRTC](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/webrtc/Readme.md)
+:arrow_down_small: [README.md - Main](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/README.md)  
+:arrow_down_small: [README.md - WebRTC](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/webrtc/Readme.md)
