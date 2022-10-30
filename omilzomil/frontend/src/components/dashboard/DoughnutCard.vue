@@ -178,7 +178,6 @@ export default {
   padding: 13px 18px;
   /* Caption */
 
-  font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;

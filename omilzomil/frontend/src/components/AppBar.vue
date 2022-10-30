@@ -258,7 +258,7 @@ export default {
 <style scoped >
 /* @import '@/assets/styles/common.css'; */
 .app-bar{
-    font-family: 'Roboto';
+    
     width:100%;
     background: var(--color-appbar);
     box-shadow: 0px 4px 25px rgba(145, 85, 235, 0.03);
@@ -278,7 +278,6 @@ export default {
     width: 111px;
     height: 22px;
 
-    font-family: 'Inter';
     font-style: normal;
     font-weight: 900;
     font-size: 22px;
@@ -397,7 +396,7 @@ button{
     inset 4px 4px 6px 0 #9155EB1A; */
 }
 .profile .user-name{
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -463,7 +462,7 @@ button{
 
   /* Subtitle 2 - Bold */
 
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -505,7 +504,7 @@ button{
   flex-grow: 0; */
 }
 .search::placeholder{
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -541,7 +540,7 @@ button{
 }
 .nav-menu a{
   text-decoration:none;
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -558,7 +557,7 @@ button{
 .login{
   /* Subtitle 1 - Bold */
 
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 700;
   font-size: 16px;

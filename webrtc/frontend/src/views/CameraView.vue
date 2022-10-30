@@ -472,7 +472,6 @@ export default {
     align-items: center;
     gap: 6px;
     height: 28px;
-    font-family: 'Roboto';
     font-style: normal;
     font-weight: 600;
     font-size: 24px;

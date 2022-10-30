@@ -367,7 +367,6 @@ export default {
         box-sizing:border-box;
     }
     .card .textbox .text1{
-        font-family: 'Roboto';
         font-style: normal;
         font-weight: 700;
         font-size: 24px;
@@ -378,7 +377,6 @@ export default {
         width:100%;
     }
     .card .textbox .text2{
-        font-family: 'Roboto';
         font-style: normal;
         font-weight: 500;
         font-size: 20px;

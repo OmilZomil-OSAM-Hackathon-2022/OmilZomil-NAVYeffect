@@ -263,7 +263,7 @@ export default {
   margin-bottom: 8px;
 
 
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -293,7 +293,7 @@ export default {
   width:80px;
 }
 .list-item .info .division{
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -308,7 +308,7 @@ export default {
 }
 .no-info{
   white-space:nowrap;
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -320,7 +320,7 @@ export default {
   word-break: normal;
   /* Caption */
 
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -340,7 +340,7 @@ export default {
   justify-content: center;
   gap:5px;
   border-radius: 4px;
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 14px;

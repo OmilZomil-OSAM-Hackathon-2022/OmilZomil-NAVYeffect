@@ -43,7 +43,6 @@ export default {
   align-items: center;
   padding: 4px;
   background: var(--color-state-card);
-  font-family: 'Roboto';
   font-style: normal;
   font-weight: 600;
   font-size: 14px;

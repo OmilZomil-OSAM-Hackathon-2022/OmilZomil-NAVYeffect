@@ -81,7 +81,6 @@ export default {
       align-content: center;
   }
   .before{
-font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
   font-size: 10px;
