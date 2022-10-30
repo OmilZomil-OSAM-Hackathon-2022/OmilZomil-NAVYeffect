@@ -1,7 +1,7 @@
 
 # AI / Image-Processing Technical Documentation
 
-저희 Omil-Zomil은 ~하는 서비스입니다. 저희 서비스에서의 핵심은 병사의 복장상태, 두발상태를 검출하여 ~하는 것입니다. 이를 검출하기 위해서 사람인식, 두발상태확인, 복장분류, 복장상태확인 순으로 분석을 진행합니다.
+저희 Omil-Zomil은 ~하는 서비스입니다. 저희 서비스에서의 핵심은 병사의 복장상태, 두발상태를 검출하여 양호/불량의 여부를 파악하는 것입니다. 이를 검출하기 위해서 사람인식, 두발상태확인, 복장분류, 복장상태확인 순으로 분석을 진행합니다.
 
 ```mermaid
 graph LR 
@@ -24,7 +24,7 @@ A[사람 및 얼굴인식] --> B[두발상태확인] --> C[복장분류] --> D[�
 | ***Figure 1*** *FPS-mAP 지표* |
 
 아래는 Omil-Zomil 서비스에서 Yolo 모델을 적용한 결과물 입니다.
-| ![person detect](https://user-images.githubusercontent.com/37208901/198707606-77b012e0-5c70-4c11-9a21-78961bb17d18.png) | 
+| <img src="https://user-images.githubusercontent.com/37208901/198707606-77b012e0-5c70-4c11-9a21-78961bb17d18.png" with="200px"> | 
 |:--:| 
 | ***Figure 2.*** *result of Yolo* |
 
@@ -64,7 +64,7 @@ O-Net(Output-Net)은 P-Net과 R-Net과 유사하지만 깊이가 더 깊어진 �
 
 HairMatte모델에는 Depthwise Convolution Layer가 사용되었습니다.
 ~
-| ![Group 632618](https://user-images.githubusercontent.com/37208901/198690598-584d4002-2d96-4bc0-89c8-b33d6b7b981c.png) | 
+| <img src="https://user-images.githubusercontent.com/37208901/198690598-584d4002-2d96-4bc0-89c8-b33d6b7b981c.png" width="300px"> | 
 |:--:| 
 | ***Figure 8.*** *architecture of HairMatteNet* |
 
@@ -116,7 +116,7 @@ A[외곽선추출] --> B[Contour추출] --> C[Masking] --> D[파츠여부확인]
 CED(Cany Edge Detection)와 MS COCO dataset으로 학습한 HED(Holistically-Nested Edge Detection)으로 외곽선을 구합니다. 아래는 각각의 방법으로 추출한 윤곽선입니다.
 | Cany Edge Detection | Holistically-Nested Edge Detection |
 | ----- | ----- |
-| ![CED result](https://user-images.githubusercontent.com/37208901/198776405-56037c3b-ee10-4eee-a964-9f951f3ea9b6.jpg) | ![HED result](https://user-images.githubusercontent.com/37208901/198776405-56037c3b-ee10-4eee-a964-9f951f3ea9b6.jpg) |
+| <img src="https://user-images.githubusercontent.com/37208901/198776405-56037c3b-ee10-4eee-a964-9f951f3ea9b6.jpg" width="250px"> | <img src="https://user-images.githubusercontent.com/37208901/198875342-a23b6019-1914-45ae-b239-c3aae4ba39ab.jpg" width="250px"> |
 | ***Figure 11.*** *CED, HED* |
 
 ##### Dataset
