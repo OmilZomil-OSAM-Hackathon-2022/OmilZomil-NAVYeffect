@@ -139,8 +139,8 @@ This project is licensed under the terms of the GNU General Public License versi
 > 개발 문서.
 
 + <a href="https://www.figma.com/file/SWq5gdsKhBOHZJrDL5Qjr8/%EC%98%A4%EB%B0%80%EC%A1%B0%EB%B0%80-(NAVY%ED%9A%A8%EA%B3%BC)?node-id=1199%3A4300"><img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white"></a>
-+ [WebRTC readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/webrtc/Readme.md)
-+ [Omil-Zomil readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/omilzomil/Readme.md)
++ [WebRTC readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/webrtc/Readme.md)
++ [Omil-Zomil readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/omilzomil/Readme.md)
 + [AI readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/ai/OZEngine/readme.md)
 + [Wiki 참고](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/wiki)
   + Wireframes 모음집
