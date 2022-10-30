@@ -133,13 +133,13 @@ CED(Cany Edge Detection)와 MS COCO dataset으로 학습한 HED(Holistically-Nes
 CED와 HED를 이용하여 외곽선을 구하고 구한 외곽선 정보를 바탕으로 Contour를 추출합니다. Contour정보는 쉽게 말해 물체의 외형입니다. 아래는 추출된 Contour를 시각적으로 표현한 이미지입니다.
 | ![hed_edge_bgr](https://user-images.githubusercontent.com/37208901/198711601-f13fb687-8468-4bec-bf3a-a033b0421546.png)| 
 |:--:| 
-| ***Figure 12.*** *Contours* |
+| ***Figure 12.*** *Contours boxes* |
 
 이렇게 추출된 Contour들은 각각 x,y좌표값을 가지고 있습니다. 즉, 각 영역의 위치와 모양을 알 수 있다는 뜻입니다. 이 데이터들을 활용하여 추후에 파츠여부를 판별할 수 있습니다. 아래는 이렇게 추출된 Contour들의 예시 이미지 입니다.
 
 | <img src="https://user-images.githubusercontent.com/37208901/198877516-a4744e63-d655-4220-9db6-7ef8744af66d.jpg" width="100px"> <img src="https://user-images.githubusercontent.com/37208901/198877518-760e2ff9-39f6-4354-a85a-d30f99efd701.jpg" width="100px"> <img src="https://user-images.githubusercontent.com/37208901/198877550-b5df974d-d936-4153-8866-b0dab7482132.jpg" width="100px"> <img src="https://user-images.githubusercontent.com/37208901/198877554-a5180e36-3b15-4ff0-b7e8-760c6718aadb.jpg" width="100px"> <img src="https://user-images.githubusercontent.com/37208901/198877554-a5180e36-3b15-4ff0-b7e8-760c6718aadb.jpg" width="100px">| 
 |:--:|
-| ***Figure 13.*** *Contours* |
+| ***Figure 13.*** *Contours images* |
 
 ### 4-2. Masking
 
@@ -184,13 +184,13 @@ E --> F
 
 | ![Group 632627 (1)](https://user-images.githubusercontent.com/37208901/198865474-999cbead-488a-4760-840a-16f6952986ae.png) | 
 |:--:| 
-| ***Figure 16.*** *pretrained VGG-Net* |
+| ***Figure 16.*** *pretrained VGG-Net (simplification)* |
 
 파츠여부를 VGG-Net 모델을 이용하여 어떤 영역이 어떤 파츠인지 파악할 수 있습니다. 아래는 최종적으로 각 파츠로 추정되는 영역들 중 실제 파츠로 분류된 것들을 박스처리한 이미지 입니다.
 
-| ![Group 632627 (1)](https://user-images.githubusercontent.com/37208901/198865474-999cbead-488a-4760-840a-16f6952986ae.png) | 
+| <img src="https://user-images.githubusercontent.com/37208901/198879904-1eea90e3-caca-4b61-8eca-c72372bd262a.jpeg" width="300px"> | 
 |:--:| 
-| ***Figure 17.*** *pretrained VGG-Net* |
+| ***Figure 17.*** *result of parts classification* |
 
 
 만약 파츠가 이름표라면 추가적으로 OCR을 진행하여 이름표의 이름을 텍스트 데이터로 추출합니다.
@@ -200,7 +200,7 @@ E --> F
 
 ![output](https://user-images.githubusercontent.com/37208901/193526989-e08418b5-a4cc-4523-aabb-422cc3132ed7.png) | 
 |:--:| 
-| ***Figure 17.*** *result of OCR* |
+| ***Figure 18.*** *result of OCR* |
 
 
 ## Reference
