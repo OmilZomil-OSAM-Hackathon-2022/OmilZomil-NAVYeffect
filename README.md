@@ -1,7 +1,11 @@
 # WEB_CLOUD_OmilJomil_NAVYeffect
 [![Group 4](https://user-images.githubusercontent.com/59905641/198581773-d1f0b268-8a9c-46b9-8ba9-909eb4a1a172.png)](https://www.youtube.com/watch?v=QhGQSoqZJTE)
 
-> 위 이미지는 유튜브 링크임.
+> <a href="https://www.youtube.com/watch?v=QhGQSoqZJTE"><img src="https://user-images.githubusercontent.com/32426765/198885986-3b104975-bad7-41d6-8d72-a17181ce4763.png" width="20">
+오밀조밀 소개 영상</a>
+
+> <a href="https://docs.google.com/presentation/d/1XqgszrL56y4SjnWAwOtQiI8rWb1IJpHG/edit?usp=sharing&ouid=109841352852784454196&rtpof=true&sd=true"><img src="https://user-images.githubusercontent.com/32426765/198886389-7e4a71d1-6334-4232-8852-daea28c50fdf.png" width="20">
+오밀조밀 소개 피피티</a>
 
 # :sunglasses: 오밀조밀 : 외적 군기 디텍팅 솔루션 :whale:
 
@@ -44,7 +48,8 @@
 
 우리 **NAVY효과의 "오밀조밀"은 이러한 사례들을 수집해 관리자, 일반 사병, 군사 경찰 할 것 없이 기지 내 장병들에게 편의와 인사이트를 제공하는 솔루션**이 될 것입니다.
 
-<h1>*[OMIL-ZOMIL Demo Page](http://omil-zomil.kro.kr)*</h1>
+<h1><a href="http://117.17.110.220:7776/">OMIL-ZOMIL Demo Page</a></h1>
+
 + 유저 저니 확인을 위한 일반 관리자 계정입니다.  
 + :star2: **ID : administrator, PW : Admin12!** :stars:  
 + 계정으로 들어가셔서, 일반 사용자로서 회원 가입 신청을 한 후 이 계정으로 승인하시면 됩니다.
@@ -163,13 +168,12 @@ sh reset.sh # 초기화
 
 | Photo | Name | Role | Contect | Github |  
 |:---:|:---:|:---:|:---:| :---: |  
-|<center><img src="https://user-images.githubusercontent.com/32426765/198881189-aca4cf12-9dda-4467-9989-15b6da4fe796.png" width="150" height="150"></center>|조남훈| 팀장, 기획자 | lovin6109@gmail.com | Namhoon Cho |  
-|<center><img src="https://user-images.githubusercontent.com/32426765/198881322-382642ea-001a-4e8e-98cb-fec99ab9ce1a.png" width="150" height="150"></center>|조준영| AI 개발자, 웹 디자이너 | joon0zo1022@gmail.com | joon0zo1022 |  
-|<center><img src="https://user-images.githubusercontent.com/32426765/198881192-d2b1a8db-e694-4df2-abd6-2aad6c77492f.png" width="150" height="150"></center>|정의철| 백엔드 개발자 | com.dos.m0nk3y@gmail.com | kevin961119 |  
-|<center><img src="https://user-images.githubusercontent.com/32426765/198881195-1c8f4fcd-1f86-451b-a8ab-a273b5f6d854.png" width="150" height="150"></center>|김대원| DevOps 담당자 | kdwkd0078@gmail.com | greenrain |  
-|<center><img src="https://user-images.githubusercontent.com/32426765/198881197-f171df2a-e5c2-4f64-bd7a-650bc7e0c2cf.png" width="150" height="150"></center>|허태량| 프론트 엔드 개발자 | cake0702@naver.com | xofid0702 |  
-|<center><img src="https://user-images.githubusercontent.com/32426765/198881201-cf0327e7-f23e-450b-adde-0a886ce439bc.png" width="150" height="150"></center>|김민섭| 프론트 엔드 개발자 | tjqtjq0516@gmail.com | tjqtjq0516 |   
-
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881189-aca4cf12-9dda-4467-9989-15b6da4fe796.png" width="150" height="150"></center>|조남훈| 팀장, 기획자 | lovin6109@gmail.com | <a href="https://github.com/Namhoon-Cho" target="_blank"><img src="https://img.shields.io/badge/NamhoonCho-181717?style=for-the-badge&logo=github&logoColor=white"/></a> |  
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881322-382642ea-001a-4e8e-98cb-fec99ab9ce1a.png" width="150" height="150"></center>|조준영| AI 개발자, 웹 디자이너 | joon0zo1022@gmail.com | <a href="https://github.com/joon0zo1022" target="_blank"><img src="https://img.shields.io/badge/joon0zo1022-181717?style=for-the-badge&logo=github&logoColor=white"/></a> |  
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881192-d2b1a8db-e694-4df2-abd6-2aad6c77492f.png" width="150" height="150"></center>|정의철| 백엔드 개발자 | com.dos.m0nk3y@gmail.com | <a href="https://github.com/kevin961119" target="_blank"><img src="https://img.shields.io/badge/kevin961119-181717?style=for-the-badge&logo=github&logoColor=white"/></a> |  
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881195-1c8f4fcd-1f86-451b-a8ab-a273b5f6d854.png" width="150" height="150"></center>|김대원| DevOps 담당자 | kdwkd0078@gmail.com | <a href="https://github.com/greenrain" target="_blank"><img src="https://img.shields.io/badge/greenrain-181717?style=for-the-badge&logo=github&logoColor=white"/></a> |  
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881197-f171df2a-e5c2-4f64-bd7a-650bc7e0c2cf.png" width="150" height="150"></center>|허태량| 프론트 엔드 개발자 | cake0702@naver.com | <a href="https://github.com/xofid0702" target="_blank"><img src="https://img.shields.io/badge/xofid0702-181717?style=for-the-badge&logo=github&logoColor=white"/></a> |  
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881201-cf0327e7-f23e-450b-adde-0a886ce439bc.png" width="150" height="150"></center>|김민섭| 프론트 엔드 개발자 | tjqtjq0516@gmail.com | <a href="https://github.com/biyotteu" target="_blank"><img src="https://img.shields.io/badge/biyotteu-181717?style=for-the-badge&logo=github&logoColor=white"/></a>  |   
 
 <h2 id="copyright"> :books: 저작권 및 사용권 정보 (Copyright & License)</h2>
 
