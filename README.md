@@ -118,9 +118,7 @@
 
 <h2 id="install"> :arrow_down: 설치 안내 (How to download)</h2>
 
-[당신을 기다려왔습니다. 이제 오밀-조밀을 만나보세요!](https://117.17.110.220:7776)
 
-설치 안내
 + Ensure that you have docker and docker-compose installed.
   - docker == 20.10.x, docker-compose == 1.28.x
 
@@ -138,6 +136,10 @@ sh start.sh # 실행
 sh stop.sh  # 정지
 sh reset.sh # 초기화
 ```
+
+ > 자, 클릭 한 번만 남았습니다. 아래 링크로 접속해주세요.  
+
+[당신을 기다려왔습니다. 이제 오밀-조밀을 만나보세요!](https://117.17.110.220:7776)
 
 
 <h2 id="team"> :kissing_heart: 팀원 정보 (Meet the team)</h2>
