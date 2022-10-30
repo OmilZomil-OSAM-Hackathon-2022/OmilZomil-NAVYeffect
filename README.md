@@ -44,6 +44,11 @@
 
 우리 **NAVY효과의 "오밀조밀"은 이러한 사례들을 수집해 관리자, 일반 사병, 군사 경찰 할 것 없이 기지 내 장병들에게 편의와 인사이트를 제공하는 솔루션**이 될 것입니다.
 
+<h1>*[OMIL-ZOMIL Demo Page](http://omil-zomil.kro.kr)*</h1>
++ 유저 저니 확인을 위한 일반 관리자 계정입니다.  
++ :star2: **ID : administrator, PW : Admin12!** :stars:  
++ 계정으로 들어가셔서, 일반 사용자로서 회원 가입 신청을 한 후 이 계정으로 승인하시면 됩니다.
+
 <h2 id="features"> :mag: 기능 설명 및 프로젝트 사용법 (Features)</h2>
 
 <h3 id="structures"> :gear: 구조 설명 (Structures)</h3>
@@ -88,7 +93,7 @@
  + 루트 관리자, 일반 관리자는 일반 사용자와 달리 프로필 수정 페이지에 사용자 관리, 부대 관리 등의 탭이 추가되어 있습니다. 자세한 것은 부록의 링크를 통해 Omil-Zomil 리드미 파일에서 확인하시기 바랍니다!
 ![18  프로젝트 상세  프로필 수정2](https://user-images.githubusercontent.com/59905641/198816687-9e13d999-afef-440a-8c59-3a4bc35d6883.jpg)
  + 저희 페이지는 다크 모드 또한 제공합니다. 사용자에게 더 익숙하고 편한 모드를 선택해 사용하시면 됩니다.
- ![IMG_0186](https://user-images.githubusercontent.com/59905641/198875747-8d97f1cd-7871-4a6e-8c59-14e45158503d.png)
+![대쉬보드](https://user-images.githubusercontent.com/32426765/198883253-1ac95ca2-db3c-464e-bd49-05bcf8b9cfff.png)
 
 
 <h2 id="pre-required"> :dash: 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</h2>
@@ -145,9 +150,11 @@ sh reset.sh # 초기화
 
  > 자, 클릭 한 번만 남았습니다. 아래 링크로 접속해주세요.  
 
-[당신을 기다려왔습니다. 이제 오밀-조밀을 만나보세요!](http://omil-zomil.com)
+*[당신을 기다려왔습니다. 이제 오밀-조밀을 만나보세요!](http://omil-zomil.kro.kr)*
 
-+ 유저 저니 확인을 위한 일반 관리자 계정입니다. :star2: ID : administrator, PW : Admin12! :stars: 좌측 계정으로 들어가셔서, 일반 사용자로서 회원 가입 신청을 한 후 이 계정으로 승인하시면 됩니다.
++ 유저 저니 확인을 위한 일반 관리자 계정입니다.  
++ :star2: **ID : administrator, PW : Admin12!** :stars:  
++ 계정으로 들어가셔서, 일반 사용자로서 회원 가입 신청을 한 후 이 계정으로 승인하시면 됩니다.
 
 
 <h2 id="team"> :kissing_heart: 팀원 정보 (Meet the team)</h2>
@@ -162,6 +169,7 @@ sh reset.sh # 초기화
 |<center><img src="https://user-images.githubusercontent.com/32426765/198881195-1c8f4fcd-1f86-451b-a8ab-a273b5f6d854.png" width="150" height="150"></center>|김대원| DevOps 담당자 | kdwkd0078@gmail.com | greenrain |  
 |<center><img src="https://user-images.githubusercontent.com/32426765/198881197-f171df2a-e5c2-4f64-bd7a-650bc7e0c2cf.png" width="150" height="150"></center>|허태량| 프론트 엔드 개발자 | cake0702@naver.com | xofid0702 |  
 |<center><img src="https://user-images.githubusercontent.com/32426765/198881201-cf0327e7-f23e-450b-adde-0a886ce439bc.png" width="150" height="150"></center>|김민섭| 프론트 엔드 개발자 | tjqtjq0516@gmail.com | tjqtjq0516 |   
+
 
 <h2 id="copyright"> :books: 저작권 및 사용권 정보 (Copyright & License)</h2>
 

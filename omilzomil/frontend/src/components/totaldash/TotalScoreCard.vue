@@ -84,7 +84,7 @@ export default {
     position:relative;
 }
 .title{
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 600;
     font-size: 24px;
@@ -92,7 +92,7 @@ export default {
     margin-bottom:38px
 }
 .count{
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 600;
     font-size: 20px;
@@ -102,7 +102,7 @@ export default {
 }
 .percent{
     color:#9C9DB2;
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 500;
     font-size: 10px;

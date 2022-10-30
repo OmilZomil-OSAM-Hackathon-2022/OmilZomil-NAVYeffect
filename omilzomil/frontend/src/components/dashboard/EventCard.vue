@@ -84,7 +84,6 @@ export default {
         : "/stats/month/unit/best/person";
     try {
       const { data } = await this.$axios.get(url);
-      console.log(data);
       if (this.type == 0) this.title = data.unit;
       else {
         this.photo = data.image_path;
@@ -116,7 +115,7 @@ export default {
   align-items: flex-start;
 }
 .title {
-  font-family: "Roboto";
+  
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -127,7 +126,7 @@ export default {
   letter-spacing: 0.15px;
 }
 .content {
-  font-family: "Roboto";
+  
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -141,7 +140,7 @@ a {
   color: #fff;
   /* BUTTON */
   padding: 8px 12px;
-  font-family: "Roboto";
+  
   font-style: normal;
   font-weight: 500;
   font-size: 14px;

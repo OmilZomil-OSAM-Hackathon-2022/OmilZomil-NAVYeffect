@@ -36,7 +36,6 @@ export default {
   justify-content: center;
   gap:5px;
   border-radius: 4px;
-  font-family: 'Roboto';
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
