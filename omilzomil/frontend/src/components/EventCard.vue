@@ -1,102 +1,136 @@
 <template>
-  <div class="card">
-    <div class="background">
-      <img 
-        class="star1" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star2" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star3" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star4" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star5" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star6" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star7" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star8" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star9" 
-        src="@/assets/images/fire/light.svg" 
-      />
-      <img 
-        class="star10" 
-        src="@/assets/images/fire/light.svg" 
-      />
-    </div>
-    <button
-      class="x"
-      @click="close"
-    />
-    <div class="textbox">
-      <div class="text1">
-        {{ name }}
+  <div
+    class="overlay"
+    @click.self="$emit('closeCard')"
+  >
+    <div class="card">
+      <div class="background">
+        <img 
+          class="star1" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star2" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star3" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star4" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star5" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star6" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star7" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star8" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star9" 
+          src="@/assets/images/fire/light.svg" 
+        >
+        <img 
+          class="star10" 
+          src="@/assets/images/fire/light.svg" 
+        >
       </div>
-      <div class="text2">
-        {{ contents }}
+      <button
+        class="x"
+        @click="$emit('closeCard')"
+      />
+      <div class="textbox">
+        <div class="text1">
+          {{ name }}
+        </div>
+        <div class="text2">
+          {{ contents }}
+        </div>
       </div>
-    </div>
-    <div class="image">
-      <img
-        class="back"
-        src="@/assets/images/fire/back.svg" 
+      <div
+        v-if="photo===null"
+        class="image"
       >
-      <img
-        class="one"
-        src="@/assets/images/fire/one.svg" 
+        <img
+          class="back"
+          src="@/assets/images/fire/back.svg" 
+        >
+        <img
+          class="one"
+          src="@/assets/images/fire/one.svg" 
+        >
+        <img
+          class="two"
+          src="@/assets/images/fire/two.svg" 
+        >
+        <img
+          class="three"
+          src="@/assets/images/fire/three.svg" 
+        >
+        <img
+          class="four"
+          src="@/assets/images/fire/four.svg" 
+        >
+        <img
+          class="five"
+          src="@/assets/images/fire/red.svg" 
+        >
+        <img
+          class="six"
+          src="@/assets/images/fire/yellow.svg" 
+        >
+        <img
+          class="seven"
+          src="@/assets/images/fire/red.svg" 
+        >
+        <img
+          class="eight"
+          src="@/assets/images/fire/yellow.svg" 
+        >
+        <img
+          class="nine"
+          src="@/assets/images/fire/blue.svg" 
+        >
+      </div>
+      <div
+        v-else
+        class="photoclap"
       >
-      <img
-        class="two"
-        src="@/assets/images/fire/two.svg" 
-      >
-      <img
-        class="three"
-        src="@/assets/images/fire/three.svg" 
-      >
-      <img
-        class="four"
-        src="@/assets/images/fire/four.svg" 
-      >
-      <img
-        class="five"
-        src="@/assets/images/fire/red.svg" 
-      >
-      <img
-        class="six"
-        src="@/assets/images/fire/yellow.svg" 
-      >
-      <img
-        class="seven"
-        src="@/assets/images/fire/red.svg" 
-      >
-      <img
-        class="eight"
-        src="@/assets/images/fire/yellow.svg" 
-      >
-      <img
-        class="nine"
-        src="@/assets/images/fire/blue.svg" 
-      >
-    </div>
-  </div> 
+        <img
+          class="photoback"
+          :src="photo"
+          @error="e => e.target.src = require('@/assets/images/test.png')"
+        >
+        <img
+          class="photo"
+          src="@/assets/images/photo.svg"
+        >
+        <img
+          class="backhand"
+          src="@/assets/images/clap/back.svg"
+        >
+        <img
+          class="fronthand"
+          src="@/assets/images/clap/front.svg"
+        >
+        <img
+          class="clapeffect"
+          src="@/assets/images/clap/effect.svg"
+        > 
+      </div>
+    </div> 
+  </div>
 </template>
 
 <script>
@@ -109,15 +143,40 @@ export default {
         contents:{
             type:String,
             default:null
+        },
+        photo:{
+          type:String,
+          default:null
         }
-    }
+    },
+    emits: ["closeCard"],
 }
 </script>
 
-<style>
+<style scoped>
+
+.overlay{
+  position: fixed;
+  /* display:none; */
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background-color:rgba(0,0,0,0.5);
+  z-index:1000000;
+}
     @keyframes blink{
       0% {opacity:0;}
       100% {opacity:1;}
+    }
+    @keyframes effect{
+      0%{transform: scale(1);}
+      100%{transform: scale(1.3);}
     }
     @keyframes boom {
         0% {
@@ -180,6 +239,30 @@ export default {
             top: 52.99%;
             bottom: 39.49%;
         }
+    }
+    @keyframes shake1 {
+      from {
+        transform: scale(0.9) rotate(-5deg);
+        /* transform: translateY(100px); */
+        /* opacity: 0; */
+      }
+      to {
+        transform: scale(1) rotate(0);
+        /* transform: translateY(0); */
+        /* opacity: 1; */
+      }
+    }
+    @keyframes shake2 {
+      from {
+        transform: scale(1.1) rotate(5deg);
+        /* transform: translateY(100px); */
+        /* opacity: 0; */
+      }
+      to {
+        transform: scale(1) rotate(0);
+        /* transform: translateY(0); */
+        /* opacity: 1; */
+      }
     }
     .card{
         position:relative;
@@ -275,13 +358,14 @@ export default {
     }
     .card .textbox{
         display:flex;
-        width: 256px;
+        width:100%;
         gap:5px;
         z-index: 1;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-
+        padding:0px 10px;
+        box-sizing:border-box;
     }
     .card .textbox .text1{
         font-family: 'Roboto';
@@ -290,8 +374,9 @@ export default {
         font-size: 24px;
         line-height: 28px;
         text-align: center;
-
+        word-break: normal;
         color: #F9F9FB;
+        width:100%;
     }
     .card .textbox .text2{
         font-family: 'Roboto';
@@ -301,8 +386,9 @@ export default {
         line-height: 23px;
         text-align: center;
         letter-spacing: -0.055em;
-
         color: #F9F9FB;
+        white-space:nowrap
+        /* word-break:normal; */
     }
     .card .image{
         position:relative;
@@ -400,5 +486,56 @@ export default {
         right:15px;
         width: 24px;
         height: 24px;
+    }
+    .card .photoclap{
+      position:relative;
+      width: 400px;
+      height: 236px;
+    }
+    .card .photoclap .photoback{
+      position: absolute;
+      width: 236px;
+      height: 236px;
+      top:0;
+      left:82px;
+      filter: blur(16px);
+      border-radius: 165px;
+      background: rgba(255, 255, 255, 0.5);
+      animation:blink 1s ease-in-out infinite alternate;
+    }
+    .card  .photoclap .photo{
+      position: absolute;
+      width: 236px;
+      height: 236px;
+      top:0;
+      left:82px;
+      border-radius: 165px;
+    }
+    .card .fronthand{
+      position:absolute;
+      z-index: 3;
+      height: 93.42px;
+      width: 80.06px;
+      left:240.03px;
+      top: 170.34px;
+      animation: shake2 0.2s infinite alternate;
+    }
+    .card .backhand{
+      position:absolute;
+      height:92.23px;
+      width:67.07px;
+      left:218.03px;
+      top:171.66px;
+      z-index: 2;
+      animation: shake1 0.2s infinite alternate;
+    }
+    .card .clapeffect{
+      position:absolute;
+      width:27.79px;
+      height:30.03px;
+      left:208.36px;
+      top:152.28px;
+      z-index: 2;
+      animation: effect 0.2s infinite alternate;
     }
 </style>

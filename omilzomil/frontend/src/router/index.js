@@ -1,12 +1,36 @@
 import { createWebHistory, createRouter } from "vue-router";
+import store from "@/stores";
+
+const beforeAuth = (allowAdmin,role=2) => (from, to, next) => {
+  const isAuthenticated = store.getters["isAuthenticated"]
+  if (isAuthenticated) {
+    if(allowAdmin){
+      const isAdmin = store.getters["getUser"].role >= role;
+      if(isAdmin){
+        return next()
+      }else{
+        alert("권한이 부족합니다!")
+        next("/")
+      }
+    }else{
+      return next()
+    }
+  } else {
+    // 홈 화면으로 이동
+    alert("로그인을 해주세요!")
+    next("/login")
+  }
+}
+
 
 const routes = [
   {
     path: "/",
     name: "Home",
-    component: () => import('../views/DashBoardPage.vue'),
-    // component: () => import('../views/DashBoardPage.vue'),
-    // redirect: '/login',
+    component: () => import('../views/LandingPage.vue'),
+    meta:{
+      isLanding:true,
+    },
   },
   {
     path: "/api",
@@ -33,35 +57,101 @@ const routes = [
   {
     path: "/listup",
     name: "ListUp",
+    beforeEnter:beforeAuth(false),
     component: () => import('../views/ListUpPage.vue'),
   },
   {
     path: "/ranking",
     name: "Ranking",
-    component: () => import('../views/DashBoardPage.vue'),
-    // component: () => import('../views/ListUpPage.vue'),
+    component: () => import('../views/RankingPage.vue'),
   },
   {
     path: "/dashboard",
     name: "Dashboard",
-
+    beforeEnter:beforeAuth(false),
     component: () => import('../views/DashBoardPage.vue'),
-    // component: () => import('../views/ListUpPage.vue'),
   },
   {
     path: "/totalDashboard",
     name: "TotalDashboard",
 
     component: () => import('../views/TotalDashBoardPage.vue'),
-    // component: () => import('../views/ListUpPage.vue'),
   },
   {
     path: "/vacation",
     name: "Vacation",
+    beforeEnter:beforeAuth(false),
 
-    component: () => import('../views/DashBoardPage.vue'),
-    // component: () => import('../views/ListUpPage.vue'),
+    component: () => import('../views/RegistVacationPage.vue'),
   },
+  {
+    path:"/unregister",
+    name:"Unregister",
+    component: () => import('../views/UnregisterPage.vue'),
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+
+    component: () => import('../views/ProfilePage.vue'),
+    children:[
+      {
+        path:'',
+        name:'EditProfile',
+        meta:{
+          enterClass: "animate__animated animate__fadeInLeft",
+          leaveClass: "animate__animated animate__fadeOutRight",
+        },
+        component:()=>import('../components/profile/EditProfile.vue'),
+      },
+      {
+        path:'userManagement',
+        name:'UserManagement',
+        beforeEnter:beforeAuth(true,2),
+        meta:{
+          enterClass: "animate__animated animate__fadeInLeft",
+          leaveClass: "animate__animated animate__fadeOutRight",
+        },
+        component:()=>import('../components/profile/UserManagement.vue'),
+      },
+      {
+        path:'unitManagement',
+        name:'UnitManagement',
+        beforeEnter:beforeAuth(true,3),
+        meta:{
+          enterClass: "animate__animated animate__fadeInLeft",
+          leaveClass: "animate__animated animate__fadeOutRight",
+        },
+        component:()=>import('../components/profile/UnitManagement.vue'),
+      },
+      {
+        path:'guardroomManagement',
+        name:'GuardroomManagement',
+        beforeEnter:beforeAuth(true,3),
+        meta:{
+          enterClass: "animate__animated animate__fadeInLeft",
+          leaveClass: "animate__animated animate__fadeOutRight",
+        },
+        component:()=>import('../components/profile/GuardroomManagement.vue'),
+      },
+      {
+        path:'vacationManagement',
+        name:'VacationManagement',
+        beforeEnter:beforeAuth(true,2),
+        meta:{
+          enterClass: "animate__animated animate__fadeInLeft",
+          leaveClass: "animate__animated animate__fadeOutRight",
+        },
+        component:()=>import('../components/profile/VacationManagement.vue'),
+      }
+    ]
+  },
+  {
+    path: "/api",
+    name: "api",
+
+    component: () => import('../views/APITestPage.vue'),
+  }
 ];
 
 const router = createRouter({

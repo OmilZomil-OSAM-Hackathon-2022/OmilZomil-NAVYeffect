@@ -13,9 +13,6 @@
               style="flex:1"
             >
               <PartsCard
-                title="두발 양호 인원"
-                :count="126"
-                :percent="12"
                 :parts-type="0"
               />
             </div>
@@ -23,9 +20,6 @@
               style="flex:1"
             >
               <PartsCard
-                title="복장 양호 인원"
-                :count="96"
-                :percent="-4"
                 :parts-type="1"
               />
             </div>
@@ -33,9 +27,6 @@
               style="flex:1"
             >
               <PartsCard
-                title="출입 인원"
-                :count="53"
-                :percent="0"
                 :parts-type="2"
               />
             </div>
@@ -59,18 +50,20 @@
         </div>
         <div class="row3">
           <div style="width:384px;display:flex;flex-direction:column;gap:25px">
-            <EventCard
-              style="flex:1"
-              :type="0"
-              title="충청지역 부대 중 외적군기 1등!"
-              content="이번 달 우리 부대는 몇 등 했을까?"
-            />
-            <EventCard
-              style="flex:1"
-              :type="1"
-              title="이번 달 계룡대 으뜸병사 나해군"
-              content="우리 부대 으뜸병사는?"
-            />
+            <div style="flex:1">
+              <EventCard
+                :type="0"
+                title="충청지역 부대 중 외적군기 1등!"
+                content="이번 달 우리 부대는 몇 등 했을까?"
+              />
+            </div>
+            <div style="flex:1">
+              <EventCard
+                :type="1"
+                title="이번 달 계룡대 으뜸병사 나해군"
+                content="우리 부대 으뜸병사는?"
+              />
+            </div>
           </div>
           <div
             style="width:792px;"
@@ -91,7 +84,10 @@ import DoughnutCard from '@/components/dashboard/DoughnutCard.vue';
 import LineCard from '@/components/dashboard/LineCard.vue';
 import EventCard from '@/components/dashboard/EventCard.vue';
 export default {
-    components: { ListUp, TitleCard, PartsCard, DoughnutCard, LineCard,EventCard}
+    components: { ListUp, TitleCard, PartsCard, DoughnutCard, LineCard,EventCard},
+    mounted(){
+      window.scrollTo(0, 0);
+    }
 }
 </script>
 

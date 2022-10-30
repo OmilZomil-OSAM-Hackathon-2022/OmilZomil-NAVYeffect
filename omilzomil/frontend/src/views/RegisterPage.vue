@@ -17,7 +17,7 @@
         <h2>오밀조밀<br>복장과 두발을 검사하다</h2>
         <div class="title">
           <img
-            width="52px"
+            width="65px"
             src="@/assets/logo.svg"
           >
           <h1>OMIL-ZOMIL</h1>
@@ -58,18 +58,19 @@
             <div class="input-label">
               <h3>군번</h3>
               <div
-                v-show="dogTag.check == 2"
+                v-show="dogTag.check == 2 || dogTag.check == 3"
                 class="input-warning"
               >
-                군번을 입력해주세요.
+                {{ dogTag.check == 2 ? '군번을 입력해주세요.':'이미 가입된 군번입니다.' }}
               </div>
             </div>
             <input
+              ref="dogTag"
               v-model="dogTag.data"
               placeholder="군번"
               :class="{
                 success: dogTag.check == 1,
-                error: dogTag.check == 2,
+                error: dogTag.check == 2 || dogTag.check == 3,
               }"
               @change="checkDogTag"
             >
@@ -91,58 +92,65 @@
               >
                 소속을 선택하세요.
               </option>
-              <option value="육군">
-                육군
-              </option>
-              <option value="해군">
-                해군
-              </option>
-              <option value="공군">
-                공군
-              </option>
-              <option value="해병대">
-                해병대
-              </option>
-              <option value="국방부직속">
-                국방부직속
+              <option
+                v-for="dvs in divisionList"
+                :key="dvs.affiliation_id"
+                :value="dvs.affiliation_id"
+              >
+                {{ dvs.affiliation }}
               </option>
             </select>
 
             <div class="input-label">
               <h3>부대</h3>
               <div
-                v-show="armyUnit.check == 2"
+                v-show="armyUnit.check == 2|| armyUnit.check == 3"
                 class="input-warning"
               >
-                부대를 선택하세요.
+                부대를 확인하세요.
               </div>
             </div>
-
-            <select v-model="armyUnit.data">
+            <div>
+              <input 
+                ref="unit"
+                v-model="armyUnit.data"
+                placeholder="부대를 선택하세요."
+                list="unitlist"
+                :class="{
+                  success: armyUnit.check == 1,
+                  error: armyUnit.check == 2 || armyUnit.check == 3,
+                }"
+                @change="checkUnit"
+              >
+              <datalist
+                v-if="armyUnit.data.length >= 2"
+                id="unitlist"
+              >
+                <option
+                  v-for="u in unitList"
+                  :key="u.unit_id"
+                >
+                  {{ u.unit }}
+                </option>
+              </datalist>
+            </div>
+            <!-- <select v-model="armyUnit.data">
               <option
                 value=""
                 disabled
                 selected
               >
-                부대을 선택하세요.
+                부대를 선택하세요.
               </option>
 
-              <option value="계룡대 근무지원단">
-                계룡대 근무지원단
+              <option
+                v-for="u in unitList"
+                :key="u.unit_id"
+                :value="u.unit_id"
+              >
+                {{ u.unit }}
               </option>
-              <option value="1함대">
-                1함대
-              </option>
-              <option value="2함대">
-                2함대
-              </option>
-              <option value="3함대">
-                3함대
-              </option>
-              <option value="작전사">
-                작전사
-              </option>
-            </select>
+            </select> -->
 
             <div class="input-label">
               <h3>계급</h3>
@@ -162,40 +170,29 @@
                 계급을 선택하세요.
               </option>
 
-              <option value="이병">
-                이병
-              </option>
-              <option value="일병">
-                일병
-              </option>
-              <option value="상병">
-                상병
-              </option>
-              <option value="병장">
-                병장
+              <option
+                v-for="cl in classList"
+                :key="cl.rank_id"
+                :value="cl.rank_id"
+              >
+                {{ cl.rank }}
               </option>
             </select>
 
             <div class="input-label">
               <h3>아이디</h3>
               <div
-                v-show="uid.check != 2"
-                class="input-comment"
+                :class="[uid.check == 1 || uid.check == 0 ? 'input-comment':'input-warning']"
               >
-                아이디를 6자 이상 입력해주세요.
-              </div>
-              <div
-                v-show="uid.check == 2"
-                class="input-warning"
-              >
-                아이디를 6자 이상 입력해주세요.
+                {{ uid.check == 3 ? '이미 가입된 아이디입니다.':'아이디를 6자 이상 입력해주세요.' }}
               </div>
             </div>
             <input
+              ref="username"
               v-model="uid.data"
               :class="{
                 success: uid.check == 1,
-                error: uid.check == 2,
+                error: uid.check == 2 || uid.check == 3,
               }"
               placeholder="아이디"
               @change="checkID"
@@ -254,9 +251,6 @@
               확인
             </button>
           </form>
-          <h1 id="console">
-            {{ text }}
-          </h1>
         </div>
       </div>
     </div>
@@ -276,7 +270,6 @@ class inputData {
 export default {
   data() {
     return {
-      text: "",
       name: new inputData(),
       dogTag: new inputData(),
       division: new inputData(),
@@ -285,7 +278,23 @@ export default {
       uid: new inputData(),
       password: new inputData(),
       passwordConfirm: new inputData(),
+      unitList: [],
+      classList:[],
+      divisionList:[],
     };
+  },
+  async mounted(){
+    try{
+      const unitList = await this.$axios.get('/unit/');
+      const divisionList = await this.$axios.get('/affiliation/');
+      const classList = await this.$axios.get('/rank/');
+
+      this.unitList = unitList.data;
+      this.divisionList = divisionList.data;
+      this.classList = classList.data;
+    }catch(err){
+      console.log(err);
+    }
   },
   methods: {
     submitForm() {
@@ -294,36 +303,62 @@ export default {
         this.dogTag.check == 1 &&
         this.uid.check == 1 &&
         this.division.data != "" &&
-        this.armyUnit.data != "" &&
+        this.armyUnit.check == 1 &&
         this.uClass.data != "" &&
         this.password.check == 1 &&
         this.passwordConfirm.check == 1
       ) {
-        this.$axios
-          .post("/user/create/", {
-            name: this.name.data,
-            uid: this.uid.data,
-            password: this.password.data,
-            dog_num: this.dogTag.data,
-            army: this.division.data,
-            unit: this.armyUnit.data,
+
+        const userUnit = this.unitList.filter(u=>this.armyUnit.data == u.unit);
+        console.log({
+            full_name: this.name.data,
+            dog_number: this.dogTag.data,
+            affiliation: this.division.data,
+            // military_unit: this.armyUnit.data,
+            military_unit: userUnit[0].unit,
             rank: this.uClass.data,
+            username: this.uid.data,
+            password: this.password.data,
+          });
+        this.$axios
+          .post("/user/", {
+            full_name: this.name.data,
+            dog_number: this.dogTag.data,
+            affiliation: this.division.data,
+            // military_unit: this.armyUnit.data,
+            military_unit: userUnit[0].unit_id,
+            rank: this.uClass.data,
+            username: this.uid.data,
+            password: this.password.data,
           })
           .then((response) => {
-            console.log(response);
-            this.text = response;
+            if(response.data.success){
+              this.$router.push('/login')
+            }else{
+              if(response.data.message.includes('dog_number')){
+                this.dogTag.check = 3;
+                this.$refs.dogTag.focus();
+              }else if(response.data.message.includes('username')){
+                this.uid.check = 3;
+                this.$refs.username.focus();
+              }
+            }
           })
           .catch((error) => {
             console.log(error);
-            this.text = error;
           });
-        // .finally(function () {
-        //   this.text = "adsffdsaadsf";
-        // });
-        this.text += "um";
-      } else {
-        this.text = "fail";
       }
+    },
+    checkUnit(){
+      const userUnit = this.unitList.filter(u=>this.armyUnit.data == u.unit);
+      console.log(userUnit);
+        if(userUnit.length <= 0){
+          this.$refs.unit.focus();
+          this.armyUnit.check = 3;
+          return;
+        }else{
+          this.armyUnit.check = 1;
+        }
     },
     checkName(event) {
       if (event.target.value != "") {
@@ -444,7 +479,7 @@ export default {
   align-items: center;
 }
 .wrap-title .title img {
-  margin-right: 10px;
+  /* margin-right: 10px; */
 }
 .wrap-title .title h1 {
   margin: 0px;
@@ -516,6 +551,10 @@ export default {
   margin-bottom: 40px;
   font-size: 20px;
   color: black;
+  -webkit-appearance: none;
+
+  background: url("@/assets/icons/mdi_chevron-down.svg") no-repeat scroll 10px center;
+  background-position: right 12px center;
 }
 .right select option {
   /* background: lightcoral; */

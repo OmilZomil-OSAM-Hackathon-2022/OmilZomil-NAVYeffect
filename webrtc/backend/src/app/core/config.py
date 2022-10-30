@@ -8,6 +8,11 @@ class Settings(BaseSettings):
     # 60 minutes * 24 hours * 8 days = 8 days
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
 
+    LOGURU_SETTINGS = {}
+    IMAGE_PATH = "/image"
+    WORKER_SERVER = ('worker', 7777)
+
+
     MYSQL_HOST: str = os.environ["MYSQL_HOST"]
     MYSQL_USER: str = os.environ["MYSQL_USER"]
     MYSQL_PASSWORD: str = os.environ["MYSQL_PASSWORD"]

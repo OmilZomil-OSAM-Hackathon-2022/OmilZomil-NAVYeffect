@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from app.db.base_schema import Base
 from app.models.affiliation import Affiliation
 from app.models.military_unit import MilitaryUnit
@@ -10,11 +10,12 @@ class User(Base):
     __tablename__ = "user"
 
     user_id = Column(Integer, primary_key=True, index=True)
-    full_name = Column(String(8), nullable=False)
+    full_name = Column(String(12), nullable=False)
     dog_number = Column(String(16), unique=True, nullable=False)
-    affiliation = Column(String(6), ForeignKey(Affiliation.affiliation), nullable=False)
-    military_unit = Column(String(128), ForeignKey(MilitaryUnit.unit), nullable=False)
-    rank = Column(String(4), ForeignKey(Rank.rank), nullable=False)
+    affiliation = Column(Integer, ForeignKey(Affiliation.affiliation_id), nullable=False)
+    military_unit = Column(Integer, ForeignKey(MilitaryUnit.unit_id), nullable=False)
+    rank = Column(Integer, ForeignKey(Rank.rank_id), nullable=False)
     username = Column(String(33), unique=True, nullable=False)
     password = Column(String(129), nullable=False)
-    role = Column(String(9), ForeignKey(Role.role), default="inactive")
+    role = Column(Integer, ForeignKey(Role.role_id), default=1)
+    is_active = Column(Boolean, default=False)

@@ -41,8 +41,8 @@ class NavyServiceUniformChecker(UniformChecker):
         img = org_img
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         H, W = img.shape[: 2]
-        self.result_dic = {'component':{}, 'box_position':{}, 'masked_img':{}, 'probability':{}}
-        
+
+        self.result_dic = {'component':{}, 'box_position':{}, 'masked_img':{}, 'probability':{}} 
         # 샘당 filter
         contours, hierarchy, self.result_dic['masked_img']['shirt'] = self.getMaskedContours(
             img=img, hsv_img=hsv_img, kind='uniform', sort=True)
@@ -100,4 +100,6 @@ class NavyServiceUniformChecker(UniformChecker):
                     self.result_dic['component']['class_tag'] = component
                     self.result_dic['masked_img']['class_tag'] = masked_img
 
+
         return self.result_dic
+

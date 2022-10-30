@@ -9,7 +9,7 @@
           class="logo"
         >
           <img
-            width="30"
+            width="35"
             src="@/assets/logo.svg"
           >
           <h1>OMIL-ZOMIL</h1>
@@ -48,16 +48,87 @@
             class="search"
             placeholder="검색"
           >
-          <router-link
-            class="profile"
-            to="/"
-          >
-            <img
-              width="32"
-              src="@/assets/icons/mdi_account-circle.svg"
+          <div>
+            <a
+              v-if="isAuth"
+              class="profile"
+              to="/"
+              @click="openUserMenu"
             >
-            <div class="user-name">
-              {{ userName }}님
+              <img
+                width="32"
+                src="@/assets/icons/mdi_account-circle.svg"
+              >
+              <div class="user-name">
+                {{ getUser.full_name }}님
+              </div>
+            </a>
+            <div
+              v-if="userMenu"
+              class="close-menu"
+              @click="closeUserMenu"
+            />
+            <div
+              v-if="userMenu"
+              class="userMenu card"
+            >
+              <router-link
+                to="/profile"
+                @click="closeUserMenu"
+              >
+                프로필 수정
+              </router-link>
+              <div
+                v-if="getUser.role >= 2"
+                class="admin"
+              >
+                <router-link
+                  to="/profile/userManagement"
+                  @click="closeUserMenu"
+                >
+                  사용자 관리
+                </router-link>
+                <router-link
+                  v-if="getUser.role >= 3"
+                  to="/profile/unitManageMent"
+                  @click="closeUserMenu"
+                >
+                  부대 관리
+                </router-link>
+                <router-link
+                  v-if="getUser.role >= 3"
+                  to="/profile/GuardroomManagement"
+                  @click="closeUserMenu"
+                >
+                  위병소 관리
+                </router-link>
+                <router-link
+                  to="/profile/vacationManageMent"
+                  @click="closeUserMenu"
+                >
+                  휴가 관리
+                </router-link>
+              </div>
+              <router-link
+                to="/"
+                @click="logout"
+              >
+                로그아웃
+              </router-link>
+              <router-link
+                to="/unregister"
+                @click="closeUserMenu"
+              >
+                회원 탈퇴
+              </router-link>
+            </div>
+          </div>
+          <router-link
+            v-if="!isAuth"
+            to="/login"
+          >
+            <div class="login">
+              로그인
             </div>
           </router-link>
         </div>
@@ -82,7 +153,7 @@
             >
               <DashboardIcon />
             </IconBase>
-            대쉬보드
+            대시보드
           </div>
         </router-link>
         <router-link to="/ListUp">
@@ -93,7 +164,7 @@
             >
               <GroupIcon />
             </IconBase>
-            부대인원조회
+            실시간 감지 현황
           </div>
         </router-link>
         <router-link to="/ranking">
@@ -128,7 +199,7 @@
             >
               <BookAccount />
             </IconBase>
-            휴가 관리
+            휴가 신청
             <!-- <img src="@/assets/icons/trophy-variant.svg"/>랭킹 -->
           </div>
         </router-link>
@@ -150,19 +221,36 @@ export default {
     components:{ IconBase, DashboardIcon, TrophyIcon, HomeIcon, GroupIcon, BookAccount, ChartBox },
     data(){
       return {
-        userName: "김민섭",
+        userMenu:false,
       }
     },
     computed: {
       getDarkMode () {
         return this.$store.getters.getDarkMode;
-      }
+      },
+      isAuth () {
+        return this.$store.getters.isAuthenticated;
+      },
+      getUser () {
+        return this.$store.getters.getUser;
+      },
     },
     methods:{
       setDarkMode(){
         // console.log("test");
         return this.$store.commit('setDarkMode');
       },
+      openUserMenu(){
+        this.userMenu = true;
+      },
+      closeUserMenu(){
+        this.userMenu = false;
+      },
+      logout(){
+        this.closeUserMenu();
+        this.$store.commit('logout');
+        this.$router.push('/')
+      }
     },
 }
 </script>
@@ -170,6 +258,7 @@ export default {
 <style scoped >
 /* @import '@/assets/styles/common.css'; */
 .app-bar{
+    font-family: 'Roboto';
     width:100%;
     background: var(--color-appbar);
     box-shadow: 0px 4px 25px rgba(145, 85, 235, 0.03);
@@ -191,8 +280,8 @@ export default {
 
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
+    font-weight: 900;
+    font-size: 22px;
     line-height: 22px;
 
     color: #9155EB;
@@ -203,7 +292,7 @@ export default {
     white-space: nowrap;
 }
 .top .logo img{
-    margin-right:5px;
+    /* margin-right:5px; */
 }
 .top .options{
     height:100%;
@@ -295,8 +384,18 @@ button{
   align-items: center;
   
   text-decoration: none;
+  position:relative;
+  /* border-radius:8px;
+  padding:5px; */
 }
 
+.profile:active{
+  /* background:#9155EB1A;
+  box-shadow:  4px 4px 6px 0 rgba(145, 85, 235, 0.5),
+              -4px -4px 6px 0 #9155EB1A, 
+    inset -4px -4px 6px 0 rgba(145, 85, 235, 0.1),
+    inset 4px 4px 6px 0 #9155EB1A; */
+}
 .profile .user-name{
   font-family: 'Roboto';
   font-style: normal;
@@ -323,6 +422,62 @@ button{
   margin-left:4px;
 }
 
+.close-menu{
+  position:absolute;
+  width:100%;
+  height:100%;
+  left:0px;
+  top:0px;
+  z-index:1000000;
+}
+
+.userMenu{
+  z-index:10000000;
+  margin-top:10px;
+  position:absolute;
+  /* bottom:0px; */
+  height:auto;
+  width:auto;
+  padding:20px 17px;
+  box-sizing:border-box;
+  height:auto;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  /* right:20px; */
+  margin-right:20px;
+  gap:5px;
+}
+.admin{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:5px;
+
+}
+.userMenu a{
+  box-sizing:border-box;
+  padding-left:10px;
+  width: 100px;
+  height: 28px;
+
+  /* Subtitle 2 - Bold */
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.1px;
+  /* color: #616276; */
+  color:var(--color);
+  border-radius: 9px;
+}
+.userMenu a:hover{
+  background: rgba(145, 85, 235, 0.1);
+}
 .search{
   box-sizing: border-box;
 
@@ -399,4 +554,21 @@ button{
 {
   color:#9155EB;
 }
+
+.login{
+  /* Subtitle 1 - Bold */
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+  letter-spacing: 0.15px;
+
+  /* Primary */
+  color: #9155EB;
+
+}
+
 </style>

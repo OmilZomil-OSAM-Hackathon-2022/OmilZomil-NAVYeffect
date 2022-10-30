@@ -1,12 +1,15 @@
 <template>
   <div class="card">
-    <CardHead title="월별 전군 불량 비율" />
-    <div class="df">
+    <CardHead title="주간 전군 불량 비율" />
+    <div
+      v-if="!isLoading" 
+      class="df"
+    >
       <div class="info">
         <div class="df-col">
           <number
             :from="0"
-            :to="3424"
+            :to="count"
             :duration="1"
           />명
         </div>
@@ -14,8 +17,7 @@
           지난 주 대비
         </div>
         <PercentTag
-
-          :percent="-3"
+          :percent="before"
           :reverse="true"
         />
       </div>
@@ -28,7 +30,7 @@
       <div class="percentValue">
         <number
           :from="0"
-          :to="35"
+          :to="percent"
           :duration="1"
         />%
       </div>
@@ -55,11 +57,13 @@
     //   },
     data(){
           return{
+            isLoading:true,
             series: [44,56],
-            dummy:[100],
+            before:0,
+            count:0,
+            percent:0,
           }
-    },
-          
+    },   
       computed: {
         getOption(){
           const options = {
@@ -98,6 +102,20 @@
           return options;
         }
       },
+      async mounted(){
+        try{
+          const {data} = await this.$axios.get('stats/week/fail/');
+          this.count = data.count;
+          this.before = data.increase_rate;
+          this.percent = data.fail_rate;
+          this.series = [this.percent, 100 - this.percent]
+          // this.count = data.
+          // console.log(data);
+        }catch(err){
+          console.log(err);
+        }
+        this.isLoading = false;
+      } ,
   }
   </script>
   
@@ -157,7 +175,7 @@
   .percentValue{
     position:absolute;
     bottom:25px;
-    right:80px;
+    right:90px;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 700;
@@ -165,7 +183,9 @@
     line-height: 23px;
     text-align: center;
     letter-spacing: 0.15px;
-
+    display:flex;
+    justify-content: center;
     color: #9155EB;
+    width:20px;
   }
   </style>
