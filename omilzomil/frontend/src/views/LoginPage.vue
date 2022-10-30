@@ -89,7 +89,6 @@ export default {
             if(response.data.success){
               this.$store.commit('login',{accessToken:response.data.access_token});
               this.$axios.post('/login/test-token/').then(async (response)=>{
-                console.log(response.data);
                 try{
                   if(response.data.success){
                     const ranks = (await this.$axios.get('/rank/')).data;
@@ -114,10 +113,10 @@ export default {
                   this.$router.push('/');
                 }else{
                   alert("승인되지 않은 사용자입니다.");
-                  // this.loginFail = true;
                 }
               });
             }else{
+              alert("승인되지 않은 사용자입니다.");
               this.loginFail = true;
             }
           })

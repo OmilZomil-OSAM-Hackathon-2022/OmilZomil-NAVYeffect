@@ -97,9 +97,12 @@
   
   export default {
       components: { CardHead },
-      // props:{
-  
-      // }
+      props:{
+        isInLanding:{
+          type:Boolean,
+          default:false,
+        }
+      },
       data(){
           return{
               isLoading:true,
@@ -138,6 +141,14 @@
           }
       },
       async mounted(){
+        if(this.isInLanding){
+          this.army = 40;
+          this.navy = 30;
+          this.air = 20;
+          this.marin = 10;
+          this.isLoading = false;
+          return;
+        }
         try{
           const {data} = await this.$axios.get('/stats/month/fail/affiliation/');
           // console.log(data);

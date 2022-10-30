@@ -1,23 +1,6 @@
 <template>
   <div class="card">
     <CardHead title="주간 불량 통계" />
-    <!-- <div class="df"> -->
-    <!-- <div class="info">
-        <div class="df-col">
-          <number
-            :from="0"
-            :to="203"
-            :duration="1"
-          />명
-        </div>
-        <div class="before">
-          지난 주 대비
-        </div>
-        <PercentTag
-          :percent="3"
-          :reverse="true"
-        />
-      </div> -->
     <apexchart
       v-if="!isLoading"
       type="bar"
@@ -29,16 +12,20 @@
       height="135px"
     />
   </div>
-  <!-- </div> -->
 </template>
 
 <script>
 import CardHead from '../CardHead.vue';
-// import PercentTag from '../common/PercentTag.vue';
 
 const days = ["일","월","화","수","목","금","토"];
 export default {
     components: { CardHead },
+    props:{
+        isInLanding:{
+            type:Boolean,
+            default:false,
+        }
+    },
     // props:{
 
     // }
@@ -50,9 +37,6 @@ export default {
         }
     },
     computed: {
-    //   getDarkMode () {
-    //     return this.$store.getters.getDarkMode;
-    //   },
       getOption(){
         const options = {
                 chart: {
@@ -105,6 +89,12 @@ export default {
       }
     },
     async mounted(){
+        if(this.isInLanding){
+            this.data = [100,20,40,60,10,80,5];
+            this.labels = ["월","화","수","목","금","토","일"];
+            this.isLoading = false;
+            return;
+        }
         try{
             const {data} = await this.$axios.get('/stats/week/fail/');
             for(var key in data){

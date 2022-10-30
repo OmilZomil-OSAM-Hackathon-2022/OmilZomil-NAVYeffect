@@ -5,7 +5,8 @@ ENV PYTHONUNBUFFERED=1
 # 작업 폴더 설정
 WORKDIR /backend
 COPY ./webrtc/backend /backend
-COPY ./webrtc/ai /backend/src/app/ai
+COPY ./ai /backend/src/app/ai
+COPY ./ai /ai
 COPY ./omilzomil/backend/src  /backend/src/app/omil
 COPY ./omilzomil/backend/src/app/models  /backend/src/app/models
 

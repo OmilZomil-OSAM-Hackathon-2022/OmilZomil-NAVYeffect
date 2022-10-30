@@ -19,6 +19,12 @@
 import CardHead from '../CardHead.vue';
 export default {
     components: { CardHead },
+    props:{
+      isInLanding:{
+        type:Boolean,
+        default:false,
+      }
+    },
     data(){
       return {
         isLoading:true,
@@ -68,6 +74,14 @@ export default {
         }
     },
     async mounted(){
+      if(this.isLoading){
+        this.series = [{
+            name: '파츠',
+            data: [40,82,50,64,87],
+          }]
+      this.isLoading = false;
+        return;
+      }
       try{
         const {data} = await this.$axios.get('/stats/month/fail/detail/');
         // console.log(data);

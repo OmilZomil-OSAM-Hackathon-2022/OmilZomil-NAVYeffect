@@ -1,7 +1,10 @@
 <template>
   <div class="home">
     <div class="left">
+      <div style="height:3vh; font-size:20px;">인식 준비완료 메세지가 뜨면 다음 사람이 들어와주세요</div>
       <div class="videoview">
+        <div class="status" v-if="status==='done'">인식 완료</div>
+        <div class="status" v-if="status==='ready'">인식 준비완료</div>
         <video ref="video" class="video" id="camera--view" autoplay></video>
         <canvas ref="canvas" class="video" style="display:none;"></canvas>
       </div>
@@ -205,11 +208,12 @@ export default {
         },
         list:[],
         socket : null,
-        url : `wss://117.17.110.220:7778/v1/test`,
+        url : `wss://117.17.110.220:7778/v1/single`,
         img : null,
         setI : null,
         name : null,
         connected: false,
+        status : null
       }
     },
   methods: {
@@ -254,6 +258,7 @@ export default {
       this.data["neck"]=null;
       this.list=[];
       this.name=null;
+      this.status=null;
     },
     connect() {
       console.log("start")
@@ -266,7 +271,7 @@ export default {
         console.log({ type: 'ERROR', msg: 'ERROR:'})
       }
       this.socket.onmessage = ({ data }) => {
-        console.log({ type: 'RECV', msg: 'RECV:' + data })
+        console.log({ type: 'RECV', msg: 'RECV:' + data }, new Date() )
         var msg = JSON.parse(data)
         switch(msg.type) {
           case "list":{
@@ -282,7 +287,10 @@ export default {
             this.data["neck"]=msg.neck;
             this.data["flag"]=msg.flag;
             this.$refs.back.src=msg.photo;
-          }        
+          }     
+          case "status":{
+            this.status=msg.status;
+          }   
         }
       }
       this.socket.onclose = (msg) => {
@@ -292,7 +300,15 @@ export default {
       }
     },
     start(){
-      this.setI=setInterval(this.capture,1000);
+      if(!this.connected){
+        alert("연결상태를 확인하세요")
+      }
+      else if(this.name==null){
+        alert("위병소를 선택하세요")
+      }
+      else{
+        this.setI=setInterval(this.capture,1000);
+      }
     },
     stop(){
       clearInterval(this.setI);
@@ -313,6 +329,7 @@ export default {
         photo:this.img
       }
       this.socket.send(JSON.stringify(msg))
+      console.log("send : ", new Date())
     }
   },
   mounted() {
@@ -347,19 +364,29 @@ export default {
     justify-content: center;
     width:40%;
     height:100%;
+    position:relative;
   }
   .videoview{
     object-fit:contain;
     width:490px;
-    height:38vh;
+    height:35vh;
+  }
+  .status{
+    background-color:gray;
+    position:absolute;
+    z-index:100;
+    left:35%;
+    right:35%;
+    border-radius: 20px;
+    font-size:20px;
   }
   .leftcontent{
     width:490px;
   }
   .video{
-    /* transform: rotateY(180deg); */
+    transform: rotateY(180deg);
     width:490px;
-    height:38vh;
+    height:35vh;
     object-fit:contain;
   }
   .right{

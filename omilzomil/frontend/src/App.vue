@@ -59,6 +59,8 @@ export default {
   src: url('assets/fonts/Roboto-Black.ttf') format('truetype');
   font-weight: 900;
 }
+
+
 :root {
   color:#585767;
   --color:#585767;
@@ -79,6 +81,7 @@ export default {
   color: white;
   --color:white;
 }
+
 html,
 body,
 #app {
