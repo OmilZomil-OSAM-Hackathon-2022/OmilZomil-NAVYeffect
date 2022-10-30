@@ -28,6 +28,11 @@ Web Real-Time Communications의 약어. 별도의 플러그인 없이 음성, �
 
 <br clear="left"/>
 
+<img src="https://user-images.githubusercontent.com/59905641/198857296-d50d29d4-07e2-49b5-a9cc-48a7c7677181.gif" align="right" width="300" height="400"/>
+ :robot: *영상 인식 AI* : 카메라로 찍은 영상에서 사람의 유무, 얼굴 인식, 두발 불량 여부, 복장 불량 여부를 판별합니다.<br></br>
+ + 자세한 설명은 ‘함께 보기’의 **AI READMD.md**를 참고하여 주시기 바랍니다. <br></br>
+
+<br clear="right"/>
   
 <h2 id="features"> :gem: 핵심 기능 (Features)</h2>
 
@@ -83,5 +88,7 @@ Web Real-Time Communications의 약어. 별도의 플러그인 없이 음성, �
 [README.md - Main](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/README.md)
 
 :arrow_down_small: <b>READMD.md of Project Omil-Zomil</b><br>
-[README.md - Omil-Zomil](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/omilzomil/Readme.md)
+[README.md - Omil-Zomil](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/omilzomil/Readme.md)
 
+:arrow_down_small: <b>READMD.md of AI</b><br>
+[README.md - AI](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/webrtc/ai/readme.md)

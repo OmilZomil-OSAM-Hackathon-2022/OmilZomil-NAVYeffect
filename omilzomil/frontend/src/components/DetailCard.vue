@@ -225,8 +225,6 @@ export default {
   display:flex;
   gap:40px;
 
-
-  font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;

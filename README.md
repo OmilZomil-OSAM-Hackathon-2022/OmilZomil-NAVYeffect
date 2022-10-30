@@ -11,15 +11,15 @@
     <li><a href="#intro"> ᐅ 프로젝트 소개 (Intro)</a></li>
     <li><a href="#features"> ᐅ 기능 설명 및 사용법 (Features)</a></li>
       <ol>
-        <li><a href="Structures">  ᐅ 구조 설명 (Structures)</a></li>
-        <li><a href="ux/ui">  ᐅ UX / UI</a></li>
+        <li><a href="#structures">  ᐅ 구조 설명 (Structures)</a></li>
+        <li><a href="#ux/ui">  ᐅ UX / UI</a></li>
       </ol>
     <li><a href="#pre-required"> ᐅ 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</a></li>
     <li><a href="#technique"> ᐅ 기술 스택 (Technique used)</a></li>
     <li><a href="#install"> ᐅ 설치 안내 (How to download)</a></li>
     <li><a href="#team"> ᐅ 팀원 정보 (Meet the team)</a></li>
     <li><a href="#copyright"> ᐅ 저작권 및 사용권 정보 (Copyright and License)</a></li>
-    <li><a href="#appendex"> ᐅ 부록 (Appendex)</a></li>
+    <li><a href="#appendix"> ᐅ 부록 (Appendix)</a></li>
   </ol>
 </details>
 
@@ -43,19 +43,28 @@
 
 <h2 id="features"> :mag: 기능 설명 및 프로젝트 사용법 (Features)</h2>
 
-<h3 id="Structures"> :gear: 구조 설명 (Structures)</h3>
+<h3 id="structures"> :gear: 구조 설명 (Structures)</h3>
 
 
 ![5  프로젝트 상세  구조도](https://user-images.githubusercontent.com/59905641/198606538-941de90b-358c-4b2b-b2dd-bdd42d771104.png)
 > 프로젝트 상세 구조도
  + 저희 프로젝트는 크게 *세 가지의 컨테이너로 구성*되어 있습니다.  
 각각 카메라로 찍은 사진을 가져오고 저장해 모듈화된 AI로 판별하는 **WebRTC Backend 컨테이너**, 그렇게 만들어진 DB를 담은 **DB 컨테이너**, 그리고 그 안의 데이터를 파싱해서 저희 오밀-조밀 웹 서비스에 대시보드나 통계 자료를 볼 수 있게 하는 **Omil-Zomil Backend 컨테이너**입니다.  
-따라서 *메인 리드미 파일 말고도 WebRTC 리드미 파일, 오밀-조밀 리드미 파일 또한 존재*하니 필독 부탁드립니다.  
+따라서 *메인 리드미 파일 말고도 WebRTC 리드미 파일, 오밀-조밀 리드미 파일, AI 리드미 파일 또한 존재*하니 필독 부탁드립니다.  
 
 <h3 id="ux/ui"> :computer: UX / UI</h3>
 
 
 > 프로젝트 핵심 기능들입니다. 상세 설명 및 그 외 다양한 페이지 설명은 부록의 Omil-Zomoli readme.md를 필히 참고하여 주시기 바랍니다.
+
+<img src="https://user-images.githubusercontent.com/59905641/198857296-d50d29d4-07e2-49b5-a9cc-48a7c7677181.gif" align="right" width="300" height="400"/>
+
+
+ :robot: *영상 인식 AI* : 카메라로 찍은 영상에서 사람의 유무, 얼굴 인식, 두발 불량 여부, 복장 불량 여부를 판별합니다.<br></br>
+  + 자세한 설명은 ‘함께 보기’의 **AI READMD.md**를 참고하여 주시기 바랍니다.
+
+<br clear="right"/>
+
 
   + #### 대시보드 : 부대별 대시보드입니다. 실시간으로 출입자 정보가 리스트업되며, 각 요소 별 불량 비율이나 월간 양호 빈도 등을 제공합니다.
 ![대시보드](https://user-images.githubusercontent.com/59905641/198835988-dbbb25c4-9aa0-4412-b985-21f7232fc773.gif)
@@ -63,8 +72,8 @@
  + #### 실시간 감지 현황 : 부대 인원 조회 페이지입니다. 자세히 보기 클릭 시 상세 정보 팝업창이 뜹니다.
 ![실시간 감지 현황](https://user-images.githubusercontent.com/59905641/198836560-3cce9488-ff6e-48e0-a826-6417643aae68.gif)
 
- + #### 전군 통계 : 전군 통계 대시보드입니다. 각군별, 시간대별, 요소 별 불량 여부 등의 통계적 데이터로 넓은 범위에서의 추이를 볼 수 있습니다. 사진변경해야!!!
-![전군통계](https://user-images.githubusercontent.com/59905641/194753907-dc546fd1-81f1-4e42-b2f8-f0d0efea910c.png)
+ + #### 전군 통계 : 전군 통계 대시보드입니다. 각군별, 시간대별, 요소 별 불량 여부 등의 통계적 데이터로 넓은 범위에서의 추이를 볼 수 있습니다.
+![_talkv_wr9ASUz2NC_v31RU3dWeywmU7u89hs3Wk_talkv_high](https://user-images.githubusercontent.com/59905641/198863057-d3bb9980-3a02-4fd9-8928-2b27d997f195.gif)
 
  + #### 랭킹 페이지 : 위반 요소별 리스트업 및 상위 부대 꾸미기 기능으로 상승 욕구를 돋울 수 있습니다.
 ![랭킹 페이지](https://user-images.githubusercontent.com/59905641/198837991-9da0682c-e55d-401c-b051-72f589e37e3b.png)  
@@ -130,14 +139,15 @@
 This project is licensed under the terms of the GNU General Public License version 3.0 license.
 
 
-<h2 id="appendex"> :card_index: 부록 (Appendex)</h2>
+<h2 id="appendix"> :card_index: 부록 (Appendix)</h2>
 
 > 개발 문서.
 
 + <a href="https://www.figma.com/file/SWq5gdsKhBOHZJrDL5Qjr8/%EC%98%A4%EB%B0%80%EC%A1%B0%EB%B0%80-(NAVY%ED%9A%A8%EA%B3%BC)?node-id=1199%3A4300"><img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white"></a>
-+ [WebRTC readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/webrtc/Readme.md)
-+ [Omil-Zomil readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/omilzomil/Readme.md)
-+ Wiki 참고
-  + [Wireframes 모음집](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/wiki/Appendix#wireframes)
++ [WebRTC readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/webrtc/Readme.md)
++ [Omil-Zomil readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/omilzomil/Readme.md)
++ [AI readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/webrtc/ai/readme.md)
++ [Wiki 참고](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/wiki)
+  + Wireframes 모음집
   + 멘토링 준비 및 결과 자료집
   + 발표자료 ppt

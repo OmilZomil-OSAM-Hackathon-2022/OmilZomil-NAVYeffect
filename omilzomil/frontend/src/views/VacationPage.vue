@@ -127,7 +127,7 @@ table{
 }
 
 th, td{
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 400;
     font-size: 14px;

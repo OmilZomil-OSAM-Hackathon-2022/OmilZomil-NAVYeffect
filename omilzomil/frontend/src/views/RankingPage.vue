@@ -130,7 +130,7 @@ table{
 th{
   width: 50px;
   height: 50px;
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -141,7 +141,7 @@ th{
 td{
   width: 50px;
   height: 50px;
-  font-family: 'Roboto';
+  
   font-style: normal;
   text-align: center;
   /* color: #78798D; */
@@ -190,7 +190,7 @@ table tbody tr{
 .maxpage{
   width: 27px;
   height: 17px;
-  font-family: 'Inter';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

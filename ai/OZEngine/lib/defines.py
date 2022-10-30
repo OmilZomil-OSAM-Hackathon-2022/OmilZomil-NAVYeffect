@@ -1,6 +1,9 @@
 import cv2
 
 
+class HairCondition:
+    dic = {'GOOD':1 , 'BAD': 0}
+
 class UniformType:
     dic = {'FULL_DRESS': 1, 'NAVY_SERVICE': 2, 'COMBAT': 3,}
 

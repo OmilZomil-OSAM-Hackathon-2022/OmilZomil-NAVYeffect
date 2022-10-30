@@ -5,6 +5,7 @@ from .dress_classifier import DressClassifier
 from .edge_detectors import HED, Morph, RCF
 from .person_detectors import PersonDetector
 from .face_detectors import FaceDetector
+from .hair_detectors import HairDetector
 from .lib.defines import UniformType, Color
 from .lib.utils import plt_imshow, histNorm, box2img, cvtPoint
 
@@ -18,6 +19,7 @@ class OmilZomil:
         self.dress_classifier = DressClassifier()
         self.person_detector = PersonDetector()
         self.face_detector = FaceDetector()
+        self.hair_detector = HairDetector()
         print('init!')
 
         self.hed_mode = hed_mode
@@ -73,7 +75,7 @@ class OmilZomil:
                     roi = org_img[roi_y:roi_y+roi_h, roi_x:roi_x+roi_w]
                 
                 x = max(0, x - box_padding)
-                y = max(y - box_padding)
+                y = max(0, y - box_padding)
                 w = min(self.W, w + (box_padding*2))
                 h = min(self.H, h + (box_padding*2))
                 cv2.rectangle(img, (x, y), (x+w, y+h), Color.PARTS_BOX, 5)
@@ -92,6 +94,7 @@ class OmilZomil:
         return img, roi_dic
 
     def detect(self, org_img):
+        full_img = org_img.copy()
         img = org_img.copy()
         boxed_img = org_img
 
@@ -120,14 +123,24 @@ class OmilZomil:
             else:
                 return {'step':1, 'boxed_img':org_img}
 
-        x,y,w,h = cvtPoint(face_box, method='2to4')
-        y += person_box[0][0]
-        x += person_box[0][1]
-        cv2.rectangle(boxed_img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
+        face_x, face_y, face_w, face_h = cvtPoint(face_box, method='2to4')
+        face_y += person_box[0][0]
+        face_x += person_box[0][1]
 
+        padding = 30
+        hair_face_x = max(0, face_x - padding)
+        hair_face_y = max(0, face_y - ((padding*3)))
+        hair_face_w = min(self.W, face_w + (padding*2))
+        hair_face_h = min(self.H, face_h + ((padding*3)))
+        hair_roi = full_img[hair_face_y:hair_face_y+hair_face_h, hair_face_x:hair_face_x+hair_face_w]
+        
+        cv2.rectangle(boxed_img, (face_x, face_y), (face_x+face_w, face_y+face_h), Color.FACE_BOX, 5)
         if self.hed_mode:
-            cv2.rectangle(hed_boxed_img, (x, y), (x+w, y+h), Color.FACE_BOX, 5)
+            cv2.rectangle(hed_boxed_img, (face_x, face_y), (face_x+face_w, face_y+face_h), Color.FACE_BOX, 5)
         face_img = box2img(img, face_box)
+
+        # 두발인식
+        hair_condition = self.hair_detector.detect(hair_roi)
 
         # 셔츠인식
         h, w = img.shape[:2]
@@ -161,7 +174,6 @@ class OmilZomil:
             hed_boxed_img, _ = self.boxImage(hed_boxed_img, result_dic)
 
         if self.hed_mode:
-
-            return {'step':3, 'shirt_img':shirt_img, 'boxed_img':boxed_img, 'dress_kind':self.uniform_type,'hed_boxed_img': hed_boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
+            return {'step':3, 'hair_condition':hair_condition, 'shirt_img':shirt_img, 'boxed_img':boxed_img, 'dress_kind':self.uniform_type,'hed_boxed_img': hed_boxed_img, 'component':result_dic['component'], 'roi':roi_dic}
         else:
-            return {'step':3, 'shirt_img':shirt_img, 'boxed_img':boxed_img, 'dress_kind':self.uniform_type, 'component':result_dic['component'], 'roi':roi_dic}
+            return {'step':3, 'hair_condition':hair_condition ,'shirt_img':shirt_img, 'boxed_img':boxed_img, 'dress_kind':self.uniform_type, 'component':result_dic['component'], 'roi':roi_dic}

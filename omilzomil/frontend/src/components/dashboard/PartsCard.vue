@@ -146,7 +146,7 @@ export default {
 }
 .title-text{
     /* Body 1 */
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -158,7 +158,7 @@ export default {
 }
 .before-month{
     color:#9C9DB2;
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 500;
     font-size: 10px;
@@ -169,7 +169,7 @@ export default {
 .count{
     /* Headline 4 */
 
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 600;
     font-size: 34px;
@@ -182,7 +182,7 @@ export default {
     display:flex;
     align-items: center;
     gap:4px;
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 400;
     font-size: 12px;

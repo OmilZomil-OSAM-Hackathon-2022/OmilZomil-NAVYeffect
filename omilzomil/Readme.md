@@ -19,7 +19,15 @@
 사진을 찍고 나서 AI로 판단한 WebRTC 컨테이너가 그 데이터를 DB 컨테이너에 저장하면, 다시 DB 컨테이너에서 데이터를 받아와 Omil-Zomil Backend 컨테이너에서 파싱한다.<br></br>
 이를 **웹 서비스에서 대시보드, 통계적 추이 등으로 사용자에게 보여주는 구조**이다. 본 문서에서는 그 페이지들에 대한 설명을 적어두었다.<br></br>
 
-<br clear="left"/>
+<br clear="left"/><br></br>
+
+<img src="https://user-images.githubusercontent.com/59905641/198857296-d50d29d4-07e2-49b5-a9cc-48a7c7677181.gif" align="right" width="300" height="400"/>
+
+
+ :robot: *영상 인식 AI* : 카메라로 찍은 영상에서 사람의 유무, 얼굴 인식, 두발 불량 여부, 복장 불량 여부를 판별합니다.<br></br>
+ + 자세한 설명은 ‘함께 보기’의 **AI READMD.md**를 참고하여 주시기 바랍니다. <br></br>
+
+<br clear="right"/>
 
 <h2 id="features"> :star2: 핵심 기능 (Features):stars:</h2>
 
@@ -97,5 +105,6 @@
 
 <h2 id="links"> :grey_question: 함께 보기 (External Links)</h2>
 
-:arrow_down_small: [README.md - Main](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/README.md)  
-:arrow_down_small: [README.md - WebRTC](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/webrtc/Readme.md)
+:arrow_down_small: [README.md - Main](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/README.md)  
+:arrow_down_small: [README.md - WebRTC](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/webrtc/Readme.md)  
+:arrow_down_small: [README.md - AI](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/webrtc/ai/readme.md)

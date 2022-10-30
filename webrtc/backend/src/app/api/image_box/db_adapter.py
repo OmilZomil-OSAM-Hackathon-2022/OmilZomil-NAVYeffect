@@ -4,12 +4,14 @@ UNIFORM = {
     "green" : 4,
 }
 AFFILIATION = {
+    "" : 1,
     "army": 2, 
     "navy": 3, 
     "air": 4,
     "marin": 5, 
 }
 RANK = {
+    "" : 1,
     "이병": 2,
     "일병": 3,
     "상병": 4,
@@ -19,7 +21,7 @@ RANK = {
 PART_ID = {
     "hair": 1, 
     "name_tag": 2, 
-    "rank_tag": 3, 
+    "class_tag": 3, 
     "flag": 4, 
     "cap": 5, 
     "muffler": 6, 
@@ -30,7 +32,7 @@ PART_ID = {
 
 "두발" : 1,    # "두발"
 "name_tag" : 2,   # "이름표" :
-"rank_tag" : 3,   # "계급장" : 3,
+"class_tag" : 3,   # "계급장" : 3,
 "flag" : 4,   #"태극기" : 4,
 "모자" : 5,     #"모자" : 5,
 "neckerchief" : 6, # "네커치프" : 6,
@@ -39,10 +41,14 @@ PART_ID = {
 """
 
 def ai_2_db_main(report):
-    report['uniform'] = UNIFORM[report['uniform']]
-    report['affiliation'] = AFFILIATION[report['affiliation']]
-    report['rank'] = RANK[report['rank']]
-    return report
+    temp = report.copy()
+    if temp['uniform'] in UNIFORM.keys():
+        temp['uniform'] = UNIFORM[temp['uniform']]
+    if temp['affiliation'] in AFFILIATION.keys():
+        temp['affiliation'] = AFFILIATION[temp['affiliation']]
+    if temp['rank'] in RANK.keys():
+        temp['rank'] = RANK[temp['rank']]
+    return temp
 
 def get_part_id(part_name):
     return PART_ID[part_name]

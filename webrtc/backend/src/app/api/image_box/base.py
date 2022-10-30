@@ -1,8 +1,8 @@
 
 UNIFORM_PARTS = {
-    'blue' : [ "hair", "name_tag", "rank_tag" ], # 샘당
-    'black' : [ "hair", "name_tag", "rank_tag", "muffler", "neckerchief" ], # 정복
-    'green' : [ "hair", "name_tag", "rank_tag", "flag" ], # 군복
+    'blue' : [ "hair", "name_tag", "class_tag" ], # 샘당
+    'black' : [ "hair", "name_tag", "class_tag", "muffler", "neckerchief" ], # 정복
+    'green' : [ "hair", "name_tag", "class_tag", "flag" ], # 군복
 }
 
 AFFILIATION_TABLE = {

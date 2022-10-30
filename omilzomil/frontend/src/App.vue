@@ -110,4 +110,11 @@ body,
 a{
   text-decoration:none;
 }
+option{
+  color:var(--color);
+  background: var(--color-card);
+}
+option:hover{
+  background: var(--color-state-card);
+}
 </style>
