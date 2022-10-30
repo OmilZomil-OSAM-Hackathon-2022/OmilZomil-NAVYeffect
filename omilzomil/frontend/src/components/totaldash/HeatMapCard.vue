@@ -31,21 +31,7 @@ export default {
     getOption() {
       return {
         plotOptions: {
-          heatmap: {
-            reverseNegativeShade: true,
-            colorScale: {
-              ranges: [
-                {
-                  from: 20,
-                  // to: 0,
-                  // color: undefined,
-                },
-              ],
-            },
-          },
-        },
-        tooltip:{
-          theme: 'light',
+          reverseNegativeShade: true,
         },
         chart: {
           type: "heatmap",
@@ -55,6 +41,9 @@ export default {
         },
         dataLabels: {
           enabled: false,
+        },
+        tooltip:{
+          theme:this.$store.getters.getDarkMode?'dark':'light',
         },
         // colors: ["#78798D"],
         colors: ["#9155EB"],
