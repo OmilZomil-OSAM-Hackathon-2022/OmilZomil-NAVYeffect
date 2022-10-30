@@ -4,6 +4,7 @@ from app.api.worker.db import DBWorker
 from app.api.image_box.ai_adapter import ai_2_worker
 from app.api.image_box.image_box import ImageBox
 
+from app.api.image_box.front_adapter import worker_2_front
 
 class SingleWorker(DBWorker):
     pass
