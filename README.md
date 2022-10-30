@@ -11,8 +11,8 @@
     <li><a href="#intro"> ᐅ 프로젝트 소개 (Intro)</a></li>
     <li><a href="#features"> ᐅ 기능 설명 및 사용법 (Features)</a></li>
       <ol>
-        <li><a href="structures">  ᐅ 구조 설명 (Structures)</a></li>
-        <li><a href="ux/ui">  ᐅ UX / UI</a></li>
+        <li><a href="#structures">  ᐅ 구조 설명 (Structures)</a></li>
+        <li><a href="#ux/ui">  ᐅ UX / UI</a></li>
       </ol>
     <li><a href="#pre-required"> ᐅ 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</a></li>
     <li><a href="#technique"> ᐅ 기술 스택 (Technique used)</a></li>
