@@ -209,3 +209,5 @@ E --> F
 
  [[1712.07168] Real-time deep hair matting on mobile devices (arxiv.org)](https://arxiv.org/abs/1712.07168)
 
+ [[1604.02878] Joint Face Detection and Alignment using Multi-task Cascaded Convolutional Networks (arxiv.org)](https://arxiv.org/pdf/1604.02878.pdf)
+
