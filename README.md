@@ -187,7 +187,7 @@ This project is licensed under the terms of the GNU General Public License versi
 
 + [WebRTC readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/webrtc/Readme.md)
 + [Omil-Zomil readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/omilzomil/Readme.md)
-+ [AI readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/webrtc/ai/readme.md)
++ [AI readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/ai/readme.md)
 + [Wiki 참고](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/wiki)
   + Wireframes 모음집
   + 멘토링 준비 및 결과 자료집
