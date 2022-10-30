@@ -74,8 +74,8 @@
  + #### 실시간 감지 현황 : 부대 인원 조회 페이지입니다. 자세히 보기 클릭 시 상세 정보 팝업창이 뜹니다.
 ![실시간 감지 현황](https://user-images.githubusercontent.com/59905641/198836560-3cce9488-ff6e-48e0-a826-6417643aae68.gif)
 
- + #### 전군 통계 : 전군 통계 대시보드입니다. 각군별, 시간대별, 요소 별 불량 여부 등의 통계적 데이터로 넓은 범위에서의 추이를 볼 수 있습니다. 사진변경해야!!!
-![전군통계](https://user-images.githubusercontent.com/59905641/194753907-dc546fd1-81f1-4e42-b2f8-f0d0efea910c.png)
+ + #### 전군 통계 : 전군 통계 대시보드입니다. 각군별, 시간대별, 요소 별 불량 여부 등의 통계적 데이터로 넓은 범위에서의 추이를 볼 수 있습니다.
+![_talkv_wr9ASUz2NC_v31RU3dWeywmU7u89hs3Wk_talkv_high](https://user-images.githubusercontent.com/59905641/198863057-d3bb9980-3a02-4fd9-8928-2b27d997f195.gif)
 
  + #### 랭킹 페이지 : 위반 요소별 리스트업 및 상위 부대 꾸미기 기능으로 상승 욕구를 돋울 수 있습니다.
 ![랭킹 페이지](https://user-images.githubusercontent.com/59905641/198837991-9da0682c-e55d-401c-b051-72f589e37e3b.png)  
