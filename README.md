@@ -41,7 +41,7 @@
 
 우리 **NAVY효과의 "오밀조밀"은 이러한 사례들을 수집해 관리자, 일반 사병, 군사 경찰 할 것 없이 기지 내 장병들에게 편의와 인사이트를 제공하는 솔루션**이 될 것입니다.
 
-*[Demo Page](http://omil-zomil.kro.kr)*
+<h1>*[OMIL-ZOMIL Demo Page](http://omil-zomil.kro.kr)*</h1>
 + 유저 저니 확인을 위한 일반 관리자 계정입니다.  
 + :star2: **ID : administrator, PW : Admin12!** :stars:  
 + 계정으로 들어가셔서, 일반 사용자로서 회원 가입 신청을 한 후 이 계정으로 승인하시면 됩니다.
@@ -90,7 +90,7 @@
  + 루트 관리자, 일반 관리자는 일반 사용자와 달리 프로필 수정 페이지에 사용자 관리, 부대 관리 등의 탭이 추가되어 있습니다. 자세한 것은 부록의 링크를 통해 Omil-Zomil 리드미 파일에서 확인하시기 바랍니다!
 ![18  프로젝트 상세  프로필 수정2](https://user-images.githubusercontent.com/59905641/198816687-9e13d999-afef-440a-8c59-3a4bc35d6883.jpg)
  + 저희 페이지는 다크 모드 또한 제공합니다. 사용자에게 더 익숙하고 편한 모드를 선택해 사용하시면 됩니다.
- ![IMG_0186](https://user-images.githubusercontent.com/59905641/198875747-8d97f1cd-7871-4a6e-8c59-14e45158503d.png)
+![대쉬보드](https://user-images.githubusercontent.com/32426765/198883253-1ac95ca2-db3c-464e-bd49-05bcf8b9cfff.png)
 
 
 <h2 id="pre-required"> :dash: 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</h2>
@@ -160,7 +160,7 @@ sh reset.sh # 초기화
 
 | Photo | Name | Role | Contect | Github |  
 |:---:|:---:|:---:|:---:| :---: |
-|<center><img src="https://user-images.githubusercontent.com/32426765/198881189-aca4cf12-9dda-4467-9989-15b6da4fe796.png" width="150" height="150"></center>|조남훈| 팀장, 기획자 | lovin6109@gmail.com |   
+|<center><img src="https://user-images.githubusercontent.com/32426765/198881189-aca4cf12-9dda-4467-9989-15b6da4fe796.png" width="150" height="150"></center>|조남훈| 팀장, 기획자 | lovin6109@gmail.com | Namhoon Cho |
 |<center><img src="https://user-images.githubusercontent.com/32426765/198881322-382642ea-001a-4e8e-98cb-fec99ab9ce1a.png" width="150" height="150"></center>|조준영| AI 개발자, 웹 디자이너 | joon0zo1022@gmail.com | joon0zo1022 |  
 |<center><img src="https://user-images.githubusercontent.com/32426765/198881192-d2b1a8db-e694-4df2-abd6-2aad6c77492f.png" width="150" height="150"></center>|정의철| 백엔드 개발자 | com.dos.m0nk3y@gmail.com | kevin961119 |  
 |<center><img src="https://user-images.githubusercontent.com/32426765/198881195-1c8f4fcd-1f86-451b-a8ab-a273b5f6d854.png" width="150" height="150"></center>|김대원| DevOps 담당자 | kdwkd0078@gmail.com | greenrain |  
