@@ -74,7 +74,12 @@
 
 
  :robot: *영상 인식 AI* : 카메라로 찍은 영상에서 사람의 유무, 얼굴 인식, 두발 불량 여부, 복장 불량 여부를 판별합니다.<br></br>
-  + 자세한 설명은 ‘함께 보기’의 **AI READMD.md**를 참고하여 주시기 바랍니다.
+  + 자세한 설명은 ‘함께 보기’의 [AI 기술문서](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/ai/readme.md)를 참고하여 주시기 바랍니다.
+
+  + 만약 AI모델을 사용해보고 싶은 분들은 [AI Tutorial](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/ai/readme.md)를 참고하여 주시기 바랍니다.
+
+  + 만약 AI모델을 직접 수정하고 학습시키고 싶은 분들은 [사용자 모델 학습](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/ai/readme.md)을 참고하여 주시기 바랍니다.
+  
 
 <br clear="right"/>
 
