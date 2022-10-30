@@ -83,5 +83,5 @@ Web Real-Time Communications의 약어. 별도의 플러그인 없이 음성, �
 [README.md - Main](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/README.md)
 
 :arrow_down_small: <b>READMD.md of Project Omil-Zomil</b><br>
-[README.md - Omil-Zomil](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/document/omilzomil/Readme.md)
+[README.md - Omil-Zomil](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/omilzomil/Readme.md)
 
