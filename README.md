@@ -91,11 +91,11 @@
 <h2 id="pre-required"> :dash: 컴퓨터 구성 / 필수 조건 안내 (Pre-required)</h2>
 
 :white_check_mark: 사용 가능 웹 브라우저 안내. 별도의 플러그인을 다운로드할 필요가 없습니다.
- + <img src="https://img.shields.io/badge/Chrome-4285F4?style=for-the-badge&logo=Chrome&logoColor=white">
- + <img src="https://img.shields.io/badge/Firefox-FF7139?style=for-the-badge&logo=Firefox&logoColor=white">
- + <img src="https://img.shields.io/badge/Edge-0078D7?style=for-the-badge&logo=Edge&logoColor=white">
- + <img src="https://img.shields.io/badge/Explorer-0076D6?style=for-the-badge&logo=Explorer&logoColor=white">
- + <img src="https://img.shields.io/badge/Safari-000000?style=for-the-badge&logo=Safari&logoColor=white">
+ + :white_check_mark: <img src="https://img.shields.io/badge/Chrome-4285F4?style=for-the-badge&logo=Chrome&logoColor=white"> 
+ + :white_check_mark: <img src="https://img.shields.io/badge/Firefox-FF7139?style=for-the-badge&logo=Firefox&logoColor=white">
+ + :white_check_mark: <img src="https://img.shields.io/badge/Edge-0078D7?style=for-the-badge&logo=Edge&logoColor=white">
+ + :white_check_mark: <img src="https://img.shields.io/badge/Explorer-0076D6?style=for-the-badge&logo=Explorer&logoColor=white">
+ + :white_check_mark: <img src="https://img.shields.io/badge/Safari-000000?style=for-the-badge&logo=Safari&logoColor=white">
 
 
 <h2 id="technique"> :technologist: 기술 스택 (Technique used)</h>
