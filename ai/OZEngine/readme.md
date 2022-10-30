@@ -49,6 +49,9 @@ detector.detect(img)
 ``` bash
 {
     'step':3,
+	'hair_condition', 1,
+	'dress_kind': 2,
+	'shirt_img': [셔츠 이미지 numpy 배열],
 	'component': {
 		'rank_tag':'병장',
 		'name_tag':'조준영',
@@ -73,6 +76,16 @@ detector.detect(img)
 2. 사람은 인식되었지만 얼굴인식이 되지 않은 상태
 3. 얼굴까지 인식되었고 복장분류까지 완료된 상태
 
+`hair_condition`는 두발 상태를 표시합니다. 1은 양호, 0은 불량을 나타냅니다.
+
+`dress_kind`는 복장의 종류를 나타냅니다. 복장의 종류는 다음과 같이 나타냅니다.
+
+1. 정복
+2. 근무복
+3. 전투복
+
+`shirt_img`는 복장부분의 이미지를 3차원 numpy형태로 반환됩니다.
+
 `component`에는 현재 병사가 착용하고 있는 파츠만 return 됩니다. 각 파츠들은 정복, 전투복, 근무복에 따라 다르게 표시됩니다. 만약 파츠를 착용하고 있지 않으면 빈 dictionary가 반환됩니다. 또는 사람이 인식되지 않거나 군복으로 판단되지 않으면 None값이 반환됩니다.
 
 `boxed_img`는 원본 이미지 (detect함수에 들어간 원본 이미지) 위에 인식된 얼굴의 위치와 파츠들의 위치가 bounding box형태로 표시가 된 이미지 입니다. 이 이미지 역시 numpy 배열로 return이 됩니다. 만약 사람이 인식되지 않으면 원본 이미지와 같은 이미지가 반환됩니다. (연속된 이미지로 볼 때 끊기지 않게 보기기 위함입니다) 
@@ -92,6 +105,7 @@ img = cv2.imread('/image/example.jpg')  # 분석할 이미지 대상
 result = detector.detect(img)  # detect함수 실행
 
 print(result['component'])  # 파츠여부 값만 출력
+
 '''
 예상 출력 값
 {
@@ -181,7 +195,7 @@ This project is based on research and code from several papers and open-source r
 
 저희 분석모델의 전반적인 Deep Learning 알고리즘의 기반은 [Tensorflow](https://pytorch.org):heart: 입니다. 
 
-두발상태인식모델은 HairSegNet을 사용했고 [github 저장소](https://github.com/thangtran480/hair-segmentation)에서 확인하실 수 있습니다. [관련 논문](https://arxiv.org/pdf/1712.07168.pdf)도 있으니 참고하여 보실 수 있습니다. (@[thangtran480](https://github.com/thangtran480)님께 감사드립니다 :thanks:) 
+두발상태인식모델은 HairSegNet을 사용했고 [github 저장소](https://github.com/thangtran480/hair-segmentation)에서 확인하실 수 있습니다. [관련 논문](https://arxiv.org/pdf/1712.07168.pdf)도 있으니 참고하여 보실 수 있습니다. (@[thangtran480](https://github.com/thangtran480)님께 감사드립니다 :thanks:)
 
 
 ## GPU가속 지원
