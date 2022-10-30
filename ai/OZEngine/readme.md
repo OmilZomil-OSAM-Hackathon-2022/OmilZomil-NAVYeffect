@@ -33,7 +33,7 @@ Note 1: `check_person=True` 옵션을 주게 되면 detect함수 내부에 있�
 
 Note 2: `check_person` 옵션은 현재 Omil-Zomil서비스에서 제공하고 있는 모델(, )에 사용자데이터를 추가하여 학습을 해야 하는 상황이 존재할 때 사용합니다. `check_person=True`로 하게되면 실제 모델 내부에서는 각 파츠들을 분류하는 분류모델을 사용하지 않습니다. 대신 파츠로 추정되는 이미지들을 모두 저장시킵니다. 학습할 때는 이렇게 저장된 이미지들을 사람이 수동으로 분류를 하고 학습모델을 train시키면 됩니다. 
 
-더 많은 정보는, [tutorial](https://www.jaided.ai/easyocr/tutorial)과 [API Documentation](https://www.jaided.ai/easyocr/documentation)를 읽어보세요
+더 많은 정보는, [tutorial](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/ai/demo/readme.md)를 읽어보세요
 
 ### 실행
 
