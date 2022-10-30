@@ -30,11 +30,6 @@ echo WEBRTC_DIR_PATH="$DIR_PATH"/webrtc/backend >> .env.lock
 
 
 # ssl 만들기 - .pem 파일이 있는지 검증 => 없으면 생성
-if [ ! -e "./omilzomil/backend/cert.pem" ]; then
-    echo [+] omilzomil 에 cert.pem 파일이 없어 생성합니다.
-    openssl req -x509 -newkey rsa:4096 -nodes -out ./omilzomil/backend/cert.pem -keyout ./omilzomil/backend/key.pem -days 365
-    cd $DIR_PATH
-fi
 if [ ! -e "./webrtc/backend/cert.pem" ]; then
     echo [+] webrtc 에 cert.pem 파일이 없어 생성합니다.
     openssl req -x509 -newkey rsa:4096 -nodes -out ./webrtc/backend/cert.pem -keyout ./webrtc/backend/key.pem -days 365
