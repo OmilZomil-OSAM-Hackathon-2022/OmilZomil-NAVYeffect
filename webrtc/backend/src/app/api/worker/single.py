@@ -3,6 +3,7 @@ from app.api.worker.db import DBWorker
 
 from app.api.image_box.ai_adapter import ai_2_worker
 from app.api.image_box.image_box import ImageBox
+from app.api.websocket.image import img_2_photo
 
 from app.api.image_box.front_adapter import worker_2_front
 
@@ -58,4 +59,9 @@ class SingleWorker(DBWorker):
         msg.update(self.image_box.inspection)
         msg.update(self.image_box.parts)
         msg = worker_2_front(msg)
+        print(msg)
+        # 이미지 삽입
+        img = self.image_box.main_image
+        photo = img_2_photo(img)
+        msg['photo'] = photo
         return msg 

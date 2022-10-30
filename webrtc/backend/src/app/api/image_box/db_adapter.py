@@ -41,13 +41,14 @@ PART_ID = {
 """
 
 def ai_2_db_main(report):
-    if report['uniform'] in UNIFORM.keys():
-        report['uniform'] = UNIFORM[report['uniform']]
-    if report['affiliation'] in AFFILIATION.keys():
-        report['affiliation'] = AFFILIATION[report['affiliation']]
-    if report['rank'] in RANK.keys():
-        report['rank'] = RANK[report['rank']]
-    return report
+    temp = report.copy()
+    if temp['uniform'] in UNIFORM.keys():
+        temp['uniform'] = UNIFORM[temp['uniform']]
+    if temp['affiliation'] in AFFILIATION.keys():
+        temp['affiliation'] = AFFILIATION[temp['affiliation']]
+    if temp['rank'] in RANK.keys():
+        temp['rank'] = RANK[temp['rank']]
+    return temp
 
 def get_part_id(part_name):
     return PART_ID[part_name]
