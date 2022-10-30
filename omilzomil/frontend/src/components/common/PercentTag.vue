@@ -58,7 +58,6 @@ export default {
     display:flex;
     align-items: center;
     gap:4px;
-    font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
     font-size: 12px;

@@ -97,12 +97,12 @@ export default {
       if (this.hat != 0) data.push(this.hat);
       return [this.nameTag, this.classTag, this.flag, this.hat];
     },
-    labels(){
+    labels() {
       let labels = [];
-      if (this.nameTag != 0) labels.push('이름표');
-      if (this.classTag != 0) labels.push('계급장');
-      if (this.flag != 0) labels.push('태극기');
-      if (this.hat != 0) labels.push('두발');
+      if (this.nameTag != 0) labels.push("이름표");
+      if (this.classTag != 0) labels.push("계급장");
+      if (this.flag != 0) labels.push("태극기");
+      if (this.hat != 0) labels.push("두발");
       return labels;
     },
     options() {
@@ -116,6 +116,9 @@ export default {
           toolbar: {
             show: false,
           },
+        },
+        tooltip: {
+          theme: this.$store.getters.getDarkMode ? "dark" : "light",
         },
         labels: this.labels,
         colors: ["#9155EB", "#B98EFA", "#D4B7FF", "#ECDFFF"],
