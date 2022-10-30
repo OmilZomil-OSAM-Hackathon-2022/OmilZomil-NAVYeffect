@@ -57,15 +57,13 @@
 
 > 프로젝트 핵심 기능들입니다. 상세 설명 및 그 외 다양한 페이지 설명은 부록의 Omil-Zomoli readme.md를 필히 참고하여 주시기 바랍니다.
 
-<img src="https://user-images.githubusercontent.com/59905641/198857296-d50d29d4-07e2-49b5-a9cc-48a7c7677181.gif" align="left" width="300" height="400"/>
+<img src="https://user-images.githubusercontent.com/59905641/198857296-d50d29d4-07e2-49b5-a9cc-48a7c7677181.gif" align="right" width="300" height="400"/>
 
 
  :robot: *영상 인식 AI* : 카메라로 찍은 영상에서 사람의 유무, 얼굴 인식, 두발 불량 여부, 복장 불량 여부를 판별합니다.<br></br>
- 
- 
-     "자세한 설명은 ‘함께 보기’의 **AI READMD.md**를 참고하여 주시기 바랍니다."
+  + 자세한 설명은 ‘함께 보기’의 **AI READMD.md**를 참고하여 주시기 바랍니다.
 
-<br clear="left"/>
+<br clear="right"/>
 
 
   + #### 대시보드 : 부대별 대시보드입니다. 실시간으로 출입자 정보가 리스트업되며, 각 요소 별 불량 비율이나 월간 양호 빈도 등을 제공합니다.
@@ -148,7 +146,7 @@ This project is licensed under the terms of the GNU General Public License versi
 + <a href="https://www.figma.com/file/SWq5gdsKhBOHZJrDL5Qjr8/%EC%98%A4%EB%B0%80%EC%A1%B0%EB%B0%80-(NAVY%ED%9A%A8%EA%B3%BC)?node-id=1199%3A4300"><img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white"></a>
 + [WebRTC readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/webrtc/Readme.md)
 + [Omil-Zomil readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/omilzomil/Readme.md)
-+ [AI readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/ai/OZEngine/readme.md)
++ [AI readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/webrtc/ai/readme.md)
 + [Wiki 참고](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/wiki)
   + Wireframes 모음집
   + 멘토링 준비 및 결과 자료집
