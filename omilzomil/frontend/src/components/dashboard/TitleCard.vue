@@ -76,7 +76,7 @@ export default {
 .title{
   display: flex;
   align-items: flex-end;
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -90,7 +90,7 @@ export default {
   margin:0px 5px;
   /* margin-bottom: 5px; */
 
-  font-family: 'Roboto';
+  
 font-style: normal;
 font-weight: 700;
 font-size: 24px;
@@ -98,7 +98,7 @@ line-height: 28px;
 text-align: center;
 }
 .sub-title{
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

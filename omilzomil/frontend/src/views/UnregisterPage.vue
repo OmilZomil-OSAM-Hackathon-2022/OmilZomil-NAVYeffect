@@ -173,7 +173,7 @@
     top: 89px;
     width: 119px;
     height: 23px;
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 900;
     font-size: 20px;
@@ -186,7 +186,7 @@
     top:99px;
     width: 165px;
     height: 23px;
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 700;
     font-size: 20px;
@@ -208,7 +208,7 @@
     top:111px;
     width: 394px;
     height: 56px;
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -243,7 +243,7 @@
     width: 60px;
     height: 19px;
     text-align: left;
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -253,7 +253,7 @@
   .pw1-box1-msg2{
     width: 277px;
     height: 14px;
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -287,7 +287,7 @@
   input{
     width: 372px;
     height: 14px;
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -327,7 +327,7 @@
     width: 428px;
     height: 19px;
     text-align: left;
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -357,7 +357,7 @@
   .button-msg{
     width: 75px;
     height: 23px;
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 600;
     font-size: 20px;

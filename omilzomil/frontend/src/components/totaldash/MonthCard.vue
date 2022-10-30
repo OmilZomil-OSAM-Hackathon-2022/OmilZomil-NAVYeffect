@@ -152,7 +152,7 @@
       align-content: center;
   }
   .before{
-      font-family: 'Roboto';
+      
   font-style: normal;
   font-weight: 500;
   font-size: 10px;
@@ -168,7 +168,7 @@
   margin-top:4px;
   }
   .count{
-      font-family: 'Roboto';
+      
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -187,7 +187,7 @@
     position:absolute;
     bottom:25px;
     right:90px;
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 700;
     font-size: 20px;
