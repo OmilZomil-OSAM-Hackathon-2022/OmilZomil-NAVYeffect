@@ -163,7 +163,7 @@ This project is licensed under the terms of the GNU General Public License versi
 
 <h2 id="appendix"> :card_index: 부록 (Appendix)</h2>
 
-> 개발 문서.
+ > 개발 문서.
 
 + <a href="https://www.figma.com/file/SWq5gdsKhBOHZJrDL5Qjr8/%EC%98%A4%EB%B0%80%EC%A1%B0%EB%B0%80-(NAVY%ED%9A%A8%EA%B3%BC)?node-id=1199%3A4300"><img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white"></a>
 + [WebRTC readme](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/webrtc/Readme.md)
