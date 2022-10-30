@@ -145,6 +145,8 @@ sh reset.sh # 초기화
 
 [당신을 기다려왔습니다. 이제 오밀-조밀을 만나보세요!](http://omil-zomil.com)
 
+>  유저 저니 확인을 위한 일반 관리자 계정입니다. ID : administrator, PW : Admin12! 좌측 계정으로 들어가셔서, 일반 사용자로서 회원 가입 신청을 한 후 이 계정으로 승인하시면 됩니다.
+
 
 <h2 id="team"> :kissing_heart: 팀원 정보 (Meet the team)</h2>
 
