@@ -199,7 +199,7 @@ const format = (date) => {
     display:flex;
     align-items:center;
     gap:16px;
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -237,7 +237,7 @@ const format = (date) => {
 
     text-decoration: none;
 
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 500;
     font-size: 12px;
@@ -282,7 +282,7 @@ const format = (date) => {
   }
   
   th, td{
-      font-family: 'Roboto';
+      
       font-style: normal;
       font-weight: 400;
       font-size: 14px;
@@ -322,7 +322,7 @@ const format = (date) => {
     border-radius: 20px 20px 0px 0px;
     /* Subtitle 1 - Bold */
 
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -405,7 +405,7 @@ const format = (date) => {
     width: 224px;
     box-sizing: border-box;
     height:28px;
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -431,7 +431,7 @@ const format = (date) => {
     background: rgba(145, 85, 235, 0.2);
     color: #9155EB;
   
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 500;
     font-size: 12px;

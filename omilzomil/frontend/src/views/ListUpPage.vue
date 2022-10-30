@@ -173,7 +173,7 @@ select{
   border: 1px solid var(--color-input-border);
   border-radius: 4px;
 
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -213,7 +213,7 @@ button{
   background: rgba(145, 85, 235, 0.2);
   border-radius: 4px;
   border:none;
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
@@ -239,7 +239,7 @@ button{
   width: 224px;
   box-sizing: border-box;
   height:28px;
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -265,7 +265,7 @@ button{
   background: rgba(145, 85, 235, 0.2);
   color: #9155EB;
 
-  font-family: 'Roboto';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 12px;

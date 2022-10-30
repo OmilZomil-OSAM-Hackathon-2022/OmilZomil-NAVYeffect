@@ -183,7 +183,6 @@
     align-items: center;
     justify-content: space-between;
     width:100%;
-    font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
     font-size: 10px;

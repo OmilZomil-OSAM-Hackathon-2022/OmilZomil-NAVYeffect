@@ -232,7 +232,7 @@
     border-radius: 4px;
   }
   input::placeholder{
-    font-family: 'Roboto';
+    
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
