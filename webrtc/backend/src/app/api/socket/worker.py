@@ -8,8 +8,9 @@ from app.models.inspection_detail import InspectionDetail
 from app.core.config import settings
 
 from app.api.websocket.image import img_2_photo
-from app.api.simple.image_box import ImageBox
+from app.api.socket.image_box import ImageBox
 from app.api.db.guardhouse import select_guardhouse
+from app.crud.unit_house_relation import get_unit_from_house
 
 
 MAIN_IMAGE_PATH = f"{settings.IMAGE_PATH}/inspection"
@@ -33,8 +34,6 @@ PART_ID = {
     "neck": 7, 
 }
 
-
-
 class BaseWorker:
     """
     이미지 경로를 받음
@@ -51,8 +50,8 @@ class BaseWorker:
         self.image_box = ImageBox(ai=ai, guardhouse=select_guardhouse(db, guardhouse))
         self.db_data_id = None
         # 파일 경로 지정
-        name = datetime.now().strftime("%H-%M-%S")
-        self.name = f"{guardhouse}_{name}"
+        self.work_time = datetime.now()
+        self.name = f"{guardhouse}_{self.work_time.strftime('%H-%M-%S')}"
         self.main_image_path = f"{MAIN_IMAGE_PATH}/{self.name}.jpg"
         # REFRESH_COUNT
         self.expiration_count = EXPIRATION_COUNT
@@ -99,8 +98,20 @@ class BaseWorker:
             raise NotImplementedError(f"해당 객체를 조회할 수 없음 - {self.db_data_id}")
 
         inspection_dict = self.image_box.get_inspection()
+        
+        # 부대 알고리즘
+        inspection_dict['military_unit'] = get_unit_from_house(
+            db=self.db,
+            house=inspection_dict['guardhouse'],    # 해당 항목은 webrtc에서 입력시 DB에 존재하는 값만 입력가능
+            access_time=self.work_time, 
+            affiliation= inspection_dict['affiliation'] if inspection_dict['affiliation'] == 1 else None, 
+            rank=inspection_dict['affiliation'] if inspection_dict['affiliation'] == 1 else None, 
+            name=inspection_dict['affiliation'] if inspection_dict['affiliation'] == 1 else None, 
+        )         
+
         db_data.update(inspection_dict)
         self.db.commit()
+
 
         # 갱신할 이미지가 있으면 덮어쓰기
         if self.image_box.is_best_image:
@@ -136,57 +147,58 @@ class BaseWorker:
 
 
 
-class SimpleWorker(BaseWorker):
-     def execute(self, img):
+class SocketWorker(BaseWorker):
+    def execute(self, img):
 
         # ai에게 처리
-        print("이미지 처리 시작2 ===============================")
-        error = self.image_box.image_process(image=img)
+        print("이미지 처리 시작 ===============================")
+        ai_step = self.image_box.image_process(image=img)
 
         self.expiration_count -= 1 #인식 횟수 감소
         
-        # 군복이 아닌 경우
+        # ai 처리가 중단된 경우
         if error:
             return {
-                "msg" : "no human",
-                "error" : error,
+                "ai" : "stop",
+                "step" : ai_step,
             }
-
-
-
-
         # 데이터가 없으면 생성
         if self.db_data_id is None:
             self.create_data()
+
+        # 메세지 제작
+        msg =  {
+            "type": "result",
+            "ai" : "success",
+            "db_data_id": self.db_data_id,
+            "main_path" : self.main_image_path,
+        }
 
         # DB에 반영
         if self.image_box.is_update:
             # DB에 데이터 업데이트
             self.update_data()
             self.image_box.is_update = False
+            msg[ai] = 'update'
 
         # 각 파츠 업데이트
-        print("qqqqqqqqqq")
-        print(self.image_box.parts_update)
         for part_name in self.image_box.parts_update:
             print(part_name)
             self.update_parts(part_name)
+            msg[ai] = 'update'
         self.image_box.parts_update = []    # 업데이트 완료후 빈 데이터로 변환
-        # 답장
-        photo  = img_2_photo(self.image_box.main_image)
 
-
-        # 메세지 제작
-        msg =  {
-            "type": "result",
-            # "photo": photo,
-            "db_data_id": self.db_data_id,
-        }
-
-
-        msg.update(self.image_box.get_inspection())
-        msg.update(self.image_box.get_parts())
-        msg['uniform'] = FRONT_TABLE[msg['uniform']]
+        #프론트 형식에 맞게 변환
+        response_msg = update_message(msg)
         return msg
 
- 
+    def update_message(self, msg):
+        result_msg = msg
+        #image box로부터 업데이트 
+        result_msg.update(self.image_box.get_inspection())
+        result_msg.update(self.image_box.get_parts())
+
+        # 프론트에 맞게 변환
+        result_msg['uniform'] = FRONT_TABLE[result_msg['uniform']]
+        
+        return result_msg

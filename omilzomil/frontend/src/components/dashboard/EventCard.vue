@@ -84,7 +84,7 @@ export default {
         : "/stats/month/unit/best/person";
     try {
       const { data } = await this.$axios.get(url);
-      // console.log(data);
+      console.log(data);
       if (this.type == 0) this.title = data.unit;
       else {
         this.photo = data.image_path;

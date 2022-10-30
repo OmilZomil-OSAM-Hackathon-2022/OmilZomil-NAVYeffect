@@ -8,3 +8,10 @@ def get_db() -> Generator:
         yield db
     finally:
         db.close()
+
+def get_db_now() -> Generator:
+    try:
+        db = SessionLocal()
+        return db
+    finally:
+        db.close()

@@ -168,7 +168,7 @@
               src="@/assets/icons/mahoo.png"
               width="56"
             >
-            마후라
+            머플러
           </div>
           <check-tag
             :is-check="mahoo"
