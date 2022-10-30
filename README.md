@@ -120,6 +120,26 @@
 
 [별도의 플러그인을 설치할 필요가 없습니다. 지금 당장 눌러서 오밀-조밀을 만나보세요!](https://117.17.110.220:7776)
 
+설치 안내
+Ensure that you have docker and docker-compose installed.
+- docker == 20.10.x, docker-compose == 1.28.x
+
+환경 변수 설정
+```bash
+cp .env.public .env.private
+vim .env.private
+```
+- 프로젝트의 환경 변수들을 설정합니다. EX) port, db password
+
+실행 스크립트
+``` bash
+sh build.sh # 빌드
+sh start.sh # 실행
+sh stop.sh  # 정지
+sh reset.sh # 초기화
+```
+
+
 <h2 id="team"> :kissing_heart: 팀원 정보 (Meet the team)</h2>
 
 > 팀 NAVY효과
