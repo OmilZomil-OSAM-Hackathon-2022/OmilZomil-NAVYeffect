@@ -3,7 +3,7 @@ name: 117 서버에 배포
 
 on: 
   push:            
-    branches: [ "main" , "devops/hotfix", "development"]
+    branches: [ "main" ]
 
 jobs:
   Build-ssh-action:
