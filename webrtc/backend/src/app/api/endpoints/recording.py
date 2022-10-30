@@ -52,10 +52,10 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
     # 처음 접속 =  위병소 리스트 전달
     await websocket.accept()
     await send_guardhous(websocket, db)
-    
+
     # 브로커 생성    
     broker = SingleBroker(id=camera_id, db=db)
-    
+
     # 수신 중
     print(" 이미지 수신 시작")
     try:

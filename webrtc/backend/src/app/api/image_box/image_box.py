@@ -20,14 +20,14 @@ class ImageBox(BaseImageBox):
             self.update_list.add("main")
 
         # 이름 인식
-        if self.inspection['name'] == "":
+        if self.inspection['name'] == "" and result['component'].get("name_tag"):
             cached_name = result['component'].get("name_tag")
             self.inspection['name'] = cached_name.replace('cached ', '', 1) #cached  제거
             self.update_list.add("main")
 
         # 계급 인식
-        if self.inspection['rank'] == "":
-            self.inspection['rank'] = result['component'].get("rank_tag")
+        if self.inspection['rank'] == "" and result['component'].get("class_tag"):
+            self.inspection['rank'] = result['component'].get("class_tag")
             self.update_list.add("main")
 
         # 파츠 상태 업데아트
