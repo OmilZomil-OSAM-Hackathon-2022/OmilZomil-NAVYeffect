@@ -4,12 +4,14 @@ UNIFORM = {
     "green" : 4,
 }
 AFFILIATION = {
+    "" : 1,
     "army": 2, 
     "navy": 3, 
     "air": 4,
     "marin": 5, 
 }
 RANK = {
+    "" : 1,
     "이병": 2,
     "일병": 3,
     "상병": 4,
@@ -39,9 +41,12 @@ PART_ID = {
 """
 
 def ai_2_db_main(report):
-    report['uniform'] = UNIFORM[report['uniform']]
-    report['affiliation'] = AFFILIATION[report['affiliation']]
-    report['rank'] = RANK[report['rank']]
+    if report['uniform'] in UNIFORM.keys():
+        report['uniform'] = UNIFORM[report['uniform']]
+    if report['affiliation'] in AFFILIATION.keys():
+        report['affiliation'] = AFFILIATION[report['affiliation']]
+    if report['rank'] in RANK.keys():
+        report['rank'] = RANK[report['rank']]
     return report
 
 def get_part_id(part_name):
