@@ -91,4 +91,4 @@ Web Real-Time Communications의 약어. 별도의 플러그인 없이 음성, �
 [README.md - Omil-Zomil](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/omilzomil/Readme.md)
 
 :arrow_down_small: <b>READMD.md of AI</b><br>
-[README.md - AI](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/ai/OZEngine/readme.md)
+[README.md - AI](https://github.com/osamhack2022-v2/WEB_CLOUD_OmilZomil_NAVYeffect/blob/main/webrtc/ai/readme.md)
