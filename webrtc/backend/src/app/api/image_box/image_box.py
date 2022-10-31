@@ -26,8 +26,8 @@ class ImageBox(BaseImageBox):
             self.update_list.add("main")
 
         # 계급 인식
-        if self.inspection['rank'] == "" and result['component'].get("class_tag"):
-            self.inspection['rank'] = result['component'].get("class_tag")
+        if self.inspection['rank'] == "" and result['component'].get("rank_tag"):
+            self.inspection['rank'] = result['component'].get("rank_tag")
             self.update_list.add("main")
 
         # 파츠 상태 업데아트

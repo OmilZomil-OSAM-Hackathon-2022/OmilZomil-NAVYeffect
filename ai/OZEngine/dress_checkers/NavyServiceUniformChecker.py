@@ -14,7 +14,7 @@ class NavyServiceUniformChecker(UniformChecker):
                 'lower': (30, 20, 0),
                 'upper': (255, 255, 255)
             },
-            'class_tag': {
+            'rank_tag': {
                 'lower': (0, 150, 90),
                 'upper': (255, 255, 255)
             }
@@ -31,7 +31,7 @@ class NavyServiceUniformChecker(UniformChecker):
         return position == 'left' and kind == 'name_tag'
 
     def isClassTag(self, contour, position, kind):
-        return position == 'right' and kind == 'class_tag'
+        return position == 'right' and kind == 'rank_tag'
 
     def isInShirt(self, contour):
         # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
@@ -49,10 +49,10 @@ class NavyServiceUniformChecker(UniformChecker):
 
         # 이름표, 계급장 체크
         for i, (contour, lev) in enumerate(zip(contours, hierarchy)):
-            is_class_tag = self.result_dic['component'].get('class_tag')
+            is_rank_tag = self.result_dic['component'].get('rank_tag')
             is_name_tag = self.result_dic['component'].get('name_tag')
 
-            if is_name_tag and is_class_tag:
+            if is_name_tag and is_rank_tag:
                 break
 
             cur_node, next_node, prev_node, first_child, parent = lev
@@ -91,14 +91,14 @@ class NavyServiceUniformChecker(UniformChecker):
                     self.result_dic['component']['name_tag'] = component
 
                 # 계급장 체크
-                elif not is_class_tag and self.isClassTag(contour, position, kind):
+                elif not is_rank_tag and self.isClassTag(contour, position, kind):
                     box_position, component, masked_img = self.getClasses(
                         img, hsv_img, contour)
 
                     # return값에 반영
-                    self.result_dic['box_position']['class_tag'] = box_position
-                    self.result_dic['component']['class_tag'] = component
-                    self.result_dic['masked_img']['class_tag'] = masked_img
+                    self.result_dic['box_position']['rank_tag'] = box_position
+                    self.result_dic['component']['rank_tag'] = component
+                    self.result_dic['masked_img']['rank_tag'] = masked_img
 
 
         return self.result_dic

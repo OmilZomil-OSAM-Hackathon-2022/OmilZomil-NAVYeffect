@@ -21,7 +21,7 @@ EXPIRATION_COUNT = 5
 PART_ID = {
     "hair": 1, 
     "name_tag": 2, 
-    "class_tag": 3, 
+    "rank_tag": 3, 
     "flag": 4, 
     "cap": 5, 
     "muffler": 6, 
