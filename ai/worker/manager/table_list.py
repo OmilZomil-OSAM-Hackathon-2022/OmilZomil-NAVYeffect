@@ -38,7 +38,7 @@ AFFILIATION_TABLE = {
     "군복" : "육군",
 }
 UNIFORM_PARTS = {
-    2 : [ "name_tag", "rank_tag ], # 샘당
-    3 : [ "name_tag", "rank_tag, "muffler", "neck" ], # 정복
-    4 : [ "name_tag", "rank_tag, "flag" ], # 군복
+    2 : [ "name_tag", "rank_tag" ], # 샘당
+    3 : [ "name_tag", "rank_tag", "muffler", "neck" ], # 정복
+    4 : [ "name_tag", "rank_tag", "flag" ], # 군복
 }
