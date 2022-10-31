@@ -98,7 +98,7 @@ for i in tqdm(range(1, frame_n), desc='detecting'):
 위의 코드의 경우 `image/video_frame/fd_01/*.jpg` 이미지들을 AI 영상처리 후 `image/res/fd_01/*.jpg`로 저장을 합니다. 단순 jpg가 아닌 태그별로 폴더가 나뉘고, 최종 결과값 이미지가 각기 다른 디렉토리로 저장이 됩니다. 저장이 되는 위치는 다음과 같습니다.
 
 ```
-/demo/image/res/fd_01/class_tag
+/demo/image/res/fd_01/rank_tag
 ├─ 1.jpg
 ├─ 2.jpg
 ├─ 3.jpg
