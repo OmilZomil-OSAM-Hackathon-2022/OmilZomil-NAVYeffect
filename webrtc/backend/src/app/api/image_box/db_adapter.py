@@ -21,7 +21,7 @@ RANK = {
 PART_ID = {
     "hair": 1, 
     "name_tag": 2, 
-    "rank_tag": 3, 
+    "rank_tag: 3, 
     "flag": 4, 
     "cap": 5, 
     "muffler": 6, 
@@ -32,7 +32,7 @@ PART_ID = {
 
 "두발" : 1,    # "두발"
 "name_tag" : 2,   # "이름표" :
-"rank_tag" : 3,   # "계급장" : 3,
+"rank_tag : 3,   # "계급장" : 3,
 "flag" : 4,   #"태극기" : 4,
 "모자" : 5,     #"모자" : 5,
 "neckerchief" : 6, # "네커치프" : 6,

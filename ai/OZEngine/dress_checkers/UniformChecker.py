@@ -110,7 +110,7 @@ class UniformChecker:
         hsv_roi = hsv_img[y:y+h, x:x+w]
 
         contours, masked_img = self.getMaskedContours(
-            img=roi, hsv_img=hsv_roi, kind='rank_tag')
+            img=roi, hsv_img=hsv_roi, kind='rank_tag)
 
         classes_n = 0
         for contour in contours:

@@ -32,9 +32,9 @@ AFFILIATION_TABLE = {
     "군복" : "육군",
 }
 UNIFORM_PARTS = {
-    2 : [ "name_tag", "rank_tag" ], # 샘당
-    3 : [ "name_tag", "rank_tag", "muffler", "neck" ], # 정복
-    4 : [ "name_tag", "rank_tag", "flag" ], # 군복
+    2 : [ "name_tag", "rank_tag ], # 샘당
+    3 : [ "name_tag", "rank_tag, "muffler", "neck" ], # 정복
+    4 : [ "name_tag", "rank_tag, "flag" ], # 군복
 }
 
 class ImageBox:
@@ -109,9 +109,9 @@ class ImageBox:
 
             self.is_update = True        
         # 계급장이 있으면
-        if report['component'].get("rank_tag") and self.inspection['rank'] == 1:
+        if report['component'].get("rank_tag) and self.inspection['rank'] == 1:
             # 계급 인식
-            self.inspection['rank'] = DB_TABLE["rank"].get(report['component'].get("rank_tag"))
+            self.inspection['rank'] = DB_TABLE["rank"].get(report['component'].get("rank_tag))
             self.is_update = True 
 
 
