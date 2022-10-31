@@ -27,7 +27,7 @@ class FeatureExtractor:
 
     def getFeatures(self):
         # Load feature maps
-        self.features = np.load(os.path.join(self.model_set_path, 'features.npy'))
+        self.features = np.load(os.path.join(self.model_set_path, 'feature_vector.npy'))
 
         # Load img paths
         path = os.path.join(self.model_set_path, 'img_paths')
