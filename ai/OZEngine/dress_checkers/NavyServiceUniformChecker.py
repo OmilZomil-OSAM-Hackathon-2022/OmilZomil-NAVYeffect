@@ -31,7 +31,7 @@ class NavyServiceUniformChecker(UniformChecker):
         return position == 'left' and kind == 'name_tag'
 
     def isClassTag(self, contour, position, kind):
-        return position == 'right' and kind == "rank_tag"
+        return position == 'right' and kind is not None and kind.find('rank_tag') != -1
 
     def isInShirt(self, contour):
         # 샘브레이 영영 안쪽 && 모서리가 4~5 && 크기가 {hyperParameter} 이상 => (이름표 or 계급장)
@@ -94,6 +94,9 @@ class NavyServiceUniformChecker(UniformChecker):
                 elif not is_rank_tag and self.isClassTag(contour, position, kind):
                     box_position, component, masked_img = self.getClasses(
                         img, hsv_img, contour)
+                        
+                    rank_n = kind.split('+')[1]
+                    component = Classes.dic.get(int(rank_n))
 
                     # return값에 반영
                     self.result_dic['box_position']["rank_tag"] = box_position
